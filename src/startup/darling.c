@@ -754,7 +754,7 @@ void showHelp(const char* argv0)
 	fprintf(stderr, "\t%s shutdown\n", argv0);
 	fprintf(stderr, "\n");
 	fprintf(stderr, "Environment variables:\n"
-		"DPREFIX - specifies the location of Darling prefix, defaults to ~/.darling\n");
+		"DPREFIX - specifies the location of Osxie prefix, defaults to ~/.osxie\n");
 }
 
 void showVersion(const char* argv0) {
@@ -791,7 +791,7 @@ pid_t spawnInitProcess(void)
 
 	if (unshare(CLONE_NEWUTS | CLONE_NEWIPC) != 0)
 	{
-		fprintf(stderr, "Cannot unshare UTS and IPC namespaces to create darling-init: %s\n", strerror(errno));
+		fprintf(stderr, "Cannot unshare UTS and IPC namespaces to create osxie-init: %s\n", strerror(errno));
 		exit(1);
 	}
 
@@ -799,7 +799,7 @@ pid_t spawnInitProcess(void)
 
 	if (pid < 0)
 	{
-		fprintf(stderr, "Cannot fork() to create darling-init: %s\n", strerror(errno));
+		fprintf(stderr, "Cannot fork() to create osxie-init: %s\n", strerror(errno));
 		exit(1);
 	}
 
@@ -817,9 +817,9 @@ pid_t spawnInitProcess(void)
 
 		close(pipefd[0]);
 
-		execl(INSTALL_PREFIX "/bin/darlingserver", "darlingserver", prefix, uid_str, gid_str, pipefd_str, g_fixPermissions ? "1" : "0", NULL);
+		execl(INSTALL_PREFIX "/bin/osxieserver", "osxieserver", prefix, uid_str, gid_str, pipefd_str, g_fixPermissions ? "1" : "0", NULL);
 
-		fprintf(stderr, "Failed to start darlingserver\n");
+		fprintf(stderr, "Failed to start osxieserver\n");
 		exit(1);
 	}
 
@@ -891,7 +891,7 @@ void putInitPid(pid_t pidInit)
 
 char* defaultPrefixPath(void)
 {
-	const char defaultPath[] = "/.darling";
+	const char defaultPath[] = "/.osxie";
 	const char* home = getenv("HOME");
 	char* buf;
 
@@ -1142,7 +1142,7 @@ pid_t getInitProcess()
 	}
 	fclose(fp);
 
-	if (strcmp(exeBuf, "darlingserver") != 0)
+	if (strcmp(exeBuf, "osxieserver") != 0)
 	{
 		unlink(pidPath);
 		return 0;

@@ -1,6 +1,8 @@
 project(WindowServer)
 
-add_library(WindowServer SHARED
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc -mmacosx-version-min=11.0")
+
+add_library(WindowServer STATIC
     OSXWindowServer.c
 )
 

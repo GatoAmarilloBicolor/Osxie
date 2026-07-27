@@ -71,23 +71,7 @@ osxie shell -c "brew install wget"
 osxie shell -c "/Applications/iTerm.app/Contents/MacOS/iTerm2"
 ```
 
-### GARS - Automatic Issue Resolution
 
-When you encounter compatibility issues, GARS can automatically fix them:
-
-```bash
-# Run GARS on an error
-osxie gars analyze error.log
-
-# GARS will:
-# 1. Parse the error
-# 2. Understand the issue
-# 3. Research solutions
-# 4. Design a fix
-# 5. Implement it
-# 6. Verify it works
-# 7. Learn for future
-```
 
 ## Supported Applications
 
@@ -97,7 +81,7 @@ osxie gars analyze error.log
 - Basic GUI applications
 
 ### In Progress 🚧
-- iTerm2 (90% working)
+- iTerm2 
 - VSCode
 - Discord
 - Slack

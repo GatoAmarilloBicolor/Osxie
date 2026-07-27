@@ -20,7 +20,7 @@ Osxie is an advanced fork of Darling that provides a complete macOS compatibilit
 ✅ **WebKit** - Basic web rendering for modern applications
 ✅ **Homebrew Compatible** - Run brew and install macOS packages
 ✅ **iTerm2 Support** - Full terminal emulator compatibility
-✅ **GARS** - Guardian Agent for Runtime Solutions for automatic issue resolution
+
 
 ## What's New in Osxie
 
@@ -31,7 +31,7 @@ Osxie includes significant improvements over the original Darling:
 - **WindowServer**: Complete window management with X11 backend
 - **Security Framework**: Full keychain and authorization implementation
 - **WebKit Implementation**: Basic but functional WebView support
-- **GARS System**: Automatic detection and resolution of compatibility issues
+
 - **Independent Installation**: Installs to `/usr/local/libexec/osxie` (separate from Darling)
 
 ## Quick Start

@@ -1,5 +1,4 @@
 #import <Foundation/Foundation.h>
-#import <AppKit/AppKit.h>
 #import <WebKit/WKWebView.h>
 #import <WebKit/WKWebViewConfiguration.h>
 #import <WebKit/WKNavigationDelegate.h>
@@ -7,49 +6,70 @@
 #import <WebKit/WKUserContentController.h>
 #import <WebKit/WKPreferences.h>
 #import <WebKit/WKUserScript.h>
+#import <objc/runtime.h>
 
-@implementation WKWebView
+@interface WKWebView (OsxieImpl)
+@end
+
+@interface WKWebViewConfiguration (OsxieImpl)
+@end
+
+@interface WKPreferences (OsxieImpl)
+@end
+
+@interface WKUserContentController (OsxieImpl)
+@end
+
+@interface WKWebsiteDataStore (OsxieImpl)
+@end
+
+@implementation WKWebView (OsxieImpl)
 
 - (instancetype)initWithFrame:(NSRect)frame configuration:(WKWebViewConfiguration *)configuration {
-    self = [super initWithFrame:frame];
+    self = [super init];
     if (self) {
-        _configuration = configuration ?: [[WKWebViewConfiguration alloc] init];
-        _currentURL = nil;
-        NSLog(@"[OSXIE WebKit] WKWebView initialized with frame: %@", NSStringFromRect(frame));
+        objc_setAssociatedObject(self, @selector(configuration), configuration ?: [[WKWebViewConfiguration alloc] init], OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(self, @selector(URL), nil, OBJC_ASSOCIATION_RETAIN);
+        NSLog(@"[OSXIE WebKit] WKWebView initialized");
     }
     return self;
 }
 
 - (void)loadRequest:(NSURLRequest *)request {
-    _currentURL = request.URL;
-    NSLog(@"[OSXIE WebKit] Loading URL: %@", _currentURL);
-    if ([_navigationDelegate respondsToSelector:@selector(webView:didStartProvisionalNavigation:)]) {
-        [_navigationDelegate webView:self didStartProvisionalNavigation:nil];
+    objc_setAssociatedObject(self, @selector(URL), request.URL, OBJC_ASSOCIATION_RETAIN);
+    NSLog(@"[OSXIE WebKit] Loading URL: %@", request.URL);
+    id delegate = objc_getAssociatedObject(self, @selector(navigationDelegate));
+    if ([delegate respondsToSelector:@selector(webView:didStartProvisionalNavigation:)]) {
+        [delegate webView:self didStartProvisionalNavigation:nil];
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if ([self->_navigationDelegate respondsToSelector:@selector(webView:didFinishNavigation:)]) {
-            [self->_navigationDelegate webView:self didFinishNavigation:nil];
+        id del = objc_getAssociatedObject(self, @selector(navigationDelegate));
+        if ([del respondsToSelector:@selector(webView:didFinishNavigation:)]) {
+            [del webView:self didFinishNavigation:nil];
         }
     });
 }
 
 - (void)loadHTMLString:(NSString *)string baseURL:(NSURL *)baseURL {
-    _currentURL = baseURL;
+    objc_setAssociatedObject(self, @selector(URL), baseURL, OBJC_ASSOCIATION_RETAIN);
     NSLog(@"[OSXIE WebKit] Loading HTML content (length: %lu)", (unsigned long)string.length);
-    if ([_navigationDelegate respondsToSelector:@selector(webView:didStartProvisionalNavigation:)]) {
-        [_navigationDelegate webView:self didStartProvisionalNavigation:nil];
+    id delegate = objc_getAssociatedObject(self, @selector(navigationDelegate));
+    if ([delegate respondsToSelector:@selector(webView:didStartProvisionalNavigation:)]) {
+        [delegate webView:self didStartProvisionalNavigation:nil];
     }
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if ([self->_navigationDelegate respondsToSelector:@selector(webView:didFinishNavigation:)]) {
-            [self->_navigationDelegate webView:self didFinishNavigation:nil];
+        id del = objc_getAssociatedObject(self, @selector(navigationDelegate));
+        if ([del respondsToSelector:@selector(webView:didFinishNavigation:)]) {
+            [del webView:self didFinishNavigation:nil];
         }
     });
 }
 
 - (void)reload {
     NSLog(@"[OSXIE WebKit] Reloading current page");
-    if (_currentURL) {
-        [self loadRequest:[NSURLRequest requestWithURL:_currentURL]];
+    NSURL *url = objc_getAssociatedObject(self, @selector(URL));
+    if (url) {
+        [self loadRequest:[NSURLRequest requestWithURL:url]];
     }
 }
 
@@ -74,7 +94,7 @@
 }
 
 - (NSURL *)URL {
-    return _currentURL;
+    return objc_getAssociatedObject(self, @selector(URL));
 }
 
 - (NSString *)title {
@@ -86,88 +106,88 @@
 }
 
 - (void)setNavigationDelegate:(id<WKNavigationDelegate>)navigationDelegate {
-    _navigationDelegate = navigationDelegate;
+    objc_setAssociatedObject(self, @selector(navigationDelegate), navigationDelegate, OBJC_ASSOCIATION_ASSIGN);
 }
 
 - (id<WKNavigationDelegate>)navigationDelegate {
-    return _navigationDelegate;
+    return objc_getAssociatedObject(self, @selector(navigationDelegate));
 }
 
 - (WKWebViewConfiguration *)configuration {
-    return _configuration;
+    return objc_getAssociatedObject(self, @selector(configuration));
 }
 
 @end
 
-@implementation WKWebViewConfiguration
+@implementation WKWebViewConfiguration (OsxieImpl)
 
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _preferences = [[WKPreferences alloc] init];
-        _userContentController = [[WKUserContentController alloc] init];
-        _websiteDataStore = [WKWebsiteDataStore defaultDataStore];
+        objc_setAssociatedObject(self, @selector(preferences), [[WKPreferences alloc] init], OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(self, @selector(userContentController), [[WKUserContentController alloc] init], OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(self, @selector(websiteDataStore), [WKWebsiteDataStore defaultDataStore], OBJC_ASSOCIATION_RETAIN);
         NSLog(@"[OSXIE WebKit] WKWebViewConfiguration initialized");
     }
     return self;
 }
 
 - (WKPreferences *)preferences {
-    return _preferences;
+    return objc_getAssociatedObject(self, @selector(preferences));
 }
 
 - (void)setPreferences:(WKPreferences *)preferences {
-    _preferences = preferences;
+    objc_setAssociatedObject(self, @selector(preferences), preferences, OBJC_ASSOCIATION_RETAIN);
 }
 
 - (WKUserContentController *)userContentController {
-    return _userContentController;
+    return objc_getAssociatedObject(self, @selector(userContentController));
 }
 
 - (void)setUserContentController:(WKUserContentController *)userContentController {
-    _userContentController = userContentController;
+    objc_setAssociatedObject(self, @selector(userContentController), userContentController, OBJC_ASSOCIATION_RETAIN);
 }
 
 - (WKWebsiteDataStore *)websiteDataStore {
-    return _websiteDataStore;
+    return objc_getAssociatedObject(self, @selector(websiteDataStore));
 }
 
 - (void)setWebsiteDataStore:(WKWebsiteDataStore *)websiteDataStore {
-    _websiteDataStore = websiteDataStore;
+    objc_setAssociatedObject(self, @selector(websiteDataStore), websiteDataStore, OBJC_ASSOCIATION_RETAIN);
 }
 
 @end
 
-@implementation WKPreferences
+@implementation WKPreferences (OsxieImpl)
 
 - (instancetype)init {
     self = [super init];
     if (self) {
-        _javaScriptEnabled = YES;
-        _javaScriptCanOpenWindowsAutomatically = NO;
+        objc_setAssociatedObject(self, @selector(javaScriptEnabled), @YES, OBJC_ASSOCIATION_RETAIN);
+        objc_setAssociatedObject(self, @selector(javaScriptCanOpenWindowsAutomatically), @NO, OBJC_ASSOCIATION_RETAIN);
     }
     return self;
 }
 
 - (BOOL)javaScriptEnabled {
-    return _javaScriptEnabled;
+    return [objc_getAssociatedObject(self, @selector(javaScriptEnabled)) boolValue];
 }
 
 - (void)setJavaScriptEnabled:(BOOL)javaScriptEnabled {
-    _javaScriptEnabled = javaScriptEnabled;
+    objc_setAssociatedObject(self, @selector(javaScriptEnabled), @(javaScriptEnabled), OBJC_ASSOCIATION_RETAIN);
 }
 
 - (BOOL)javaScriptCanOpenWindowsAutomatically {
-    return _javaScriptCanOpenWindowsAutomatically;
+    return [objc_getAssociatedObject(self, @selector(javaScriptCanOpenWindowsAutomatically)) boolValue];
 }
 
 - (void)setJavaScriptCanOpenWindowsAutomatically:(BOOL)javaScriptCanOpenWindowsAutomatically {
-    _javaScriptCanOpenWindowsAutomatically = javaScriptCanOpenWindowsAutomatically;
+    objc_setAssociatedObject(self, @selector(javaScriptCanOpenWindowsAutomatically), @(javaScriptCanOpenWindowsAutomatically), OBJC_ASSOCIATION_RETAIN);
 }
 
 @end
 
-@implementation WKUserContentController
+@implementation WKUserContentController (OsxieImpl)
 
 - (instancetype)init {
     self = [super init];
@@ -187,7 +207,7 @@
 
 @end
 
-@implementation WKWebsiteDataStore
+@implementation WKWebsiteDataStore (OsxieImpl)
 
 static WKWebsiteDataStore *_defaultDataStore = nil;
 

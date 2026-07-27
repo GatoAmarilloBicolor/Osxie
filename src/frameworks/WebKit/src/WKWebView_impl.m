@@ -1,8 +1,3 @@
-/**
- * Osxie WebKit Basic Implementation
- * Provides basic WebView for applications like iTerm2 and brew
- */
-
 #import <Foundation/Foundation.h>
 #import <AppKit/AppKit.h>
 #import <WebKit/WKWebView.h>
@@ -11,22 +6,15 @@
 #import <WebKit/WKWebsiteDataStore.h>
 #import <WebKit/WKUserContentController.h>
 #import <WebKit/WKPreferences.h>
+#import <WebKit/WKUserScript.h>
 
-// Basic WebView implementation
-@implementation WKWebView {
-    NSURL *_currentURL;
-    NSString *_htmlContent;
-    id<WKNavigationDelegate> _navigationDelegate;
-    WKWebViewConfiguration *_configuration;
-}
+@implementation WKWebView
 
 - (instancetype)initWithFrame:(NSRect)frame configuration:(WKWebViewConfiguration *)configuration {
     self = [super initWithFrame:frame];
     if (self) {
         _configuration = configuration ?: [[WKWebViewConfiguration alloc] init];
         _currentURL = nil;
-        _htmlContent = @"";
-        
         NSLog(@"[OSXIE WebKit] WKWebView initialized with frame: %@", NSStringFromRect(frame));
     }
     return self;
@@ -35,13 +23,9 @@
 - (void)loadRequest:(NSURLRequest *)request {
     _currentURL = request.URL;
     NSLog(@"[OSXIE WebKit] Loading URL: %@", _currentURL);
-    
-    // Notify delegate
     if ([_navigationDelegate respondsToSelector:@selector(webView:didStartProvisionalNavigation:)]) {
         [_navigationDelegate webView:self didStartProvisionalNavigation:nil];
     }
-    
-    // Simulate async load
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if ([self->_navigationDelegate respondsToSelector:@selector(webView:didFinishNavigation:)]) {
             [self->_navigationDelegate webView:self didFinishNavigation:nil];
@@ -50,16 +34,11 @@
 }
 
 - (void)loadHTMLString:(NSString *)string baseURL:(NSURL *)baseURL {
-    _htmlContent = string;
     _currentURL = baseURL;
     NSLog(@"[OSXIE WebKit] Loading HTML content (length: %lu)", (unsigned long)string.length);
-    
-    // Notify delegate
     if ([_navigationDelegate respondsToSelector:@selector(webView:didStartProvisionalNavigation:)]) {
         [_navigationDelegate webView:self didStartProvisionalNavigation:nil];
     }
-    
-    // Simulate async load
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         if ([self->_navigationDelegate respondsToSelector:@selector(webView:didFinishNavigation:)]) {
             [self->_navigationDelegate webView:self didFinishNavigation:nil];
@@ -87,11 +66,11 @@
 }
 
 - (BOOL)canGoBack {
-    return NO; // Simplified - no history yet
+    return NO;
 }
 
 - (BOOL)canGoForward {
-    return NO; // Simplified - no history yet
+    return NO;
 }
 
 - (NSURL *)URL {
@@ -103,7 +82,7 @@
 }
 
 - (BOOL)isLoading {
-    return NO; // Simplified
+    return NO;
 }
 
 - (void)setNavigationDelegate:(id<WKNavigationDelegate>)navigationDelegate {
@@ -120,12 +99,7 @@
 
 @end
 
-// WebView Configuration
-@implementation WKWebViewConfiguration {
-    WKPreferences *_preferences;
-    WKUserContentController *_userContentController;
-    WKWebsiteDataStore *_websiteDataStore;
-}
+@implementation WKWebViewConfiguration
 
 - (instancetype)init {
     self = [super init];
@@ -133,7 +107,6 @@
         _preferences = [[WKPreferences alloc] init];
         _userContentController = [[WKUserContentController alloc] init];
         _websiteDataStore = [WKWebsiteDataStore defaultDataStore];
-        
         NSLog(@"[OSXIE WebKit] WKWebViewConfiguration initialized");
     }
     return self;
@@ -165,11 +138,7 @@
 
 @end
 
-// Preferences
-@implementation WKPreferences {
-    BOOL _javaScriptEnabled;
-    BOOL _javaScriptCanOpenWindowsAutomatically;
-}
+@implementation WKPreferences
 
 - (instancetype)init {
     self = [super init];
@@ -198,7 +167,6 @@
 
 @end
 
-// User Content Controller
 @implementation WKUserContentController
 
 - (instancetype)init {
@@ -219,7 +187,6 @@
 
 @end
 
-// Website Data Store
 @implementation WKWebsiteDataStore
 
 static WKWebsiteDataStore *_defaultDataStore = nil;

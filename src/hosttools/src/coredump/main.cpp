@@ -19,7 +19,7 @@
 
 #include <coredump/x86_64.h>
 
-#include <darling-config.h>
+#include <osxie-config.h>
 
 #ifndef DUMP_FLOAT_STATE
 	#define DUMP_FLOAT_STATE 1

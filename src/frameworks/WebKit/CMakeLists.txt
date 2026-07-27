@@ -19,6 +19,7 @@ add_framework(WebKit
 
     SOURCES
         src/WebKit.m
+        src/WKWebView_impl.m
         src/_WKActivatedElementInfo.m
         src/_WKApplicationManifest.m
         src/_WKAttachmentDisplayOptions.m

@@ -360,6 +360,7 @@ endif()
 if (COMPONENT_gui)
 	set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME "gui")
 
+	add_subdirectory(WindowServer)
 	add_subdirectory(external/cocotron)
 
 	add_subdirectory(CoreAudio)

@@ -30,10 +30,10 @@ target_link_options(mldr PRIVATE -pthread)
 
 target_link_libraries(mldr PRIVATE -lrt -ldl mldr_dserver_rpc -lm)
 
-install(TARGETS mldr DESTINATION libexec/darling/usr/libexec/darling)
+install(TARGETS mldr DESTINATION libexec/osxie/usr/libexec/osxie)
 
-configure_file(darling.conf.in darling.conf @ONLY)
-install(FILES "${CMAKE_CURRENT_BINARY_DIR}/darling.conf" DESTINATION lib/binfmt.d)
+configure_file(darling.conf.in osxie.conf @ONLY)
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/osxie.conf" DESTINATION lib/binfmt.d)
 
 if (BUILD_TARGET_32BIT)
 	add_library(mldr32_dserver_rpc STATIC ${CMAKE_BINARY_DIR}/src/external/darlingserver/src/rpc.c)
@@ -51,5 +51,5 @@ if (BUILD_TARGET_32BIT)
 	target_link_options(mldr32 PRIVATE -pthread)
 	target_link_libraries(mldr32 PRIVATE -lrt -ldl mldr32_dserver_rpc)
 
-	install(TARGETS mldr32 DESTINATION libexec/darling/usr/libexec/darling)
+	install(TARGETS mldr32 DESTINATION libexec/osxie/usr/libexec/osxie)
 endif()

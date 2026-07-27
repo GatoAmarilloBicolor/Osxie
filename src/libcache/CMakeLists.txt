@@ -17,4 +17,4 @@ add_circular(libcache FAT
 		system_kernel
 )
 set_target_properties(libcache PROPERTIES OUTPUT_NAME "cache")
-install(TARGETS libcache DESTINATION libexec/darling/usr/lib/system)
+install(TARGETS libcache DESTINATION libexec/osxie/usr/lib/system)

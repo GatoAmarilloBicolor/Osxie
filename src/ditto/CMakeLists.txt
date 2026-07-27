@@ -1,6 +1,6 @@
 project(ditto)
 
-install(FILES ditto DESTINATION libexec/darling/usr/bin
+install(FILES ditto DESTINATION libexec/osxie/usr/bin
 	PERMISSIONS
 		OWNER_READ OWNER_WRITE OWNER_EXECUTE
 		GROUP_READ GROUP_EXECUTE

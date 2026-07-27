@@ -15,8 +15,8 @@ function(versioner project versions default_version)
 	include_directories(${CMAKE_CURRENT_BINARY_DIR})
 
 	add_definitions(-std=c99)
-	add_darling_executable(${project} ${CMAKE_SOURCE_DIR}/src/external/perl/versioner/versioner.c)
+	add_osxie_executable(${project} ${CMAKE_SOURCE_DIR}/src/external/perl/versioner/versioner.c)
 	target_link_libraries(${project} CoreFoundation)
 
-	install(TARGETS ${project} DESTINATION libexec/darling/usr/bin)
+	install(TARGETS ${project} DESTINATION libexec/osxie/usr/bin)
 endfunction(versioner)

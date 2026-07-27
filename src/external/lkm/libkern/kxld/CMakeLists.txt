@@ -5,7 +5,7 @@ add_compile_definitions(
 )
 
 set(DYLIB_INSTALL_NAME "/usr/lib/system/libkxld.dylib")
-add_darling_library(libkxld
+add_osxie_library(libkxld
 	kxld.c
 	kxld_array.c
 	kxld_copyright.c
@@ -29,4 +29,4 @@ make_fat(libkxld)
 target_link_libraries(libkxld system cxxabi)
 set_target_properties(libkxld PROPERTIES OUTPUT_NAME "kxld")
 
-install(TARGETS libkxld DESTINATION libexec/darling/usr/lib/system)
+install(TARGETS libkxld DESTINATION libexec/osxie/usr/lib/system)

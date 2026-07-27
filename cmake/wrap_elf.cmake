@@ -2,7 +2,7 @@ if(COMMAND cmake_policy)
 	# cmake_policy(SET CMP0177 NEW)
 endif(COMMAND cmake_policy)
 
-include(darling_lib)
+include(osxie_lib)
 #include(CMakeParseArguments)
 
 function(wrap_elf name elfname)
@@ -26,9 +26,9 @@ function(wrap_elf name elfname)
 
 	set(DYLIB_INSTALL_NAME "/${destination}/lib${name}.dylib")
 	include_directories(${CMAKE_SOURCE_DIR}/src/startup/mldr/elfcalls)
-	add_darling_library(${name} SHARED ${CMAKE_CURRENT_BINARY_DIR}/${name}.c)
+	add_osxie_library(${name} SHARED ${CMAKE_CURRENT_BINARY_DIR}/${name}.c)
 	target_link_libraries(${name} PRIVATE system)
 	make_fat(${name})
-	install(TARGETS ${name} DESTINATION libexec/darling/${destination})
+	install(TARGETS ${name} DESTINATION libexec/osxie/${destination})
 endfunction(wrap_elf)
 

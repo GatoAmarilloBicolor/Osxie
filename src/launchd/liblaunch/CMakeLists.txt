@@ -39,5 +39,5 @@ add_circular(launch FAT
 		compiler_rt
 )
 
-install(TARGETS launch DESTINATION libexec/darling/usr/lib/system)
+install(TARGETS launch DESTINATION libexec/osxie/usr/lib/system)
 

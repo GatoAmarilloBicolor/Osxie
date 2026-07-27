@@ -1,6 +1,6 @@
 project(Security)
 
-include(darling_framework)
+include(osxie_framework)
 
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -nostdinc")
 
@@ -16,7 +16,7 @@ set(DYLIB_INSTALL_NAME "/System/Library/Frameworks/Security.framework/Versions/A
 set(DYLIB_COMPAT_VERSION "1.0.0")
 set(DYLIB_CURRENT_VERSION "1.0.0")
 
-add_darling_library(Security SHARED ${Security_SRCS})
+add_osxie_library(Security SHARED ${Security_SRCS})
 target_link_libraries(Security
     system
     CoreFoundation

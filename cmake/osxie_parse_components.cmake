@@ -1,7 +1,7 @@
 #
 # Takes a single component and returns all its dependencies in `COMPONENT_DEPS`
 #
-function(darling_parse_components_get_deps COMPONENT)
+function(osxie_parse_components_get_deps COMPONENT)
 	if (("${COMPONENT}" STREQUAL "system") OR ("${COMPONENT}" STREQUAL "python") OR ("${COMPONENT}" STREQUAL "ruby") OR ("${COMPONENT}" STREQUAL "perl"))
 		set(COMPONENT_DEPS core PARENT_SCOPE)
 	elseif ("${COMPONENT}" STREQUAL "cli")
@@ -35,8 +35,8 @@ function(darling_parse_components_get_deps COMPONENT)
 	endif()
 endfunction()
 
-function(darling_parse_components DARLING_RAW_COMPONENTS)
-	string(REPLACE "," ";" RAW_COMPONENTS_LIST "${DARLING_RAW_COMPONENTS}")
+function(osxie_parse_components OSXIE_RAW_COMPONENTS)
+	string(REPLACE "," ";" RAW_COMPONENTS_LIST "${OSXIE_RAW_COMPONENTS}")
 
 	set(COMPONENTS_TO_PROCESS "")
 
@@ -63,7 +63,7 @@ function(darling_parse_components DARLING_RAW_COMPONENTS)
 		list(REMOVE_DUPLICATES COMPONENTS_LIST)
 
 		# get its dependencies (into `COMPONENT_DEPS`)
-		darling_parse_components_get_deps("${COMPONENT}")
+		osxie_parse_components_get_deps("${COMPONENT}")
 
 		# add them to the list of components to process
 		list(APPEND COMPONENTS_TO_PROCESS ${COMPONENT_DEPS})

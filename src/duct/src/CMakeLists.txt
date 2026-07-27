@@ -23,7 +23,7 @@ add_circular(system_duct FAT
 )
 #make_fat(system_duct)
 
-add_darling_static_library(system_duct_static SOURCES ${duct_sources})
+add_osxie_static_library(system_duct_static SOURCES ${duct_sources})
 make_fat(system_duct_static)
 
-install(TARGETS system_duct DESTINATION libexec/darling/usr/lib/system)
+install(TARGETS system_duct DESTINATION libexec/osxie/usr/lib/system)

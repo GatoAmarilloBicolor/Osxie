@@ -28,18 +28,18 @@ add_framework(CoreSymbolication
 		system
 )
 
-add_darling_executable(coresymbolicationd src/daemon.c)
+add_osxie_executable(coresymbolicationd src/daemon.c)
 
 install(
 	TARGETS
 		coresymbolicationd
 	DESTINATION
-		libexec/darling/usr/libexec
+		libexec/osxie/usr/libexec
 )
 
 install(
 	FILES
 		resources/com.apple.coresymbolicationd.plist
 	DESTINATION
-		libexec/darling/System/Library/LaunchDaemons
+		libexec/osxie/System/Library/LaunchDaemons
 )

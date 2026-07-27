@@ -8,8 +8,10 @@ add_subdirectory(liblaunch)
 add_subdirectory(src)
 add_subdirectory(support)
 
-install(FILES man/launchctl.1 DESTINATION libexec/darling/usr/share/man/man1)
-install(FILES man/launchd.8 DESTINATION libexec/darling/usr/share/man/man8)
+install(FILES man/launchctl.1 DESTINATION libexec/osxie/usr/share/man/man1)
+install(FILES man/launchd.8 DESTINATION libexec/osxie/usr/share/man/man8)
 
-install(DIRECTORY DESTINATION libexec/darling/Library/LaunchDaemons)
-install(DIRECTORY DESTINATION libexec/darling/Library/LaunchAgents)
+install(DIRECTORY DESTINATION libexec/osxie/Library/LaunchDaemons)
+install(DIRECTORY DESTINATION libexec/osxie/Library/LaunchAgents)
+
+install(CODE "execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink ../libexec/osxie/sbin/launchd \$ENV{DESTDIR}\${CMAKE_INSTALL_PREFIX}/sbin/launchd)")

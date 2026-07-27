@@ -24,4 +24,4 @@ set(vda_SRCS
 add_library(VideoDecodeAcceleration SHARED ${vda_SRCS})
 target_link_libraries(VideoDecodeAcceleration PRIVATE system CFF)
 
-install(TARGETS VideoDecodeAcceleration DESTINATION ${CMAKE_INSTALL_LIBDIR}/darling)
+install(TARGETS VideoDecodeAcceleration DESTINATION ${CMAKE_INSTALL_LIBDIR}/osxie)

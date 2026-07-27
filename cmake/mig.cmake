@@ -80,11 +80,11 @@ function(mig defFileName)
 		)
 
 		if (NOT TARGET ${bareName}_xtrace_mig AND NOT MIG_NO_XTRACE)
-			add_darling_library(${bareName}_xtrace_mig ${CMAKE_CURRENT_BINARY_DIR}/${relativeName}${MIG_ARCH_SUFFIX}${MIG_XTRACE_SUFFIX})
+			add_osxie_library(${bareName}_xtrace_mig ${CMAKE_CURRENT_BINARY_DIR}/${relativeName}${MIG_ARCH_SUFFIX}${MIG_XTRACE_SUFFIX})
 			target_compile_options(${bareName}_xtrace_mig PRIVATE
 				"-I" "${CMAKE_SOURCE_DIR}/src/xtrace/include"
 				"-Wno-extern-initializer")
-			install(TARGETS ${bareName}_xtrace_mig DESTINATION "libexec/darling/usr/lib/darling/xtrace-mig/")
+			install(TARGETS ${bareName}_xtrace_mig DESTINATION "libexec/osxie/usr/lib/osxie/xtrace-mig/")
 		endif (NOT TARGET ${bareName}_xtrace_mig AND NOT MIG_NO_XTRACE)
 	endforeach()
 endfunction(mig)

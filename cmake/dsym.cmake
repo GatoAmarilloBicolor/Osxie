@@ -17,8 +17,8 @@ function(dsym target)
 
 		add_custom_target("${target}-dSYM" ALL DEPENDS "${CMAKE_CURRENT_BINARY_DIR}/${target}.dSYM" getuuid lipo)
 
-		install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${target}.dSYM" DESTINATION "${CMAKE_INSTALL_PREFIX}/libexec/darling/System/Library/Caches/dsym/files" ${EXCLUDE_FROM_ALL_ARG})
-		install(DIRECTORY DESTINATION "${CMAKE_INSTALL_PREFIX}/libexec/darling/System/Library/Caches/dsym/uuid" ${EXCLUDE_FROM_ALL_ARG})
+		install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${target}.dSYM" DESTINATION "${CMAKE_INSTALL_PREFIX}/libexec/osxie/System/Library/Caches/dsym/files" ${EXCLUDE_FROM_ALL_ARG})
+		install(DIRECTORY DESTINATION "${CMAKE_INSTALL_PREFIX}/libexec/osxie/System/Library/Caches/dsym/uuid" ${EXCLUDE_FROM_ALL_ARG})
 
 		install(CODE "execute_process(COMMAND \"${CMAKE_BINARY_DIR}/src/buildtools/getuuid\" \"${CMAKE_CURRENT_BINARY_DIR}/${target}.dSYM\" RESULT_VARIABLE getuuid_result OUTPUT_VARIABLE macho_uuid)
 
@@ -31,7 +31,7 @@ function(dsym target)
 
 					execute_process(COMMAND \"${CMAKE_COMMAND}\" -E create_symlink
 						\"../files/${target}.dSYM\"
-						\$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}/libexec/darling/System/Library/Caches/dsym/uuid/\${uuid}.dSYM)
+						\$ENV{DESTDIR}/${CMAKE_INSTALL_PREFIX}/libexec/osxie/System/Library/Caches/dsym/uuid/\${uuid}.dSYM)
 				endforeach (uuid)
 			endif()
 		" ${EXCLUDE_FROM_ALL_ARG})

@@ -5,7 +5,7 @@ endif(COMMAND cmake_policy)
 
 include(use_ld64)
 
-FUNCTION(add_darling_executable exe)
+FUNCTION(add_osxie_executable exe)
 	foreach(f IN LISTS ARGN)
 		set(files ${files} ${f})
 	endforeach(f)
@@ -29,5 +29,5 @@ FUNCTION(add_darling_executable exe)
 	if ((NOT NO_DSYM) AND (NOT ${exe}_NO_DSYM))
 		dsym(${exe})
 	endif ((NOT NO_DSYM) AND (NOT ${exe}_NO_DSYM))
-ENDFUNCTION(add_darling_executable)
+ENDFUNCTION(add_osxie_executable)
 

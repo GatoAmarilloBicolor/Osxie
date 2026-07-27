@@ -147,8 +147,8 @@ else()
 endif()
 
 set(COMPONENTS "${COMPONENTS_DEFAULT}" CACHE STRING "Choose which components of Osxie to build")
-include(darling_parse_components)
-darling_parse_components("${COMPONENTS}")
+include(osxie_parse_components)
+osxie_parse_components("${COMPONENTS}")
 
 set(COMPILE_PY2_BYTECODE AUTO CACHE STRING "Pre-compile bytecode for Python 2 packages")
 set_property(CACHE COMPILE_PY2_BYTECODE PROPERTY STRINGS AUTO ON OFF)

@@ -1,11 +1,11 @@
 project(PlistBuddy)
 
-add_darling_executable(PlistBuddy
+add_osxie_executable(PlistBuddy
 	PlistBuddy.c
 )
 
 target_link_libraries(PlistBuddy CoreFoundation)
 
-install(TARGETS PlistBuddy DESTINATION libexec/darling/usr/libexec)
+install(TARGETS PlistBuddy DESTINATION libexec/osxie/usr/libexec)
 
-install(FILES PlistBuddy.8 DESTINATION libexec/darling/usr/share/man/man8)
+install(FILES PlistBuddy.8 DESTINATION libexec/osxie/usr/share/man/man8)

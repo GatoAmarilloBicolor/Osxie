@@ -6,9 +6,9 @@ set(DYLIB_CURRENT_VERSION "1.0.0")
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
 
-add_darling_library(quit SHARED
+add_osxie_library(quit SHARED
     src/quit.c
 )
 make_fat(quit)
 target_link_libraries(quit system)
-install(TARGETS quit DESTINATION libexec/darling/usr/lib)
+install(TARGETS quit DESTINATION libexec/osxie/usr/lib)

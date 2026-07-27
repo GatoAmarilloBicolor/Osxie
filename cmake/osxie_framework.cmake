@@ -1,6 +1,6 @@
 include(CMakeParseArguments)
-include(darling_lib)
-include(darling_open_source_sdk)
+include(osxie_lib)
+include(osxie_open_source_sdk)
 include(InstallSymlink)
 
 define_property(TARGET PROPERTY DYLIB_INSTALL_NAME BRIEF_DOCS "Stores the DYLIB_INSTALL_NAME of the framework's main binary"
@@ -57,7 +57,7 @@ function(add_framework name)
 			set(COMPONENT_ARG "")
 		endif()
 		InstallSymlink(Versions/Current/Frameworks
-			"${CMAKE_INSTALL_PREFIX}/libexec/darling${root_dir}/${FRAMEWORK_PARENT}.framework/Frameworks"
+			"${CMAKE_INSTALL_PREFIX}/libexec/osxie${root_dir}/${FRAMEWORK_PARENT}.framework/Frameworks"
 			${EXCLUDE_FROM_ALL_ARG} ${COMPONENT_ARG})
 		set(root_dir "${root_dir}/${FRAMEWORK_PARENT}.framework/Versions/${FRAMEWORK_PARENT_VERSION}/Frameworks")
 	endif(DEFINED FRAMEWORK_PARENT)
@@ -80,7 +80,7 @@ function(add_framework name)
 		)
 
 	else (FRAMEWORK_CIRCULAR OR FRAMEWORK_CIRCULAR_DEPENDENCIES OR FRAMEWORK_UPWARD_DEPENDENCIES)
-		add_darling_library(${my_name} SHARED ${FRAMEWORK_SOURCES} ${FRAMEWORK_OBJECTS})
+		add_osxie_library(${my_name} SHARED ${FRAMEWORK_SOURCES} ${FRAMEWORK_OBJECTS})
 		target_link_libraries(${my_name} PRIVATE ${FRAMEWORK_STRONG_DEPENDENCIES})
 
 		if (FRAMEWORK_FAT)
@@ -108,11 +108,11 @@ function(add_framework name)
 		set_property(TARGET ${my_name} APPEND_STRING PROPERTY LINK_FLAGS " ${FRAMEWORK_LINK_FLAGS}")
 	endif (FRAMEWORK_LINK_FLAGS)
 
-	install(TARGETS ${my_name} DESTINATION "libexec/darling${root_dir}/${name}.framework/Versions/${FRAMEWORK_VERSION}/" ${EXCLUDE_FROM_ALL_ARG})
+	install(TARGETS ${my_name} DESTINATION "libexec/osxie${root_dir}/${name}.framework/Versions/${FRAMEWORK_VERSION}/" ${EXCLUDE_FROM_ALL_ARG})
 
 	if (FRAMEWORK_RESOURCES)
 		if (FRAMEWORK_CURRENT_VERSION)
-			InstallSymlink("Versions/Current/Resources" "${CMAKE_INSTALL_PREFIX}/libexec/darling${root_dir}/${name}.framework/Resources" ${EXCLUDE_FROM_ALL_ARG})
+			InstallSymlink("Versions/Current/Resources" "${CMAKE_INSTALL_PREFIX}/libexec/osxie${root_dir}/${name}.framework/Resources" ${EXCLUDE_FROM_ALL_ARG})
 		endif (FRAMEWORK_CURRENT_VERSION)
 		while (FRAMEWORK_RESOURCES)
 			list(GET FRAMEWORK_RESOURCES 0 res_install_path)
@@ -120,15 +120,15 @@ function(add_framework name)
 			get_filename_component(res_install_dir ${res_install_path} DIRECTORY)
 			get_filename_component(res_install_name ${res_install_path} NAME)
 			install(FILES ${res_source_path}
-				DESTINATION libexec/darling${root_dir}/${name}.framework/Versions/${FRAMEWORK_VERSION}/Resources/${res_install_dir}
+				DESTINATION libexec/osxie${root_dir}/${name}.framework/Versions/${FRAMEWORK_VERSION}/Resources/${res_install_dir}
 				RENAME ${res_install_name} ${EXCLUDE_FROM_ALL_ARG})
 			list(REMOVE_AT FRAMEWORK_RESOURCES 0 1)
 		endwhile (FRAMEWORK_RESOURCES)
 	endif()
 
 	if (FRAMEWORK_CURRENT_VERSION)
-		InstallSymlink(${FRAMEWORK_VERSION} "${CMAKE_INSTALL_PREFIX}/libexec/darling${root_dir}/${name}.framework/Versions/Current" ${EXCLUDE_FROM_ALL_ARG})
-		InstallSymlink("Versions/Current/${name}" "${CMAKE_INSTALL_PREFIX}/libexec/darling${root_dir}/${name}.framework/${name}" ${EXCLUDE_FROM_ALL_ARG})
+		InstallSymlink(${FRAMEWORK_VERSION} "${CMAKE_INSTALL_PREFIX}/libexec/osxie${root_dir}/${name}.framework/Versions/Current" ${EXCLUDE_FROM_ALL_ARG})
+		InstallSymlink("Versions/Current/${name}" "${CMAKE_INSTALL_PREFIX}/libexec/osxie${root_dir}/${name}.framework/${name}" ${EXCLUDE_FROM_ALL_ARG})
 	endif()
 endfunction(add_framework)
 
@@ -155,8 +155,8 @@ function(add_separated_framework name)
 	set(DYLIB_INSTALL_NAME "/${sys_library_dir}/${dir_name}/${name}.framework/Versions/${FRAMEWORK_VERSION}/${name}")
 
 	# reduce unnecessary recompilation by creating a single object library
-	# `add_darling_object_library` automatically adds arch flags based on the same variables we use, so this works fine
-	add_darling_object_library(${my_name}_obj ${FRAMEWORK_SOURCES})
+	# `add_osxie_object_library` automatically adds arch flags based on the same variables we use, so this works fine
+	add_osxie_object_library(${my_name}_obj ${FRAMEWORK_SOURCES})
 
 	if (BUILD_TARGET_32BIT)
 		set(DARLING_LIB_32BIT_ONLY TRUE)
@@ -168,7 +168,7 @@ function(add_separated_framework name)
 				STRONG_DEPENDENCIES ${FRAMEWORK_STRONG_DEPENDENCIES}
 			)
 		else (FRAMEWORK_CIRCULAR_DEPENDENCIES OR FRAMEWORK_UPWARD_DEPENDENCIES)
-			add_darling_library(${my_name}_${APPLE_ARCH_32BIT} $<TARGET_OBJECTS:${my_name}_obj> ${FRAMEWORK_OBJECTS})
+			add_osxie_library(${my_name}_${APPLE_ARCH_32BIT} $<TARGET_OBJECTS:${my_name}_obj> ${FRAMEWORK_OBJECTS})
 			target_link_libraries(${my_name}_${APPLE_ARCH_32BIT} PRIVATE ${FRAMEWORK_STRONG_DEPENDENCIES})
 		endif (FRAMEWORK_CIRCULAR_DEPENDENCIES OR FRAMEWORK_UPWARD_DEPENDENCIES)
 		set(DARLING_LIB_32BIT_ONLY FALSE)
@@ -203,7 +203,7 @@ function(add_separated_framework name)
 				STRONG_DEPENDENCIES ${FRAMEWORK_STRONG_DEPENDENCIES}
 			)
 		else (FRAMEWORK_CIRCULAR_DEPENDENCIES OR FRAMEWORK_UPWARD_DEPENDENCIES)
-			add_darling_library(${my_name}_${APPLE_ARCH_64BIT} $<TARGET_OBJECTS:${my_name}_obj> ${FRAMEWORK_OBJECTS})
+			add_osxie_library(${my_name}_${APPLE_ARCH_64BIT} $<TARGET_OBJECTS:${my_name}_obj> ${FRAMEWORK_OBJECTS})
 			target_link_libraries(${my_name}_${APPLE_ARCH_64BIT} PRIVATE ${FRAMEWORK_STRONG_DEPENDENCIES})
 		endif (FRAMEWORK_CIRCULAR_DEPENDENCIES OR FRAMEWORK_UPWARD_DEPENDENCIES)
 		set(DARLING_LIB_64BIT_ONLY FALSE)
@@ -342,11 +342,11 @@ function(add_separated_framework name)
 		add_dependencies(${my_name} ${my_name}_${APPLE_ARCH_64BIT})
 	endif (BUILD_TARGET_32BIT AND BUILD_TARGET_64BIT)
 
-	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${my_name} DESTINATION "libexec/darling/${sys_library_dir}/${dir_name}/${name}.framework/Versions/${FRAMEWORK_VERSION}/")
+	install(FILES ${CMAKE_CURRENT_BINARY_DIR}/${my_name} DESTINATION "libexec/osxie/${sys_library_dir}/${dir_name}/${name}.framework/Versions/${FRAMEWORK_VERSION}/")
 
 	if (FRAMEWORK_RESOURCES)
 		if (FRAMEWORK_CURRENT_VERSION)
-			InstallSymlink("Versions/Current/Resources" "${CMAKE_INSTALL_PREFIX}/libexec/darling/${sys_library_dir}/${dir_name}/${name}.framework/Resources")
+			InstallSymlink("Versions/Current/Resources" "${CMAKE_INSTALL_PREFIX}/libexec/osxie/${sys_library_dir}/${dir_name}/${name}.framework/Resources")
 		endif (FRAMEWORK_CURRENT_VERSION)
 		while (FRAMEWORK_RESOURCES)
 			list(GET FRAMEWORK_RESOURCES 0 res_install_path)
@@ -354,14 +354,14 @@ function(add_separated_framework name)
 			get_filename_component(res_install_dir ${res_install_path} DIRECTORY)
 			get_filename_component(res_install_name ${res_install_path} NAME)
 			install(FILES ${res_source_path}
-				DESTINATION libexec/darling/${sys_library_dir}/${dir_name}/${name}.framework/Versions/${FRAMEWORK_VERSION}/Resources/${res_install_dir}
+				DESTINATION libexec/osxie/${sys_library_dir}/${dir_name}/${name}.framework/Versions/${FRAMEWORK_VERSION}/Resources/${res_install_dir}
 				RENAME ${res_install_name})
 			list(REMOVE_AT FRAMEWORK_RESOURCES 0 1)
 		endwhile (FRAMEWORK_RESOURCES)
 	endif (FRAMEWORK_RESOURCES)
 
 	if (FRAMEWORK_CURRENT_VERSION)
-		InstallSymlink(${FRAMEWORK_VERSION} "${CMAKE_INSTALL_PREFIX}/libexec/darling/${sys_library_dir}/${dir_name}/${name}.framework/Versions/Current")
-		InstallSymlink("Versions/Current/${name}" "${CMAKE_INSTALL_PREFIX}/libexec/darling/${sys_library_dir}/${dir_name}/${name}.framework/${name}")
+		InstallSymlink(${FRAMEWORK_VERSION} "${CMAKE_INSTALL_PREFIX}/libexec/osxie/${sys_library_dir}/${dir_name}/${name}.framework/Versions/Current")
+		InstallSymlink("Versions/Current/${name}" "${CMAKE_INSTALL_PREFIX}/libexec/osxie/${sys_library_dir}/${dir_name}/${name}.framework/${name}")
 	endif (FRAMEWORK_CURRENT_VERSION)
 endfunction(add_separated_framework)

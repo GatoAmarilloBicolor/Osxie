@@ -1,6 +1,6 @@
 project(MobileKeyBag)
 
-add_darling_static_library(MobileKeyBag
+add_osxie_static_library(MobileKeyBag
 	SOURCES
 		src/MobileKeyBag.c
 )

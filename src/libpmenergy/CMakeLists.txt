@@ -9,14 +9,14 @@ set(DYLIB_INSTALL_NAME "/usr/lib/libpmenergy.dylib")
 set(DYLIB_COMPAT_VERSION "1.0.0")
 set(DYLIB_CURRENT_VERSION "1.0.0")
 
-add_darling_library(pmenergy SHARED src/pmenergy.c)
+add_osxie_library(pmenergy SHARED src/pmenergy.c)
 target_link_libraries(pmenergy PRIVATE system)
 
 ###
 
 set(DYLIB_INSTALL_NAME "/usr/lib/libpmsample.dylib")
-add_darling_library(pmsample SHARED src/pmsample.c)
+add_osxie_library(pmsample SHARED src/pmsample.c)
 target_link_libraries(pmsample PRIVATE system)
 
-install(TARGETS pmenergy pmsample DESTINATION libexec/darling/usr/lib)
+install(TARGETS pmenergy pmsample DESTINATION libexec/osxie/usr/lib)
 

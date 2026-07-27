@@ -18,13 +18,13 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC -fblocks -include ${CMAKE_SOURCE_DIR}/
 
 add_definitions(-DPRIVATE)
 
-include(darling_exe)
-add_darling_executable(launchctl launchctl.c)
+include(osxie_exe)
+add_osxie_executable(launchctl launchctl.c)
 target_link_libraries(launchctl xpc CoreFoundation edit)
 
-add_darling_executable(launchproxy launchproxy.c)
+add_osxie_executable(launchproxy launchproxy.c)
 target_link_libraries(launchproxy xpc)
 
-install(TARGETS launchctl DESTINATION libexec/darling/bin)
-install(TARGETS launchproxy DESTINATION libexec/darling/usr/libexec)
+install(TARGETS launchctl DESTINATION libexec/osxie/bin)
+install(TARGETS launchproxy DESTINATION libexec/osxie/usr/libexec)
 

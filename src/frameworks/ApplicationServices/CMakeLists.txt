@@ -68,13 +68,13 @@ reexport(ApplicationServices QD ${QD_BUILD})
 reexport(ApplicationServices SpeechSynthesis ${SpeechSynthesis_BUILD})
 
 InstallSymlink(../../../../ColorSync.framework
-	${CMAKE_INSTALL_PREFIX}/libexec/darling/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework)
+	${CMAKE_INSTALL_PREFIX}/libexec/osxie/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ColorSync.framework)
 
 InstallSymlink(../../../../CoreGraphics.framework
-	${CMAKE_INSTALL_PREFIX}/libexec/darling/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework)
+	${CMAKE_INSTALL_PREFIX}/libexec/osxie/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreGraphics.framework)
 
 InstallSymlink(../../../../CoreText.framework
-	${CMAKE_INSTALL_PREFIX}/libexec/darling/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreText.framework)
+	${CMAKE_INSTALL_PREFIX}/libexec/osxie/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/CoreText.framework)
 
 InstallSymlink(../../../../ImageIO.framework
-	${CMAKE_INSTALL_PREFIX}/libexec/darling/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework)
+	${CMAKE_INSTALL_PREFIX}/libexec/osxie/System/Library/Frameworks/ApplicationServices.framework/Versions/A/Frameworks/ImageIO.framework)

@@ -5,7 +5,7 @@ set(libgmalloc_sources
 )
 
 set(DYLIB_INSTALL_NAME "/usr/lib/libgmalloc.dylib")
-add_darling_library(gmalloc ${libgmalloc_sources})
+add_osxie_library(gmalloc ${libgmalloc_sources})
 target_link_libraries(gmalloc PRIVATE system)
 
-install(TARGETS gmalloc DESTINATION libexec/darling/usr/lib)
+install(TARGETS gmalloc DESTINATION libexec/osxie/usr/lib)

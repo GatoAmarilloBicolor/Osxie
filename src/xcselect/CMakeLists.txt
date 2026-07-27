@@ -9,21 +9,21 @@ set(DYLIB_INSTALL_NAME "/usr/lib/libxcselect.dylib")
 set(DYLIB_COMPAT_VERSION "1.0.0")
 set(DYLIB_CURRENT_VERSION "1.0.0")
 
-add_darling_library(xcselect xcselect.c)
+add_osxie_library(xcselect xcselect.c)
 target_link_libraries(xcselect system CoreFoundation)
 
-add_darling_executable(xcrun xcrun.c)
+add_osxie_executable(xcrun xcrun.c)
 target_link_libraries(xcrun system xcselect)
 
-add_darling_executable(xcode-select xcode-select.c)
+add_osxie_executable(xcode-select xcode-select.c)
 target_link_libraries(xcode-select system xcselect)
 
-install(TARGETS xcselect DESTINATION libexec/darling/usr/lib)
-install(TARGETS xcrun xcode-select DESTINATION libexec/darling/usr/bin)
-install(PROGRAMS clt_install.py DESTINATION libexec/darling/usr/libexec/darling)
+install(TARGETS xcselect DESTINATION libexec/osxie/usr/lib)
+install(TARGETS xcrun xcode-select DESTINATION libexec/osxie/usr/bin)
+install(PROGRAMS clt_install.py DESTINATION libexec/osxie/usr/libexec/osxie)
 
 function(add_shim name require_xc)
-	add_darling_executable("${name}_shim" xcrun-shim.c)
+	add_osxie_executable("${name}_shim" xcrun-shim.c)
 
 	set_target_properties("${name}_shim"
 		PROPERTIES
@@ -32,7 +32,7 @@ function(add_shim name require_xc)
 	)
 
 	target_link_libraries("${name}_shim" system xcselect)
-	install(TARGETS "${name}_shim" DESTINATION libexec/darling/usr/bin)
+	install(TARGETS "${name}_shim" DESTINATION libexec/osxie/usr/bin)
 endfunction(add_shim)
 
 function(add_shims require_xc) 
@@ -63,5 +63,5 @@ add_shims(1
 	iprofiler opendiff sdef sdp xcodebuild xcscontrol
 	xcsdiagnose xed)
 
-InstallSymlink(clang ${CMAKE_INSTALL_PREFIX}/libexec/darling/usr/bin/cc)
-InstallSymlink(clang++ ${CMAKE_INSTALL_PREFIX}/libexec/darling/usr/bin/c++)
+InstallSymlink(clang ${CMAKE_INSTALL_PREFIX}/libexec/osxie/usr/bin/cc)
+InstallSymlink(clang++ ${CMAKE_INSTALL_PREFIX}/libexec/osxie/usr/bin/c++)

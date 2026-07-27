@@ -1,7 +1,7 @@
-# Osxie - macOS Application Compatibility Layer
+# Osxie - macOS Application Compatibility Layer for Linux
 
 <p align="center">
-  <h1>🍎 OSXIE 🍎</h1>
+  <h1>OSXIE</h1>
   <h3>Open System X Integration Environment</h3>
   <i>Run macOS applications natively on Linux</i>
 </p>
@@ -10,10 +10,11 @@
 
 ## What is Osxie?
 
-Osxie is an advanced fork of Darling that provides a complete macOS compatibility layer for Linux. It allows you to run macOS applications, including GUI applications like iTerm2 and command-line tools from Homebrew, without virtualization.
+Osxie is a fork of the [Darling](https://github.com/nicktrandafil/darling) project that provides a complete macOS compatibility layer for Linux. It allows you to run macOS binaries, including GUI applications, without virtualization or emulation. The entire system installs independently to `/usr/local/libexec/osxie`.
 
-## Key Features
+## Key Components
 
+<<<<<<< HEAD
 ✅ **Full GUI Support** - Complete AppKit/Cocoa implementation via Cocotron
 ✅ **WindowServer** - Native X11 backend for macOS window management  
 ✅ **Security Framework** - Keychain and authorization services
@@ -21,11 +22,32 @@ Osxie is an advanced fork of Darling that provides a complete macOS compatibilit
 ✅ **Homebrew Compatible** - Run brew and install macOS packages
 ✅ **iTerm2 Support** - Full terminal emulator compatibility
 
+=======
+- **Osxie binary** (`/usr/local/bin/osxie`) - Main entry point (shell, prefix management)
+- **Osxieserver** (`osxieserver`) - RPC server for Mach/POSIX syscall translation
+- **dyld** - Dynamic library loader for Mach-O binaries
+- **libSystem** - POSIX/libc/libm/libpthread for macOS ABI
+- **Mach kernel emulation** - XNU syscall layer via Linux syscalls
+- **Framework stubs** - Foundation, AppKit, CoreGraphics, CoreText, QuartzCore, etc.
+- **Security framework** - Keychain and CommonCrypto via OpenSSL
+- **WindowServer** - X11-based window management (new)
+>>>>>>> 58164a634 (Enable Darling/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
 
-## What's New in Osxie
+## Build Status
 
-Osxie includes significant improvements over the original Darling:
+| Component | Status |
+|-----------|--------|
+| Core (libSystem, kernel emulation) | Builds and links |
+| darlingserver / osxieserver | Builds and links |
+| dyld (dynamic linker) | Builds and links |
+| Foundation | Builds (warnings only) |
+| AppKit / CoreGraphics | Builds (Cocotron) |
+| QuartzCore (CATiledLayer fix) | Builds |
+| Security framework | Builds (new) |
+| WebKit / JavaScriptCore | Pre-existing upstream issues (disabled temporarily) |
+| WindowServer | Builds (new, X11 backend) |
 
+<<<<<<< HEAD
 - **Complete GUI Stack**: Full implementation of AppKit, CoreGraphics, QuartzCore
 - **Enhanced CATiledLayer**: Proper tiled rendering support for iTerm2
 - **WindowServer**: Complete window management with X11 backend
@@ -33,93 +55,162 @@ Osxie includes significant improvements over the original Darling:
 - **WebKit Implementation**: Basic but functional WebView support
 
 - **Independent Installation**: Installs to `/usr/local/libexec/osxie` (separate from Darling)
+=======
+## Building
+>>>>>>> 58164a634 (Enable Darling/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
 
-## Quick Start
+### Prerequisites
 
-### Installation
+- Linux x86_64 (Debian/Ubuntu/Fedora/Arch)
+- clang >= 13
+- cmake >= 3.13
+- X11 development libraries
+- libpng, libjpeg, libtiff, libgif, freetype, fontconfig, cairo
+- FFmpeg libraries (libavcodec, libavformat, libavutil)
+- PulseAudio development libraries
+- OpenGL development libraries
+
+### Build Instructions
 
 ```bash
-# Clone Osxie
-git clone https://github.com/yourusername/osxie
-cd osxie
+# Clone
+git clone <repo-url> Osxie
+cd Osxie
+
+# Configure (without WebKit/JSC due to upstream LLInt build issues)
+mkdir build && cd build
+cmake .. -DCOMPONENTS="stock,cli_extra,cli_dev_gui_stubs" -DCMAKE_BUILD_TYPE=Release
 
 # Build
-mkdir build && cd build
-cmake .. -DCOMPONENTS=all -DCMAKE_BUILD_TYPE=Release
 make -j$(nproc)
 
-# Install (requires root)
-sudo make install
+# Install (requires root via pkexec)
+make install
 ```
 
-### Usage
+### Installing All Components (including WebKit/JSC)
+
+When WebKit/JSC build issues are resolved:
 
 ```bash
-# Start Osxie shell
-osxie shell
-
-# Run commands
-osxie shell -c "echo Hello from macOS"
-
-# Install Homebrew
-osxie shell -c '/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"'
-
-# Use brew
-osxie shell -c "brew install wget"
-
-# Run iTerm2
-osxie shell -c "/Applications/iTerm.app/Contents/MacOS/iTerm2"
+cmake .. -DCOMPONENTS=all -DCMAKE_BUILD_TYPE=Release
+make -j$(nproc)
+make install
 ```
 
+## Usage
 
+```bash
+# Start an interactive shell
+osxie shell
 
-## Supported Applications
+# Run a command
+osxie shell -c "echo Hello from Osxie"
 
-### Fully Supported ✅
-- Homebrew and its packages
-- Command-line tools (git, node, python, ruby)
-- Basic GUI applications
+# Default prefix: ~/.osxie
+# Custom prefix:
+osxie shell --prefix=/path/to/prefix
+```
 
+<<<<<<< HEAD
+
+=======
+## What Was Done (Changelog)
+
+### Rename: Darling -> Osxie
+
+The entire codebase was systematically renamed from Darling to Osxie:
+
+- **Root CMakeLists.txt**: Project renamed to `osxie`, all install paths changed to `libexec/osxie`
+- **Binary renamed**: `darling` -> `osxie`, `darlingserver` -> `osxieserver`
+- **Source files**: `darling.c` -> `osxie.c`, `darling.h` -> `osxie.h` in `src/startup/`
+- **Config header**: `darling-config.h` -> `osxie-config.h` (with backward-compat symlink)
+- **Type renames**: `darling_thread_create_callbacks_t` -> `osxie_thread_create_callbacks_t`
+- **Struct renames**: `struct elf_calls` members renamed (e.g., `darling_thread_create` -> `osxie_thread_create`)
+- **Install prefix**: `/usr/local/libexec/osxie` (independent from any Darling installation)
+- **Symlinks**: `/etc/osxie`, `/Volumes/OsxieEmulatedDrive`
+>>>>>>> 58164a634 (Enable Darling/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
+
+### Bug Fixes
+
+- **CATiledLayer**: Implemented proper tiled drawing stub for iTerm2 compatibility (`src/external/cocotron/QuartzCore/CATiledLayer.{h,m}`)
+- **elfcalls**: Fixed struct member references (`osxie_thread_create`, `osxie_thread_terminate`, `osxie_thread_get_stack`) in XNU emulation layer
+- **BSD thread creation**: Updated `bsdthread_create.c` and `workq_kernreturn.c` to use `osxie_thread_create_callbacks` type
+- **SDK headers**: Updated `elfcalls_wrapper.h` in SDK to use `osxie_thread_create_callbacks_t`
+- **Release builds**: Added `-O2 -DNDEBUG -fno-strict-aliasing` flags
+- **darling-config.h**: Created backward-compat symlink in build dir for external submodules
+
+<<<<<<< HEAD
 ### In Progress 🚧
 - iTerm2 
 - VSCode
 - Discord
 - Slack
+=======
+### New Components
+>>>>>>> 58164a634 (Enable Darling/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
 
-### Planned 📋
-- Xcode
-- Safari
-- Native macOS games
+- **WindowServer** (`src/WindowServer/`): X11-based window management with cursor handling, display management, and event processing
+- **Security framework** (`src/frameworks/Security/`): Keychain, authorization, and CommonCrypto implementations backed by OpenSSL
+- **WebKit WebView** (`src/frameworks/WebKit/`): Basic WKWebView, WKWebViewConfiguration, WKPreferences implementation
+
+### Component Exclusions
+
+- **JavaScriptCore / WebKit**: Disabled from default build due to pre-existing LLInt opcode label generation issues (undeclared labels for `op_iterator_open`, `op_call_varargs`, etc.). These will be re-enabled once the upstream build system is fixed.
 
 ## Architecture
 
 ```
 Application Layer
-    ├── macOS Binary (.app or CLI tool)
-    └── Frameworks (AppKit, Foundation, etc.)
-         
+    macOS Binary (.app or CLI tool)
+    Frameworks (AppKit, Foundation, CoreGraphics, etc.)
+
 Osxie Layer
-    ├── WindowServer (X11/Wayland backend)
-    ├── Cocotron (GUI frameworks)
-    ├── Security Framework
-    ├── WebKit (Basic implementation)
-    └── GARS (Automatic fixes)
-         
+    osxie binary (shell, prefix management)
+    osxieserver (Mach/POSIX RPC server)
+    dyld (Mach-O dynamic loader)
+    WindowServer (X11 backend)
+
+Linux Kernel Interface
+    LKM (Darling Kernel Module) / XNU syscall emulation
+    Linux syscalls mapped to Mach/POSIX semantics
+
 Linux Layer
-    ├── X11/Wayland
-    ├── ALSA/PulseAudio
-    └── Linux Kernel
+    X11 / Wayland
+    PulseAudio / ALSA
+    OpenGL / Vulkan
+    OpenSSL (for Security framework)
+```
+
+## Project Structure
+
+```
+Osxie/
+  src/startup/          - osxie binary (entry point)
+  src/startup/mldr/     - Mach-O loader + elfcalls bridge
+  src/external/darlingserver/ - RPC server (osxieserver)
+  src/external/xnu/     - XNU kernel emulation (libsystem_kernel)
+  src/external/libc/    - FreeBSD libc port
+  src/external/libcxx/  - libc++ port
+  src/external/CoreFoundation/ - CoreFoundation framework
+  src/external/foundation/ - Foundation framework
+  src/external/cocotron/ - AppKit, CoreGraphics, QuartzCore
+  src/WindowServer/     - X11 window management (new)
+  src/frameworks/       - Security, WebKit stubs (new)
+  Developer/            - macOS SDK headers
+  framework-include/    - Framework include symlinks
+  cmake/                - Build system helpers
 ```
 
 ## Contributing
 
-Osxie is open source and welcomes contributions! Areas where we need help:
+Areas where help is needed:
 
-- Improving WebKit implementation
+- Fixing JavaScriptCore LLInt build (re-enable WebKit)
 - Adding Metal support via Vulkan
-- Implementing missing frameworks
-- Testing with more applications
-- Documentation and tutorials
+- Improving GUI framework coverage
+- Testing with more applications (iTerm2, Homebrew, etc.)
+- ARM64 cross-compilation support
 
 ## License
 
@@ -127,8 +218,12 @@ Osxie is licensed under the GNU General Public License v3.0, maintaining compati
 
 ## Acknowledgments
 
+<<<<<<< HEAD
 Osxie is based on the excellent work of the Darling project team. We're grateful for their pioneering efforts in macOS compatibility on Linux.
 
 ---
 
 **Osxie** - Because your favorite macOS apps shouldn't be locked to one platform 🚀
+=======
+Osxie is based on the [Darling project](https://github.com/nicktrandafil/darling). We are grateful for the pioneering work of the Darling team in macOS-on-Linux compatibility.
+>>>>>>> 58164a634 (Enable Darling/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)

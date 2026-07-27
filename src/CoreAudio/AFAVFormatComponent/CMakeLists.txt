@@ -22,7 +22,7 @@ set(component_sources
 	AudioFileWAV.cpp
 )
 
-add_darling_bundle(AFAVFormatComponent "" ${component_sources})
+add_osxie_bundle(AFAVFormatComponent "" ${component_sources})
 target_link_libraries(AFAVFormatComponent
 	AudioToolbox
 	cxx
@@ -31,5 +31,5 @@ target_link_libraries(AFAVFormatComponent
 	avformat
 )
 set_target_properties(AFAVFormatComponent PROPERTIES OUTPUT_NAME "AFAVFormat" PREFIX "" SUFFIX "")
-install(TARGETS AFAVFormatComponent DESTINATION libexec/darling/System/Library/Components/AFAVFormat.component/Contents/MacOS)
-#install(FILES Info.plist DESTINATION libexec/darling/System/Library/Components/AFAVFormat.component/Contents)
+install(TARGETS AFAVFormatComponent DESTINATION libexec/osxie/System/Library/Components/AFAVFormat.component/Contents/MacOS)
+#install(FILES Info.plist DESTINATION libexec/osxie/System/Library/Components/AFAVFormat.component/Contents)

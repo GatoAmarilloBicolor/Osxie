@@ -56,4 +56,4 @@ reexport(vecLib Quadrature ${CMAKE_CURRENT_BINARY_DIR}/Quadrature/libQuadrature.
 reexport(vecLib BNNS ${CMAKE_CURRENT_BINARY_DIR}/BNNS/libBNNS.dylib)
 reexport(vecLib Sparse ${CMAKE_CURRENT_BINARY_DIR}/Sparse/libSparse.dylib)
 
-InstallSymlink(Accelerate.framework/Versions/A/Frameworks/vecLib.framework ${CMAKE_INSTALL_PREFIX}/libexec/darling/System/Library/Frameworks/vecLib.framework)
+InstallSymlink(Accelerate.framework/Versions/A/Frameworks/vecLib.framework ${CMAKE_INSTALL_PREFIX}/libexec/osxie/System/Library/Frameworks/vecLib.framework)

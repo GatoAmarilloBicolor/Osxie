@@ -17,7 +17,7 @@ if (NOT DEFINED libsimple_linux_added)
 		LIBSIMPLE_LINUX=1
 	)
 else()
-	add_darling_static_library(libsimple_darling
+	add_osxie_static_library(libsimple_darling
 		FAT
 		SOURCES "${libsimple_sources}"
 	)

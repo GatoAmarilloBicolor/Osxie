@@ -86,5 +86,5 @@ reexport(CoreServices OSServices ${OSServices_BUILD})
 set_property(TARGET CoreServices APPEND_STRING PROPERTY
   LINK_FLAGS " -Wl,-reexported_symbols_list,${CMAKE_CURRENT_SOURCE_DIR}/reexport.exp")
 
-install(FILES SystemVersion.plist DESTINATION "libexec/darling/System/Library/CoreServices")
-install(FILES SystemVersionCompat.plist DESTINATION "libexec/darling/System/Library/CoreServices")
+install(FILES SystemVersion.plist DESTINATION "libexec/osxie/System/Library/CoreServices")
+install(FILES SystemVersionCompat.plist DESTINATION "libexec/osxie/System/Library/CoreServices")

@@ -21,13 +21,13 @@ set(crash_SRCS
 add_executable(crash ${crash_SRCS})
 target_link_libraries(crash -lgnustep-base -lgnustep-gui ${GNUSTEP_OBJC_CFLAGS})
 
-install(TARGETS crash DESTINATION "libexec/darling/crash.app/")
+install(TARGETS crash DESTINATION "libexec/osxie/crash.app/")
 
 install(FILES "${CMAKE_CURRENT_SOURCE_DIR}/Resources/Main.gsmarkup"
 	"${CMAKE_CURRENT_SOURCE_DIR}/Resources/Info-gnustep.plist"
-	DESTINATION "libexec/darling/crash.app/Resources/")
+	DESTINATION "libexec/osxie/crash.app/Resources/")
 
 FILE( GLOB gorm ${CMAKE_CURRENT_SOURCE_DIR}/Resources/crash.gorm/* )
 install(FILES ${gorm} DESTINATION
-	"libexec/darling/crash.app/Resources/crash.gorm/")
+	"libexec/osxie/crash.app/Resources/crash.gorm/")
 

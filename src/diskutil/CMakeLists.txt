@@ -1,6 +1,6 @@
 project(diskutil)
 
-install(FILES diskutil DESTINATION libexec/darling/usr/sbin
+install(FILES diskutil DESTINATION libexec/osxie/usr/sbin
 	PERMISSIONS
 		OWNER_READ OWNER_WRITE OWNER_EXECUTE
 		GROUP_READ GROUP_EXECUTE

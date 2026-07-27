@@ -13,4 +13,4 @@ add_circular(system_sandbox FAT
 		system_malloc
 )
 
-install(TARGETS system_sandbox DESTINATION libexec/darling/usr/lib/system)
+install(TARGETS system_sandbox DESTINATION libexec/osxie/usr/lib/system)

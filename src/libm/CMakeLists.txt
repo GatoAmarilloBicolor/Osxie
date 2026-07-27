@@ -1,4 +1,4 @@
-project(darling-libsystem_m)
+project(osxie-libsystem_m)
 
 cmake_minimum_required(VERSION 3.13)
 enable_language(C ASM)
@@ -157,10 +157,10 @@ endif ()
 set(CMAKE_AR "${CMAKE_CURRENT_SOURCE_DIR}/rename_wrapper")
 
 if (TARGET_i386 OR TARGET_x86_64)
-	add_darling_object_library(system_m_extra Source/Intel/xmm_misc.c Source/Intel/xmm_log.c Source/Intel/fmaxfminfdim.S Source/Intel/nextafter.S Source/Intel/xmm_remainder.c Source/Intel/e_remquol.S)
+	add_osxie_object_library(system_m_extra Source/Intel/xmm_misc.c Source/Intel/xmm_log.c Source/Intel/fmaxfminfdim.S Source/Intel/nextafter.S Source/Intel/xmm_remainder.c Source/Intel/e_remquol.S)
 	set_target_properties(system_m_extra PROPERTIES COMPILE_FLAGS "-UBUILDING_FOR_CARBONCORE_LEGACY -O0 -ggdb")
 else ()
-	add_darling_object_library(system_m_extra Source/empty.c)
+	add_osxie_object_library(system_m_extra Source/empty.c)
 endif ()
 make_fat(system_m_extra)
 
@@ -181,9 +181,9 @@ add_circular(system_m FAT
 #target_link_libraries(system_m)
 #make_fat(system_m)
 
-install(TARGETS system_m DESTINATION libexec/darling/usr/lib/system)
+install(TARGETS system_m DESTINATION libexec/osxie/usr/lib/system)
 
 set(CMAKE_AR "${CMAKE_BINARY_DIR}/src/external/cctools-port/cctools/ar/${APPLE_TARGET_TRIPLET_PRIMARY}-ar")
 set(CMAKE_RANLIB "${CMAKE_BINARY_DIR}/src/external/cctools-port/cctools/ar/${APPLE_TARGET_TRIPLET_PRIMARY}-ranlib")
-add_darling_static_library(system_m_static SOURCES ${libm_sources} $<TARGET_OBJECTS:system_m_extra>)
+add_osxie_static_library(system_m_static SOURCES ${libm_sources} $<TARGET_OBJECTS:system_m_extra>)
 make_fat(system_m_static)

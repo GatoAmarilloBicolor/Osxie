@@ -6,11 +6,11 @@ set(DYLIB_CURRENT_VERSION "1.0.0")
 
 file(GLOB sysmon_objc "src/*.m")
 
-add_darling_library(sysmon
+add_osxie_library(sysmon
 	src/sysmon.c
 	${sysmon_objc}
 )
 make_fat(sysmon)
 target_link_libraries(sysmon system objc Foundation)
 
-install(TARGETS sysmon DESTINATION libexec/darling/usr/lib)
+install(TARGETS sysmon DESTINATION libexec/osxie/usr/lib)

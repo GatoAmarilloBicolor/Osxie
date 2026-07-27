@@ -22,13 +22,13 @@ set(xtrace_sources
 )
 
 if (TARGET_x86_64)
-	set(DYLIB_INSTALL_NAME "/usr/lib/darling/libxtrace.dylib")
-	add_darling_library(xtracelib SHARED ${xtrace_sources})
+	set(DYLIB_INSTALL_NAME "/usr/lib/osxie/libxtrace.dylib")
+	add_osxie_library(xtracelib SHARED ${xtrace_sources})
 	set_target_properties(xtracelib PROPERTIES OUTPUT_NAME "xtrace")
 	target_link_libraries(xtracelib system)
 
-	install(TARGETS xtracelib DESTINATION libexec/darling/usr/lib/darling)
-	install(FILES xtrace DESTINATION libexec/darling/usr/bin
+	install(TARGETS xtracelib DESTINATION libexec/osxie/usr/lib/osxie)
+	install(FILES xtrace DESTINATION libexec/osxie/usr/bin
 	    PERMISSIONS
 	    OWNER_READ OWNER_WRITE OWNER_EXECUTE
 	    GROUP_READ GROUP_EXECUTE

@@ -1,5 +1,5 @@
 project(CoreAudioComponent)
-include(darling_bundle)
+include(osxie_bundle)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility=hidden")
 add_definitions(-DCA_BASIC_AU_FEATURES=1)
@@ -32,7 +32,7 @@ set(component_sources
 	DefaultOutputAU.cpp
 )
 
-add_darling_bundle(CoreAudioComponent "" ${component_sources})
+add_osxie_bundle(CoreAudioComponent "" ${component_sources})
 target_link_libraries(CoreAudioComponent
 	AudioToolbox
 	CoreAudio
@@ -41,6 +41,6 @@ target_link_libraries(CoreAudioComponent
 	CoreFoundation
 )
 set_target_properties(CoreAudioComponent PROPERTIES OUTPUT_NAME "CoreAudio" PREFIX "" SUFFIX "")
-install(TARGETS CoreAudioComponent DESTINATION libexec/darling/System/Library/Components/CoreAudio.component/Contents/MacOS)
-install(FILES Info.plist DESTINATION libexec/darling/System/Library/Components/CoreAudio.component/Contents)
-install(FILES CoreAudio.rsrc DESTINATION libexec/darling/System/Library/Components/CoreAudio.component/Contents/Resources)
+install(TARGETS CoreAudioComponent DESTINATION libexec/osxie/System/Library/Components/CoreAudio.component/Contents/MacOS)
+install(FILES Info.plist DESTINATION libexec/osxie/System/Library/Components/CoreAudio.component/Contents)
+install(FILES CoreAudio.rsrc DESTINATION libexec/osxie/System/Library/Components/CoreAudio.component/Contents/Resources)

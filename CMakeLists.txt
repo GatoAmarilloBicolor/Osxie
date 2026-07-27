@@ -52,10 +52,10 @@ if (NOT DEFINED CMAKE_CXX_COMPILER)
 )
 endif(NOT DEFINED CMAKE_CXX_COMPILER)
 
-option(DARLING_NO_CCACHE "Disable ccache usage" OFF)
+option(OSXIE_NO_CCACHE "Disable ccache usage" OFF)
 
 find_program(CCACHE_PROGRAM ccache)
-if(CCACHE_PROGRAM AND NOT DARLING_NO_CCACHE)
+if(CCACHE_PROGRAM AND NOT OSXIE_NO_CCACHE)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE "${CCACHE_PROGRAM}")
 endif()
 
@@ -65,7 +65,7 @@ SET(CMAKE_SKIP_RPATH TRUE)
 # SDK deployment target, so we'll just use it and then add it to the compiler flags manually
 set(CMAKE_OSX_DEPLOYMENT_TARGET 11.0 CACHE STRING "The version of macOS we're simulating")
 
-project(darling)
+project(osxie)
 
 enable_language(ASM)
 
@@ -86,8 +86,8 @@ clang_version_check(${CMAKE_CXX_COMPILER} cpp ${CLANG_RECOMMENDED_MINIMUM_VERSIO
 
 MACRO_ENSURE_OUT_OF_SOURCE_BUILD()
 
-set(DARLING_TOP_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
-set(DARLING_NO_EXECUTABLES OFF)
+set(OSXIE_TOP_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+set(OSXIE_NO_EXECUTABLES OFF)
 set(CMAKE_C_IMPLICIT_LINK_LIBRARIES "")
 set(CMAKE_CXX_IMPLICIT_LINK_LIBRARIES "")
 
@@ -117,6 +117,9 @@ SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${IGNORED_WARNINGS}")
 set(CMAKE_ASM_FLAGS "${CMAKE_ASM_FLAGS} ${ASM_IGNORED_WARNINGS}")
 SET(CMAKE_C_FLAGS_DEBUG "-O0 -ggdb")
 SET(CMAKE_CXX_FLAGS_DEBUG "-O0 -ggdb")
+# Fix for Release builds (issue #331)
+SET(CMAKE_C_FLAGS_RELEASE "-O2 -DNDEBUG -fno-strict-aliasing")
+SET(CMAKE_CXX_FLAGS_RELEASE "-O2 -DNDEBUG -fno-strict-aliasing")
 
 # prevent object filename conflicts for two source files that differ only in extension (e.g. `object.c` and `object.m`)
 set(CMAKE_C_OUTPUT_EXTENSION ".c.o")
@@ -140,10 +143,10 @@ option(REGENERATE_SDK "Regenerate Header Files For Open Source SDK" OFF)
 if (DEBIAN_PACKAGING)
 	set(COMPONENTS_DEFAULT "all")
 else()
-	set(COMPONENTS_DEFAULT "stock")
+	set(COMPONENTS_DEFAULT "all") # Always build all components for full compatibility
 endif()
 
-set(COMPONENTS "${COMPONENTS_DEFAULT}" CACHE STRING "Choose which components of Darling to build")
+set(COMPONENTS "${COMPONENTS_DEFAULT}" CACHE STRING "Choose which components of Osxie to build")
 include(darling_parse_components)
 darling_parse_components("${COMPONENTS}")
 
@@ -168,7 +171,7 @@ if (COMPILE_PY2_BYTECODE)
 	find_package(Python2 REQUIRED COMPONENTS Interpreter)
 endif (COMPILE_PY2_BYTECODE)
 
-set(ENABLE_METAL AUTO CACHE STRING "Build Darling with Metal support")
+set(ENABLE_METAL AUTO CACHE STRING "Build Osxie with Metal support")
 set_property(CACHE ENABLE_METAL PROPERTY STRINGS AUTO ON OFF)
 
 string(TOLOWER "${ENABLE_METAL}" BUILD_METAL)
@@ -197,48 +200,48 @@ generate_architecture()
 
 add_subdirectory(src)
 
-install(DIRECTORY DESTINATION libexec/darling/private)
-install(DIRECTORY DESTINATION libexec/darling/private/etc)
-install(DIRECTORY DESTINATION libexec/darling/private/var)
-install(DIRECTORY DESTINATION libexec/darling/private/tmp)
-InstallSymlink(private/etc ${CMAKE_INSTALL_PREFIX}/libexec/darling/etc)
-InstallSymlink(private/var ${CMAKE_INSTALL_PREFIX}/libexec/darling/var)
+install(DIRECTORY DESTINATION libexec/osxie/private)
+install(DIRECTORY DESTINATION libexec/osxie/private/etc)
+install(DIRECTORY DESTINATION libexec/osxie/private/var)
+install(DIRECTORY DESTINATION libexec/osxie/private/tmp)
+InstallSymlink(private/etc ${CMAKE_INSTALL_PREFIX}/libexec/osxie/etc)
+InstallSymlink(private/var ${CMAKE_INSTALL_PREFIX}/libexec/osxie/var)
 
 install(FILES etc/resolv.conf
-	DESTINATION libexec/darling/private/etc)
-InstallSymlink(/Volumes/SystemRoot/etc/machine-id ${CMAKE_INSTALL_PREFIX}/libexec/darling/private/etc/machine-id)
-InstallSymlink(/Volumes/SystemRoot/etc/nsswitch.conf ${CMAKE_INSTALL_PREFIX}/libexec/darling/private/etc/nsswitch.conf)
+	DESTINATION libexec/osxie/private/etc)
+InstallSymlink(/Volumes/SystemRoot/etc/machine-id ${CMAKE_INSTALL_PREFIX}/libexec/osxie/private/etc/machine-id)
+InstallSymlink(/Volumes/SystemRoot/etc/nsswitch.conf ${CMAKE_INSTALL_PREFIX}/libexec/osxie/private/etc/nsswitch.conf)
 
-install(DIRECTORY DESTINATION libexec/darling/Volumes)
-install(DIRECTORY DESTINATION libexec/darling/Volumes/SystemRoot)
-InstallSymlink(/ ${CMAKE_INSTALL_PREFIX}/libexec/darling/Volumes/DarlingEmulatedDrive)
+install(DIRECTORY DESTINATION libexec/osxie/Volumes)
+install(DIRECTORY DESTINATION libexec/osxie/Volumes/SystemRoot)
+InstallSymlink(/ ${CMAKE_INSTALL_PREFIX}/libexec/osxie/Volumes/OsxieEmulatedDrive)
 
-install(DIRECTORY DESTINATION libexec/darling/proc)
+install(DIRECTORY DESTINATION libexec/osxie/proc)
 
-install(DIRECTORY DESTINATION libexec/darling/var/root)
-install(DIRECTORY DESTINATION libexec/darling/var/run)
-InstallSymlink(/dev/log ${CMAKE_INSTALL_PREFIX}/libexec/darling/var/run/syslog)
+install(DIRECTORY DESTINATION libexec/osxie/var/root)
+install(DIRECTORY DESTINATION libexec/osxie/var/run)
+InstallSymlink(/dev/log ${CMAKE_INSTALL_PREFIX}/libexec/osxie/var/run/syslog)
 
-install(DIRECTORY DESTINATION libexec/darling/usr)
-install(DIRECTORY DESTINATION libexec/darling/usr/local)
-install(DIRECTORY DESTINATION libexec/darling/usr/local/share)
+install(DIRECTORY DESTINATION libexec/osxie/usr)
+install(DIRECTORY DESTINATION libexec/osxie/usr/local)
+install(DIRECTORY DESTINATION libexec/osxie/usr/local/share)
 
-InstallSymlink(/Volumes/SystemRoot/dev ${CMAKE_INSTALL_PREFIX}/libexec/darling/dev)
-InstallSymlink(private/tmp ${CMAKE_INSTALL_PREFIX}/libexec/darling/tmp)
+InstallSymlink(/Volumes/SystemRoot/dev ${CMAKE_INSTALL_PREFIX}/libexec/osxie/dev)
+InstallSymlink(private/tmp ${CMAKE_INSTALL_PREFIX}/libexec/osxie/tmp)
 
-InstallSymlink(/proc/self/mounts ${CMAKE_INSTALL_PREFIX}/libexec/darling/private/etc/mtab)
-#InstallSymlink(/Volumes/SystemRoot/etc/passwd ${CMAKE_INSTALL_PREFIX}/libexec/darling/private/etc/passwd)
-#InstallSymlink(/Volumes/SystemRoot/etc/group ${CMAKE_INSTALL_PREFIX}/libexec/darling/private/etc/group)
-InstallSymlink(/Volumes/SystemRoot/etc/localtime ${CMAKE_INSTALL_PREFIX}/libexec/darling/private/etc/localtime)
+InstallSymlink(/proc/self/mounts ${CMAKE_INSTALL_PREFIX}/libexec/osxie/private/etc/mtab)
+#InstallSymlink(/Volumes/SystemRoot/etc/passwd ${CMAKE_INSTALL_PREFIX}/libexec/osxie/private/etc/passwd)
+#InstallSymlink(/Volumes/SystemRoot/etc/group ${CMAKE_INSTALL_PREFIX}/libexec/osxie/private/etc/group)
+InstallSymlink(/Volumes/SystemRoot/etc/localtime ${CMAKE_INSTALL_PREFIX}/libexec/osxie/private/etc/localtime)
 
-InstallSymlink(/Volumes/SystemRoot/usr/share/zoneinfo ${CMAKE_INSTALL_PREFIX}/libexec/darling/usr/share/zoneinfo)
+InstallSymlink(/Volumes/SystemRoot/usr/share/zoneinfo ${CMAKE_INSTALL_PREFIX}/libexec/osxie/usr/share/zoneinfo)
 
-install(DIRECTORY DESTINATION libexec/darling/Library/Preferences)
+install(DIRECTORY DESTINATION libexec/osxie/Library/Preferences)
 
 if(NOT DEBIAN_PACKAGING)
-	install(CODE "execute_process(COMMAND bash ${DARLING_TOP_DIRECTORY}/tools/shutdown-user.sh)")
+	install(CODE "execute_process(COMMAND bash ${OSXIE_TOP_DIRECTORY}/tools/shutdown-user.sh)")
 endif(NOT DEBIAN_PACKAGING)
 
 add_custom_target(uninstall
 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/tools/uninstall
-	COMMENT "Uninstall Darling and kernel module")
+	COMMENT "Uninstall Osxie and kernel module")

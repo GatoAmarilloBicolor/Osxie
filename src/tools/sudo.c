@@ -23,7 +23,8 @@
 #include <string.h>
 #include <sys/types.h>
 
-unsigned int firstarg = 1, uid = 0, gid = 0;
+int firstarg = 1;
+unsigned int uid = 0, gid = 0;
 
 static int list_mode = 0;
 
@@ -86,6 +87,13 @@ int main(int argc, char **argv)
 	}
 	else
 	{
+		/* Handle VAR=value arguments by setting environment */
+		while (firstarg < argc && strchr(argv[firstarg], '=') != NULL)
+		{
+			putenv(argv[firstarg]);
+			firstarg++;
+		}
+
 		if (firstarg < argc)
 		{
 			execvp(argv[firstarg], &argv[firstarg]);

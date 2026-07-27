@@ -1,0 +1,16 @@
+*.o
+*.cmd
+
+.tmp_versions
+Module.symvers
+*.ko
+*.mod.c
+modules.order
+.cache.mk
+
+*.o.ur-safe
+*.o.d
+*.tmp*
+
+darling-mach.mod
+darling-overlay.mod

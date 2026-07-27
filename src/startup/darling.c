@@ -961,6 +961,7 @@ void setupWorkdir()
 int checkPrefixDir()
 {
 	struct stat st;
+	char volumes_path[4096];
 
 	if (stat(prefix, &st) == 0)
 	{
@@ -969,6 +970,11 @@ int checkPrefixDir()
 			fprintf(stderr, "%s is a file. Remove the file.\n", prefix);
 			exit(1);
 		}
+
+		snprintf(volumes_path, sizeof(volumes_path), "%s/Volumes", prefix);
+		if (stat(volumes_path, &st) != 0 || !S_ISDIR(st.st_mode))
+			return 0; // directory exists but not initialized
+
 		return 1; // OK
 	}
 	if (errno == ENOENT)

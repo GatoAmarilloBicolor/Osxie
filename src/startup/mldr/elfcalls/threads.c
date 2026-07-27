@@ -1,20 +1,20 @@
 /*
-This file is part of Darling.
+This file is part of Osxie.
 
 Copyright (C) 2015-2018 Lubos Dolezel
 
-Darling is free software: you can redistribute it and/or modify
+Osxie is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Darling is distributed in the hope that it will be useful,
+Osxie is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Darling.  If not, see <http://www.gnu.org/licenses/>.
+along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include "threads.h"
@@ -35,7 +35,7 @@ along with Darling.  If not, see <http://www.gnu.org/licenses/>.
 
 #include "dthreads.h"
 
-#include <darlingserver/rpc.h>
+#include <osxieserver/rpc.h>
 
 extern int __mldr_create_rpc_socket(void);
 extern void __mldr_close_rpc_socket(int socket);
@@ -47,7 +47,7 @@ static __thread jmp_buf t_jmpbuf;
 static __thread void* t_freeaddr;
 static __thread size_t t_freesize;
 static __thread int t_server_socket = -1;
-static __thread darling_thread_create_callbacks_t t_callbacks = NULL;
+static __thread osxie_thread_create_callbacks_t t_callbacks = NULL;
 
 typedef void (*thread_ep)(void**, int, ...);
 struct arg_struct
@@ -63,13 +63,13 @@ struct arg_struct
 	};
 	unsigned long pth_obj_size;
 	void* pth;
-	darling_thread_create_callbacks_t callbacks;
+	osxie_thread_create_callbacks_t callbacks;
 	uintptr_t stack_bottom;
 	uintptr_t stack_addr;
 	bool is_workqueue;
 };
 
-static void* darling_thread_entry(void* p);
+static void* osxie_thread_entry(void* p);
 
 #ifndef PTHREAD_STACK_MIN
 #	define PTHREAD_STACK_MIN 16384
@@ -142,10 +142,10 @@ static dthread_t dthread_structure_allocate(size_t stack_size, size_t guard_size
 	return dthread_structure_init(dthread, guard_size, *stack_addr, stack_size, base_addr, total_size);
 };
 
-void* __darling_thread_create(unsigned long stack_size, unsigned long pth_obj_size,
+void* __osxie_thread_create(unsigned long stack_size, unsigned long pth_obj_size,
 				void* entry_point, uintptr_t real_entry_point,
 				uintptr_t arg1, uintptr_t arg2, uintptr_t arg3,
-				darling_thread_create_callbacks_t callbacks, void* pth)
+				osxie_thread_create_callbacks_t callbacks, void* pth)
 {
 	struct arg_struct args = {
 		.entry_point      = (thread_ep)entry_point,
@@ -193,7 +193,7 @@ void* __darling_thread_create(unsigned long stack_size, unsigned long pth_obj_si
 	//pthread_attr_setdetachstate(&attr, PTHREAD_CREATE_DETACHED);
 
 	args.pth = pth;
-	pthread_create(&nativeLibcThread, &attr, darling_thread_entry, &args);
+	pthread_create(&nativeLibcThread, &attr, osxie_thread_entry, &args);
 	pthread_attr_destroy(&attr);
 
 	while (args.pth != NULL)
@@ -202,7 +202,7 @@ void* __darling_thread_create(unsigned long stack_size, unsigned long pth_obj_si
 	return pth;
 }
 
-static void* darling_thread_entry(void* p)
+static void* osxie_thread_entry(void* p)
 {
 	struct arg_struct* in_args = (struct arg_struct*) p;
 	struct arg_struct args;
@@ -215,7 +215,7 @@ static void* darling_thread_entry(void* p)
 	// create a new dserver RPC socket
 	int new_rpc_fd = __mldr_create_rpc_socket();
 	if (new_rpc_fd < 0) {
-		// we can't do anything if we don't get our own separate connection to darlingserver
+		// we can't do anything if we don't get our own separate connection to osxieserver
 		fprintf(stderr, "Failed to create socket\n");
 		abort();
 	}
@@ -232,11 +232,11 @@ static void* darling_thread_entry(void* p)
 	args.callbacks->thread_set_tsd_base(&dthread->tsd[0], 0);
 	*flags |= args.is_workqueue ? DWQ_FLAG_THREAD_TSD_BASE_SET : DTHREAD_START_TSD_BASE_SET;
 
-	// let's check-in with darlingserver on this new thread
+	// let's check-in with osxieserver on this new thread
 	int dummy_stack_variable;
 	// the lifetime pipe fd is ignored as the process should already have been registered
 	if (dserver_rpc_explicit_checkin(t_server_socket, false, &dummy_stack_variable, -1) < 0) {
-		// we can't do ANYTHING if darlingserver doesn't acknowledge us successfully
+		// we can't do ANYTHING if osxieserver doesn't acknowledge us successfully
 		abort();
 	}
 
@@ -324,7 +324,7 @@ static void* darling_thread_entry(void* p)
 	__builtin_unreachable();
 }
 
-int __darling_thread_terminate(void* stackaddr,
+int __osxie_thread_terminate(void* stackaddr,
 				unsigned long freesize, unsigned long pthobj_size)
 {
 	int checkout_result = 0;
@@ -374,14 +374,14 @@ int __darling_thread_terminate(void* stackaddr,
 
 extern void* __mldr_main_stack_top;
 
-void* __darling_thread_get_stack(void)
+void* __osxie_thread_get_stack(void)
 {
 	return __mldr_main_stack_top;
 }
 
 extern int __dserver_main_thread_socket_fd;
 
-int __darling_thread_rpc_socket(void) {
+int __osxie_thread_rpc_socket(void) {
 	if (t_server_socket == -1) {
 		if (getpid() == syscall(SYS_gettid)) {
 			// this is the main thread
@@ -394,7 +394,7 @@ int __darling_thread_rpc_socket(void) {
 	return t_server_socket;
 };
 
-void __darling_thread_rpc_socket_refresh(void) {
+void __osxie_thread_rpc_socket_refresh(void) {
 	int new_rpc_fd = __mldr_create_rpc_socket();
 	if (new_rpc_fd < 0) {
 		abort();

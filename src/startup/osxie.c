@@ -1,20 +1,20 @@
 /*
-This file is part of Darling.
+This file is part of Osxie.
 
 Copyright (C) 2016-2023 Lubos Dolezel
 
-Darling is free software: you can redistribute it and/or modify
+Osxie is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Darling is distributed in the hope that it will be useful,
+Osxie is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Darling.  If not, see <http://www.gnu.org/licenses/>.
+along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <stdio.h>
@@ -37,8 +37,8 @@ along with Darling.  If not, see <http://www.gnu.org/licenses/>.
 #include <pty.h>
 #include <pwd.h>
 #include "../shellspawn/shellspawn.h"
-#include "darling.h"
-#include "darling-config.h"
+#include "osxie.h"
+#include "osxie-config.h"
 
 // Between Linux 4.9 and 4.11, a strange bug has been introduced
 // which prevents connecting to Unix sockets if the socket was
@@ -138,7 +138,7 @@ int main(int argc, char ** argv)
 	{
 		if (pidInit == 0)
 		{
-			fprintf(stderr, "Darling container is not running\n");
+			fprintf(stderr, "Osxie container is not running\n");
 			return 1;
 		}
 
@@ -151,7 +151,7 @@ int main(int argc, char ** argv)
 		snprintf(path_buf, sizeof(path_buf), "/proc/%d/task/%d/children", pidInit, pidInit);
 		file = fopen(path_buf, "r");
 		if (!file || fscanf(file, "%d", &launchd_pid) != 1) {
-			fprintf(stderr, "Failed to shutdown Darling container\n");
+			fprintf(stderr, "Failed to shutdown Osxie container\n");
 			if (file) {
 				fclose(file);
 			}
@@ -454,7 +454,7 @@ static void restoreTermios(void)
 
 // Glibc openpty() fails for me on Debian, because grantpty() fails to chown() the pty node with error code EPERM.
 // This is a more lenient version of openpty() that just works.
-static int openpty_darling(int* amaster, int* aslave, char* name_unused, const struct termios* tos, const struct winsize* wsz)
+static int openpty_osxie(int* amaster, int* aslave, char* name_unused, const struct termios* tos, const struct winsize* wsz)
 {
 	const char* slave_name;
 
@@ -488,7 +488,7 @@ static void setupPtys(int fds[3], int* master)
 	if (tcgetattr(STDIN_FILENO, &termios) < 0)
 		tty = false;
 
-	if (openpty_darling(master, &fds[0], NULL, &termios, NULL) < 0)
+	if (openpty_osxie(master, &fds[0], NULL, &termios, NULL) < 0)
 	{
 		perror("openpty");
 		exit(1);
@@ -744,7 +744,7 @@ void spawnBinary(const char* binary, const char** argv)
 
 void showHelp(const char* argv0)
 {
-	fprintf(stderr, "This is Darling, translation layer for macOS software.\n\n");
+	fprintf(stderr, "This is Osxie, translation layer for macOS software.\n\n");
 	fprintf(stderr, "Copyright (C) 2012-2023 Lubos Dolezel\n\n");
 
 	fprintf(stderr, "Usage:\n");
@@ -769,12 +769,12 @@ void missingSetuidRoot(void)
 
 	len = readlink("/proc/self/exe", path, sizeof(path)-1);
 	if (len < 0)
-		strcpy(path, "darling");
+		strcpy(path, "osxie");
 	else
 		path[len] = '\0';
 
 	fprintf(stderr, "Sorry, the `%s' binary is not setuid root, which is mandatory.\n", path);
-	fprintf(stderr, "Darling needs this in order to create mount and PID namespaces and to perform mounts.\n");
+	fprintf(stderr, "Osxie needs this in order to create mount and PID namespaces and to perform mounts.\n");
 }
 
 pid_t spawnInitProcess(void)
@@ -1007,7 +1007,7 @@ void setupPrefix()
 		"/var/log"
 	};
 
-	fprintf(stderr, "Setting up a new Darling prefix at %s\n", prefix);
+	fprintf(stderr, "Setting up a new Osxie prefix at %s\n", prefix);
 
 	seteuid(g_originalUid);
 	setegid(g_originalGid);
@@ -1042,7 +1042,7 @@ void setupPrefix()
 
 	fprintf(file,
 		"root:*:0:0:System Administrator:/var/root:/bin/sh\n"
-		"%s:*:%d:%d:Darling User:/Users/%s:/bin/bash\n",
+		"%s:*:%d:%d:Osxie User:/Users/%s:/bin/bash\n",
 		passwd_entry->pw_name,
 		passwd_entry->pw_uid,
 		passwd_entry->pw_gid,
@@ -1060,7 +1060,7 @@ void setupPrefix()
 
 	fprintf(file,
 		"root:*:0:0::0:0:System Administrator:/var/root:/bin/sh\n"
-		"%s:*:%d:%d::0:0:Darling User:/Users/%s:/bin/bash\n",
+		"%s:*:%d:%d::0:0:Osxie User:/Users/%s:/bin/bash\n",
 		passwd_entry->pw_name,
 		passwd_entry->pw_uid,
 		passwd_entry->pw_gid,

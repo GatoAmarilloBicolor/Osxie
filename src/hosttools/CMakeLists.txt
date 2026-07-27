@@ -1,16 +1,16 @@
 project(hosttools)
 
-option(DARLING_COREDUMP_SANITIZE "Enable/disable ASAN and UBSAN in darling-coredump" OFF)
+option(OSXIE_COREDUMP_SANITIZE "Enable/disable ASAN and UBSAN in osxie-coredump" OFF)
 
-add_executable(darling-coredump
+add_executable(osxie-coredump
 	src/coredump/main.cpp
 )
 
-target_compile_options(darling-coredump PRIVATE
+target_compile_options(osxie-coredump PRIVATE
 	-std=c++17
 )
 
-target_include_directories(darling-coredump PRIVATE
+target_include_directories(osxie-coredump PRIVATE
 	include
 
 	# TEMPORARY
@@ -20,17 +20,17 @@ target_include_directories(darling-coredump PRIVATE
 	../startup/mldr/include
 )
 
-install(TARGETS darling-coredump DESTINATION bin)
+install(TARGETS osxie-coredump DESTINATION bin)
 
-if (DARLING_COREDUMP_SANITIZE)
-	target_compile_options(darling-coredump PRIVATE
+if (OSXIE_COREDUMP_SANITIZE)
+	target_compile_options(osxie-coredump PRIVATE
 		-fsanitize=address,undefined
 		-fsanitize-recover=all
-		-fno-omit-frame-pointer
+		-fno-omit-frame-pointerer
 		-g
 		-Og
 	)
-	target_link_options(darling-coredump PRIVATE
+	target_link_options(osxie-coredump PRIVATE
 		-fsanitize=address,undefined
 		-fsanitize-recover=all
 	)

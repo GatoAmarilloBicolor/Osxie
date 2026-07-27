@@ -64,7 +64,7 @@ execute_process(
 	OUTPUT_STRIP_TRAILING_WHITESPACE
 )
 
-configure_file(include/darling-config.h.in include/darling-config.h)
+configure_file(include/osxie-config.h.in include/osxie-config.h)
 include_directories("${CMAKE_CURRENT_BINARY_DIR}/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
 

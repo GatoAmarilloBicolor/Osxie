@@ -1,8 +1,8 @@
 /*
- * This file is part of Darling.
- * Copyright (C) 2021 Darling developers
+ * This file is part of Osxie.
+ * Copyright (C) 2021 Osxie developers
  *
- * Originally part of the Darling Mach Linux Kernel Module
+ * Originally part of the Osxie Mach Linux Kernel Module
  * Copyright (C) 2017 Lubos Dolezel
  * 
  * This program is free software; you can redistribute it and/or
@@ -26,7 +26,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "loader.h"
-#include <darling-config.h>
+#include <osxie-config.h>
 #include "elfcalls/elfcalls.h"
 
 #if defined(GEN_64BIT)

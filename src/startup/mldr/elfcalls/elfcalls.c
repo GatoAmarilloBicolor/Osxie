@@ -12,7 +12,7 @@
 #include <sys/socket.h>
 #include <fcntl.h>
 
-#include <darlingserver/rpc.h>
+#include <osxieserver/rpc.h>
 
 static void* dlopen_simple(const char* name)
 {
@@ -95,9 +95,9 @@ void elfcalls_make(struct elf_calls* calls)
 	calls->dlsym_fatal = dlsym_fatal;
 	calls->dlclose_fatal = dlclose_fatal;
 
-	calls->darling_thread_create = __darling_thread_create;
-	calls->darling_thread_terminate = __darling_thread_terminate;
-	calls->darling_thread_get_stack = __darling_thread_get_stack;
+	calls->osxie_thread_create = __osxie_thread_create;
+	calls->osxie_thread_terminate = __osxie_thread_terminate;
+	calls->osxie_thread_get_stack = __osxie_thread_get_stack;
 
 	calls->get_errno = get_errno;
 	calls->exit = exit;
@@ -119,8 +119,8 @@ void elfcalls_make(struct elf_calls* calls)
 	*((void**)&calls->shm_unlink) = shm_unlink;
 
 	calls->dserver_socket_address = __dserver_socket_address;
-	calls->dserver_per_thread_socket = __darling_thread_rpc_socket;
-	calls->dserver_per_thread_socket_refresh = __darling_thread_rpc_socket_refresh;
+	calls->dserver_per_thread_socket = __osxie_thread_rpc_socket;
+	calls->dserver_per_thread_socket_refresh = __osxie_thread_rpc_socket_refresh;
 	calls->dserver_close_socket = __mldr_close_rpc_socket;
 
 	calls->dserver_get_process_lifetime_pipe = __dserver_get_process_lifetime_pipe;

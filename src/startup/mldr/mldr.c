@@ -1,20 +1,20 @@
 /*
-This file is part of Darling.
+This file is part of Osxie.
 
 Copyright (C) 2017 Lubos Dolezel
 
-Darling is free software: you can redistribute it and/or modify
+Osxie is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Darling is distributed in the hope that it will be useful,
+Osxie is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Darling.  If not, see <http://www.gnu.org/licenses/>.
+along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <sys/types.h>
@@ -38,7 +38,7 @@ along with Darling.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/prctl.h>
 #include <sys/socket.h>
 #include <sys/un.h>
-#include <darlingserver/rpc.h>
+#include <osxieserver/rpc.h>
 #include <sys/ptrace.h>
 #include <pthread.h>
 #include <sys/utsname.h>
@@ -131,7 +131,7 @@ int main(int argc, char** argv, char** envp)
 	if (argc <= 1)
 	{
 		if (p == NULL) {
-			fprintf(stderr, "mldr is part of Darling. It is not to be executed directly.\n");
+			fprintf(stderr, "mldr is part of Osxie. It is not to be executed directly.\n");
 			return 1;
 		}
 		else
@@ -167,7 +167,7 @@ int main(int argc, char** argv, char** envp)
 	// this was previously necessary when we were loading the binary from the LKM
 	// (presumably because the break was detected incorrectly)
 	// but this shouldn't be necessary for loading Mach-O's from userspace (the heap space should already be set up properly).
-	// see https://github.com/darlinghq/darling/issues/469 for the issue this originally fixed in the LKM
+	// see https://github.com/osxiehq/osxie/issues/469 for the issue this originally fixed in the LKM
 #if 0
 	if (prctl(PR_SET_MM, PR_SET_MM_BRK, PAGE_ALIGN(mldr_load_results.vm_addr_max), 0, 0) < 0) {
 		fprintf(stderr, "Failed to set BRK value\n");
@@ -264,12 +264,12 @@ int main(int argc, char** argv, char** envp)
 
 	int status = dserver_rpc_set_dyld_info(mldr_load_results.dyld_all_image_location, mldr_load_results.dyld_all_image_size);
 	if (status < 0) {
-		fprintf(stderr, "Failed to tell darlingserver about our dyld info\n");
+		fprintf(stderr, "Failed to tell osxieserver about our dyld info\n");
 		exit(1);
 	}
 
 	if (dserver_rpc_set_executable_path(filename, strlen(filename)) < 0) {
-		fprintf(stderr, "Failed to tell darlingserver about our executable path\n");
+		fprintf(stderr, "Failed to tell osxieserver about our executable path\n");
 		exit(1);
 	}
 
@@ -511,7 +511,7 @@ static void process_special_env(struct load_results* lr) {
 
 	if (str != NULL) {
 		if (strlen(str) > sizeof(__dserver_socket_address_data.sun_path) - 1) {
-			fprintf(stderr, "darlingserver socket path is too long\n");
+			fprintf(stderr, "osxieserver socket path is too long\n");
 			exit(1);
 		}
 		strncpy(__dserver_socket_address_data.sun_path, str, sizeof(__dserver_socket_address_data.sun_path) - 1);
@@ -850,8 +850,8 @@ static void setup_space(struct load_results* lr, bool is_64_bit) {
 
 	int lifetime_pipe[2];
 
-	// this process is created using exec from another Darling process.
-	// darlingserver should already have the read pipe, so we don't need
+	// this process is created using exec from another Osxie process.
+	// osxieserver should already have the read pipe, so we don't need
 	// to check that in.
 	if (lr->lifetime_pipe != -1) {
 		lifetime_pipe[1] = socket_bitmap_get(&socket_bitmap);
@@ -877,12 +877,12 @@ static void setup_space(struct load_results* lr, bool is_64_bit) {
 
 	lr->lifetime_pipe = lifetime_pipe[1];
 
-	// store the write end of the pipe; the read end is sent to darlingserver.
+	// store the write end of the pipe; the read end is sent to osxieserver.
 	__dserver_process_lifetime_pipe_fd = lifetime_pipe[1];
 
 	int dummy_stack_variable;
 	if (dserver_rpc_checkin(false, &dummy_stack_variable, lifetime_pipe[0]) < 0) {
-		fprintf(stderr, "Failed to checkin with darlingserver\n");
+		fprintf(stderr, "Failed to checkin with osxieserver\n");
 		exit(1);
 	}
 
@@ -895,7 +895,7 @@ static void setup_space(struct load_results* lr, bool is_64_bit) {
 
 		int code = dserver_rpc_vchroot_path(vchroot_buffer, sizeof(vchroot_buffer), &vchroot_path_length);
 		if (code < 0) {
-			fprintf(stderr, "Failed to retrieve vchroot path from darlingserver: %d\n", code);
+			fprintf(stderr, "Failed to retrieve vchroot path from osxieserver: %d\n", code);
 			exit(1);
 		}
 

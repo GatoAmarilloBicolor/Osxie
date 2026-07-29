@@ -1,5 +1,5 @@
 /*
- * Darling - pmenergy & pmsample stub
+ * Osxie - pmenergy & pmsample stub
  * Copyright (c) 2018 Lubos Dolezel, All rights reserved.
  *
  * This library is free software; you can redistribute it and/or

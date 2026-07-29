@@ -1,11 +1,11 @@
 pipeline {
 	agent {
 		docker {
-			image 'registry.git.facekapow.dev/darling-build-image-top:latest'
+			image 'registry.git.facekapow.dev/osixie-build-image-top:latest'
 			registryUrl 'https://registry.git.facekapow.dev'
 			alwaysPull true
 			args '-u ci:ci -v /var/run/docker.sock:/var/run/docker.sock --group-add docker'
-			label 'darling'
+			label 'osixie'
 		}
 	}
 
@@ -20,7 +20,7 @@ pipeline {
 
 	environment {
 		ESCAPED_JOB_NAME = sh(script: 'echo "${JOB_NAME}" | sed \'s/\\//-/g\'', returnStdout: true).trim()
-		CCACHE_DIR = credentials('darling-ccache-dir')
+		CCACHE_DIR = credentials('osixie-ccache-dir')
 	}
 
 	options {
@@ -53,11 +53,11 @@ pipeline {
 			when { expression { params.DEB } }
 			agent {
 				docker {
-					image 'registry.git.facekapow.dev/darling-build-image:latest'
+					image 'registry.git.facekapow.dev/osixie-build-image:latest'
 					registryUrl 'https://registry.git.facekapow.dev'
 					alwaysPull true
 					args '-u ci:ci -v ${WORKSPACE}/source:/src/mnt:rw -v ${CCACHE_DIR}:/ccache:rw'
-					label 'darling'
+					label 'osixie'
 					reuseNode true
 				}
 			}
@@ -89,17 +89,17 @@ pipeline {
 			when { expression { params.RPM } }
 			agent {
 				docker {
-					image 'registry.git.facekapow.dev/darling-build-image-fedora:latest'
+					image 'registry.git.facekapow.dev/osixie-build-image-fedora:latest'
 					registryUrl 'https://registry.git.facekapow.dev'
 					alwaysPull true
 					args '-v ${WORKSPACE}/source:/src:ro -v ${CCACHE_DIR}:/ccache:rw'
-					label 'darling'
+					label 'osixie'
 					reuseNode true
 				}
 			}
 			environment {
 				CCACHE_DIR = '/ccache'
-				CCACHE_BASEDIR = '/home/ci/rpmbuild/BUILD/darling'
+				CCACHE_BASEDIR = '/home/ci/rpmbuild/BUILD/osxie'
 			}
 			steps {
 				sh 'bash -xv /src/rpm/build.bsh'

@@ -70,7 +70,7 @@
  *	Functions for letting a port represent a kernel object.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -163,7 +163,7 @@
 
 #include <security/mac_mach_internal.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #include <darling/debug_print.h>
 #endif
@@ -220,7 +220,7 @@ static const struct mig_subsystem *mig_e[] = {
 	(const struct mig_subsystem *)&lock_set_subsystem,
 	(const struct mig_subsystem *)&task_subsystem,
 	(const struct mig_subsystem *)&thread_act_subsystem,
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #ifdef VM32_SUPPORT
 	(const struct mig_subsystem *)&vm32_map_subsystem,
 #endif
@@ -442,7 +442,7 @@ ipc_kobject_server(
 	ipc_kmsg_trace_send(request, option);
 	{
 		if (ptr) {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 			debug_msg("- kobject routine: %pF\n", ptr->routine);
 #endif
 

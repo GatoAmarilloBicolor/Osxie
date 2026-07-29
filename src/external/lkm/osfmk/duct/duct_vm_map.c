@@ -61,7 +61,7 @@ extern kern_return_t vm_deallocate(vm_map_t map, mach_vm_offset_t start, mach_vm
 
 void duct_vm_map_init (void)
 {
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 #else
     vm_size_t entry_zone_alloc_size;
     const char *mez_name = "VM map entries";
@@ -77,7 +77,7 @@ void duct_vm_map_init (void)
 
     kernel_map = duct_vm_map_create(NULL);
 
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 #else
 // #if    defined(__LP64__)
 //     entry_zone_alloc_size = PAGE_SIZE * 5;
@@ -142,7 +142,7 @@ os_refgrp_decl(static, map_refgrp, "vm_map", NULL);
 // Calling with a NULL task makes other funcs consider the map a kernel map
 vm_map_t duct_vm_map_create (struct task_struct* linux_task)
 {
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 #else
         // static int        color_seed = 0;
 #endif
@@ -153,7 +153,7 @@ vm_map_t duct_vm_map_create (struct task_struct* linux_task)
             panic("vm_map_create");
 
 
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 #else
     //     vm_map_first_entry(result) = vm_map_to_entry(result);
     //     vm_map_last_entry(result)  = vm_map_to_entry(result);
@@ -192,7 +192,7 @@ vm_map_t duct_vm_map_create (struct task_struct* linux_task)
     //     lck_mtx_init_ext(&result->s_lock, &result->s_lock_ext, &vm_map_lck_grp, &vm_map_lck_attr);
 #endif
 
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 	if (linux_task)
 		get_task_struct(linux_task);
 	result->linux_task = linux_task;

@@ -37,7 +37,7 @@
  *
  */
 
-static const struct pthread_functions_s _darling_pthread_functions = {
+static const struct pthread_functions_s _osixie_pthread_functions = {
 	.pthread_init               = _pthread_init,
 
 	.pth_proc_hashinit          = _pth_proc_hashinit,
@@ -82,7 +82,7 @@ void darling_pthread_kext_init(void) {
 	// we have this a local variable though, because since we *aren't* a kext, we have `pthread_kern` already defined in `pthread_shims.c`
 	pthread_callbacks_t callbacks = NULL;
 
-	pthread_kext_register(&_darling_pthread_functions, &callbacks);
+	pthread_kext_register(&_osixie_pthread_functions, &callbacks);
 };
 
 // called by our kernel module when it's going to be unloaded
@@ -90,13 +90,13 @@ void darling_pthread_kext_exit(void) {};
 
 // temporarily copied over from kern_support.c (until we start building that file)
 // <copied from="libpthread://416.60.2/kern/kern_support.c" modified="true">
-#ifdef __DARLING__
+#ifdef __OSXIE__
 uint32_t pthread_debug_tracing = 0;
 #else
 uint32_t pthread_debug_tracing = 1;
 #endif
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 static lck_grp_attr_t the_real_pthread_lck_grp_attr;
 static lck_grp_t the_real_pthread_lck_grp;
 static lck_attr_t the_real_pthread_lck_attr;
@@ -114,7 +114,7 @@ lck_attr_t   *pthread_lck_attr;
 void
 _pthread_init(void)
 {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	lck_grp_attr_setdefault(pthread_lck_grp_attr);
 	lck_grp_init(pthread_lck_grp, "pthread", pthread_lck_grp_attr);
 
@@ -136,7 +136,7 @@ _pthread_init(void)
 	psynch_thcall = thread_call_allocate(psynch_wq_cleanup, NULL);
 	psynch_zoneinit();
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	int policy_bootarg;
 	if (PE_parse_boot_argn("pthread_mutex_default_policy", &policy_bootarg, sizeof(policy_bootarg))) {
 		pthread_mutex_default_policy = policy_bootarg;

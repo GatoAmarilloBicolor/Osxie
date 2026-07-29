@@ -1,5 +1,5 @@
-#ifndef _DARLING_LKM_DUCT_GCC_HAS_BUILTIN_H_
-#define _DARLING_LKM_DUCT_GCC_HAS_BUILTIN_H_
+#ifndef _OSXIE_LKM_DUCT_GCC_HAS_BUILTIN_H_
+#define _OSXIE_LKM_DUCT_GCC_HAS_BUILTIN_H_
 
 #ifndef __clang__
 
@@ -66,4 +66,4 @@
 
 #endif // !__clang
 
-#endif // _DARLING_LKM_DUCT_GCC_HAS_BUILTIN_H_
+#endif // _OSXIE_LKM_DUCT_GCC_HAS_BUILTIN_H_

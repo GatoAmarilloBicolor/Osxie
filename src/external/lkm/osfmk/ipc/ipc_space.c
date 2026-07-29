@@ -69,7 +69,7 @@
  *	Functions to manipulate IPC capability spaces.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -91,7 +91,7 @@
 #include <prng/random.h>
 #include <string.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 
@@ -276,7 +276,7 @@ ipc_space_create(
 	ipc_space_rand_freelist(space, table, 0, new_size);
 
 	is_lock_init(space);
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	mutex_init(&space->is_mutex_lock);
 #endif
 
@@ -384,7 +384,7 @@ ipc_space_create_special(
 	}
 
 	is_lock_init(space);
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	mutex_init(&space->is_mutex_lock);
 #endif
 

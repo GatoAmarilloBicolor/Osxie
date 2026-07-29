@@ -94,7 +94,7 @@ typedef struct uslock_debug {
 	unsigned char   unlock_cpu;
 } uslock_debug;
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 typedef struct spinlock usimple_lock_data_t;
 typedef struct spinlock* usimple_lock_t;
 #else

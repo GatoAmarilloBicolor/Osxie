@@ -1761,11 +1761,11 @@ static struct dentry *ovl_mount(struct file_system_type *fs_type, int flags,
 
 static struct file_system_type ovl_fs_type = {
 	.owner		= THIS_MODULE,
-	.name		= "darling-overlay",
+	.name		= "osixie-overlay",
 	.mount		= ovl_mount,
 	.kill_sb	= kill_anon_super,
 };
-MODULE_ALIAS_FS("darling-overlay");
+MODULE_ALIAS_FS("osixie-overlay");
 
 static void ovl_inode_init_once(void *foo)
 {
@@ -1784,7 +1784,7 @@ static int __init ovl_init(void)
 {
 	int err;
 
-	ovl_inode_cachep = kmem_cache_create("darling-ovl_inode",
+	ovl_inode_cachep = kmem_cache_create("osixie-ovl_inode",
 					     sizeof(struct ovl_inode), 0,
 					     (SLAB_RECLAIM_ACCOUNT|
 					      SLAB_MEM_SPREAD|SLAB_ACCOUNT),

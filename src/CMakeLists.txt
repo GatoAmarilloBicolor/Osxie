@@ -30,11 +30,11 @@ set(CMAKE_C_USE_LINKER_INFORMATION FALSE)
 # projects included here are strictly necessary for basic executables to function at all.
 # it should be very clear which projects belong here. a project should only be here if it
 # is one of the following or is necessary for one of the following:
-#   * darlingserver
+#   * osxieserver
 #   * dyld
 #   * mldr
 #   * libSystem
-#   * the host-side `darling` executable
+#   * the host-side `osxie` executable
 # this includes any build tools that are necessary to build any of those projects.
 #
 # these projects are always built
@@ -46,9 +46,11 @@ set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME "core")
 add_subdirectory(bsdln)
 
 add_definitions(
+	-DOSXIE
 	-DDARLING
 )
 
+set(OSXIE TRUE)
 set(DARLING TRUE)
 
 execute_process(
@@ -76,8 +78,8 @@ include_directories(SYSTEM ${COMPILER_INC_PATH})
 find_package(BISON)
 find_package(FLEX)
 
-set(DARLING_SDK_RELATIVE_PATH "Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk")
-set(DARLING_ROOT_RELATIVE_TO_SDK "../../../../../..")
+set(OSXIE_SDK_RELATIVE_PATH "Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk")
+set(OSXIE_ROOT_RELATIVE_TO_SDK "../../../../../..")
 
 add_subdirectory(external/cctools-port/cctools/ld64/src)
 add_subdirectory(external/cctools-port/cctools/ar)
@@ -92,7 +94,7 @@ add_subdirectory(hosttools)
 add_subdirectory(libelfloader/wrapgen)
 # add the Linux build of libsimple now
 add_subdirectory(libsimple "${CMAKE_CURRENT_BINARY_DIR}/libsimple-linux")
-add_subdirectory(external/darlingserver)
+add_subdirectory(external/osxieserver)
 add_subdirectory(startup)
 
 include_directories(${CMAKE_SOURCE_DIR}/basic-headers)
@@ -123,12 +125,20 @@ add_definitions(-target ${APPLE_TARGET_TRIPLET_PRIMARY})
 include(osxie_lib)
 include(osxie_static_lib)
 include(osxie_bundle)
+include(osxie_exe)
+include(osxie_framework)
+# backward compat for submodules
+include(darling_lib)
+include(darling_static_lib)
+include(darling_bundle)
+include(darling_exe)
+include(darling_framework)
 
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/${DARLING_SDK_RELATIVE_PATH}/usr/include)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include)
 
 include_directories(
-	${CMAKE_SOURCE_DIR}/${DARLING_SDK_RELATIVE_PATH}/usr/include
-	${CMAKE_BINARY_DIR}/${DARLING_SDK_RELATIVE_PATH}/usr/include
+	${CMAKE_SOURCE_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include
+	${CMAKE_BINARY_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include
 	${CMAKE_SOURCE_DIR}/framework-include
 	${CMAKE_SOURCE_DIR}/framework-private-include
 )
@@ -141,17 +151,17 @@ include_directories(AFTER
 
 	# necessary because this is the expected behavior when using `xml2-config --cflags`
 	# it adds `$sdk_dir/libxml2` to the include path
-	${CMAKE_SOURCE_DIR}/${DARLING_SDK_RELATIVE_PATH}/usr/include/libxml2
-	${CMAKE_BINARY_DIR}/${DARLING_SDK_RELATIVE_PATH}/usr/include/libxml2
+	${CMAKE_SOURCE_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include/libxml2
+	${CMAKE_BINARY_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include/libxml2
 )
 
 # add the Mach-O build of libsimple now
-add_subdirectory(libsimple "${CMAKE_CURRENT_BINARY_DIR}/libsimple-darling")
+add_subdirectory(libsimple "${CMAKE_CURRENT_BINARY_DIR}/libsimple-osxie")
 
 add_subdirectory(external/libkqueue)
 
 # needs to come before libplatform because it generates mig headers that libplatform needs
-add_subdirectory(external/xnu/darling/src/libsystem_kernel)
+add_subdirectory(external/xnu/osxie/src/libsystem_kernel)
 
 add_subdirectory(external/libplatform)
 add_subdirectory(external/libpthread)
@@ -177,6 +187,7 @@ add_subdirectory(external/libxpc)
 add_subdirectory(libgcc)
 add_subdirectory(external/copyfile)
 add_subdirectory(external/Libinfo)
+add_custom_target(compiler-rt)
 add_subdirectory(external/compiler-rt/lib/builtins)
 add_subdirectory(external/libnotify)
 add_subdirectory(duct/src)
@@ -240,7 +251,7 @@ endif()
 if (COMPONENT_cli)
 	set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME "cli")
 
-	add_subdirectory(external/darling-dmg)
+	add_subdirectory(external/osxie-dmg)
 	add_subdirectory(external/libutil)
 	add_subdirectory(xtrace)
 	add_subdirectory(external/libxslt)

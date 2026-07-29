@@ -27,13 +27,13 @@ function(remove_sdk_framework name)
         set(developer_sdk "MacOSX.sdk")
 
         set(developer_sdk_path "Developer/Platforms/${developer_platform}/Developer/SDKs/${developer_sdk}")
-        set(developer_framework_path "${DARLING_TOP_DIRECTORY}/${developer_sdk_path}/${developer_sys_library_dir}/${developer_framework_dir}/${name}.framework")
+        set(developer_framework_path "${OSXIE_TOP_DIRECTORY}/${developer_sdk_path}/${developer_sys_library_dir}/${developer_framework_dir}/${name}.framework")
 
         if (SDK_PARENT_DIR)
-            set(developer_framework_path "${DARLING_TOP_DIRECTORY}/${developer_sdk_path}/${SDK_PARENT_DIR}/${name}.framework")
+            set(developer_framework_path "${OSXIE_TOP_DIRECTORY}/${developer_sdk_path}/${SDK_PARENT_DIR}/${name}.framework")
         endif()
 
-        set(header_framework_include_path "${DARLING_TOP_DIRECTORY}/${header_framework_include}/${name}")
+        set(header_framework_include_path "${OSXIE_TOP_DIRECTORY}/${header_framework_include}/${name}")
 
         # Remove file from 'Developer' folder
         file(REMOVE_RECURSE ${developer_framework_path})
@@ -68,10 +68,10 @@ function(get_path_preframework result)
         set(developer_framework_dir "Frameworks")
     endif (SDK_PRIVATE)
 
-    set(developer_framework_path "${DARLING_TOP_DIRECTORY}/${developer_sdk_path}/${developer_sys_library_dir}/${developer_framework_dir}")
+    set(developer_framework_path "${OSXIE_TOP_DIRECTORY}/${developer_sdk_path}/${developer_sys_library_dir}/${developer_framework_dir}")
 
     if (SDK_PARENT_DIR)
-        set(developer_framework_path "${DARLING_TOP_DIRECTORY}/${developer_sdk_path}/${SDK_PARENT_DIR}")
+        set(developer_framework_path "${OSXIE_TOP_DIRECTORY}/${developer_sdk_path}/${SDK_PARENT_DIR}")
     endif()
 
     set("${result}" "${developer_framework_path}" PARENT_SCOPE)
@@ -133,7 +133,7 @@ function(internal_generate_framework_include name path)
     endif (SDK_PRIVATE)
 
     set(developer_headers_path "${path}/${name}.framework/Headers")
-    set(header_framework_include_absolute_path "${DARLING_TOP_DIRECTORY}/${header_framework_include}")
+    set(header_framework_include_absolute_path "${OSXIE_TOP_DIRECTORY}/${header_framework_include}")
 
     file(RELATIVE_PATH sdk_relative_dir_include "${header_framework_include_absolute_path}" "${developer_headers_path}")
     create_symlink("${sdk_relative_dir_include}" "${header_framework_include_absolute_path}/${name}")

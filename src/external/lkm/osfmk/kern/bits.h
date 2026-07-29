@@ -48,7 +48,7 @@ typedef unsigned int                    uint;
 
 // unnecessary, since the Linux def. is equivalent,
 // but shuts up a compiler warning
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #define BIT(b)                          (1ULL << (b))
 #endif
 
@@ -208,7 +208,7 @@ atomic_bit_clear(_Atomic bitmap_t *map, int n, int mem_order)
 #define bitmap_bit(n)   bits(n, 5, 0)
 #define bitmap_index(n) bits(n, 63, 6)
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #define bitmap_zero xnu_bitmap_zero
 #define bitmap_full xnu_bitmap_full
 #define bitmap_set xnu_bitmap_set

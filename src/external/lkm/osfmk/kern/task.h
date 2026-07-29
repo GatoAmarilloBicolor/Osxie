@@ -471,7 +471,7 @@ struct task {
 	int             task_disconnected_count;
 #endif
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	struct list_head* p_pthhash;
 	int tracer;
 	struct vfsmount* vchroot;
@@ -576,7 +576,7 @@ extern void             task_init(void);
 /* coalition_init() calls this to initialize ledgers before task_init() */
 extern void             init_task_ledgers(void);
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 // because certain functions called on module init call `current_task()`, but we don't have a kernel startup thread,
 // so `current_thread()` returns `NULL` (and trying to access `task` on it would segfault)
 #define current_task_fast()     ({ thread_t thread = current_thread(); thread ? thread->task : NULL; })
@@ -1040,7 +1040,7 @@ extern void task_bank_init(task_t task);
 extern void task_prep_arcade(task_t task, thread_t thread);
 #endif /* CONFIG_ARCADE */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #define task_pid xnu_task_pid
 #endif
 

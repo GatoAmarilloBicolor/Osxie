@@ -3,7 +3,7 @@
 #include <CoreFoundation/CFBase.h>
 #include <MacTypes.h>
 
-#ifdef DARLING
+#ifdef OSXIE
 inline OSStatus makeOSStatus(int errNo) { return 100000 + errNo; }
 #endif
 

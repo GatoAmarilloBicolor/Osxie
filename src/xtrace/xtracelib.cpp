@@ -44,10 +44,10 @@ struct hook {
 #endif
 
 // Defined in libsystem_kernel
-extern struct hook* _darling_mach_syscall_entry;
-extern struct hook* _darling_mach_syscall_exit;
-extern struct hook* _darling_bsd_syscall_entry;
-extern struct hook* _darling_bsd_syscall_exit;
+extern struct hook* _osixie_mach_syscall_entry;
+extern struct hook* _osixie_mach_syscall_exit;
+extern struct hook* _osixie_bsd_syscall_entry;
+extern struct hook* _osixie_bsd_syscall_exit;
 
 extern "C" void _xtrace_thread_exit(void);
 extern "C" void _xtrace_execve_inject(const char*** envp_ptr);
@@ -176,8 +176,8 @@ static void setup_hook(struct hook* hook, void* fnptr, bool jump)
 
 static void xtrace_setup_mach(void)
 {
-	uintptr_t area = (uintptr_t)_darling_mach_syscall_entry;
-	uintptr_t areaEnd = ((uintptr_t)_darling_mach_syscall_exit) + sizeof(struct hook);
+	uintptr_t area = (uintptr_t)_osixie_mach_syscall_entry;
+	uintptr_t areaEnd = ((uintptr_t)_osixie_mach_syscall_exit) + sizeof(struct hook);
 
 	// __asm__("int3");
 	area &= ~(4096-1);
@@ -187,16 +187,16 @@ static void xtrace_setup_mach(void)
 
 	mprotect((void*) area, bytes, PROT_READ | PROT_WRITE | PROT_EXEC);
 
-	setup_hook(_darling_mach_syscall_entry, (void*)darling_mach_syscall_entry_trampoline, false);
-	setup_hook(_darling_mach_syscall_exit, (void*)darling_mach_syscall_exit_trampoline, false);
+	setup_hook(_osixie_mach_syscall_entry, (void*)darling_mach_syscall_entry_trampoline, false);
+	setup_hook(_osixie_mach_syscall_exit, (void*)darling_mach_syscall_exit_trampoline, false);
 
 	mprotect((void*) area, bytes, PROT_READ | PROT_EXEC);
 }
 
 static void xtrace_setup_bsd(void)
 {
-	uintptr_t area = (uintptr_t)_darling_bsd_syscall_entry;
-	uintptr_t areaEnd = ((uintptr_t)_darling_bsd_syscall_exit) + sizeof(struct hook);
+	uintptr_t area = (uintptr_t)_osixie_bsd_syscall_entry;
+	uintptr_t areaEnd = ((uintptr_t)_osixie_bsd_syscall_exit) + sizeof(struct hook);
 
 	// __asm__("int3");
 	area &= ~(4096-1);
@@ -206,8 +206,8 @@ static void xtrace_setup_bsd(void)
 
 	mprotect((void*) area, bytes, PROT_READ | PROT_WRITE | PROT_EXEC);
 
-	setup_hook(_darling_bsd_syscall_entry, (void*)darling_bsd_syscall_entry_trampoline, false);
-	setup_hook(_darling_bsd_syscall_exit, (void*)darling_bsd_syscall_exit_trampoline, false);
+	setup_hook(_osixie_bsd_syscall_entry, (void*)darling_bsd_syscall_entry_trampoline, false);
+	setup_hook(_osixie_bsd_syscall_exit, (void*)darling_bsd_syscall_exit_trampoline, false);
 
 	mprotect((void*) area, bytes, PROT_READ | PROT_EXEC);
 }
@@ -540,7 +540,7 @@ static const char* envp_get(const char** envp, const char* key) {
 	return strchr(*entry, '=') + 1;
 };
 
-#define LIBRARY_PATH "/usr/lib/darling/libxtrace.dylib"
+#define LIBRARY_PATH "/usr/lib/osixie/libxtrace.dylib"
 #define LIBRARY_PATH_LENGTH (sizeof(LIBRARY_PATH) - 1)
 
 static void xtrace_execve_inject_hook(const char*** envp_ptr) {

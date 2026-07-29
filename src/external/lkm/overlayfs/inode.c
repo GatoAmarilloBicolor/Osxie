@@ -270,7 +270,7 @@ out:
 	return err;
 }
 
-extern int ovl_darling_fake_fsuid(void);
+extern int ovl_osixie_fake_fsuid(void);
 
 int ovl_permission(struct inode *inode, int mask)
 {
@@ -286,7 +286,7 @@ int ovl_permission(struct inode *inode, int mask)
 	}
 
 	int priv_uid = ovl_uid(inode);
-	if (priv_uid && priv_uid == from_kuid(&init_user_ns, current_fsuid()) && ovl_darling_fake_fsuid() == 0)
+	if (priv_uid && priv_uid == from_kuid(&init_user_ns, current_fsuid()) && ovl_osixie_fake_fsuid() == 0)
 	{
 		if ((inode->i_mode & S_IWUSR) && !(inode->i_mode & S_ISUID))
 			return 0;

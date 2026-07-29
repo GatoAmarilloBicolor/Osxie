@@ -12,5 +12,5 @@ modules.order
 *.o.d
 *.tmp*
 
-darling-mach.mod
-darling-overlay.mod
+osixie-mach.mod
+osixie-overlay.mod

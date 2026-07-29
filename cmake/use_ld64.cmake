@@ -17,7 +17,7 @@ FUNCTION(use_ld64 target)
 -Wl,-sdk_version,${CMAKE_OSX_DEPLOYMENT_TARGET} \
 -Wl,-dylib_file,/usr/lib/system/libsystem_c.dylib:${CMAKE_BINARY_DIR}/src/external/libc/libsystem_c_firstpass.dylib \
 -Wl,-dylib_file,/usr/lib/system/libsystem_darwin.dylib:${CMAKE_BINARY_DIR}/src/external/libc/libdarwin/libsystem_darwin.dylib \
--Wl,-dylib_file,/usr/lib/system/libsystem_kernel.dylib:${CMAKE_BINARY_DIR}/src/external/xnu/darling/src/libsystem_kernel/libsystem_kernel_firstpass.dylib \
+-Wl,-dylib_file,/usr/lib/system/libsystem_kernel.dylib:${CMAKE_BINARY_DIR}/src/external/xnu/osxie/src/libsystem_kernel/libsystem_kernel_firstpass.dylib \
 -Wl,-dylib_file,/usr/lib/system/libunwind.dylib:${CMAKE_BINARY_DIR}/src/external/libunwind/libunwind_firstpass.dylib \
 -Wl,-dylib_file,/usr/lib/system/libsystem_m.dylib:${CMAKE_BINARY_DIR}/src/libm/libsystem_m_firstpass.dylib \
 -Wl,-dylib_file,/usr/lib/system/libcompiler_rt.dylib:${CMAKE_BINARY_DIR}/src/external/compiler-rt/lib/builtins/libcompiler_rt_firstpass.dylib \

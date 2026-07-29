@@ -14,9 +14,9 @@
 // <copied from="xnu://6153.61.1/osfmk/i386/pcb.c" modified="true">
 
 /**
- * Darling comment:
+ * Osxie comment:
  * we copied this function from the i386 implementation, but it's the same for ARM and ARM64
- * when pointer authentication is disabled (which is the case for Darling)
+ * when pointer authentication is disabled (which is the case for Osxie)
  * 
  * this function is found in `pcb.c` on i386 and `status.c` on ARM{,64}
  */

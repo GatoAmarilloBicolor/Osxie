@@ -26,10 +26,10 @@
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
 
-#ifndef DTHREAD_WORKQUEUE_INTERNAL_H // header name changed for Darling
+#ifndef DTHREAD_WORKQUEUE_INTERNAL_H // header name changed for Osxie
 #define DTHREAD_WORKQUEUE_INTERNAL_H
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <pthread/workqueue_internal.h>
 #endif
 

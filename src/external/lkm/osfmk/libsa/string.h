@@ -103,7 +103,7 @@ extern size_t   strlcat(char *, const char *, size_t);
 
 extern int      strcasecmp(const char *s1, const char *s2);
 extern int      strncasecmp(const char *s1, const char *s2, size_t n);
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #ifdef XNU_KERNEL_PRIVATE
 extern const char     *strnstr(const char *s, const char *find, size_t slen);
 #else
@@ -166,7 +166,7 @@ __nochk_bcopy(const void *src, void *dest, size_t len)
 #endif
 
 // we don't have compiler-rt
-#ifndef __DARLING__
+#ifndef __OSXIE__
 
 #if __has_builtin(__builtin___memcpy_chk)
 #define memcpy(dest, src, len) __builtin___memcpy_chk(dest, src, len, XNU_BOS(dest, BOS_COPY_TYPE))
@@ -201,7 +201,7 @@ __nochk_bcopy(const void *src, void *dest, size_t len)
 #endif
 
 #if __has_builtin(__builtin___memmove_chk)
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #undef bcopy // shut up a compiler warning
 #endif
 #define bcopy(src, dest, len) __builtin___memmove_chk(dest, src, len, XNU_BOS(dest, BOS_COPY_TYPE))

@@ -31,7 +31,7 @@
 #ifndef __glu_h__
 #define __glu_h__
 
-#ifdef __APPLE__ // __DARLING__
+#ifdef __APPLE__ // __OSXIE__
 #include <OpenGL/gl.h>
 #else
 #include <GL/gl.h>

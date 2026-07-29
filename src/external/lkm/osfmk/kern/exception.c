@@ -56,7 +56,7 @@
 /*
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -98,7 +98,7 @@
 
 #include <pexpert/pexpert.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 
@@ -519,7 +519,7 @@ exception_triage_thread(
 	}
 
 out:
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	if ((exception != EXC_CRASH) && (exception != EXC_RESOURCE) &&
 	    (exception != EXC_GUARD) && (exception != EXC_CORPSE_NOTIFY)) {
 		thread_exception_return();

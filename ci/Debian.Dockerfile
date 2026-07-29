@@ -3,7 +3,7 @@
 # this command must be run while in the `debian` directory in the root of the repo.
 ARG BASE_IMAGE=ubuntu:jammy
 FROM $BASE_IMAGE
-LABEL name=darling-build-image version=0.1.0
+LABEL name=osixie-build-image version=0.1.0
 ARG DEBIAN_FRONTEND="noninteractive"
 RUN cp /etc/apt/sources.list /etc/apt/sources.list.d/sources-src.list && sed -i 's|deb http|deb-src http|g' /etc/apt/sources.list.d/sources-src.list
 RUN apt-get -y update

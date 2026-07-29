@@ -6,7 +6,7 @@
  *  Copyright © 2005 Apple Computer, Inc. All rights reserved.
  *
  *  Modified by Marin Baron, on 30/11/25
- *  As part of the Darling project.
+ *  As part of the Osxie project.
  *
  *  This set of functions may seem a little silly at first. The compiler can generate
  *  sqrtsd or sqrtsf inline, so why do we need a function? It appears that people can 

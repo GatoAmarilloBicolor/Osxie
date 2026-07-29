@@ -69,7 +69,7 @@
  * Version 2.0.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -105,7 +105,7 @@
 
 #include <sys/event.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #include <darling/debug_print.h>
 #endif
@@ -1100,7 +1100,7 @@ ipc_mqueue_receive_on_thread(
 	int                     interruptible,
 	thread_t                thread)
 {
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 	debug_msg("- ipc_mqueue_receive_on_thread (mqueue: 0x%p, option: 0x%x, rcv_timeout: %d) called\n",
 		mqueue, option, (int)rcv_timeout);
 #endif

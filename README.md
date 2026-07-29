@@ -10,7 +10,7 @@
 
 ## What is Osxie?
 
-Osxie is a fork of the [Darling](https://github.com/nicktrandafil/darling) project that provides a complete macOS compatibility layer for Linux. It allows you to run macOS binaries, including GUI applications, without virtualization or emulation. The entire system installs independently to `/usr/local/libexec/osxie`.
+Osxie is a fork of the [Osxie](https://github.com/nicktrandafil/darling) project that provides a complete macOS compatibility layer for Linux. It allows you to run macOS binaries, including GUI applications, without virtualization or emulation. The entire system installs independently to `/usr/local/libexec/osxie`.
 
 ## Key Components
 
@@ -31,14 +31,14 @@ Osxie is a fork of the [Darling](https://github.com/nicktrandafil/darling) proje
 - **Framework stubs** - Foundation, AppKit, CoreGraphics, CoreText, QuartzCore, etc.
 - **Security framework** - Keychain and CommonCrypto via OpenSSL
 - **WindowServer** - X11-based window management (new)
->>>>>>> 58164a634 (Enable Darling/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
+>>>>>>> 58164a634 (Enable Osxie/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
 
 ## Build Status
 
 | Component | Status |
 |-----------|--------|
 | Core (libSystem, kernel emulation) | Builds and links |
-| darlingserver / osxieserver | Builds and links |
+| osxieserver | Builds and links |
 | dyld (dynamic linker) | Builds and links |
 | Foundation | Builds (warnings only) |
 | AppKit / CoreGraphics | Builds (Cocotron) |
@@ -54,10 +54,10 @@ Osxie is a fork of the [Darling](https://github.com/nicktrandafil/darling) proje
 - **Security Framework**: Full keychain and authorization implementation
 - **WebKit Implementation**: Basic but functional WebView support
 
-- **Independent Installation**: Installs to `/usr/local/libexec/osxie` (separate from Darling)
+- **Independent Installation**: Installs to `/usr/local/libexec/osxie` (separate from Osxie)
 =======
 ## Building
->>>>>>> 58164a634 (Enable Darling/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
+>>>>>>> 58164a634 (Enable Osxie/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
 
 ### Prerequisites
 
@@ -117,19 +117,19 @@ osxie shell --prefix=/path/to/prefix
 =======
 ## What Was Done (Changelog)
 
-### Rename: Darling -> Osxie
+### Rename: Osxie -> Osxie
 
-The entire codebase was systematically renamed from Darling to Osxie:
+The entire codebase was systematically renamed from Osxie to Osxie:
 
 - **Root CMakeLists.txt**: Project renamed to `osxie`, all install paths changed to `libexec/osxie`
-- **Binary renamed**: `darling` -> `osxie`, `darlingserver` -> `osxieserver`
+- **Binary renamed**: `darling` -> `osxie`
 - **Source files**: `darling.c` -> `osxie.c`, `darling.h` -> `osxie.h` in `src/startup/`
-- **Config header**: `darling-config.h` -> `osxie-config.h` (with backward-compat symlink)
+- **Config header**: `osixie-config.h` -> `osxie-config.h` (with backward-compat symlink)
 - **Type renames**: `darling_thread_create_callbacks_t` -> `osxie_thread_create_callbacks_t`
 - **Struct renames**: `struct elf_calls` members renamed (e.g., `darling_thread_create` -> `osxie_thread_create`)
-- **Install prefix**: `/usr/local/libexec/osxie` (independent from any Darling installation)
+- **Install prefix**: `/usr/local/libexec/osxie` (independent from any Osxie installation)
 - **Symlinks**: `/etc/osxie`, `/Volumes/OsxieEmulatedDrive`
->>>>>>> 58164a634 (Enable Darling/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
+>>>>>>> 58164a634 (Enable Osxie/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
 
 ### Bug Fixes
 
@@ -138,7 +138,7 @@ The entire codebase was systematically renamed from Darling to Osxie:
 - **BSD thread creation**: Updated `bsdthread_create.c` and `workq_kernreturn.c` to use `osxie_thread_create_callbacks` type
 - **SDK headers**: Updated `elfcalls_wrapper.h` in SDK to use `osxie_thread_create_callbacks_t`
 - **Release builds**: Added `-O2 -DNDEBUG -fno-strict-aliasing` flags
-- **darling-config.h**: Created backward-compat symlink in build dir for external submodules
+- **osixie-config.h**: Created backward-compat symlink in build dir for external submodules
 
 <<<<<<< HEAD
 ### In Progress 🚧
@@ -148,7 +148,7 @@ The entire codebase was systematically renamed from Darling to Osxie:
 - Slack
 =======
 ### New Components
->>>>>>> 58164a634 (Enable Darling/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
+>>>>>>> 58164a634 (Enable Osxie/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
 
 - **WindowServer** (`src/WindowServer/`): X11-based window management with cursor handling, display management, and event processing
 - **Security framework** (`src/frameworks/Security/`): Keychain, authorization, and CommonCrypto implementations backed by OpenSSL
@@ -172,7 +172,7 @@ Osxie Layer
     WindowServer (X11 backend)
 
 Linux Kernel Interface
-    LKM (Darling Kernel Module) / XNU syscall emulation
+    LKM (Osxie Kernel Module) / XNU syscall emulation
     Linux syscalls mapped to Mach/POSIX semantics
 
 Linux Layer
@@ -188,7 +188,7 @@ Linux Layer
 Osxie/
   src/startup/          - osxie binary (entry point)
   src/startup/mldr/     - Mach-O loader + elfcalls bridge
-  src/external/darlingserver/ - RPC server (osxieserver)
+  src/external/osxieserver/ - RPC server
   src/external/xnu/     - XNU kernel emulation (libsystem_kernel)
   src/external/libc/    - FreeBSD libc port
   src/external/libcxx/  - libc++ port
@@ -214,16 +214,16 @@ Areas where help is needed:
 
 ## License
 
-Osxie is licensed under the GNU General Public License v3.0, maintaining compatibility with the original Darling project.
+Osxie is licensed under the GNU General Public License v3.0, maintaining compatibility with the original Osxie project.
 
 ## Acknowledgments
 
 <<<<<<< HEAD
-Osxie is based on the excellent work of the Darling project team. We're grateful for their pioneering efforts in macOS compatibility on Linux.
+Osxie is based on the excellent work of the Osxie project team. We're grateful for their pioneering efforts in macOS compatibility on Linux.
 
 ---
 
 **Osxie** - Because your favorite macOS apps shouldn't be locked to one platform 🚀
 =======
-Osxie is based on the [Darling project](https://github.com/nicktrandafil/darling). We are grateful for the pioneering work of the Darling team in macOS-on-Linux compatibility.
->>>>>>> 58164a634 (Enable Darling/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
+Osxie is based on the [Osxie project](https://github.com/nicktrandafil/darling). We are grateful for the pioneering work of the Osxie team in macOS-on-Linux compatibility.
+>>>>>>> 58164a634 (Enable Osxie/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)

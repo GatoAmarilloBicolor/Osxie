@@ -16,7 +16,7 @@
 #include "tls.h"
 #include "string.h"
 
-#define XTRACE_MIG_DIR_PATH "/usr/lib/darling/xtrace-mig"
+#define XTRACE_MIG_DIR_PATH "/usr/lib/osixie/xtrace-mig"
 
 static size_t subsystems_cnt = 0;
 static struct xtrace_mig_subsystem** subsystems = NULL;

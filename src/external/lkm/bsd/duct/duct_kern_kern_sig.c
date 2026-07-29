@@ -33,7 +33,7 @@ void threadsignal(thread_t sig_actthread, int signum, mach_exception_code_t code
 	{
 		printf(
 			"Someone introduced a new signal by sending a message to the exception port.\n"
-			"This is not supported under Darling.\n"
+			"This is not supported under Osxie.\n"
 		);
 	}
 }

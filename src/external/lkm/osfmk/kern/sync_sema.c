@@ -36,7 +36,7 @@
  *	Contains RT distributed semaphore synchronization services.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -65,7 +65,7 @@
 
 #include <libkern/OSAtomic.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 
@@ -1214,7 +1214,7 @@ out:
 	zfree(semaphore_zone, semaphore);
 }
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 boolean_t kdp_is_in_zone(void* addr, const char* zone_name);
 #endif
 

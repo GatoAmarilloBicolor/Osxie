@@ -15,7 +15,6 @@ FUNCTION(add_osxie_library name)
 	set(CMAKE_SKIP_RPATH TRUE)
 	add_library(${name} SHARED ${files})
 
-	# Link using Apple's ld64
 	set_target_properties(${name} PROPERTIES
 		SUFFIX ".dylib"
 		NO_SONAME TRUE)
@@ -88,40 +87,11 @@ FUNCTION(make_fat)
 	endif (BUILD_TARGET_32BIT AND BUILD_TARGET_64BIT)
 ENDFUNCTION(make_fat)
 
-# add_circular(name ...)
-#
-# Creates a shared library with circular/mutual dependencies on other libraries.
-#
-# Typical use: circular dependencies between libs in /usr/lib/system
-#
-# Parameters:
-# * SOURCES: Sources to build the library from. This function will internally create an object library for them.
-# * OBJECTS: Object libraries to build the library from. (Because we cannot add object libraries into object libraries.)
-# * SIBLINGS: Which "circular" libraries we should link against in the final pass.
-#             All specified libs must also be built with this function!
-# * STRONG_SIBLINGS: Which "circular" libraries we should link against in the 1st pass.
-#             Only use for special cases, e.g. if this library reexports from this strong siblibg
-#             and another sibling depends on this reexport's existence.
-# * DEPENDENCIES: Which standard libraries we should link against.
-# * LINK_FLAGS: Extra linker flags, e.g. an alias list
-# * UPWARD: Add an upward dependency. This affects initialization order. The specified dependency will only be
-#             loaded and initialized after the current library is fully loaded. This is needed to break
-#             certain dependency issues, esp. if a libSystem sublibrary depends on a library that depends on libSystem
-#             and has initializers. dyld bails out unless this dependency is upward.
-# * STRONG_DEPENDENCIES: Which regular dependencies we should link against in the firstpass.
-#             Just like STRONG_SIBLINGS, this should only be used in special cases. The intended use case is when
-#             another sibling depends on symbols linked into this sibling from dependencies (usually static libraries).
-#             Current use case is for Security to link to its static libraries in the firstpass,
-#             because coretls_cfhelpers depends on them.
 FUNCTION(add_circular name)
 	cmake_parse_arguments(CIRCULAR "FAT" "LINK_FLAGS" "SOURCES;OBJECTS;SIBLINGS;STRONG_SIBLINGS;DEPENDENCIES;UPWARD;STRONG_DEPENDENCIES" ${ARGN})
-	#message(STATUS "${name} sources: ${CIRCULAR_SOURCES}")
-	#message(STATUS "${name} siblings ${CIRCULAR_SIBLINGS}")
-	#message(STATUS "${name} deps: ${CIRCULAR_DEPENDENCIES}")
 
 	set(all_objects "${CIRCULAR_OBJECTS}")
 
-	# First create an object library for all sources with the aim to avoid rebuild
 	if (CIRCULAR_SOURCES)
 		add_library("${name}_obj" OBJECT ${CIRCULAR_SOURCES})
 		if (CIRCULAR_FAT)
@@ -130,7 +100,6 @@ FUNCTION(add_circular name)
 		set(all_objects "${all_objects};$<TARGET_OBJECTS:${name}_obj>")
 	endif (CIRCULAR_SOURCES)
 
-	# Then create a shared Darling library, while ignoring all dependencies and using flat namespace
 	add_osxie_library("${name}_firstpass" SHARED ${all_objects})
 	set_property(TARGET "${name}_firstpass" APPEND_STRING PROPERTY LINK_FLAGS " ${CIRCULAR_LINK_FLAGS} -Wl,-flat_namespace -Wl,-undefined,suppress")
 
@@ -138,22 +107,18 @@ FUNCTION(add_circular name)
 		target_link_libraries("${name}_firstpass" PRIVATE "${dep}_firstpass")
 	endforeach(dep)
 
-	# strong dependencies are linked in the firstpass
 	target_link_libraries("${name}_firstpass" PRIVATE ${CIRCULAR_STRONG_DEPENDENCIES})
 	
 	if (CIRCULAR_FAT)
 		make_fat("${name}_firstpass")
 	endif (CIRCULAR_FAT)
 
-	# Then build the final product while linking against firstpass libraries
 	add_osxie_library(${name} SHARED ${all_objects})
 
 	foreach(dep ${CIRCULAR_SIBLINGS})
 		target_link_libraries("${name}" PRIVATE "${dep}_firstpass")
 	endforeach(dep)
 	foreach(dep ${CIRCULAR_UPWARD})
-		#get_property(lib_location TARGET ${dep} PROPERTY LOCATION_${CMAKE_BUILD_TYPE})
-		#set_property(TARGET "${name}" APPEND_STRING PROPERTY LINK_FLAGS " -Wl,-upward_library,${lib_location}")
 		target_link_libraries("${name}" PRIVATE -Wl,-upward_library,$<TARGET_FILE:${dep}_firstpass>)
 		add_dependencies("${name}" "${dep}_firstpass")
 	endforeach(dep)
@@ -163,7 +128,6 @@ FUNCTION(add_circular name)
 
 	target_link_libraries("${name}" PRIVATE ${CIRCULAR_DEPENDENCIES})
 
-	# strong dependencies are linked again in the finalpass
 	target_link_libraries("${name}" PRIVATE ${CIRCULAR_STRONG_DEPENDENCIES})
 
 	if (CIRCULAR_FAT)

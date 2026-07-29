@@ -32,7 +32,7 @@
 #include <sys/user.h>
 #include <kern/thread_call.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #ifndef BUILDING_DTHREAD
 #undef _SYS_PTHREAD_INTERNAL_H_
 #include <darling/pthread_internal.h>

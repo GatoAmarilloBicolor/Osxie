@@ -26,7 +26,7 @@
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -51,7 +51,7 @@
 #include <mach/mach_voucher_attr_control.h>
 #include <mach/machine/sdt.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 
@@ -86,7 +86,7 @@ static LCK_SPIN_DECLARE_ATTR(ipc_importance_lock_data, &ipc_lck_grp, &ipc_lck_at
 	lck_spin_try_lock_grp(&ipc_importance_lock_data, &ipc_lck_grp)
 #define ipc_importance_unlock() \
 	lck_spin_unlock(&ipc_importance_lock_data)
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #define ipc_importance_assert_held()
 #else
 #define ipc_importance_assert_held() \
@@ -610,7 +610,7 @@ ipc_importance_task_check_transition(
 	boolean_t boost = (IIT_UPDATE_HOLD == type);
 	boolean_t before_boosted, after_boosted;
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	ipc_importance_assert_held();
 #endif
 
@@ -1096,7 +1096,7 @@ ipc_importance_task_propagate_assertion_locked(
 	queue_init(&updates);
 	queue_init(&propagate);
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	ipc_importance_assert_held();
 #endif
 
@@ -2642,7 +2642,7 @@ portupdate:
 		ip_lock(port);
 	}
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	ipc_importance_assert_held();
 #endif
 
@@ -3855,7 +3855,7 @@ ipc_importance_thread_call_init(void)
 	}
 }
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 /*
  * Routing: task_importance_list_pids
  * Purpose: list pids where task in donating importance.

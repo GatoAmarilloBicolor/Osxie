@@ -62,7 +62,7 @@
  *	Non-ipc host functions.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -114,7 +114,7 @@
 
 #include <pexpert/pexpert.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #include <darling/debug_print.h>
 
@@ -201,7 +201,7 @@ extern int sched_allow_NO_SMT_threads;
 kern_return_t
 host_info(host_t host, host_flavor_t flavor, host_info_t info, mach_msg_type_number_t * count)
 {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	extern kern_return_t darling_host_info(host_flavor_t flavor, host_info_t info, mach_msg_type_number_t* count);
 	return darling_host_info(flavor, info, count);
 #else
@@ -437,7 +437,7 @@ host_statistics(host_t host, host_flavor_t flavor, host_info_t info, mach_msg_ty
 
 		load_info = (host_load_info_t)info;
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 
 #ifndef LOAD_INT // until Linux 4.20
 #define LOAD_INT(x) ((x) >> FSHIFT)
@@ -459,7 +459,7 @@ host_statistics(host_t host, host_flavor_t flavor, host_info_t info, mach_msg_ty
 		return KERN_SUCCESS;
 	}
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	case HOST_VM_INFO: {
 		vm_statistics64_data_t host_vm_stat;
 		vm_statistics_t stat32;
@@ -529,7 +529,7 @@ host_statistics(host_t host, host_flavor_t flavor, host_info_t info, mach_msg_ty
 			return KERN_FAILURE;
 		}
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 		int i;
 		cpu_load_info = (host_cpu_load_info_t)info;
 
@@ -613,7 +613,7 @@ host_statistics(host_t host, host_flavor_t flavor, host_info_t info, mach_msg_ty
 		return KERN_SUCCESS;
 	}
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	case HOST_EXPIRED_TASK_INFO: {
 		if (*count < TASK_POWER_INFO_COUNT) {
 			return KERN_FAILURE;
@@ -647,7 +647,7 @@ host_statistics(host_t host, host_flavor_t flavor, host_info_t info, mach_msg_ty
 	}
 #endif
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	default:
 		printf("Unimplemented host_statistics: flavor %d\n", flavor);
 		return (KERN_INVALID_ARGUMENT);
@@ -954,7 +954,7 @@ host_statistics64(host_t host, host_flavor_t flavor, host_info64_t info, mach_ms
 		return KERN_INVALID_HOST;
 	}
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	switch (flavor) {
 		case HOST_VM_INFO64:
 		{
@@ -1080,7 +1080,7 @@ set_sched_stats_active(boolean_t active)
 kern_return_t
 get_sched_statistics(struct _processor_statistics_np * out, uint32_t * count)
 {
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 	kprintf("not implemented: get_sched_statistics()\n");
 	return KERN_FAILURE;
 #else
@@ -1153,10 +1153,10 @@ host_page_size(host_t host, vm_size_t * out_page_size)
  */
 extern char version[];
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <generated/utsrelease.h>
 #include <darling/api.h>
-static const char KERNEL_VERSION[] = "Darling Mach (API level " DARLING_MACH_API_VERSION_STR ") on Linux " UTS_RELEASE;
+static const char KERNEL_VERSION[] = "Osxie Mach (API level " OSXIE_MACH_API_VERSION_STR ") on Linux " UTS_RELEASE;
 #endif
 
 kern_return_t
@@ -1166,7 +1166,7 @@ host_kernel_version(host_t host, kernel_version_t out_version)
 		return KERN_INVALID_ARGUMENT;
 	}
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	(void)strncpy(out_version, KERNEL_VERSION, sizeof(KERNEL_VERSION));
 #else
 	(void)strncpy(out_version, version, sizeof(kernel_version_t));
@@ -1428,7 +1428,7 @@ host_get_special_port_from_user(host_priv_t host_priv, __unused int node, int id
 
 	task_t task = current_task();
 	if (task && task_is_driver(task) && id > HOST_MAX_SPECIAL_KERNEL_PORT) {
-#ifndef __DARLING__
+#ifndef __OSXIE__
 		/* allow HID drivers to get the sysdiagnose port for keychord handling */
 		if (id == HOST_SYSDIAGNOSE_PORT &&
 		    IOTaskHasEntitlement(task, kIODriverKitHIDFamilyEventServiceEntitlementKey)) {

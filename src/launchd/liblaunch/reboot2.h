@@ -34,12 +34,12 @@ __BEGIN_DECLS
 __attribute__((visibility("default")))
 void *reboot2(uint64_t flags);
 
-#ifdef DARLING
+#ifdef OSXIE
 /* This function is implemented in libxpc */
 /* It's header is here because it isn't clear where else it goes */
 __attribute__((visibility("default")))
 void *reboot3(uint64_t flags);
-#endif // DARLING
+#endif // OSXIE
 
 __END_DECLS
 

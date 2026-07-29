@@ -536,7 +536,7 @@
 			/* 496  */
 			/* 497  */
 			/* 498  */
-#ifdef DARLING
+#ifdef OSXIE
 	#define	SYS_mach_eventlink_signal 496
 	#define	SYS_mach_eventlink_wait_until 497
 	#define	SYS_mach_eventlink_signal_wait_until 498
@@ -578,7 +578,7 @@
 #define	SYS_log_data       533
 #define	SYS_memorystatus_available_memory 534
 #define	SYS_MAXSYSCALL	535
-#ifdef DARLING
+#ifdef OSXIE
 	#define SYS_shared_region_map_and_slide_2_np 536
 	#define SYS_pivot_root 537
 	#define SYS_task_inspect_for_pid 538

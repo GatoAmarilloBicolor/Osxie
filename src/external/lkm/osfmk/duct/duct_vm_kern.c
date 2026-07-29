@@ -44,7 +44,7 @@ kern_return_t duct_copyinmap (vm_map_t map, vm_map_offset_t fromaddr, void * tod
 {
         kern_return_t    kr = KERN_SUCCESS;
 
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
         if (current_map () == map) {
                 if (copyin(fromaddr, todata, length) != 0) {
                         kr = KERN_INVALID_ADDRESS;
@@ -81,7 +81,7 @@ kern_return_t duct_copyinmap (vm_map_t map, vm_map_offset_t fromaddr, void * tod
 
 kern_return_t duct_copyoutmap (vm_map_t map, void * fromdata, vm_map_offset_t toaddr, vm_size_t length)
 {
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
         if (current_map () == map) {
                 if (copyout (fromdata, toaddr, length) != 0) {
                         return KERN_INVALID_ADDRESS;

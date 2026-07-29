@@ -67,7 +67,7 @@
  * Version 2.0.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 
@@ -83,7 +83,7 @@
 
 #include <libkern/libkern.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 
@@ -143,7 +143,7 @@ __MALLOC(size_t size, int type, int flags, vm_allocation_site_t *site)
 }
 
 // would complicate our current memory allocation system
-#ifndef __DARLING__
+#ifndef __OSXIE__
 void *
 __REALLOC(
 	void            *addr,
@@ -199,7 +199,7 @@ _FREE_ZONE_external(void *elem, size_t size, int type __unused)
 	(kheap_free)(KHEAP_KEXT, elem, size);
 }
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 
 #if DEBUG || DEVELOPMENT
 

@@ -14,8 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// modified for Darling
-// NOTE(@facekapow): i deleted the code for cross-platform compatability since Darling is for Darwin platforms only
+// modified for Osxie
+// NOTE(@facekapow): i deleted the code for cross-platform compatability since Osxie is for Darwin platforms only
 
 #ifndef __COMMON_SERVICES__
 #define __COMMON_SERVICES__

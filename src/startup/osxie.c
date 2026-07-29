@@ -28,6 +28,13 @@ along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
 #include <sys/stat.h>
 #include <signal.h>
 #include <stdbool.h>
+
+static volatile sig_atomic_t timeout_reached = 0;
+
+void alarm_handler(int sig)
+{
+	timeout_reached = 1;
+}
 #include <sched.h>
 #include <sys/poll.h>
 #include <sys/socket.h>
@@ -175,7 +182,6 @@ int main(int argc, char ** argv)
 		
 		setupWorkdir();
 		pidInit = spawnInitProcess();
-		putInitPid(pidInit);
 		
 		// Wait until shellspawn starts
 		for (int i = 0; i < 15; i++)
@@ -825,11 +831,50 @@ pid_t spawnInitProcess(void)
 
 	// Wait for the child to drop UID/GIDs and unshare stuff
 	close(pipefd[1]);
-	read(pipefd[0], buffer, 1);
-	close(pipefd[0]);
+
+	// Fallback 1: Check pipe read with timeout using alarm()
+	{
+		struct sigaction sa;
+		int saved_timeout = 0;
+		
+		sa.sa_handler = SIG_IGN;
+		sigemptyset(&sa.sa_mask);
+		sa.sa_flags = 0;
+		sigaction(SIGALRM, &sa, NULL);
+		
+		saved_timeout = alarm(5);  // Max 5 seconds to wait for child
+		if (saved_timeout == 0) {
+			saved_timeout = 1;  // We set it, will be cleared by alarm
+		} else if (saved_timeout != 0) {
+			alarm(saved_timeout);  // Resume previous pending alarm
+		}
+
+		int read_result = read(pipefd[0], buffer, 1);
+		if (read_result < 0) {
+			fprintf(stderr, "Failed to read from pipe (child may have failed): %s\n", strerror(errno));
+			alarm(0);  // Cancel the alarm
+			exit(1);
+		} else if (read_result == 0) {
+			fprintf(stderr, "Child exited without signaling readiness\n");
+			alarm(0);
+			exit(1);
+		}
+
+		alarm(0);  // Cancel the alarm
+		close(pipefd[0]);
+	}
 
 	/*
-	snprintf(idmap, sizeof(idmap), "/proc/%d/uid_map", pid);
+
+	pid_t wstatus;
+	if ((wstatus = waitpid(pid, NULL, WNOHANG)) != pid) {
+		if (wstatus == 0 || wstatus < 0) {
+			fprintf(stderr, "waitpid failed: child %d never started or already dead\n", pid);
+			exit(1);
+		} else {
+			fprintf(stderr, "waitpid returned %d (unexpected)\n", wstatus);
+		}
+	}
 
 	file = fopen(idmap, "w");
 	if (file != NULL)
@@ -856,37 +901,33 @@ pid_t spawnInitProcess(void)
 	}
 	*/
 
-	// Here's where we resume the child
-	// if we enable user namespaces
+	{
+		const char pidFile[] = "/.init.pid";
+		char* pidPath;
+		FILE *fp;
+
+		pidPath = (char*) alloca(strlen(prefix) + sizeof(pidFile));
+		strcpy(pidPath, prefix);
+		strcat(pidPath, pidFile);
+
+		seteuid(g_originalUid);
+		setegid(g_originalGid);
+
+		fp = fopen(pidPath, "w");
+
+		seteuid(0);
+		setegid(0);
+
+		if (fp == NULL)
+		{
+			fprintf(stderr, "Cannot write out PID of the init process: %s\n", strerror(errno));
+			return pid;
+		}
+		fprintf(fp, "%d", (int) pid);
+		fclose(fp);
+	}
 
 	return pid;
-}
-
-void putInitPid(pid_t pidInit)
-{
-	const char pidFile[] = "/.init.pid";
-	char* pidPath;
-	FILE *fp;
-
-	pidPath = (char*) alloca(strlen(prefix) + sizeof(pidFile));
-	strcpy(pidPath, prefix);
-	strcat(pidPath, pidFile);
-
-	seteuid(g_originalUid);
-	setegid(g_originalGid);
-
-	fp = fopen(pidPath, "w");
-
-	seteuid(0);
-	setegid(0);
-
-	if (fp == NULL)
-	{
-		fprintf(stderr, "Cannot write out PID of the init process: %s\n", strerror(errno));
-		return;
-	}
-	fprintf(fp, "%d", (int) pidInit);
-	fclose(fp);
 }
 
 char* defaultPrefixPath(void)

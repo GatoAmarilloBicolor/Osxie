@@ -1,4 +1,4 @@
-// created for Darling
+// created for Osxie
 
 #ifndef _OS_FEATURE_PRIVATE_H
 #define _OS_FEATURE_PRIVATE_H

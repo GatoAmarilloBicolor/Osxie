@@ -39,7 +39,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 void duct_vm_mem_bootstrap (void)
 {
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 #else
     // vm_offset_t    start, end;
     // vm_size_t zsizearg;
@@ -52,7 +52,7 @@ void duct_vm_mem_bootstrap (void)
 	 */
 #define vm_mem_bootstrap_kprintf(x) /* kprintf(x) */
 
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 #else
     // vm_mem_bootstrap_kprintf(("vm_mem_bootstrap: calling vm_page_bootstrap\n"));
     // vm_page_bootstrap(&start, &end);
@@ -73,7 +73,7 @@ void duct_vm_mem_bootstrap (void)
 	vm_mem_bootstrap_kprintf(("vm_mem_bootstrap: calling vm_map_init\n"));
 	duct_vm_map_init();
 
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 #else
 //     vm_mem_bootstrap_kprintf(("vm_mem_bootstrap: calling kmem_init\n"));
 //     kmem_init(start, end);

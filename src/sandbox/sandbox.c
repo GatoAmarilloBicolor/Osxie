@@ -155,13 +155,13 @@ int sandbox_check_by_audit_token(audit_token_t tok, const char* operation, enum 
 
 int rootless_check_trusted(const char* path) {
 	// also unimplemented
-	// Darling doesn't have rootless anyways so just return a value indicating trust
+	// Osxie doesn't have rootless anyways so just return a value indicating trust
 	return 0;
 };
 
 int rootless_restricted_environment() {
 	// also unimplemented
-	// Darling doesn't have rootless anyways, so just return a value indicating an unrestricted environment
+	// Osxie doesn't have rootless anyways, so just return a value indicating an unrestricted environment
 	return 0;
 };
 

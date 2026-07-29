@@ -207,7 +207,7 @@ union wait {
 		// both `__DARWIN_BYTE_ORDER == __DARWIN_LITTLE_ENDIAN` and `__DARWIN_BYTE_ORDER == __DARWIN_BIG_ENDIAN`
 		// evaluate to true (maybe they're not defined?)
 		// so let's workaround it:
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #if __DARWIN_BYTE_ORDER == __DARWIN_BIG_ENDIAN
 		unsigned int    w_Filler:16,    /* upper bits filler */
 		    w_Retcode:8,                /* exit code if w_termsig==0 */
@@ -228,7 +228,7 @@ union wait {
 		    w_Filler:16;                /* upper bits filler */
 #endif
 		// same issue here
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #if __DARWIN_BYTE_ORDER == __DARWIN_BIG_ENDIAN
 		unsigned int    w_Filler:16,    /* upper bits filler */
 		    w_Stopsig:8,                /* signal that stopped us */

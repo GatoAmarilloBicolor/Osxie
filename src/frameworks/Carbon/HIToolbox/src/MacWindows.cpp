@@ -21,7 +21,7 @@ static Display* g_display = nullptr;
 #endif
 static void closeDisplay() __attribute__((destructor));
 
-namespace Darling
+namespace Osxie
 {
 
 namespace Carbon
@@ -37,7 +37,7 @@ Display* getDisplay()
 
 	if (!g_display)
 	{
-		fprintf(stderr, "Darling Carbon: Cannot open a connection to the X server!\n");
+		fprintf(stderr, "Osxie Carbon: Cannot open a connection to the X server!\n");
 		if (!getenv("DISPLAY"))
 			fprintf(stderr, "The application you are trying to run requires an X server and cannot be run only in the console.\n");
 		abort();
@@ -73,7 +73,7 @@ OSStatus CreateNewWindow(WindowClass cls, WindowAttributes attr, const Rect* rec
 	if (rect->right < rect->left || rect->bottom < rect->top)
 		return paramErr;
 
-	dpy = Darling::Carbon::getDisplay();
+	dpy = Osxie::Carbon::getDisplay();
 	blackColor = BlackPixel(dpy, DefaultScreen(dpy));
 	whiteColor = WhitePixel(dpy, DefaultScreen(dpy));
 
@@ -93,7 +93,7 @@ void DisposeWindow(WindowRef wnd)
 {
 #ifndef NO_X11
 	if (wnd)
-		XDestroyWindow(Darling::Carbon::getDisplay(), wnd);
+		XDestroyWindow(Osxie::Carbon::getDisplay(), wnd);
 #endif
 }
 
@@ -101,7 +101,7 @@ void ShowWindow(WindowRef wnd)
 {
 #ifndef NO_X11
 	if (wnd)
-		XMapWindow(Darling::Carbon::getDisplay(), Window(wnd));
+		XMapWindow(Osxie::Carbon::getDisplay(), Window(wnd));
 #endif
 }
 
@@ -109,7 +109,7 @@ void HideWindow(WindowRef wnd)
 {
 #ifndef NO_X11
 	if (wnd)
-		XUnmapWindow(Darling::Carbon::getDisplay(), Window(wnd));
+		XUnmapWindow(Osxie::Carbon::getDisplay(), Window(wnd));
 #endif
 }
 

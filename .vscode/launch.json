@@ -7,8 +7,8 @@
         {
             "type": "lldb",
             "request": "launch",
-            "name": "Debug darling-coredump",
-            "program": "${workspaceFolder}/build/src/hosttools/darling-coredump",
+            "name": "Debug osixie-coredump",
+            "program": "${workspaceFolder}/build/src/hosttools/osixie-coredump",
             "args": ["${input:linuxCoreDumpFileName}"],
             "cwd": "${workspaceFolder}"
         },
@@ -16,7 +16,7 @@
         {
             "type": "lldb",
             "request": "custom",
-            "name": "Open Darling Core Dump",
+            "name": "Open Osxie Core Dump",
             "initCommands": [
                 "target create -c ${input:convertedCoreDumpFileName}"
             ]
@@ -32,7 +32,7 @@
         {
             "id": "convertedCoreDumpFileName",
             "type": "promptString",
-            "description": "Enter the path to the Darling core dump",
+            "description": "Enter the path to the Osxie core dump",
             "default": ""
         }
     ]

@@ -1,5 +1,5 @@
 FROM alpine:latest
-LABEL name=darling-build-image-top version=0.1.0
+LABEL name=osixie-build-image-top version=0.1.0
 ARG DOCKER_GID=109
 ARG CI_UID=1111
 ARG CI_GID=1111

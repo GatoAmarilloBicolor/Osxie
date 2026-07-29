@@ -34,7 +34,7 @@
  *			alarm clock facility.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -51,7 +51,7 @@
 #include <ipc/ipc_port.h>
 #include <ipc/ipc_space.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 

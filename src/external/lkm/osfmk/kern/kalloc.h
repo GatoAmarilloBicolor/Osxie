@@ -351,7 +351,7 @@ kalloc_bucket_size(
  * Note: all values passed to k*free() might be in the element to be freed,
  *       temporaries must be taken, and the resetting to be done prior to free.
  */
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #define kfree(elem, size) ({ \
 	_Static_assert(sizeof(elem) == sizeof(void *), "elem isn't pointer sized"); \
 	__auto_type __kfree_eptr = &(elem); \

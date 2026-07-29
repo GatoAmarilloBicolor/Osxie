@@ -39,7 +39,7 @@
 #define __QOS_AVAILABLE_10_10
 #define __QOS_AVAILABLE_10_11
 #define __QOS_AVAILABLE_10_12
-#ifdef __DARLING__
+#ifdef __OSXIE__
 // i'm pretty sure Apple should be defining this too
 #define __QOS_AVAILABLE_10_15_1
 #endif

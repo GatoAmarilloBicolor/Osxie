@@ -41,7 +41,7 @@ class GARS:
                 },
                 "Homebrew": {
                     "pattern": "brew.*freeze|stuck|hang",
-                    "cause": "Network syscalls blocking in Darling container",
+                    "cause": "Network syscalls blocking in Osxie container",
                     "solution": "fix_network_syscalls"
                 }
             }
@@ -166,12 +166,12 @@ class GARS:
             
         elif research["proposed_solution"] == "fix_network_syscalls":
             design["steps"] = [
-                "Parchear select/poll timeout en darlingserver",
+                "Parchear select/poll timeout en osxieserver",
                 "Añadir non-blocking flags a sockets",
                 "Implementar timeout handler"
             ]
             design["files_to_modify"] = [
-                self.osxie_root / "src/external/darlingserver/src/message.cpp"
+                self.osxie_root / "src/external/osxieserver/src/message.cpp"
             ]
         
         print(f"  - Pasos a seguir: {len(design['steps'])}")

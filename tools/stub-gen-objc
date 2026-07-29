@@ -1,21 +1,21 @@
 #!/usr/bin/env swift
 /*
-This file is part of Darling.
+This file is part of Osxie.
 
 Copyright (C) 2017 Lubos Dolezel
 
-Darling is free software: you can redistribute it and/or modify
+Osxie is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
  
-Darling is distributed in the hope that it will be useful,
+Osxie is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
  
 You should have received a copy of the GNU General Public License
-along with Darling.  If not, see <http://www.gnu.org/licenses/>.
+along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 import Foundation
@@ -25,26 +25,26 @@ guard CommandLine.arguments.count == 3 else {
 }
 
 let copyright = "/*\n" +
-    "This file is part of Darling.\n" +
+    "This file is part of Osxie.\n" +
     "\n" +
     
     "Copyright (C) 2018 Lubos Dolezel\n" +
     "\n" +
     
-    "Darling is free software: you can redistribute it and/or modify\n" +
+    "Osxie is free software: you can redistribute it and/or modify\n" +
     "it under the terms of the GNU General Public License as published by\n" +
     "the Free Software Foundation, either version 3 of the License, or\n" +
     "(at your option) any later version.\n" +
     "\n" +
     
-    "Darling is distributed in the hope that it will be useful,\n" +
+    "Osxie is distributed in the hope that it will be useful,\n" +
     "but WITHOUT ANY WARRANTY; without even the implied warranty of\n" +
     "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n" +
     "GNU General Public License for more details.\n" +
     "\n" +
     
     "You should have received a copy of the GNU General Public License\n" +
-    "along with Darling.  If not, see <http://www.gnu.org/licenses/>.\n" +
+    "along with Osxie.  If not, see <http://www.gnu.org/licenses/>.\n" +
     "*/\n\n"
 
 let name = CommandLine.arguments[1]

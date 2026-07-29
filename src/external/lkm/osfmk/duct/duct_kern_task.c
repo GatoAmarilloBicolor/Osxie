@@ -74,7 +74,7 @@ extern void duct_vm_map_deallocate(vm_map_t map);
 
 void duct_task_init (void)
 {
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 #else
         lck_grp_attr_setdefault(&task_lck_grp_attr);
         lck_grp_init(&task_lck_grp, "task", &task_lck_grp_attr);
@@ -82,7 +82,7 @@ void duct_task_init (void)
 #endif
         lck_mtx_init(&tasks_threads_lock, &task_lck_grp, &task_lck_attr);
 
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 #else
     #if CONFIG_EMBEDDED
         lck_mtx_init(&task_watch_mtx, &task_lck_grp, &task_lck_attr);
@@ -111,7 +111,7 @@ void duct_task_init (void)
 	task_deallocate(kernel_task);
 
 
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 	kernel_task->map = kernel_map;
 #else
         duct_vm_map_deallocate(kernel_task->map);
@@ -143,7 +143,7 @@ void duct_task_destroy(task_t task)
 kern_return_t duct_task_create_internal (task_t parent_task, boolean_t inherit_memory, boolean_t is_64bit, task_t * child_task, struct task_struct* ltask)
 {
 	// this function is pretty much a heavy trim of the real `task_create_internal`,
-	// with a few Darling-specific additions
+	// with a few Osxie-specific additions
 	task_t new_task;
 
 	new_task = (task_t) zalloc(task_zone);
@@ -170,7 +170,7 @@ kern_return_t duct_task_create_internal (task_t parent_task, boolean_t inherit_m
 
 	queue_init(&new_task->semaphore_list);
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	if (ltask != NULL && ltask->mm != NULL) {
 		new_task->map = duct_vm_map_create(ltask);
 	}
@@ -188,7 +188,7 @@ kern_return_t duct_task_create_internal (task_t parent_task, boolean_t inherit_m
 
 	ipc_task_enable(new_task);
 
-	// Darling-specific code
+	// Osxie-specific code
 	new_task->vchroot_path = (char*)__get_free_page(GFP_KERNEL);
 
 	*child_task = new_task;
@@ -311,8 +311,8 @@ task_info(
 			break;
 		}
 
-		// DARLING:
-		// This call may block, waiting for Darling to provide this information
+		// OSXIE:
+		// This call may block, waiting for Osxie to provide this information
 		// shortly after startup.
 
 		struct task_struct* ltask = task->map->linux_task;
@@ -951,7 +951,7 @@ task_suspend(
 	 */
 	if ((kr = ipc_kmsg_copyout_object(current_task()->itk_space, ip_to_object(port),
 		MACH_MSG_TYPE_MOVE_SEND, NULL, NULL, &name)) != KERN_SUCCESS) {
-#ifndef __DARLING__
+#ifndef __OSXIE__
 		printf("warning: %s(%d) failed to copyout suspension token for pid %d with error: %d\n",
 				proc_name_address(current_task()->bsd_info), proc_pid(current_task()->bsd_info),
 				task_pid(task), kr);
@@ -1002,7 +1002,7 @@ task_resume(
 		/* space unlocked */
 	} else {
 		is_write_unlock(space);
-#ifndef __DARLING__
+#ifndef __OSXIE__
 		if (kr == KERN_SUCCESS)
 			printf("warning: %s(%d) performed out-of-band resume on pid %d\n",
 			       proc_name_address(current_task()->bsd_info), proc_pid(current_task()->bsd_info),

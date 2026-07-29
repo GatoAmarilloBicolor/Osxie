@@ -104,7 +104,7 @@ struct timer {
 #endif /* !defined(__LP64__) */
 } TIMER_ALIGNMENT;
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #define timer_t xnu_timer_t
 #endif
 

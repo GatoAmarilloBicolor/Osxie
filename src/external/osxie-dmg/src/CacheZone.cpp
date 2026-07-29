@@ -1,0 +1,70 @@
+#include "CacheZone.h"
+#include <algorithm>
+#include <cstring>
+#include <iostream>
+
+CacheZone::CacheZone(size_t maxBlocks)
+: m_maxBlocks(maxBlocks)
+{
+}
+
+void CacheZone::setMaxBlocks(size_t max)
+{
+	m_maxBlocks = max;
+	evictCache();
+}
+
+void CacheZone::store(const std::string& vfile, uint64_t blockId, const uint8_t* data, size_t bytes)
+{
+	CacheKey key = CacheKey(blockId, vfile);
+	CacheEntry entry;
+	std::unordered_map<CacheKey, CacheEntry>::iterator it;
+
+#ifdef DEBUG
+	std::cout << "CacheZone::store(): blockId=" << blockId << ", bytes=" << bytes << std::endl;
+#endif
+	
+	std::copy(data, data+bytes, entry.data.begin());
+	
+	it = m_cache.insert(m_cache.begin(), { key, entry });
+	m_cacheAge.push_back(key);
+	it->second.itAge = --m_cacheAge.end();
+	
+	if (m_cache.size() > m_maxBlocks)
+		evictCache();
+}
+
+size_t CacheZone::get(const std::string& vfile, uint64_t blockId, uint8_t* data, size_t offset, size_t maxBytes)
+{
+	CacheKey key = CacheKey(blockId, vfile);
+	auto it = m_cache.find(key);
+
+#ifdef DEBUG
+	std::cout << "CacheZone::get(): blockId=" << blockId << ", offset=" << offset << ", maxBytes=" << maxBytes << std::endl;
+#endif
+	
+	m_queries++;
+	
+	if (it == m_cache.end())
+		return 0;
+	
+	maxBytes = std::min(it->second.data.size() - offset, maxBytes);
+	memcpy(data, &it->second.data[offset], maxBytes);
+	
+	m_cacheAge.erase(it->second.itAge);
+	m_cacheAge.push_back(key);
+	it->second.itAge = --m_cacheAge.end();
+	m_hits++;
+	
+	return maxBytes;
+}
+
+void CacheZone::evictCache()
+{
+	while (m_cache.size() > m_maxBlocks)
+	{
+		CacheKey& key = m_cacheAge.front();
+		m_cache.erase(key);
+		m_cacheAge.erase(m_cacheAge.begin());
+	}
+}

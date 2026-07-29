@@ -79,7 +79,7 @@ extern void cpu_exit_wait(
 extern boolean_t cpu_can_exit(
 	int                 slot_num);
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 extern kern_return_t cpu_info(
 	processor_flavor_t  flavor,
 	int                 slot_num,

@@ -22,7 +22,7 @@
  */
 /**
  *
- * Modified for Darling
+ * Modified for Osxie
  *
  */
 

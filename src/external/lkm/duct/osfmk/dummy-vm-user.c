@@ -325,7 +325,7 @@ mach_vm_read(
 
 	if (map == VM_MAP_NULL)
 		return(KERN_INVALID_ARGUMENT);
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	if (size > 30*1024*1024)
 		return KERN_INVALID_ARGUMENT;
 #endif
@@ -383,7 +383,7 @@ vm_read(
 
 	if (map == VM_MAP_NULL)
 		return(KERN_INVALID_ARGUMENT);
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	if (size > 30*1024*1024)
 		return KERN_INVALID_ARGUMENT;
 #endif

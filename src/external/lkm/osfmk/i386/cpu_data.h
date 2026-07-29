@@ -390,7 +390,7 @@ extern cpu_data_t       *cpu_data_ptr[];
  * the real thing,
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 extern thread_t current_thread(void);
 #define current_thread_fast()           current_thread()
 #else
@@ -431,7 +431,7 @@ get_active_thread(void)
 static inline int
 get_preemption_level(void)
 {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	return 0;
 #else
 	return CPU_DATA()->cpu_preemption_level;
@@ -442,7 +442,7 @@ get_interrupt_level(void)
 {
 	return CPU_DATA()->cpu_interrupt_level;
 }
-#ifdef __DARLING__
+#ifdef __OSXIE__
 int get_cpu_number(void);
 #else
 static inline int
@@ -675,7 +675,7 @@ pltrace(boolean_t plenable)
 static inline void
 disable_preemption_internal(void)
 {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	printf("STUB: disable_preemption_internal\n");
 #else
 	assert(get_preemption_level() >= 0);
@@ -690,7 +690,7 @@ disable_preemption_internal(void)
 static inline void
 enable_preemption_internal(void)
 {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	printf("STUB: enable_preemption_internal\n");
 #else
 	assert(get_preemption_level() > 0);

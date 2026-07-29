@@ -41,7 +41,7 @@
 
 	<!-- Platform name -->
 	<key>CFBundleName</key>
-	<string>Darling platform</string>
+	<string>Osxie platform</string>
 
 	<!-- Platform version (again) -->
 	<key>CFBundleShortVersionString</key>
@@ -120,7 +120,7 @@
 
 	<!-- Platform description -->
 	<key>Description</key>
-	<string>Darling Platform</string>
+	<string>Osxie Platform</string>
 
 	<!-- Platform Family identifier -->
 	<key>FamilyIdentifier</key>

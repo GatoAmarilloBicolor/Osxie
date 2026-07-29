@@ -37,7 +37,7 @@
  *			machine-independent clock service layer.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -66,7 +66,7 @@
 #include <mach/host_priv_server.h>
 #include <libkern/section_keywords.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 

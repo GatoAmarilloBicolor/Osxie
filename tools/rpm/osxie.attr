@@ -1,0 +1,2 @@
+%__osixie_magic      ^Mach-O.*$
+%__osixie_requires   %{_rpmconfigdir}/osixie-deps.req %{_builddir}/osixie/build/src/buildtools/elfdep

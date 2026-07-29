@@ -34,7 +34,7 @@
  *  Created.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -52,7 +52,7 @@
 #include <kern/thread_call.h>
 #include <ipc/ipc_kmsg.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 

@@ -63,7 +63,7 @@
  *	Entry hash table operations.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -87,7 +87,7 @@
 #include <vm/vm_kern.h>
 #endif  /* MACH_IPC_DEBUG */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 

@@ -303,7 +303,7 @@ struct vm_map_entry {
 	/* boolean_t */ vme_atomic:1, /* entry cannot be split/coalesced */
 	/* boolean_t */ vme_no_copy_on_read:1,
 	/* boolean_t */ translated_allow_execute:1, /* execute in translated processes */
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	__unused_not_macro:2; // prevents it from being expanded as the `__unused` macro when using GCC
 #else	
 	__unused:2;
@@ -531,7 +531,7 @@ struct _vm_map {
 	/* reserved */ pad:14;
 	unsigned int            timestamp;      /* Version number */
 
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 	struct task_struct* linux_task;
 #endif
 };

@@ -369,7 +369,7 @@ __options_closed_decl(thread_call_flags_t, uint16_t, {
 	THREAD_CALL_FLAG_CONTINUOUS     = 0x0100,       /* deadline is in continuous time */
 });
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <linux/workqueue.h>
 struct thread_call {
 	struct call_entry tc_call;
@@ -407,7 +407,7 @@ typedef struct thread_call thread_call_data_t;
 
 extern void             thread_call_initialize(void);
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 extern void thread_call_deinitialize(void);
 #endif
 

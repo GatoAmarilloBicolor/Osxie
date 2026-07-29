@@ -1,4 +1,4 @@
-// created for Darling
+// created for Osxie
 
 #ifndef _OS_SIGNPOST_PRIVATE_H
 #define _OS_SIGNPOST_PRIVATE_H

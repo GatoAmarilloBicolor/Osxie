@@ -15,7 +15,7 @@ SCRIPT_DIR = os.path.dirname(os.path.realpath(__file__))
 # USING THIS SCRIPT:
 #   * edit `DYLDINFO`, `OTOOL`, and `NM` to refer to the corresponding programs to analyze x86_64 Mach-Os.
 #   * edit `XCODE_PATH` to point to the Xcode application.
-#   * edit `SYSTEM_ROOT` to point to the root of a macOS or stock Darling installation.
+#   * edit `SYSTEM_ROOT` to point to the root of a macOS or stock Osxie installation.
 #   * if desired, edit `OUT_DIR` to point to where the stub frameworks will be generated; the default is the best in most cases.
 #
 
@@ -27,7 +27,7 @@ DYLDINFO = 'x86_64-apple-darwin11-dyldinfo'
 OTOOL = 'x86_64-apple-darwin11-otool'
 NM = 'x86_64-apple-darwin11-nm'
 
-XCODE_PATH = '/data/darling/Applications/Xcode.app'
+XCODE_PATH = '/data/osixie/Applications/Xcode.app'
 SYSTEM_ROOT = '/usr/local/libexec/darling'
 OUT_DIR = os.path.join(SCRIPT_DIR, '..', 'src', 'frameworks', 'dev-stubs')
 
@@ -138,22 +138,22 @@ IMPORTANT_BINARIES = [
 
 COPYRIGHT_HEADER = """
 /*
- * This file is part of Darling.
+ * This file is part of Osxie.
  *
- * Copyright (C) {} Darling Developers
+ * Copyright (C) {} Osxie Developers
  *
- * Darling is free software: you can redistribute it and/or modify
+ * Osxie is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
  *
- * Darling is distributed in the hope that it will be useful,
+ * Osxie is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with Darling.  If not, see <http://www.gnu.org/licenses/>.
+ * along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
  */
 """
 

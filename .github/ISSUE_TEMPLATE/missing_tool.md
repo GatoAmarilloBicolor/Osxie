@@ -1,6 +1,6 @@
 ---
 name: Missing Built-In Tool
-about: MacOS contains a command-line tool that Darling does not
+about: MacOS contains a command-line tool that Osxie does not
 labels: 'enhancement'
 ---
 
@@ -15,4 +15,4 @@ What system are you running?
 
 | Software | Version |
 | --- | --- |
-| Darling | Git Commit Hash |
+| Osxie | Git Commit Hash |

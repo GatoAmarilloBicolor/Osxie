@@ -18,7 +18,7 @@ __attribute__((constructor))
 __attribute__((destructor)) static void freeMemory();
 static void crashHandler(int signo, siginfo_t* info, void*);
 
-// Defined in Darling dyld
+// Defined in Osxie dyld
 extern char** g_argv asm("NXArgv");
 extern int g_argc asm("NXArgc");
 static char** g_argvCopy = NULL; // out private copy
@@ -26,7 +26,7 @@ static char* g_originalCwd = NULL;
 
 void setSignalHandlers()
 {
-	if (getenv("DARLING_NO_HANDLER") == NULL)
+	if (getenv("OSXIE_NO_HANDLER") == NULL)
 	{
 		struct sigaction act;
 

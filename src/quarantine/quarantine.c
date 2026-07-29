@@ -1,5 +1,5 @@
 /*
- * Darling - libquarantine
+ * Osxie - libquarantine
  * Copyright (c) 2016 Lubos Dolezel, All rights reserved.
  *
  * This library is free software; you can redistribute it and/or

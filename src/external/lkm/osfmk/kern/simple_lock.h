@@ -280,7 +280,7 @@ extern void                     usimple_unlock(
 
 #ifdef MACH_KERNEL_PRIVATE
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 // we have to make sure to match the Linux type to prevent `bit_spin_lock` from possibly accessing invalid memory
 // this should be the same as `uint32_t` on most platforms anyways, but just in case
 typedef unsigned long hw_lock_bit_t;
@@ -288,7 +288,7 @@ typedef unsigned long hw_lock_bit_t;
 typedef uint32_t hw_lock_bit_t;
 #endif
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 
 #if LOCK_STATS
 extern void     hw_lock_bit(

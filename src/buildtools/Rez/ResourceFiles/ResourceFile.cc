@@ -515,7 +515,7 @@ bool ResourceFile::write()
                 longword(out, 32);
             }
             break;
-#ifndef DARLING
+#ifndef OSXIE
         case Format::diskimage:
             {
                 std::ostringstream rsrcOut;

@@ -87,7 +87,7 @@ kern_return_t mach_vm_allocate_kernel(vm_map_t map, mach_vm_offset_t * addr, mac
            if (flags & ~VM_FLAGS_USER_ALLOCATE)
             return KERN_INVALID_ARGUMENT;
 
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 #else
         if (map == VM_MAP_NULL)
             return(KERN_INVALID_ARGUMENT);
@@ -111,7 +111,7 @@ kern_return_t mach_vm_allocate_kernel(vm_map_t map, mach_vm_offset_t * addr, mac
              * special and suddenly having address 0 contain useable
              * memory would tend to confuse those applications.
              */
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
             map_addr    = *addr;
 #else
             map_addr = vm_map_min(map);
@@ -127,7 +127,7 @@ kern_return_t mach_vm_allocate_kernel(vm_map_t map, mach_vm_offset_t * addr, mac
           return(KERN_INVALID_ARGUMENT);
         }
 
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 
         vm_prot_t       vm_prot         = VM_PROT_DEFAULT;
 

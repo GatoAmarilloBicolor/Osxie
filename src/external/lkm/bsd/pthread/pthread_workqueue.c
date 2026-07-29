@@ -27,7 +27,7 @@
  */
 /* Copyright (c) 1995-2018 Apple, Inc. All Rights Reserved */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -84,7 +84,7 @@
 
 #include <os/log.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 

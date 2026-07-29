@@ -32,7 +32,7 @@
 #include <kern/queue.h>
 #include <kern/assert.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #define __builtin_assume(x)
 #endif
 

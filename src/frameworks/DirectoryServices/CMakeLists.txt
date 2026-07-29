@@ -9,7 +9,7 @@ set(FRAMEWORK_VERSION "A")
 
 generate_sdk_framework(DirectoryService
     VERSION ${FRAMEWORK_VERSION}
-    HEADER "darling-framework/include/DirectoryService"
+    HEADER "osxie-framework/include/DirectoryService"
 )
 
 add_framework(DirectoryService

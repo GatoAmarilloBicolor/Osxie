@@ -90,7 +90,7 @@
 struct klist;
 struct kqwllist;
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <sys/queue.h>
 
 struct kqfile;
@@ -105,7 +105,7 @@ typedef struct dkqueue_list_entry {
 #endif
 
 struct filedesc {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	dkqueue_list_t kqueue_list;     /* used to keep track of open kqueues */
 #else
 	struct  fileproc **fd_ofiles;   /* file structures for open files */

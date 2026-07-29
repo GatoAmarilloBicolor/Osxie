@@ -135,14 +135,14 @@ endif()
 
 add_custom_target(lkm
 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lkm-make
-	COMMENT "Darling no longer requires building the kernel module. There is no need to run `make lkm` anymore"
+	COMMENT "Osxie no longer requires building the kernel module. There is no need to run `make lkm` anymore"
 )
 
 add_custom_target(lkm_install
 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lkm-make
-	COMMENT "Darling no longer requires building the kernel module. There is no need to run `make lkm_install` anymore"
+	COMMENT "Osxie no longer requires building the kernel module. There is no need to run `make lkm_install` anymore"
 )
 
 add_custom_target(lkm_clean
 	COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lkm-make
-	COMMENT "Darling no longer requires building the kernel module. There is no need to run `make lkm_clean` anymore")
+	COMMENT "Osxie no longer requires building the kernel module. There is no need to run `make lkm_clean` anymore")

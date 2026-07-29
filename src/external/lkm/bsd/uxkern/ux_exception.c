@@ -32,12 +32,12 @@
  * the terms and conditions for use and redistribution.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #include <sys/param.h>
 #endif
 
@@ -45,7 +45,7 @@
 #include <mach/exception.h>
 #include <mach/kern_return.h>
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #include <sys/proc.h>
 #include <sys/user.h>
 #include <sys/systm.h>
@@ -54,7 +54,7 @@
 
 #include <sys/ux_exception.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 
 #define SIGSTOP XNU_SIGSTOP
@@ -76,7 +76,7 @@
  * a signal.  Calls machine_exception (machine dependent)
  * to attempt translation first.
  */
-#ifdef __DARLING__
+#ifdef __OSXIE__
 int
 #else
 static int
@@ -87,7 +87,7 @@ ux_exception(int                        exception,
 {
 	int machine_signal = 0;
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	/* Try machine-dependent translation first. */
 	if ((machine_signal = machine_exception(exception, code, subcode)) != 0) {
 		return machine_signal;
@@ -108,7 +108,7 @@ ux_exception(int                        exception,
 	case EXC_ARITHMETIC:
 		return SIGFPE;
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	case EXC_EMULATION:
 		return SIGEMT;
 #endif
@@ -134,7 +134,7 @@ ux_exception(int                        exception,
 }
 
 // we have our own duct-taped version of it
-#ifndef __DARLING__
+#ifndef __OSXIE__
 /*
  * Sends the corresponding UNIX signal to a thread that has triggered a Mach exception.
  */

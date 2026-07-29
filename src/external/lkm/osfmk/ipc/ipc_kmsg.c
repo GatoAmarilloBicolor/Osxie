@@ -70,7 +70,7 @@
  *	Operations on kernel messages.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -150,7 +150,7 @@
 #include <libkern/ptrauth_utils.h>
 #endif
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #include <darling/debug_print.h>
 #endif
@@ -537,7 +537,7 @@ mm_copy_options_string64(
 
 void db_print_msg_uid64(mach_msg_header_t *);
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static void
 ipc_msg_body_print64(void *body, int size)
 {
@@ -706,7 +706,7 @@ ipc_msg_print64(
 	    msgh->msgh_id,
 	    msgh->msgh_size);
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	if (mbits & MACH_MSGH_BITS_COMPLEX) {
 		ipc_msg_print_untyped64((mach_msg_body_t *) (msgh + 1));
 	}
@@ -2017,7 +2017,7 @@ ipc_kmsg_get(
 	kmsg->ikm_header->msgh_voucher_port             = legacy_base.header.msgh_voucher_port;
 	kmsg->ikm_header->msgh_id                       = legacy_base.header.msgh_id;
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	debug_msg("- ikm_header->msgh_size: %d, bits: 0x%x rport: 0x%x, lport: 0x%x, reserved: 0x%x, id: %d\n",
 		kmsg->ikm_header->msgh_size,
 		kmsg->ikm_header->msgh_bits,
@@ -2332,7 +2332,7 @@ retry:
 	// that uses it without a conditional); we don't really care about importance, and in fact,
 	// leaving this in causes segfaults due to us not actually initializing `task_imp_base` correctly
 	// (and trying to do so would introduce more unnecessary complexity)
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #if IMPORTANCE_INHERITANCE
 	/*
 	 * Need to see if this message needs importance donation and/or
@@ -4072,7 +4072,7 @@ ipc_kmsg_copyin(
 		return mr;
 	}
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	debug_msg("- copyin_header->msgh_size: %d, bits: 0x%x rport: 0x%p, lport: 0x%p, reserved: 0x%x, id: %d\n",
 		kmsg->ikm_header->msgh_size,
 		kmsg->ikm_header->msgh_bits,

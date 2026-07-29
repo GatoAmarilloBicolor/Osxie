@@ -1,139 +1,139 @@
-Source: darling
+Source: osxie
 Maintainer: Lubos Dolezel <lubos@dolezel.info>
 Section: misc
 Priority: optional
 Standards-Version: 4.4.0
 Build-Depends: cmake, clang | clang-9, bison, flex, libfuse-dev, libudev-dev, pkg-config, libc6-dev-i386, linux-headers-amd64|linux-headers-generic, gcc-multilib, libcairo2-dev, libgl1-mesa-dev, libtiff5-dev, libfreetype6-dev, libelf-dev, libxml2-dev, libegl1-mesa-dev, libglu1-mesa-dev, libfontconfig1-dev, libbsd-dev, debhelper, ninja-build, libxrandr-dev, libxcursor-dev, libgif-dev, libavcodec-dev, libavformat-dev, libswresample-dev, libavutil-dev, libpulse-dev, libavformat-dev, libavcodec-dev, libdbus-1-dev, libxkbfile-dev, libcap-dev, llvm-dev, libvulkan-dev, libcap2-bin
 
-Package: darling
+Package: osxie
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, darling-cli, darling-python2, darling-ruby, darling-perl, darling-gui, darling-gui-stubs, darling-pyobjc
-Description: Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, osxie-cli, osxie-python2, osxie-ruby, osxie-perl, osxie-gui, osxie-gui-stubs, osxie-pyobjc
+Description: Osxie
  Translation layer for running macOS software on Linux
 
-Package: darling-extra
+Package: osxie-extra
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, darling, darling-jsc, darling-cli-extra
-Description: Extra components for Darling
- Extra components for Darling that are not part of a typical ("stock") installation
+Depends: ${shlibs:Depends}, ${misc:Depends}, osxie, osxie-jsc, osxie-cli-extra
+Description: Extra components for Osxie
+ Extra components for Osxie that are not part of a typical ("stock") installation
 
-Package: darling-core
+Package: osxie-core
 Architecture: amd64
 Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, xdg-user-dirs
-Description: Darling core components
- Core components of Darling
+Description: Osxie core components
+ Core components of Osxie
 
-Package: darling-system
+Package: osxie-system
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-core
-Description: Darling system components
- System components of Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-core
+Description: Osxie system components
+ System components of Osxie
 
-Package: darling-cli
+Package: osxie-cli
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-system, darling-cli-gui-common, darling-cli-python2-common
-Description: Darling CLI components
- CLI components of Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-system, osxie-cli-gui-common, osxie-cli-python2-common
+Description: Osxie CLI components
+ CLI components of Osxie
 
-Package: darling-ffi
+Package: osxie-ffi
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-core
-Description: libffi for Darling
- libffi built for use within Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-core
+Description: libffi for Osxie
+ libffi built for use within Osxie
 
-Package: darling-cli-devenv
+Package: osxie-cli-devenv
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-cli, darling-python2, darling-ruby, darling-perl, darling-cli-devenv-gui-common, darling-cli-devenv-gui-stubs-common, darling-iosurface
-Description: Darling developer environment
- A Darling environment for CLI-only programs for building and developing using the command line developer tools
-Conflicts: darling-gui, darling-gui-stubs
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-cli, osxie-python2, osxie-ruby, osxie-perl, osxie-cli-devenv-gui-common, osxie-cli-devenv-gui-stubs-common, osxie-iosurface
+Description: Osxie developer environment
+ A Osxie environment for CLI-only programs for building and developing using the command line developer tools
+Conflicts: osxie-gui, osxie-gui-stubs
 
-Package: darling-cli-gui-common
+Package: osxie-cli-gui-common
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-system
-Description: Darling CLI and GUI common components
- Components of Darling that are shared between the CLI and GUI components
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-system
+Description: Osxie CLI and GUI common components
+ Components of Osxie that are shared between the CLI and GUI components
 
-Package: darling-iokitd
+Package: osxie-iokitd
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-system, darling-iosurface
-Description: Darling IOKit daemon
- IOKit daemon for Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-system, osxie-iosurface
+Description: Osxie IOKit daemon
+ IOKit daemon for Osxie
 
-Package: darling-cli-devenv-gui-common
+Package: osxie-cli-devenv-gui-common
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-system
-Description: Darling developer environment and GUI common components
- Components of Darling that are shared between the developer environment and the GUI components
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-system
+Description: Osxie developer environment and GUI common components
+ Components of Osxie that are shared between the developer environment and the GUI components
 
-Package: darling-cli-extra
+Package: osxie-cli-extra
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-cli
-Description: Extra Darling CLI components
- Non-standard CLI components of Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-cli
+Description: Extra Osxie CLI components
+ Non-standard CLI components of Osxie
 
-Package: darling-gui
+Package: osxie-gui
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-system, darling-cli-devenv-gui-common, darling-iokitd, darling-cli-gui-common, darling-iosurface
-Description: Darling GUI components
- GUI components of Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-system, osxie-cli-devenv-gui-common, osxie-iokitd, osxie-cli-gui-common, osxie-iosurface
+Description: Osxie GUI components
+ GUI components of Osxie
 
-Package: darling-python2
+Package: osxie-python2
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-core, darling-cli-python2-common, darling-ffi
-Description: Python 2 for Darling
- Python 2 (and associated programs) built for use within Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-core, osxie-cli-python2-common, osxie-ffi
+Description: Python 2 for Osxie
+ Python 2 (and associated programs) built for use within Osxie
 
-Package: darling-cli-python2-common
+Package: osxie-cli-python2-common
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-core
-Description: Darling CLI and Python 2 common components
- Components of Darling that are shared between the CLI and Python 2 components
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-core
+Description: Osxie CLI and Python 2 common components
+ Components of Osxie that are shared between the CLI and Python 2 components
 
-Package: darling-pyobjc
+Package: osxie-pyobjc
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-gui-stubs, darling-python2
-Description: PyObjC for Darling
- PyObjC built for use within Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-gui-stubs, osxie-python2
+Description: PyObjC for Osxie
+ PyObjC built for use within Osxie
 
-Package: darling-ruby
+Package: osxie-ruby
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-core, darling-ffi
-Description: Ruby for Darling
- Ruby built for use within Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-core, osxie-ffi
+Description: Ruby for Osxie
+ Ruby built for use within Osxie
 
-Package: darling-perl
+Package: osxie-perl
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-core
-Description: Perl for Darling
- Perl built for use within Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-core
+Description: Perl for Osxie
+ Perl built for use within Osxie
 
-Package: darling-jsc-webkit-common
+Package: osxie-jsc-webkit-common
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-system
-Description: Darling JavaScriptCore and WebKit common components
- Components of Darling that are shared between JavaScriptCore and WebKit
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-system
+Description: Osxie JavaScriptCore and WebKit common components
+ Components of Osxie that are shared between JavaScriptCore and WebKit
 
-Package: darling-jsc
+Package: osxie-jsc
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-system, darling-jsc-webkit-common
-Description: JavaScriptCore for Darling
- JavaScriptCore built for use within Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-system, osxie-jsc-webkit-common
+Description: JavaScriptCore for Osxie
+ JavaScriptCore built for use within Osxie
 
-Package: darling-iosurface
+Package: osxie-iosurface
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-system
-Description: IOSurface framework for Darling
- IOSurface framework built for use within Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-system
+Description: IOSurface framework for Osxie
+ IOSurface framework built for use within Osxie
 
-Package: darling-cli-devenv-gui-stubs-common
+Package: osxie-cli-devenv-gui-stubs-common
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-cli-devenv-gui-common
-Description: Darling developer environment and GUI stubs common components
- Components of Darling that are shared between the developer environment and GUI stub components
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-cli-devenv-gui-common
+Description: Osxie developer environment and GUI stubs common components
+ Components of Osxie that are shared between the developer environment and GUI stub components
 
-Package: darling-gui-stubs
+Package: osxie-gui-stubs
 Architecture: amd64
-Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, darling-gui, darling-cli-devenv-gui-stubs-common
-Description: Darling GUI stub components
- GUI stub components of Darling
+Depends: ${shlibs:Depends}, ${misc:Depends}, ${macho:Depends}, osxie-gui, osxie-cli-devenv-gui-stubs-common
+Description: Osxie GUI stub components
+ GUI stub components of Osxie

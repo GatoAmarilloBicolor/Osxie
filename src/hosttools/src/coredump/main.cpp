@@ -276,7 +276,7 @@ void macho_coredump(struct coredump_params* cprm);
 
 int main(int argc, char** argv) {
 	if (argc < 2) {
-		fprintf(stderr, "Usage: %s <input-coredump> [output-coredump]\n", (argc > 0 ? argv[0] : "darling-coredump"));
+		fprintf(stderr, "Usage: %s <input-coredump> [output-coredump]\n", (argc > 0 ? argv[0] : "osixie-coredump"));
 		return 1;
 	}
 

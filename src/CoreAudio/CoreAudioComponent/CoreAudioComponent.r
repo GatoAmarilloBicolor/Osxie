@@ -9,7 +9,7 @@
 #define COMP_SUBTYPE	kAudioUnitSubType_HALOutput
 #define COMP_MANUF		kAudioUnitManufacturer_Apple
 #define VERSION			1
-#define NAME			"Darling: AudioDeviceOutput"
+#define NAME			"Osxie: AudioDeviceOutput"
 #define DESCRIPTION		"AudioDevice interface output unit"
 #define ENTRY_POINT		"AUHALEntry"
 #include "AUResources.r"
@@ -20,7 +20,7 @@
 #define COMP_SUBTYPE	kAudioUnitSubType_DefaultOutput
 #define COMP_MANUF		kAudioUnitManufacturer_Apple
 #define VERSION			1
-#define NAME			"Darling: DefaultOutputUnit"
+#define NAME			"Osxie: DefaultOutputUnit"
 #define DESCRIPTION		"Default output unit that redirects its output to the user selected default device"
 #define ENTRY_POINT		"DefaultOutputAUEntry"
 #include "AUResources.r"
@@ -31,7 +31,7 @@
 #define COMP_SUBTYPE	kAudioUnitSubType_SystemOutput
 #define COMP_MANUF		kAudioUnitManufacturer_Apple
 #define VERSION			1
-#define NAME			"Darling: SystemOutputUnit"
+#define NAME			"Osxie: SystemOutputUnit"
 #define DESCRIPTION		"System Sounds output unit that redirects its output to the user selected System Sounds device"
 #define ENTRY_POINT		"SystemOutputAUEntry"
 #include "AUResources.r"

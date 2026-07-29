@@ -205,7 +205,7 @@ typedef struct priority_queue_entry_stable {
  * Return:
  * comparision result to indicate relative ordering of elements according to the heap type
  */
-#ifdef __DARLING__
+#ifdef __OSXIE__
 typedef int (*priority_queue_compare_fn_t)(struct priority_queue_entry *e1,
     struct priority_queue_entry *e2);
 #else
@@ -215,8 +215,8 @@ typedef int (^priority_queue_compare_fn_t)(struct priority_queue_entry *e1,
 
 #define priority_heap_compare_ints(a, b) ((a) < (b) ? 1 : -1)
 
-#ifdef __DARLING__
-#define priority_heap_make_comparator(...) _Static_assert(0, "can't use priority_heap_make_comparator in Darling")
+#ifdef __OSXIE__
+#define priority_heap_make_comparator(...) _Static_assert(0, "can't use priority_heap_make_comparator in Osxie")
 };
 #else
 #define priority_heap_make_comparator(name1, name2, type, field, ...) \
@@ -389,7 +389,7 @@ priority_queue_init(struct priority_queue *pq, ...);
  *      Returns:
  *              None
  */
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #define priority_queue_destroy(pq, type, field, callback)   
 MACRO_BEGIN                                                                     \
 	void (*__callback)(type *) = (callback); /* type check */               \

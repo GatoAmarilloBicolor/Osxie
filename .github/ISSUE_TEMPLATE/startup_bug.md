@@ -1,6 +1,6 @@
 ---
 name: Startup Bug
-about: An issue with Darling's startup
+about: An issue with Osxie's startup
 labels: 'bug, container'
 ---
 
@@ -32,4 +32,4 @@ What system are you running?
 | --- | --- |
 | Linux Kernel | X.Y.Z |
 | Distro | Distro X.Y |
-| Darling | Git Commit Hash |
+| Osxie | Git Commit Hash |

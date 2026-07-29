@@ -74,37 +74,37 @@
 /*
  * Syscall entry macros for use in libc:
  */
-#ifndef DARLING
+#ifndef OSXIE
 
 #define UNIX_SYSCALL_TRAP	\
 	int $(UNIX_INT)
 #define MACHDEP_SYSCALL_TRAP	\
 	int $(MACHDEP_INT)
 
-#else // DARLING
+#else // OSXIE
 
 #define UNIX_SYSCALL_TRAP	\
-	call __darling_bsd_syscall
+	call __osixie_bsd_syscall
 #define MACHDEP_SYSCALL_TRAP	\
-	call __darling_machdep_syscall
+	call __osixie_machdep_syscall
 
 #endif
 
 /*
  * Macro to generate Mach call stubs in libc:
  */
-#ifndef DARLING
+#ifndef OSXIE
 
 #define kernel_trap(trap_name,trap_number,number_args) \
 LEAF(_##trap_name,0) ;\
 	movl	$##trap_number, %eax	;\
 	call	__sysenter_trap		;\
 END(_##trap_name)
-#else // DARLING
+#else // OSXIE
 #define kernel_trap(trap_name,trap_number,number_args) \
 LEAF(_##trap_name,0) ;\
 	movl	$##trap_number, %eax	;\
-	call	__darling_mach_syscall		;\
+	call	__osixie_mach_syscall		;\
 END(_##trap_name)
 #endif
 
@@ -116,16 +116,16 @@ END(_##trap_name)
 
 #ifndef KERNEL
 
-#ifndef DARLING
+#ifndef OSXIE
 #define UNIX_SYSCALL_TRAP	\
 	syscall
 #define MACHDEP_SYSCALL_TRAP	\
 	syscall
-#else // DARLING
+#else // OSXIE
 #define UNIX_SYSCALL_TRAP	\
-	call __darling_bsd_syscall
+	call __osixie_bsd_syscall
 #define MACHDEP_SYSCALL_TRAP	\
-	call __darling_machdep_syscall
+	call __osixie_machdep_syscall
 #endif
 
 /*
@@ -135,18 +135,18 @@ END(_##trap_name)
  * macro above, we negate those numbers here for the 64-bit
  * code path.
  */
-#ifndef DARLING
+#ifndef OSXIE
 #define kernel_trap(trap_name,trap_number,number_args) \
 LEAF(_##trap_name,0) ;\
 	movq	%rcx, %r10	;\
 	movl	$ SYSCALL_CONSTRUCT_MACH(-##trap_number), %eax	;\
 	syscall		;\
 END(_##trap_name)
-#else // DARLING
+#else // OSXIE
 #define kernel_trap(trap_name,trap_number,number_args) \
 LEAF(_##trap_name,0) ;\
 	movl	$##trap_number, %eax	;\
-	call	__darling_mach_syscall;\
+	call	__osixie_mach_syscall;\
 END(_##trap_name)
 #endif
 #endif /* !KERNEL */

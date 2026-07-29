@@ -152,7 +152,7 @@ endif()
 
 # we build these stubs if we're building `cli_dev` and *not* building Cocotron OR if we explicitly want them (`cli_dev_gui_stubs`).
 # we explicitly want to build them when building the `all` component because this component is intended to be used for building
-# Darling packages; we need to build a package that has these stubs available to be able to install Darling for CLI development
+# Osxie packages; we need to build a package that has these stubs available to be able to install Osxie for CLI development
 # without GUI dependencies like X11.
 if ((COMPONENT_cli_dev AND NOT COMPONENT_gui) OR COMPONENT_cli_dev_gui_stubs)
 	set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME "cli_dev")

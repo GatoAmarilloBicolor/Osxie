@@ -4,11 +4,11 @@ cmake_minimum_required(VERSION 3.13)
 
 include_directories(include)
 
-set_source_files_properties(${CMAKE_BINARY_DIR}/src/external/darlingserver/src/rpc.c PROPERTIES
+set_source_files_properties(${CMAKE_BINARY_DIR}/src/external/osxieserver/src/rpc.c PROPERTIES
 	GENERATED TRUE
 )
 
-add_library(mldr_dserver_rpc STATIC ${CMAKE_BINARY_DIR}/src/external/darlingserver/src/rpc.c)
+add_library(mldr_dserver_rpc STATIC ${CMAKE_BINARY_DIR}/src/external/osxieserver/src/rpc.c)
 
 add_dependencies(mldr_dserver_rpc generate_dserver_rpc_wrappers)
 
@@ -32,11 +32,11 @@ target_link_libraries(mldr PRIVATE -lrt -ldl mldr_dserver_rpc -lm)
 
 install(TARGETS mldr DESTINATION libexec/osxie/usr/libexec/osxie)
 
-configure_file(darling.conf.in osxie.conf @ONLY)
+configure_file(osxie.conf.in osxie.conf @ONLY)
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/osxie.conf" DESTINATION lib/binfmt.d)
 
 if (BUILD_TARGET_32BIT)
-	add_library(mldr32_dserver_rpc STATIC ${CMAKE_BINARY_DIR}/src/external/darlingserver/src/rpc.c)
+	add_library(mldr32_dserver_rpc STATIC ${CMAKE_BINARY_DIR}/src/external/osxieserver/src/rpc.c)
 	add_dependencies(mldr32_dserver_rpc generate_dserver_rpc_wrappers)
 	target_compile_options(mldr32_dserver_rpc PRIVATE -include ${CMAKE_CURRENT_SOURCE_DIR}/resources/dserver-rpc-defs.h)
 	target_compile_options(mldr32_dserver_rpc PRIVATE -m32)

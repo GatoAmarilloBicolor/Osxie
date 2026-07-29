@@ -2,7 +2,7 @@
 
 INDICES = 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20
 
-DARLING_COMPONENTS = \
+OSXIE_COMPONENTS = \
 	core \
 	system \
 	cli \
@@ -58,7 +58,7 @@ override_dh_auto_build:
 
 override_dh_auto_install:
 	cd debbuild; $(foreach INDEX,$(INDICES), \
-		DESTDIR=../debian/tmp/$(word $(INDEX),$(PACKAGE_SUFFIXES)) cmake -DCOMPONENT=$(word $(INDEX),$(DARLING_COMPONENTS)) -P cmake_install.cmake ; \
+		DESTDIR=../debian/tmp/$(word $(INDEX),$(PACKAGE_SUFFIXES)) cmake -DCOMPONENT=$(word $(INDEX),$(OSXIE_COMPONENTS)) -P cmake_install.cmake ; \
 	)
 
 override_dh_makeshlibs:
@@ -72,6 +72,6 @@ override_dh_clean:
 	rm -rf debbuild
 
 override_dh_fixperms:
-	dh_fixperms -Xusr/bin/darling -Xusr/bin/darlingserver -Xusr/libexec/darling/usr/libexec/darling/mldr -Xusr/libexec/darling/usr/libexec/darling/mldr32
+	dh_fixperms -Xusr/bin/osxie -Xusr/bin/osxieserver -Xusr/libexec/osxie/usr/libexec/osxie/mldr -Xusr/libexec/osxie/usr/libexec/osxie/mldr32
 
 override_dh_update_autotools_config:

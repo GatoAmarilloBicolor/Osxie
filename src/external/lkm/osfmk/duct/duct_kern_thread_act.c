@@ -207,7 +207,7 @@ thread_get_state_internal(
 
 	// to_user is used to indicate whether to perform any necessary conversions from kernel to user thread state representations
 	// it currently only does something on ARM64 when the authenticated pointers (`ptrauth_calls`) feature is enabled,
-	// so i think it's safe to say we can ignore it in Darling (even when we get ARM support)
+	// so i think it's safe to say we can ignore it in Osxie (even when we get ARM support)
 
 #ifdef __x86_64__
 	switch (flavor)

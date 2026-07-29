@@ -1,20 +1,20 @@
 /*
-This file is part of Darling.
+This file is part of Osxie.
 
 Copyright (C) 2020 Lubos Dolezel
 
-Darling is free software: you can redistribute it and/or modify
+Osxie is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Darling is distributed in the hope that it will be useful,
+Osxie is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Darling.  If not, see <http://www.gnu.org/licenses/>.
+along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
 */
 #include "PADispatchMainLoop.h"
 #include <iostream>
@@ -22,7 +22,7 @@ along with Darling.  If not, see <http://www.gnu.org/licenses/>.
 PADispatchMainLoop::PADispatchMainLoop()
 {
 	// Create GCD queue
-	m_queue = dispatch_queue_create("org.darlinghq.coreaudio.pulseaudio", nullptr);
+	m_queue = dispatch_queue_create("org.osixie.coreaudio.pulseaudio", nullptr);
 
 	// PulseAudio expects the event loop to be suspended while we're creating the context.
 	// I couldn't find any mention of this in the documentation, but figured it out the hard way.

@@ -26,7 +26,7 @@
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -51,7 +51,7 @@
 
 #include <stdatomic.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 /*
@@ -831,7 +831,7 @@ kern_work_interval_notify(thread_t thread, struct kern_work_interval_args* kwi_a
 
 	splx(s);
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	/* called without interrupts disabled */
 	machine_work_interval_notify(thread, kwi_args);
 #endif

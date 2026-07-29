@@ -2045,7 +2045,7 @@ typedef void (APIENTRYP PFNGLMULTITEXCOORD4SVARBPROC) (GLenum target, const GLsh
 
 #else  /* GL_GLEXT_LEGACY */
 
-#ifdef __APPLE__ // __DARLING__
+#ifdef __APPLE__ // __OSXIE__
 #include <OpenGL/glext.h>
 #else
 #include <GL/glext.h>

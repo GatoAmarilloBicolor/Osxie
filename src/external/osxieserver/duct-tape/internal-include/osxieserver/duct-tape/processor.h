@@ -1,0 +1,6 @@
+#ifndef _OSXIESERVER_DUCT_TAPE_PROCESOR_H_
+#define _OSXIESERVER_DUCT_TAPE_PROCESOR_H_
+
+void dtape_processor_init(void);
+
+#endif // _OSXIESERVER_DUCT_TAPE_PROCESOR_H_

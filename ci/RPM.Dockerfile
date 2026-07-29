@@ -3,7 +3,7 @@
 # this command must be run while in the `rpm` directory in the root of the repo.
 ARG BASE_IMAGE=fedora:37
 FROM $BASE_IMAGE
-LABEL name=darling-build-image-fedora version=0.1.0
+LABEL name=osixie-build-image-fedora version=0.1.0
 ARG CI_UID=1111
 ARG CI_GID=1111
 RUN dnf install -y rpm-build dnf-utils rpmdevtools git; \
@@ -12,10 +12,10 @@ RUN dnf install -y rpm-build dnf-utils rpmdevtools git; \
     dnf clean all
 RUN groupadd -g "${CI_GID}" ci
 RUN useradd -u "${CI_UID}" -g "${CI_GID}" -m ci
-COPY SPECS/darling.spec /darling.spec
-RUN yum-builddep -y /darling.spec; \
+COPY SPECS/osxie.spec /osxie.spec
+RUN yum-builddep -y /osxie.spec; \
     dnf clean all
-RUN rm /darling.spec
+RUN rm /osxie.spec
 RUN dnf install -y sudo; \
     dnf clean all
 RUN echo 'ci ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers

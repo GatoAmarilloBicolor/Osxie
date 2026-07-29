@@ -1,6 +1,6 @@
 set(MANUALLY_SET_COMPILER_ERROR_MESSAGE 
 "If you already have a supported version of clang installed, you may need to \
-manually set CMAKE_C_COMPILER and CMAKE_CXX_COMPILER. Refer to the Darling docs \
+manually set CMAKE_C_COMPILER and CMAKE_CXX_COMPILER. Refer to the Osxie docs \
 for more details."
 )
 

@@ -1,4 +1,4 @@
-name: Darling CI
+name: Osxie CI
 
 on: [push, pull_request]
 
@@ -6,7 +6,7 @@ jobs:
   build-deb:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Darling
+    - name: Checkout Osxie
       uses: actions/checkout@v4
       with:
         submodules: recursive
@@ -38,7 +38,7 @@ jobs:
   build-dsc:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Darling
+    - name: Checkout Osxie
       uses: actions/checkout@v4
       with:
         submodules: recursive
@@ -64,7 +64,7 @@ jobs:
   create-source-artifact:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Darling
+    - name: Checkout Osxie
       uses: actions/checkout@v4
       with:
         submodules: recursive
@@ -74,7 +74,7 @@ jobs:
       run: |
         mkdir -v archive
         tar --create --use-compress-program="xz -9e" --verbose \
-            --file archive/darling-source.tar.xz \
+            --file archive/osixie-source.tar.xz \
             --exclude=.git --exclude=.gitmodules --exclude=.gitignore \
             --directory=source \
             darling

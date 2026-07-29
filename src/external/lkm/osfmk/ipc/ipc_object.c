@@ -70,7 +70,7 @@
  *	Functions to manipulate IPC objects.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -99,7 +99,7 @@
 
 #include <security/mac_mach_internal.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 
@@ -929,7 +929,7 @@ ipc_object_copyout(
 	assert(IO_VALID(object));
 	assert(io_otype(object) == IOT_PORT);
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	if (ITH_KNOTE_VALID(kn, msgt_name)) {
 		filt_machport_turnstile_prepare_lazily(kn, msgt_name, port);
 	}

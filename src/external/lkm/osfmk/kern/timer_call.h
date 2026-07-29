@@ -69,7 +69,7 @@ typedef void            (*timer_call_func_t)(
 	timer_call_param_t      param0,
 	timer_call_param_t      param1);
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <kern/thread_call.h>
 typedef struct thread_call timer_call_data_t, *timer_call_t;
 #else

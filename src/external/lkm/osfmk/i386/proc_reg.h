@@ -244,7 +244,7 @@ set_ds(uint16_t ds)
 	__asm__ volatile ("mov %0, %%ds" : : "r" (ds));
 }
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static inline uint16_t
 get_fs(void)
 {
@@ -424,7 +424,7 @@ extern int rdmsr64_carefully(uint32_t msr, uint64_t *val);
 extern int wrmsr64_carefully(uint32_t msr, uint64_t val);
 #endif  /* MACH_KERNEL_PRIVATE */
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static inline void
 wbinvd(void)
 {
@@ -438,7 +438,7 @@ invlpg(uintptr_t addr)
 	__asm__  volatile ("invlpg (%0)" :: "r" (addr) : "memory");
 }
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static inline void
 clac(void)
 {
@@ -458,7 +458,7 @@ stac(void)
  * pointer indirection), this allows gcc to optimize better
  */
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #define rdmsr(msr, lo, hi) \
 	__asm__ volatile("rdmsr" : "=a" (lo), "=d" (hi) : "c" (msr))
 
@@ -551,7 +551,7 @@ rdtscp64(uint32_t *aux)
 	return ((hi) << 32) | (lo);
 }
 #endif /* __LP64__ */
-#endif // __DARLING__
+#endif // __OSXIE__
 
 /*
  * rdmsr_carefully() returns 0 when the MSR has been read successfully,
@@ -565,7 +565,7 @@ __END_DECLS
 
 // has the same values as the Linux definitions, but the redefinitions
 // produce lots of warnings, so let's shut those up
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #define MSR_IA32_P5_MC_ADDR                     0
 #define MSR_IA32_P5_MC_TYPE                     1
 #define MSR_IA32_PLATFORM_ID                    0x17

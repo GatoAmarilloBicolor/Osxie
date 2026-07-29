@@ -193,7 +193,7 @@
  * __kpi_deprecated() specifically indicates deprecation of kernel programming
  * interfaces in Kernel.framework used by KEXTs.
  */
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #define __deprecated    __attribute__((__deprecated__))
 #endif
 

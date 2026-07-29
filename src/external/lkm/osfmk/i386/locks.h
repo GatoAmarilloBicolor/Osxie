@@ -45,7 +45,7 @@
 #endif /* MACH_KERNEL_PRIVATE */
 
 #if     defined(MACH_KERNEL_PRIVATE)
-#ifndef __DARLING__
+#ifndef __OSXIE__
 typedef struct {
 	volatile uintptr_t      interlock;
 #if     MACH_LDEBUG
@@ -58,7 +58,7 @@ typedef struct {
 
 #else /* MACH_KERNEL_PRIVATE */
 #ifdef  KERNEL_PRIVATE
-#ifndef __DARLING__
+#ifndef __OSXIE__
 typedef struct {
 	unsigned long    opaque[10];
 } lck_spin_t;
@@ -69,7 +69,7 @@ typedef struct __lck_spin_t__   lck_spin_t;
 #endif
 
 #ifdef  MACH_KERNEL_PRIVATE
-#ifndef __DARLING__
+#ifndef __OSXIE__
 /* The definition of this structure, including the layout of the
  * state bitfield, is tailored to the asm implementation in i386_lock.s
  */
@@ -270,7 +270,7 @@ static_assert(sizeof(lck_rw_t) == LCK_RW_T_SIZE);
 
 #if LOCK_PRIVATE
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #define GS_RELATIVE
 #endif
 

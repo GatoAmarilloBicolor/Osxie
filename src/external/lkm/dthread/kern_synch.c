@@ -30,12 +30,12 @@
  *	pthread_support.c
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include "kern_internal.h"
 #endif
 
@@ -93,13 +93,13 @@
 
 #include <pexpert/pexpert.h>
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #include "kern_internal.h"
 #endif
 #include "synch_internal.h"
 #include "kern_trace.h"
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 
 #include <darling/task_registry.h>
@@ -548,7 +548,7 @@ ksyn_wqunlock(ksyn_wait_queue_t kwq)
 	lck_spin_unlock(&kwq->kw_lock);
 }
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 // custom implementations of some functions in BSD's `kern_synch.c`
 static int msleep(void* chan, lck_mtx_t* mtx, int pri, const char* wmesg, struct timespec* ts) {
 	ksyn_wait_queue_t kwq = container_of(chan, struct ksyn_wait_queue, kw_pflags);
@@ -1578,7 +1578,7 @@ pth_global_hashinit(void)
 void
 _pth_proc_hashinit(proc_t p)
 {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	void *ptr = hashinit(PTH_HASHSIZE, M_PROC, &pthhash);
 #else
 	void *ptr = hashinit(PTH_HASHSIZE, M_PCB, &pthhash);
@@ -1736,7 +1736,7 @@ ksyn_wqfind(user_addr_t uaddr, uint32_t mgen, uint32_t ugen, uint32_t sgen,
 
 			nkwq = (ksyn_wait_queue_t)zalloc(kwq_zone);
 			bzero(nkwq, sizeof(struct ksyn_wait_queue));
-#ifdef __DARLING__
+#ifdef __OSXIE__
 			init_waitqueue_head(&nkwq->linux_wq);
 #endif
 			int i;
@@ -1771,7 +1771,7 @@ ksyn_wqfind(user_addr_t uaddr, uint32_t mgen, uint32_t ugen, uint32_t sgen,
 						/* if all users are unlockers then wait for it to finish */
 						kwq->kw_pflags |= KSYN_WQ_WAITING;
 						// Drop the lock and wait for the kwq to be free.
-#ifdef __DARLING__
+#ifdef __OSXIE__
 						res = msleep(&kwq->kw_pflags, pthread_list_mlock, PDROP, "ksyn_wqfind", 0);
 #else
 						(void)msleep(&kwq->kw_pflags, pthread_list_mlock,
@@ -2027,14 +2027,14 @@ ksyn_signal(ksyn_wait_queue_t kwq, kwq_queue_type_t kqi,
 	return ret;
 }
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #undef current_map
 #endif
 
 int
 ksyn_findobj(user_addr_t uaddr, uint64_t *objectp, uint64_t *offsetp)
 {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	return ENOTSUP; // TODO vm_map_page_info
 #else
 	kern_return_t ret;

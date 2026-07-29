@@ -407,7 +407,7 @@ struct efi_aurr_extended_panic_log {
 
 __BEGIN_DECLS
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 __printflike(1,2)
 extern void duct_panic(const char* string, ...);
 #else
@@ -529,8 +529,8 @@ __BEGIN_DECLS
 #define LINE_NUMBER(x) __STRINGIFY(x)
 #define PANIC_LOCATION __FILE__ ":" LINE_NUMBER(__LINE__)
 
--// we only have to redefine these for Darling so that they use `duct_panic` instead of `panic`
-#ifdef __DARLING__
+-// we only have to redefine these for Osxie so that they use `duct_panic` instead of `panic`
+#ifdef __OSXIE__
 #if defined(__arm__) || defined(__arm64__)
 #define panic(ex, ...)  ({ \
 	        __asm__("" ::: "memory"); \

@@ -1,7 +1,7 @@
 #include <CarbonCore/BackupCore.h>
 
 // these are technically stubs
-// although, since Darling doesn't do backups, these are basically implemented
+// although, since Osxie doesn't do backups, these are basically implemented
 // the return values are *technically* correct: the items being queried *are* excluded from backups...
 // ...it's just that *all* items are excluded from backups :)
 

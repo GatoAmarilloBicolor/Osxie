@@ -1,27 +1,27 @@
 /*
-This file is part of Darling.
+This file is part of Osxie.
 
 Copyright (C) 2012-2013 Lubos Dolezel
 
-Darling is free software: you can redistribute it and/or modify
+Osxie is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Darling is distributed in the hope that it will be useful,
+Osxie is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Darling.  If not, see <http://www.gnu.org/licenses/>.
+along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <CarbonCore/FixMath.h>
 #include <cmath>
 #include <limits>
 
-namespace Darling
+namespace Osxie
 {
 	static const int32_t InfPlus = std::numeric_limits<int32_t>::max();
 	static const int32_t InfMinus = std::numeric_limits<int32_t>::min();
@@ -44,22 +44,22 @@ namespace Darling
 
 float FixedToFloat(Fixed f)
 {
-	return float(f) / Darling::FixedRatio;
+	return float(f) / Osxie::FixedRatio;
 }
 
 Fixed FloatToFixed(float f)
 {
-	return Darling::checkNumberBounds(f * Darling::FixedRatio);
+	return Osxie::checkNumberBounds(f * Osxie::FixedRatio);
 }
 
 Fract FloatToFract(float f)
 {
-	return Darling::checkNumberBounds(f * Darling::FractRatio);
+	return Osxie::checkNumberBounds(f * Osxie::FractRatio);
 }
 
 float FractToFloat(Fract f)
 {
-	return float(f) / Darling::FractRatio;
+	return float(f) / Osxie::FractRatio;
 }
 
 Fixed FixRatio(short n, short denominator)
@@ -91,12 +91,12 @@ int32_t Fix2Long(Fixed f)
 
 Fixed Long2Fix(int32_t v)
 { 
-	return Darling::checkNumberBounds(int64_t(v) * Darling::FixedRatio);
+	return Osxie::checkNumberBounds(int64_t(v) * Osxie::FixedRatio);
 }
 
 Fixed Frac2Fix(Fract f)
 {
-	return Darling::checkNumberBounds(f * 0x4000);
+	return Osxie::checkNumberBounds(f * 0x4000);
 }
 
 Fract FracMul(Fract x, Fract y)
@@ -137,22 +137,22 @@ Fixed FixATan2(int32_t x, int32_t y)
 
 double Frac2X(Fract f)
 {
-	return double(f) / Darling::FractRatio;
+	return double(f) / Osxie::FractRatio;
 }
 
 double Fix2X(Fract f)
 {
-	return double(f) / Darling::FixedRatio;
+	return double(f) / Osxie::FixedRatio;
 }
 
 Fixed X2Fix(double d)
 {
-	return Darling::checkNumberBounds(d * Darling::FixedRatio);
+	return Osxie::checkNumberBounds(d * Osxie::FixedRatio);
 }
 
 Fract X2Frac(double d)
 {
-	return Darling::checkNumberBounds(d * Darling::FractRatio);
+	return Osxie::checkNumberBounds(d * Osxie::FractRatio);
 }
 
 short WideCompare(const wide* a, const wide* b)

@@ -918,7 +918,7 @@ extern void     zone_fill_initially(
  * Note: all values passed to zfree() might be in the element to be freed,
  *       temporaries must be taken, and the resetting to be done prior to free.
  */
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #define zfree(zone, elem) ({ \
 	_Static_assert(sizeof(elem) == sizeof(void *), "elem isn't pointer sized"); \
 	__auto_type __zfree_zone = (zone); \

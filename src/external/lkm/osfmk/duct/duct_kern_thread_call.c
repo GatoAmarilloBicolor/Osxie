@@ -1,5 +1,5 @@
 /*
- * Darling Mach Linux Kernel Module
+ * Osxie Mach Linux Kernel Module
  * Copyright (C) 2015-2017 Lubos Dolezel
  * 
  * This program is free software; you can redistribute it and/or

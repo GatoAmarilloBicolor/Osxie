@@ -1,4 +1,4 @@
-// Modified by Lubos Dolezel for Darling
+// Modified by Lubos Dolezel for Osxie
 /*
  * Copyright (c) 2002 Apple Computer, Inc. All rights reserved.
  *

@@ -22,7 +22,7 @@ kern_os_malloc(size_t size)
 		return NULL;
 	}
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #if OSALLOCDEBUG
 	OSAddAtomic(size, &debug_iomalloc_size);
 #endif
@@ -38,7 +38,7 @@ kern_os_malloc(size_t size)
 void
 kern_os_free(void * addr)
 {
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	size_t size;
 	size = kalloc_size(addr);
 #if OSALLOCDEBUG

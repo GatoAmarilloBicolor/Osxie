@@ -91,26 +91,26 @@ ret
 
 #endif
 
-.private_extern _darling_mach_syscall_entry_trampoline
-_darling_mach_syscall_entry_trampoline:
+.private_extern _osixie_mach_syscall_entry_trampoline
+_osixie_mach_syscall_entry_trampoline:
 	trampoline_enter
-	call _darling_mach_syscall_entry_print
+	call _osixie_mach_syscall_entry_print
 	trampoline_leave
 
-.private_extern _darling_mach_syscall_exit_trampoline
-_darling_mach_syscall_exit_trampoline:
+.private_extern _osixie_mach_syscall_exit_trampoline
+_osixie_mach_syscall_exit_trampoline:
 	trampoline_enter
-	call _darling_mach_syscall_exit_print
+	call _osixie_mach_syscall_exit_print
 	trampoline_leave
 
-.private_extern _darling_bsd_syscall_entry_trampoline
-_darling_bsd_syscall_entry_trampoline:
+.private_extern _osixie_bsd_syscall_entry_trampoline
+_osixie_bsd_syscall_entry_trampoline:
 	trampoline_enter
-	call _darling_bsd_syscall_entry_print
+	call _osixie_bsd_syscall_entry_print
 	trampoline_leave
 
-.private_extern _darling_bsd_syscall_exit_trampoline
-_darling_bsd_syscall_exit_trampoline:
+.private_extern _osixie_bsd_syscall_exit_trampoline
+_osixie_bsd_syscall_exit_trampoline:
 	trampoline_enter
-	call _darling_bsd_syscall_exit_print
+	call _osixie_bsd_syscall_exit_print
 	trampoline_leave

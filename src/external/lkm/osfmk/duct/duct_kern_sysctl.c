@@ -48,7 +48,7 @@ int debug_kprint_syscall = 0
 
 int debug_kprint_current_process(const char **namep)
 {
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 #else
         struct proc *p = current_proc();
 

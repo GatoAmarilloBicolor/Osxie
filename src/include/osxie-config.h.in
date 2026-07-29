@@ -8,7 +8,7 @@
 #define SHARE_PATH "${CMAKE_INSTALL_PREFIX}/share/osxie"
 #define DYLD_PATH "${CMAKE_INSTALL_PREFIX}/bin/dyld"
 
-#define ETC_DARLING_PATH "/etc/osxie"
+#define ETC_OSXIE_PATH "/etc/osxie"
 // Path where the system root gets "mounted" inside the prefix
 #define SYSTEM_ROOT "/Volumes/SystemRoot"
 

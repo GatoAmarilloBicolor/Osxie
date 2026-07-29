@@ -34,7 +34,7 @@
 #ifndef _KERN_AST_H_
 #define _KERN_AST_H_
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 // hack/workaround for the wrong file getting picked up when including `osfmk/` headers in `bsd/`
 //
 // obviously, this shouldn't be necessary because Apple doesn't have to do this normally for XNU,

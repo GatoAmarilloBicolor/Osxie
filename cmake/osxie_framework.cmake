@@ -159,7 +159,7 @@ function(add_separated_framework name)
 	add_osxie_object_library(${my_name}_obj ${FRAMEWORK_SOURCES})
 
 	if (BUILD_TARGET_32BIT)
-		set(DARLING_LIB_32BIT_ONLY TRUE)
+		set(OSXIE_LIB_32BIT_ONLY TRUE)
 		if (FRAMEWORK_CIRCULAR_DEPENDENCIES OR FRAMEWORK_UPWARD_DEPENDENCIES)
 			add_circular(${my_name}_${APPLE_ARCH_32BIT}
 				SIBLINGS ${FRAMEWORK_CIRCULAR_DEPENDENCIES}
@@ -171,7 +171,7 @@ function(add_separated_framework name)
 			add_osxie_library(${my_name}_${APPLE_ARCH_32BIT} $<TARGET_OBJECTS:${my_name}_obj> ${FRAMEWORK_OBJECTS})
 			target_link_libraries(${my_name}_${APPLE_ARCH_32BIT} PRIVATE ${FRAMEWORK_STRONG_DEPENDENCIES})
 		endif (FRAMEWORK_CIRCULAR_DEPENDENCIES OR FRAMEWORK_UPWARD_DEPENDENCIES)
-		set(DARLING_LIB_32BIT_ONLY FALSE)
+		set(OSXIE_LIB_32BIT_ONLY FALSE)
 		set_target_properties(${my_name}_${APPLE_ARCH_32BIT} PROPERTIES
 					OUTPUT_NAME "${name}_${APPLE_ARCH_32BIT}"
 							SUFFIX ""
@@ -194,7 +194,7 @@ function(add_separated_framework name)
 	endif (BUILD_TARGET_32BIT)
 
 	if (BUILD_TARGET_64BIT)
-		set(DARLING_LIB_64BIT_ONLY TRUE)
+		set(OSXIE_LIB_64BIT_ONLY TRUE)
 		if (FRAMEWORK_CIRCULAR_DEPENDENCIES OR FRAMEWORK_UPWARD_DEPENDENCIES)
 			add_circular(${my_name}_${APPLE_ARCH_64BIT}
 				SIBLINGS ${FRAMEWORK_CIRCULAR_DEPENDENCIES}
@@ -206,7 +206,7 @@ function(add_separated_framework name)
 			add_osxie_library(${my_name}_${APPLE_ARCH_64BIT} $<TARGET_OBJECTS:${my_name}_obj> ${FRAMEWORK_OBJECTS})
 			target_link_libraries(${my_name}_${APPLE_ARCH_64BIT} PRIVATE ${FRAMEWORK_STRONG_DEPENDENCIES})
 		endif (FRAMEWORK_CIRCULAR_DEPENDENCIES OR FRAMEWORK_UPWARD_DEPENDENCIES)
-		set(DARLING_LIB_64BIT_ONLY FALSE)
+		set(OSXIE_LIB_64BIT_ONLY FALSE)
 		set_target_properties(${my_name}_${APPLE_ARCH_64BIT} PROPERTIES
 					OUTPUT_NAME "${name}_${APPLE_ARCH_64BIT}"
 							SUFFIX ""

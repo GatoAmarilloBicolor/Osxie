@@ -1,8 +1,8 @@
 # Contributors
 
-Darling comprises many open source packages, both well known (e.g. from the Free Software Foundation) or developed and released by Apple.
+Osxie comprises many open source packages, both well known (e.g. from the Free Software Foundation) or developed and released by Apple.
 
-This file only covers significant code contributions made directly for Darling.
+This file only covers significant code contributions made directly for Osxie.
 
 ## People
 

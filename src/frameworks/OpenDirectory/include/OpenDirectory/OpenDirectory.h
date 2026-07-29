@@ -41,7 +41,7 @@ FOUNDATION_EXPORT NSString *const ODFrameworkErrorDomain NS_AVAILABLE(10_6, NA);
 #import <OpenDirectory/ODAttributeMap.h>
 #import <OpenDirectory/ODModuleEntry.h>
 
-#ifdef DARLING
+#ifdef OSXIE
 #import <OpenDirectory/ODContext.h>
 
 #import <OpenDirectory/NSODContext.h>

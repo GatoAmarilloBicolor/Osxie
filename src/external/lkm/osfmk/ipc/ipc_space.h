@@ -113,7 +113,7 @@ typedef natural_t ipc_space_refs_t;
 #define IS_ENTROPY_CNT  1               /* per-space entropy pool size */
 
 struct ipc_space {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	struct mutex is_mutex_lock;
 #endif
 	lck_spin_t      is_lock_data;
@@ -182,7 +182,7 @@ extern lck_attr_t       ipc_lck_attr;
 
 #define is_read_lock(is)        lck_spin_lock_grp(&(is)->is_lock_data, &ipc_lck_grp)
 #define is_read_unlock(is)      lck_spin_unlock(&(is)->is_lock_data)
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #define is_read_sleep(is) printk(KERN_NOTICE "- BUG: is_read_sleep () called\n")
 #else
 #define is_read_sleep(is)       lck_spin_sleep_grp(&(is)->is_lock_data,     \
@@ -194,7 +194,7 @@ extern lck_attr_t       ipc_lck_attr;
 
 #define is_write_lock(is)       lck_spin_lock_grp(&(is)->is_lock_data, &ipc_lck_grp)
 #define is_write_unlock(is)     lck_spin_unlock(&(is)->is_lock_data)
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #define is_write_sleep(is) printk(KERN_NOTICE "- BUG: is_write_sleep () called\n")
 #else
 #define is_write_sleep(is)      lck_spin_sleep_grp(&(is)->is_lock_data,     \
@@ -223,7 +223,7 @@ is_release(ipc_space_t is)
 	if (1 == (OSDecrementAtomic(&(is->is_bits)) & IS_REFS_MAX)) {
 		assert(!is_active(is));
 		is_lock_destroy(is);
-#ifdef __DARLING__
+#ifdef __OSXIE__
 		mutex_destroy(&is->is_mutex_lock);
 #endif
 		is_free(is);

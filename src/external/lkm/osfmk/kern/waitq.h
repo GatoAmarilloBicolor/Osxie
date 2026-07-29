@@ -171,12 +171,12 @@ struct waitq {
 			};
 		};
 	};
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	wait_queue_head_t       linux_wq;
 #endif
 };
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static_assert(sizeof(struct waitq) == WQ_OPAQUE_SIZE, "waitq structure size mismatch");
 static_assert(__alignof(struct waitq) == WQ_OPAQUE_ALIGN, "waitq structure alignment mismatch");
 #endif
@@ -196,7 +196,7 @@ struct waitq_set {
 };
 
 #define WQSET_NOT_LINKED       ((uint64_t)(~0))
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static_assert(sizeof(struct waitq_set) == WQS_OPAQUE_SIZE, "waitq_set structure size mismatch");
 static_assert(__alignof(struct waitq_set) == WQS_OPAQUE_ALIGN, "waitq_set structure alignment mismatch");
 #endif
@@ -233,12 +233,12 @@ extern void waitq_invalidate_locked(struct waitq *wq);
 
 extern lck_grp_t waitq_lck_grp;
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 
 #define waitq_held(wq)     spin_is_locked((spinlock_t*)&(wq)->waitq_interlock)
 #define waitq_lock_try(wq) spin_trylock((spinlock_t*)&(wq)->waitq_interlock)
 
-#else // !__DARLING__
+#else // !__OSXIE__
 #if __arm64__
 
 #define waitq_held(wq) \
@@ -256,12 +256,12 @@ extern lck_grp_t waitq_lck_grp;
 	(hw_lock_try(&(wq)->waitq_interlock, &waitq_lck_grp))
 
 #endif /* __arm64__ */
-#endif // !__DARLING__
+#endif // !__OSXIE__
 
 #define waitq_wait_possible(thread) \
 	((thread)->waitq == NULL)
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #define waitq_lock(wq) spin_lock ((spinlock_t*)&(wq)->waitq_interlock)
 #else
 extern void waitq_lock(struct waitq *wq);
@@ -564,7 +564,7 @@ waitq_wakeup64_identify(struct waitq    *waitq,
     int             priority);
 
 /* take the waitq lock */
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #define waitq_unlock(wq) spin_unlock((spinlock_t*)&(wq)->waitq_interlock)
 #else
 extern void waitq_unlock(struct waitq *wq);

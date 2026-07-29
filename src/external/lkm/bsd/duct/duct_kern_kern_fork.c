@@ -19,7 +19,7 @@ uthread_zone_init(void)
 {
 	assert(uthread_zone == NULL);
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	rethrottle_lock_grp_attr = lck_grp_attr_alloc_init();
 	rethrottle_lock_grp = lck_grp_alloc_init("rethrottle", rethrottle_lock_grp_attr);
 	rethrottle_lock_attr = lck_attr_alloc_init();
@@ -50,15 +50,15 @@ uthread_alloc(task_t task, thread_t thread, int noinherit)
 	uth = (uthread_t)ut;
 	uth->uu_thread = thread;
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	lck_spin_init(&uth->uu_rethrottle_lock, LCK_GRP_NULL, LCK_ATTR_NULL);
 #else
 	lck_spin_init(&uth->uu_rethrottle_lock, rethrottle_lock_grp,
 	    rethrottle_lock_attr);
 #endif
 
-#ifdef __DARLING__
-	// we don't really need credentials in Darling, at least not yet
+#ifdef __OSXIE__
+	// we don't really need credentials in Osxie, at least not yet
 	uth->uu_ucred = NOCRED;
 #else
 	/*
@@ -170,7 +170,7 @@ uthread_cleanup(task_t task, void *uthread, void * bsd_info)
 	}
 #endif
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	if (uth->uu_lowpri_window || uth->uu_throttle_info) {
 		/*
 		 * task is marked as a low priority I/O type
@@ -195,14 +195,14 @@ uthread_cleanup(task_t task, void *uthread, void * bsd_info)
 	assert(uth->uu_ar == NULL);
 
 	// we don't have kqueue in-kernel (at least not right now)
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	if (uth->uu_kqr_bound) {
 		kqueue_threadreq_unbind(p, uth->uu_kqr_bound);
 	}
 #endif
 
 	// we don't handle BSD syscalls in the LKM
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	sel = &uth->uu_select;
 	/* cleanup the select bit space */
 	if (sel->nbytes) {
@@ -212,8 +212,8 @@ uthread_cleanup(task_t task, void *uthread, void * bsd_info)
 	}
 #endif
 
-	// no in-kernel CWD tracking in Darling
-#ifndef __DARLING__
+	// no in-kernel CWD tracking in Osxie
+#ifndef __OSXIE__
 	if (uth->uu_cdir) {
 		vnode_rele(uth->uu_cdir);
 		uth->uu_cdir = NULLVP;
@@ -221,7 +221,7 @@ uthread_cleanup(task_t task, void *uthread, void * bsd_info)
 #endif
 
 	// TODO: this is only disabled because of `FREE` and because it's not necessary
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	if (uth->uu_wqset) {
 		if (waitq_set_is_valid(uth->uu_wqset)) {
 			waitq_set_deinit(uth->uu_wqset);
@@ -233,15 +233,15 @@ uthread_cleanup(task_t task, void *uthread, void * bsd_info)
 #endif
 
 	// don't need exit reasons (yet?)
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	os_reason_free(uth->uu_exit_reason);
 #endif
 
 	if ((task != kernel_task) && p) {
 		// we currently don't really need to track advanced process state;
-		// we really only have procs and uthreads in Darling right now as a place for certain
+		// we really only have procs and uthreads in Osxie right now as a place for certain
 		// functions to dump their data (e.g. pthreads stuff)
-#ifndef __DARLING__
+#ifndef __OSXIE__
 		if (((uth->uu_flag & UT_VFORK) == UT_VFORK) && (uth->uu_proc != PROC_NULL)) {
 			vfork_exit_internal(uth->uu_proc, 0, 1);
 		}
@@ -274,7 +274,7 @@ uthread_cleanup(task_t task, void *uthread, void * bsd_info)
 void
 uthread_cred_free(void *uthread)
 {
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	uthread_t uth = (uthread_t)uthread;
 
 	/* and free the uthread itself */
@@ -297,7 +297,7 @@ uthread_zone_free(void *uthread)
 		uth->t_tombstone = NULL;
 	}
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	lck_spin_destroy(&uth->uu_rethrottle_lock, LCK_GRP_NULL);
 #else
 	lck_spin_destroy(&uth->uu_rethrottle_lock, rethrottle_lock_grp);
@@ -311,7 +311,7 @@ uthread_zone_free(void *uthread)
 void
 proc_lock(proc_t p)
 {
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	LCK_MTX_ASSERT(proc_list_mlock, LCK_MTX_ASSERT_NOTOWNED);
 #endif
 	lck_mtx_lock(&p->p_mlock);

@@ -61,7 +61,7 @@
 //#define KEEP_WAITQ_LINK_STATS
 //#define KEEP_WAITQ_PREPOST_STATS
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -88,7 +88,7 @@
 
 #include <sys/kdebug.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 
@@ -746,7 +746,7 @@ wqp_init(void)
 static void
 wq_prepost_refill_cpu_cache(uint32_t nalloc)
 {
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	struct lt_elem *new_head, *old_head;
 	struct wqp_cache *cache;
 
@@ -798,7 +798,7 @@ wq_prepost_ensure_free_space(void)
 		g_min_free_cache = (WQP_CACHE_MAX * ml_wait_max_cpus());
 	}
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	/*
 	 * Ensure that we always have a pool of per-CPU prepost elements
 	 */
@@ -844,7 +844,7 @@ wq_prepost_alloc(int type, int nelem)
 		return NULL;
 	}
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	/*
 	 * First try to grab the elements from the per-CPU cache if we are
 	 * allocating RESERVED elements
@@ -1066,7 +1066,7 @@ wq_prepost_release_rlist(struct wq_prepost *wqp)
 
 	elem = &wqp->wqte;
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	/*
 	 * These are reserved elements: release them back to the per-cpu pool
 	 * if our cache is running low.
@@ -2002,7 +2002,7 @@ waitq_bootstrap(void)
 #define hwLockTimeOut LockTimeOut
 #endif
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 void
 waitq_lock(struct waitq *wq)
 {
@@ -2409,7 +2409,7 @@ do_waitq_select_n_locked(struct waitq_select_args *args)
 
 	assert(max_threads != 0);
 
-	#ifdef __DARLING__
+	#ifdef __OSXIE__
 		// Special hack follows
 		//
 		// Explanation:
@@ -3346,7 +3346,7 @@ waitq_init(struct waitq *waitq, int policy)
 		queue_init(&waitq->waitq_queue);
 	}
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	init_waitqueue_head(&waitq->linux_wq);
 #endif
 
@@ -4987,7 +4987,7 @@ waitq_alloc_prepost_reservation(int nalloc, struct waitq *waitq,
 	 * linkage!
 	 */
 	if (waitq) {
-#ifndef __DARLING__
+#ifndef __OSXIE__
 		disable_preemption();
 		cache = PERCPU_GET(wqp_cache);
 		if (nalloc <= (int)cache->avail) {

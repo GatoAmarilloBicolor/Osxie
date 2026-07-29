@@ -266,7 +266,7 @@ __END_DECLS
 
 #define NULL_SEG        0
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 
 /*
  * Kernel descriptors for MACH - 64-bit flat address space.

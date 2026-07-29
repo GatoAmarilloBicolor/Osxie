@@ -1,6 +1,6 @@
 ---
 name: Miscellaneous Bug
-about: A miscellaneous bug in Darling
+about: A miscellaneous bug in Osxie
 labels: 'bug'
 ---
 
@@ -20,4 +20,4 @@ What system are you using?
 | --- | --- |
 | Linux Kernel | X.Y.Z |
 | Distro | Distro X.Y |
-| Darling | Git Commit Hash |
+| Osxie | Git Commit Hash |

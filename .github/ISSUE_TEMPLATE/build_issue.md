@@ -1,6 +1,6 @@
 ---
 name: Build Issue
-about: An issue building Darling
+about: An issue building Osxie
 labels: 'build'
 ---
 
@@ -19,4 +19,4 @@ What system are you building with?
 | CMake | X.Y.Z |
 | Linux Kernel | X.Y.Z |
 | Distro | Distro X.Y |
-| Darling | Git Commit Hash |
+| Osxie | Git Commit Hash |

@@ -26,7 +26,7 @@
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -46,13 +46,13 @@
 #include <corecrypto/cckprng.h>
 #include <corecrypto/ccsha2.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 
 #include <linux/random.h>
 #endif
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 
 static struct cckprng_ctx *prng_ctx;
 
@@ -365,7 +365,7 @@ write_random(void * buffer, u_int numbytes)
 	return 0;
 }
 
-#endif // !__DARLING__
+#endif // !__OSXIE__
 
 /*
  * Boolean PRNG for generating booleans to randomize order of elements
@@ -382,7 +382,7 @@ void
 random_bool_init(struct bool_gen * bg)
 {
 	/* Seed the random boolean generator */
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	prandom_bytes(bg->seed, sizeof(bg->seed));
 #else
 	read_frandom(bg->seed, sizeof(bg->seed));

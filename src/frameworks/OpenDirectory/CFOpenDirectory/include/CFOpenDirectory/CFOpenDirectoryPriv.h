@@ -184,7 +184,7 @@ tDirStatus ODConvertToLegacyErrorCode(CFIndex code) __OSX_AVAILABLE_STARTING(__M
 CF_EXPORT
 bool ODRecordContainsMemberRefresh(ODRecordRef inGroupRef, ODRecordRef inMemberRef, CFErrorRef *outError) __OSX_AVAILABLE_STARTING(__MAC_10_6, __IPHONE_NA);
 
-#ifdef DARLING
+#ifdef OSXIE
 bool ODRecordSetNodeCredentialsWithBootstrapToken(ODRecordRef cfRecord, CFStringRef token, CFErrorRef *error);
 #endif
 

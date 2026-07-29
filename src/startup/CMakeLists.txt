@@ -18,7 +18,7 @@ add_executable(osxie osxie.c)
 
 target_link_libraries(osxie -lutil)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_BINARY_DIR}/src/external/darlingserver/include ${CMAKE_SOURCE_DIR}/src/external/darlingserver/include)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_BINARY_DIR}/src/external/osxieserver/include ${CMAKE_SOURCE_DIR}/src/external/osxieserver/include)
 
 install(TARGETS osxie DESTINATION bin
     PERMISSIONS

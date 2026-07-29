@@ -9,4 +9,3 @@ FUNCTION(add_osxie_bundle name loader)
 			LINK_FLAGS " -Wl,-bundle_loader,${loader} ")
 	endif (loader)
 ENDFUNCTION(add_osxie_bundle)
-

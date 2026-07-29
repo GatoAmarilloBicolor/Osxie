@@ -27,7 +27,7 @@
 #include <os/object.h>
 #include <stdint.h>
 #include <stdbool.h>
-#ifdef DARLING
+#ifdef OSXIE
 #include <os/trace.h>
 #endif
 
@@ -49,7 +49,7 @@
 
 __BEGIN_DECLS
 
-#ifndef DARLING
+#ifndef OSXIE
 extern void *__dso_handle;
 #endif
 

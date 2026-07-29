@@ -69,7 +69,7 @@
  *	Functions to manipulate IPC ports.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -104,7 +104,7 @@
 
 #include <string.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 
 boolean_t kdp_is_in_zone(void* addr, const char* zone_name);
@@ -944,7 +944,7 @@ ipc_port_destroy(ipc_port_t port)
 #if IMPORTANCE_INHERITANCE
 	ipc_importance_task_t release_imp_task = IIT_NULL;
 	thread_t self = current_thread();
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	boolean_t top = true;
 	if (self) {
 		top = (self->ith_assertions == 0);
@@ -993,11 +993,11 @@ ipc_port_destroy(ipc_port_t port)
 	}
 
 	if (top) {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 		if (self) {
 #endif
 		self->ith_assertions = assertcnt;
-#ifdef __DARLING__
+#ifdef __OSXIE__
 		}
 #endif
 	}
@@ -1124,11 +1124,11 @@ drop_assertions:
 	if (release_imp_task != IIT_NULL) {
 		if (assertcnt > 0) {
 			assert(top);
-#ifdef __DARLING__
+#ifdef __OSXIE__
 			if (self) {
 #endif
 			self->ith_assertions = 0;
-#ifdef __DARLING__
+#ifdef __OSXIE__
 			}
 #endif
 			assert(ipc_importance_task_is_any_receiver_type(release_imp_task));
@@ -1137,11 +1137,11 @@ drop_assertions:
 		ipc_importance_task_release(release_imp_task);
 	} else if (assertcnt > 0) {
 		if (top) {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 			if (self) {
 #endif
 			self->ith_assertions = 0;
-#ifdef __DARLING__
+#ifdef __OSXIE__
 			}
 			task_t curr_task = current_task();
 			if (curr_task) {
@@ -1503,7 +1503,7 @@ ipc_port_recv_update_inheritor(
 			}
 			break;
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 		case PORT_SYNC_LINK_WORKLOOP_KNOTE:
 			kn = port->ip_sync_inheritor_knote;
 			inheritor = filt_ipc_kqueue_turnstile(kn);
@@ -1582,7 +1582,7 @@ ipc_port_send_update_inheritor(
 			inheritor = ipc_port_get_watchport_inheritor(port);
 			inheritor_flags = TURNSTILE_INHERITOR_THREAD;
 		}
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	} else if (port->ip_sync_link_state == PORT_SYNC_LINK_WORKLOOP_KNOTE) {
 		/* Case 4. */
 		inheritor = filt_ipc_kqueue_turnstile(mqueue->imq_inheritor_knote);
@@ -1596,7 +1596,7 @@ ipc_port_send_update_inheritor(
 			inheritor = port->ip_messages.imq_inheritor_thread_ref;
 			inheritor_flags = TURNSTILE_INHERITOR_THREAD;
 		}
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	} else if ((kn = SLIST_FIRST(&mqueue->imq_klist))) {
 		/* Case 7. Push on a workloop that is interested */
 		if (filt_machport_kqueue_has_turnstile(kn)) {
@@ -1950,7 +1950,7 @@ not_special:
 	}
 
 	if (flags & IPC_PORT_ADJUST_SR_LINK_WORKLOOP) {
-#ifndef __DARLING__
+#ifndef __OSXIE__
 		if (ITH_KNOTE_VALID(kn, MACH_MSG_TYPE_PORT_SEND_ONCE)) {
 			inheritor = filt_machport_stash_port(kn, special_reply_port,
 			    &sync_link_state);
@@ -2135,7 +2135,7 @@ ipc_port_adjust_port_locked(
 	assert(!port->ip_specialreply);
 
 	if (kn) {
-#ifndef __DARLING__
+#ifndef __OSXIE__
 		inheritor = filt_machport_stash_port(kn, port, &sync_link_state);
 #endif
 		if (sync_link_state == PORT_SYNC_LINK_WORKLOOP_KNOTE) {
@@ -3258,7 +3258,7 @@ ipc_port_init_debug(
 		port->ip_spares[i] = 0;
 	}
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #ifdef MACH_BSD
 	task_t task = current_task();
 	if (task != TASK_NULL) {

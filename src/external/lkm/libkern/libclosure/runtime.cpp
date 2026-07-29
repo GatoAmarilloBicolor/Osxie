@@ -7,7 +7,7 @@
  * @APPLE_LLVM_LICENSE_HEADER@
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -50,7 +50,7 @@ free(void *addr)
 #include <string.h>
 #include <stdint.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 

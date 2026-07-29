@@ -1,20 +1,20 @@
 /*
-This file is part of Darling.
+This file is part of Osxie.
 
 Copyright (C) 2012-2013 Lubos Dolezel
 
-Darling is free software: you can redistribute it and/or modify
+Osxie is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Darling is distributed in the hope that it will be useful,
+Osxie is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Darling.  If not, see <http://www.gnu.org/licenses/>.
+along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <CarbonCore/MacLocales.h>
@@ -35,7 +35,7 @@ static std::map<std::string,int> g_mapLocaleString;
 static std::map<int,std::string> g_mapLocaleStringRev;
 static pthread_mutex_t g_mapLocaleStringMutex = PTHREAD_MUTEX_INITIALIZER;
 
-namespace Darling
+namespace Osxie
 {
 
 int getLocaleUID(const std::string& str)
@@ -67,7 +67,7 @@ const char* getLocaleString(int uid)
 
 }
 
-using namespace Darling;
+using namespace Osxie;
 
 OSStatus LocaleRefFromLangOrRegionCode(LangCode langCode, RegionCode regionCode, LocaleRef* refOut)
 {

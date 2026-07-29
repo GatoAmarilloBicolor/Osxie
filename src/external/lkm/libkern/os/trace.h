@@ -24,7 +24,7 @@
 #ifndef __OS_TRACE_H__
 #define __OS_TRACE_H__
 
-#ifdef DARLING
+#ifdef OSXIE
 #include <os/trace_base.h>
 #endif
 #include <Availability.h>
@@ -45,7 +45,7 @@ typedef void *xpc_object_t;
 
 __BEGIN_DECLS
 
-#ifndef DARLING
+#ifndef OSXIE
 extern void *__dso_handle;
 #endif
 

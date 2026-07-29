@@ -70,7 +70,7 @@
  *	Functions to initialize the IPC system.
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -115,7 +115,7 @@
 
 #include <mach/machine/ndr_def.h>   /* NDR_record */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 
@@ -165,7 +165,7 @@ __startup_func
 static void
 ipc_init(void)
 {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	extern vm_map_t duct_vm_map_create(struct task_struct* t);
 
 	msg_ool_size_small = MSG_OOL_SIZE_SMALL_MAX;

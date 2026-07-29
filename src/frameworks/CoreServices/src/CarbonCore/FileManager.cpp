@@ -1,20 +1,20 @@
 /*
-This file is part of Darling.
+This file is part of Osxie.
 
 Copyright (C) 2012-2020 Lubos Dolezel
 
-Darling is free software: you can redistribute it and/or modify
+Osxie is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Darling is distributed in the hope that it will be useful,
+Osxie is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Darling.  If not, see <http://www.gnu.org/licenses/>.
+along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <CoreServices/FileManager.h>
@@ -245,11 +245,11 @@ OSStatus FSGetCatalogInfo(const FSRef* ref, uint32_t infoBits, FSCatalogInfo* in
 				infoOut->userPrivileges |= 0x80; // kioACUserNotOwnerMask
 		}
 		if (infoBits & kFSCatInfoCreateDate)
-			infoOut->createDate = Darling::time_tToUTC(st.st_ctime);
+			infoOut->createDate = Osxie::time_tToUTC(st.st_ctime);
 		if (infoBits & kFSCatInfoContentMod)
-			infoOut->attributeModDate = infoOut->contentModDate = Darling::time_tToUTC(st.st_mtime);
+			infoOut->attributeModDate = infoOut->contentModDate = Osxie::time_tToUTC(st.st_mtime);
 		if (infoBits & kFSCatInfoAccessDate)
-			infoOut->accessDate = Darling::time_tToUTC(st.st_atime);
+			infoOut->accessDate = Osxie::time_tToUTC(st.st_atime);
 	}
 
 	return noErr;

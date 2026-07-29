@@ -28,7 +28,7 @@
 
 #define PTHREAD_INTERNAL 1
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -53,7 +53,7 @@
 #include <sys/cdefs.h>
 #include <sys/proc_info.h>
 #include <sys/proc_internal.h>
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <darling/api.h> // for psynch argument structure definitions
 #else
 #include <sys/sysproto.h>
@@ -63,7 +63,7 @@
 #include <vm/vm_protos.h>
 #include <kern/kcdata.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 
 #include <darling/syscall_args.h>
@@ -158,7 +158,7 @@ proc_get_register(struct proc *p)
 	return p->p_lflag & P_LREGISTER;
 }
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static void
 proc_set_register(struct proc *p)
 {
@@ -190,7 +190,7 @@ qos_main_thread_active(void)
 	return TRUE;
 }
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static int
 proc_usynch_get_requested_thread_qos(struct uthread *uth)
 {
@@ -382,7 +382,7 @@ bsdthread_register(struct proc *p, struct bsdthread_register_args *uap, __unused
 int
 bsdthread_terminate(struct proc *p, struct bsdthread_terminate_args *uap, int32_t *retval)
 {
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	thread_t th = current_thread();
 	if (thread_get_tag(th) & THREAD_TAG_WORKQUEUE) {
 		workq_thread_terminate(p, get_bsdthread_info(th));
@@ -527,19 +527,19 @@ static const struct pthread_callbacks_s pthread_callbacks = {
 	.proc_get_pthhash = proc_get_pthhash,
 	.proc_set_pthhash = proc_set_pthhash,
 	.proc_get_register = proc_get_register,
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	.proc_set_register = proc_set_register,
 #endif
 	.proc_get_pthread_jit_allowlist = proc_get_pthread_jit_allowlist,
 
 	/* kernel IPI interfaces */
 	.ipc_port_copyout_send = ipc_port_copyout_send,
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	.task_get_ipcspace = get_task_ipcspace,
 #endif
 	.vm_map_page_info = vm_map_page_info,
 	.ipc_port_copyout_send_pinned = ipc_port_copyout_send_pinned,
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	.thread_set_wq_state32 = thread_set_wq_state32,
 #if !defined(__arm__)
 	.thread_set_wq_state64 = thread_set_wq_state64,
@@ -563,7 +563,7 @@ static const struct pthread_callbacks_s pthread_callbacks = {
 	.mach_port_deallocate = mach_port_deallocate,
 	.semaphore_signal_internal_trap = semaphore_signal_internal_trap,
 	.current_map = _current_map,
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	.thread_create = thread_create,
 #endif
 	/* should be removed once rdar://70892168 lands */
@@ -584,20 +584,20 @@ static const struct pthread_callbacks_s pthread_callbacks = {
 	.proc_get_mach_thread_self_tsd_offset = proc_get_mach_thread_self_tsd_offset,
 	.proc_set_mach_thread_self_tsd_offset = proc_set_mach_thread_self_tsd_offset,
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	.thread_set_tsd_base = thread_set_tsd_base,
 #endif
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	.proc_usynch_get_requested_thread_qos = proc_usynch_get_requested_thread_qos,
 #endif
 
 	.qos_main_thread_active = qos_main_thread_active,
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	.thread_set_voucher_name = thread_set_voucher_name,
 #endif
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	.proc_usynch_thread_qos_add_override_for_resource = proc_usynch_thread_qos_add_override_for_resource,
 	.proc_usynch_thread_qos_remove_override_for_resource = proc_usynch_thread_qos_remove_override_for_resource,
 #endif

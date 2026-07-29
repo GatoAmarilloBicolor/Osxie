@@ -53,7 +53,7 @@
 #include "CAAUParameter.h"
 #include "CAAUMIDIMap.h"
 
-#ifdef DARLING
+#ifdef OSXIE
 #include <CarbonCore/MacErrors.h>
 #else
 #include <CoreServices/../Frameworks/CarbonCore.framework/Headers/MacErrors.h>

@@ -18,4 +18,4 @@ What system are you running?
 
 | Software | Version |
 | --- | --- |
-| Darling | Git Commit Hash |
+| Osxie | Git Commit Hash |

@@ -98,7 +98,7 @@ typedef quad_t *                qaddr_t;
 
 #include <sys/_types/_caddr_t.h>        /* core address */
 
-#ifndef __DARLING__ // it conflicts with libsa's `daddr_t`, and we don't need it anyways
+#ifndef __OSXIE__ // it conflicts with libsa's `daddr_t`, and we don't need it anyways
 typedef int32_t                 daddr_t;        /* disk address */
 #endif
 
@@ -130,7 +130,7 @@ typedef int32_t                 swblk_t;        /* swap offset */
 #include <sys/_types/_uid_t.h>
 
 // libsa already defines these for us, but like with `daddr_t`, we don't need them anyways
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #if !defined(_POSIX_C_SOURCE) || defined(_DARWIN_C_SOURCE)
 /* Major, minor numbers, dev_t's. */
 #if defined(__cplusplus)
@@ -165,7 +165,7 @@ makedev(__uint32_t _major, __uint32_t _minor)
 
 #endif  /* !__cplusplus */
 #endif  /* !_POSIX_C_SOURCE */
-#endif // !__DARLING__
+#endif // !__OSXIE__
 
 #include <sys/_types/_clock_t.h>
 #include <sys/_types/_size_t.h>

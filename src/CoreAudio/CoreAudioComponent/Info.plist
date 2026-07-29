@@ -12,7 +12,7 @@
 			<key>manufacturer</key>
 			<string>appl</string>
 			<key>name</key>
-			<string>Darling: AudioDeviceOutput</string>
+			<string>Osxie: AudioDeviceOutput</string>
 			<key>sandboxSafe</key>
 			<true/>
 			<key>subtype</key>
@@ -34,7 +34,7 @@
 			<key>manufacturer</key>
 			<string>appl</string>
 			<key>name</key>
-			<string>Darling: DefaultOutputUnit</string>
+			<string>Osxie: DefaultOutputUnit</string>
 			<key>sandboxSafe</key>
 			<true/>
 			<key>subtype</key>
@@ -56,7 +56,7 @@
 			<key>manufacturer</key>
 			<string>appl</string>
 			<key>name</key>
-			<string>Darling: SystemOutputUnit</string>
+			<string>Osxie: SystemOutputUnit</string>
 			<key>sandboxSafe</key>
 			<true/>
 			<key>subtype</key>

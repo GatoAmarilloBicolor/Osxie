@@ -125,7 +125,7 @@ void duct_thread_bootstrap (void)
 	/*
 	 *	Fill in a template thread for fast initialization.
 	 */
-	// Note for Darling, since static (and global) variables are always initialized to `0`,
+	// Note for Osxie, since static (and global) variables are always initialized to `0`,
 	// we can avoid unnecessarily copying lots of code (stuff like `thread_template.<blah> = 0`)
 
 	thread_template.runq = PROCESSOR_NULL;
@@ -229,7 +229,7 @@ void duct_thread_init (void)
         lck_grp_init(&thread_lck_grp, "thread", &thread_lck_grp_attr);
         lck_attr_setdefault(&thread_lck_attr);
 
-#if defined (__DARLING__)
+#if defined (__OSXIE__)
 #else
         stack_init();
 
@@ -261,7 +261,7 @@ static kern_return_t duct_thread_create_internal (task_t parent_task, integer_t 
 	/*
 	 *	Allocate a thread and initialize static fields
 	 */
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	// we always allocate a thread because we don't create a kernel startup thread (maybe we should?)
 	new_thread = (thread_t)duct_zalloc(thread_zone);
 	if (first_thread == THREAD_NULL) {
@@ -278,7 +278,7 @@ static kern_return_t duct_thread_create_internal (task_t parent_task, integer_t 
 		return KERN_RESOURCE_SHORTAGE;
 	}
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	// like i said before, because we don't create a kernel thread on startup, this thread is always a normal thread, so we need to initialize it
 	{
 #else
@@ -293,7 +293,7 @@ static kern_return_t duct_thread_create_internal (task_t parent_task, integer_t 
 
 	new_thread->task = parent_task;
 
-	// Darling addition
+	// Osxie addition
 #ifdef MACH_ASSERT
 	new_thread->thread_magic = THREAD_MAGIC;
 #endif
@@ -313,7 +313,7 @@ static kern_return_t duct_thread_create_internal (task_t parent_task, integer_t 
 	priority_queue_entry_init(&new_thread->sched_clutchpri_link);
 #endif /* CONFIG_SCHED_CLUTCH */
 
-	// do we still need this in Darling?
+	// do we still need this in Osxie?
 	/* Allocate I/O Statistics structure */
 	new_thread->thread_io_stats = (io_stat_info_t)kalloc(sizeof(struct io_stat_info));
 	assert(new_thread->thread_io_stats != NULL);
@@ -385,7 +385,7 @@ static kern_return_t duct_thread_create_internal (task_t parent_task, integer_t 
 	new_thread->active = TRUE;
 	new_thread->turnstile = turnstile_alloc();
 
-	// Darling additions
+	// Osxie additions
 	get_task_struct(linux_current);
 	new_thread->linux_task = linux_current;
 	new_thread->in_sigprocess = FALSE;
@@ -396,7 +396,7 @@ static kern_return_t duct_thread_create_internal (task_t parent_task, integer_t 
 
 	*out_thread = new_thread;
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	task_unlock(parent_task);
 #endif
 	return KERN_SUCCESS;
@@ -671,7 +671,7 @@ clear_wait_internal(
 	struct waitq *waitq = thread->waitq;
 	
 	do {
-#ifndef DARLING // We don't maintain the value of thread->state
+#ifndef OSXIE // We don't maintain the value of thread->state
 		if (wresult == THREAD_INTERRUPTED && (thread->state & TH_UNINT))
 			return (KERN_FAILURE);
 #endif

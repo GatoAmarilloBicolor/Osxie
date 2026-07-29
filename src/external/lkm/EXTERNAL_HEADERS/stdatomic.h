@@ -23,10 +23,10 @@
 
 #ifndef __clang__
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include_next <stdatomic.h>
-#ifndef DARLING_GCC_STDATOMIC_H
-#define DARLING_GCC_STDATOMIC_H
+#ifndef OSXIE_GCC_STDATOMIC_H
+#define OSXIE_GCC_STDATOMIC_H
 enum memory_order {
   memory_order_relaxed_dummy = memory_order_relaxed,
   memory_order_consume_dummy = memory_order_consume,
@@ -49,15 +49,15 @@ enum memory_order {
 #define __c11_atomic_fetch_and(_ptr, _val, _order) __atomic_and_fetch(_ptr, _val, _order)
 #define __c11_atomic_fetch_or(_ptr, _val, _order) __atomic_or_fetch(_ptr, _val, _order)
 #define __c11_atomic_fetch_xor(_ptr, _val, _order) __atomic_xor_fetch(_ptr, _val, _order)
-#endif // DARLING_GCC_STDATOMIC_H
+#endif // OSXIE_GCC_STDATOMIC_H
 
-#else // !__DARLING__
+#else // !__OSXIE__
 #error unsupported compiler
-#endif // __DARLING__
+#endif // __OSXIE__
 
 #else
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #ifndef __clang__
 #error unsupported compiler
 #endif
@@ -69,7 +69,7 @@ enum memory_order {
 /* If we're hosted, fall back to the system's stdatomic.h. FreeBSD, for
  * example, already has a Clang-compatible stdatomic.h header.
  */
-#if !defined(DARLING) && __STDC_HOSTED__ && __has_include_next(<stdatomic.h>)
+#if !defined(OSXIE) && __STDC_HOSTED__ && __has_include_next(<stdatomic.h>)
 # include_next <stdatomic.h>
 #else
 

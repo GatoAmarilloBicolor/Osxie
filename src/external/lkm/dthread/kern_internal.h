@@ -26,7 +26,7 @@
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
 
-// header name modified for Darling
+// header name modified for Osxie
 #ifndef _DTHREAD_KERN_INTERNAL_H
 #define _DTHREAD_KERN_INTERNAL_H
 
@@ -39,7 +39,7 @@ struct ksyn_waitq_element;
 #include <stdatomic.h>
 #include <kern/thread_call.h>
 #include <kern/kcdata.h>
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <kern/thread.h>
 #else
 #include <sys/pthread_shims.h>
@@ -115,7 +115,7 @@ struct _pthread_registration_data {
 	PTHREAD_FEATURE_KEVENT | \
 	PTHREAD_FEATURE_WORKLOOP )
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 // since we had to move the `pthread_shims.h` include down, we need to declare this differently
 struct pthread_callbacks_s;
 extern const struct pthread_callbacks_s* pthread_kern;
@@ -216,7 +216,7 @@ void
 workq_markfree_threadstack(proc_t p, thread_t th, vm_map_t vmap,
 		user_addr_t stackaddr);
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 // move it down here because it needs `struct ksyn_waitq_element` to be defined
 #include <sys/pthread_shims.h>
 #endif

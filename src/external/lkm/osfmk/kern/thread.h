@@ -651,7 +651,7 @@ struct thread {
 	    guard_exc_fatal:1,
 	    thread_bitfield_unused:12;
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	struct task_struct*  linux_task;
 	boolean_t            in_sigprocess;
 	int                  pending_signal;
@@ -725,7 +725,7 @@ struct thread {
 	         ((msgt_name) == MACH_MSG_TYPE_PORT_RECEIVE || \
 	         (msgt_name) == MACH_MSG_TYPE_PORT_SEND_ONCE))
 
-#if MACH_ASSERT && !defined(__DARLING__)
+#if MACH_ASSERT && !defined(__OSXIE__)
 #define assert_thread_magic(thread) assertf((thread)->thread_magic == THREAD_MAGIC, \
 	                                    "bad thread magic 0x%llx for thread %p, expected 0x%llx", \
 	                                    (thread)->thread_magic, (thread), THREAD_MAGIC)

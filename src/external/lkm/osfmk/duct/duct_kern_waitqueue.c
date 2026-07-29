@@ -160,7 +160,7 @@ kern_return_t duct_waitq_init (waitq_t wq, int policy)
         queue_init (&wq->waitq_queue);
         hw_lock_init (&wq->wq_interlock);
 
-    #if defined (__DARLING__)
+    #if defined (__OSXIE__)
         // mutex_init (&wq->mutex_lock);
         init_waitqueue_head (&wq->linux_waitqh);
     #endif

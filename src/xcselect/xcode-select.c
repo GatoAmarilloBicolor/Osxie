@@ -1,20 +1,20 @@
 /*
-This file is part of Darling.
+This file is part of Osxie.
 
 Copyright (C) 2017-2020 Lubos Dolezel
 
-Darling is free software: you can redistribute it and/or modify
+Osxie is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 (at your option) any later version.
 
-Darling is distributed in the hope that it will be useful,
+Osxie is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with Darling.  If not, see <http://www.gnu.org/licenses/>.
+along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <stdio.h>
@@ -46,7 +46,7 @@ int main(int argc, const char** argv)
 		}
 		else if (strcmp(argv[1], "-v") == 0 || strcmp(argv[1], "--version") == 0 || strcmp(argv[1], "-version") == 0)
 		{
-			printf("xcode-select for Darling, version 1.0\n");
+			printf("xcode-select for Osxie, version 1.0\n");
 		}
 		else if (strcmp(argv[1], "-p") == 0 || strcmp(argv[1], "--print-path") == 0 || strcmp(argv[1], "-print-path") == 0)
 		{
@@ -76,7 +76,7 @@ int main(int argc, const char** argv)
 			}
 			else
 			{
-				int status = system("/usr/libexec/darling/clt_install.py");
+				int status = system("/usr/libexec/osixie/clt_install.py");
 				return WEXITSTATUS(status);
 			}
 		}

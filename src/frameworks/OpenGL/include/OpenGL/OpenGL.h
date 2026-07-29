@@ -1,7 +1,7 @@
 #ifndef _OPENGL_H_
 #define _OPENGL_H_
 
-#ifdef __APPLE__ // __DARLING__
+#ifdef __APPLE__ // __OSXIE__
 #include <OpenGL/gl.h>
 #else
 #include <GL/gl.h>

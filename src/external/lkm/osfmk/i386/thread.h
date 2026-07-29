@@ -192,7 +192,7 @@ extern void act_thread_cfree(void *ctx);
 static inline vm_offset_t
 current_stack_depth(void)
 {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	return 0;
 #else
 	vm_offset_t     stack_ptr;

@@ -56,7 +56,7 @@ void uuid_clear(uuid_t uu);
 
 int uuid_compare(const uuid_t uu1, const uuid_t uu2);
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 void uuid_copy(uuid_t dst, const uuid_t src);
 #endif
 
@@ -66,7 +66,7 @@ void uuid_generate_time(uuid_t out);
 
 void uuid_generate_early_random(uuid_t out);
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 int uuid_is_null(const uuid_t uu);
 
 int uuid_parse(const uuid_string_t in, uuid_t uu);

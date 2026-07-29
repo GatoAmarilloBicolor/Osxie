@@ -1,0 +1,16 @@
+executable-not-elf-or-script usr/libexec/osixie/*
+package-installs-python-bytecode usr/libexec/osixie/*
+ruby-script-but-no-ruby-dep usr/libexec/osixie/*
+wrong-path-for-interpreter usr/libexec/osixie/*
+script-not-executable usr/libexec/osixie/*
+description-starts-with-package-name
+description-too-short Osxie
+description-is-pkg-name Osxie
+setuid-binary usr/bin/osxie 4755 root/root
+executable-not-elf-or-script usr/lib/osixie/*
+shell-script-fails-syntax-check usr/libexec/osixie/*
+incorrect-path-for-interpreter usr/libexec/osixie/*
+binary-without-manpage usr/bin/osxie
+symlink-is-self-recursive usr/libexec/osixie/*
+embedded-javascript-library usr/libexec/*
+script-uses-bin-env usr/libexec/osixie/*

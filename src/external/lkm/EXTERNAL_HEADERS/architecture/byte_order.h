@@ -83,7 +83,7 @@ NXConvertHostFloatToSwapped(float x)
     return u.sf;
 }
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static __inline__ float
 NXConvertSwappedFloatToHost(NXSwappedFloat x)
 {
@@ -190,7 +190,7 @@ NXSwapBigLongLongToHost(
     return (unsigned long long)OSSwapBigToHostInt64((uint64_t)x);
 }
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static __inline__
 double
 NXSwapBigDoubleToHost(
@@ -246,7 +246,7 @@ NXSwapHostLongLongToBig(
     return (unsigned long long)OSSwapHostToBigInt64((uint64_t)x);
 }
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static __inline__
 NXSwappedDouble
 NXSwapHostDoubleToBig(
@@ -302,7 +302,7 @@ NXSwapLittleLongLongToHost(
     return (unsigned long long)OSSwapLittleToHostInt64((uint64_t)x);
 }
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static __inline__
 double
 NXSwapLittleDoubleToHost(
@@ -358,7 +358,7 @@ NXSwapHostLongLongToLittle(
     return (unsigned long long)OSSwapHostToLittleInt64((uint64_t)x);
 }
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 static __inline__
 NXSwappedDouble
 NXSwapHostDoubleToLittle(

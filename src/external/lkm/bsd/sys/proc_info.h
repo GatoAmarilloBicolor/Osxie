@@ -38,7 +38,7 @@
 #include <sys/un.h>
 #include <sys/kern_control.h>
 #include <sys/event.h>
-#ifndef __DARLING__
+#ifndef __OSXIE__
 #include <net/if.h>
 #include <net/route.h>
 #include <netinet/in.h>
@@ -413,7 +413,7 @@ struct proc_threadwithpathinfo {
 #define INI_IPV4        0x1
 #define INI_IPV6        0x2
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 struct in4in6_addr {
 	u_int32_t               i46a_pad32[3];
 	struct in_addr          i46a_addr4;
@@ -473,7 +473,7 @@ struct in_sockinfo {
 #define TSI_S_TIME_WAIT         10      /* in 2*msl quiet wait after close */
 #define TSI_S_RESERVED          11      /* pseudo state: reserved */
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 struct tcp_sockinfo {
 	struct in_sockinfo              tcpsi_ini;
 	int                             tcpsi_state;
@@ -507,7 +507,7 @@ struct un_sockinfo {
  * PF_NDRV Sockets
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 // copied from `bsd/net/if.h`
 #define IF_NAMESIZE     16
 #endif
@@ -612,7 +612,7 @@ struct socket_info {
 	int                                     soi_kind;
 	uint32_t                                rfu_1;          /* reserved */
 	union {
-#ifndef __DARLING__
+#ifndef __OSXIE__
 		struct in_sockinfo      pri_in;                 /* SOCKINFO_IN */
 		struct tcp_sockinfo     pri_tcp;                /* SOCKINFO_TCP */
 #endif

@@ -26,7 +26,7 @@
  * @APPLE_OSREFERENCE_LICENSE_HEADER_END@
  */
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct.h>
 #include <duct/duct_pre_xnu.h>
 #endif
@@ -52,7 +52,7 @@
 #include <os/hash.h>
 #include <libkern/section_keywords.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 #endif
 
@@ -934,7 +934,7 @@ turnstile_deallocate(struct turnstile *turnstile)
 void
 turnstile_deallocate_safe(struct turnstile *turnstile)
 {
-#ifdef __DARLING__
+#ifdef __OSXIE__
 	// until we get kernel threads
 	return turnstile_deallocate(turnstile);
 #else
@@ -967,7 +967,7 @@ turnstile_destroy(struct turnstile *turnstile)
 
 	assert(turnstile->ts_inheritor == TURNSTILE_INHERITOR_NULL);
 	assert(SLIST_EMPTY(&turnstile->ts_free_turnstiles));
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	assert(turnstile->ts_state & TURNSTILE_STATE_THREAD);
 #endif
 #if DEVELOPMENT || DEBUG
@@ -1273,7 +1273,7 @@ turnstile_update_inheritor_locked(
 
 			new_inheritor_needs_update = turnstile_update_turnstile_promotion(
 				inheritor_turnstile, turnstile);
-#ifndef __DARLING__
+#ifndef __OSXIE__
 		} else if (new_inheritor_flags & TURNSTILE_INHERITOR_WORKQ) {
 			/*
 			 * When we are still picking "WORKQ" then possible racing
@@ -1306,7 +1306,7 @@ turnstile_update_inheritor_locked(
 
 			old_inheritor_needs_update = turnstile_remove_turnstile_promotion(
 				old_turnstile, turnstile);
-#ifndef __DARLING__
+#ifndef __OSXIE__
 		} else if (old_inheritor_flags & TURNSTILE_INHERITOR_WORKQ) {
 			/*
 			 * We don't need to do anything when the push was WORKQ
@@ -1338,7 +1338,7 @@ turnstile_update_inheritor_locked(
 
 			new_inheritor_needs_update = turnstile_add_turnstile_promotion(
 				new_turnstile, turnstile);
-#ifndef __DARLING__
+#ifndef __OSXIE__
 		} else if (new_inheritor_flags & TURNSTILE_INHERITOR_WORKQ) {
 			struct workqueue *wq_inheritor = new_inheritor;
 
@@ -1416,7 +1416,7 @@ turnstile_stash_inheritor(
 	} else if (flags & TURNSTILE_INHERITOR_TURNSTILE) {
 		thread->inheritor_flags |= TURNSTILE_INHERITOR_TURNSTILE;
 		turnstile_reference((struct turnstile *)new_inheritor);
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	} else if (flags & TURNSTILE_INHERITOR_WORKQ) {
 		thread->inheritor_flags |= TURNSTILE_INHERITOR_WORKQ;
 		workq_reference((struct workqueue *)new_inheritor);
@@ -2710,7 +2710,7 @@ turnstile_update_inheritor_priority_chain(
 			} else if (turnstile->ts_inheritor_flags & TURNSTILE_INHERITOR_TURNSTILE) {
 				turnstile_update_inheritor_turnstile_priority_chain(&turnstile,
 				    total_hop, tsu_flags);
-#ifndef __DARLING__
+#ifndef __OSXIE__
 			} else if (turnstile->ts_inheritor_flags & TURNSTILE_INHERITOR_WORKQ) {
 				turnstile_update_inheritor_workq_priority_chain(turnstile, s);
 				turnstile_stats_update(total_hop + 1, TSU_NO_PRI_CHANGE_NEEDED | tsu_flags,
@@ -2802,7 +2802,7 @@ turnstile_cleanup(void)
 		thread_deallocate_safe(old_inheritor);
 	} else if (inheritor_flags & TURNSTILE_INHERITOR_TURNSTILE) {
 		turnstile_deallocate_safe((struct turnstile *)old_inheritor);
-#ifndef __DARLING__
+#ifndef __OSXIE__
 	} else if (inheritor_flags & TURNSTILE_INHERITOR_WORKQ) {
 		workq_deallocate_safe((struct workqueue *)old_inheritor);
 #endif
@@ -2828,7 +2828,7 @@ turnstile_update_thread_priority_chain(thread_t thread)
 	    TURNSTILE_INHERITOR_THREAD | TURNSTILE_UPDATE_BOOST);
 }
 
-#ifndef __DARLING__
+#ifndef __OSXIE__
 /*
  * Name: turnstile_update_inheritor_workq_priority_chain
  *

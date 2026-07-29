@@ -30,7 +30,7 @@
 
 #include <machine/machine_routines.h>
 
-#ifdef __DARLING__
+#ifdef __OSXIE__
 typedef unsigned long spl_t;
 
 extern unsigned long duct_ml_irqsave_setenabled(boolean_t enable);

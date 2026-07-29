@@ -1,1 +1,2 @@
-../../../../../../../../../src/external/objc4/runtime/objc-class.h
+#include <objc/runtime.h>
+#include <objc/message.h>

@@ -16,7 +16,7 @@
 #ifndef LLVM_SUPPORT_MATHEXTRAS_H
 #define LLVM_SUPPORT_MATHEXTRAS_H
 
-#ifdef DARLING
+#ifdef OSXIE
 #include <stdint.h>
 #endif
 

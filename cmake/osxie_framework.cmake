@@ -6,6 +6,10 @@ include(InstallSymlink)
 define_property(TARGET PROPERTY DYLIB_INSTALL_NAME BRIEF_DOCS "Stores the DYLIB_INSTALL_NAME of the framework's main binary"
 	FULL_DOCS "Used to make reexporting child frameworks less painful.")
 
+macro(add_osxie_framework name)
+    add_framework(${name} ${ARGN})
+endmacro()
+
 function(add_framework name)
 	cmake_parse_arguments(FRAMEWORK "CURRENT_VERSION;FAT;PRIVATE;IOSSUPPORT;CIRCULAR;NO_INSTALL" "VERSION;LINK_FLAGS;PARENT;PARENT_VERSION;TARGET_NAME;PARENT_COMPONENT;PARENT_DIR"
 		"SOURCES;DEPENDENCIES;CIRCULAR_DEPENDENCIES;RESOURCES;UPWARD_DEPENDENCIES;OBJECTS;STRONG_DEPENDENCIES" ${ARGN})

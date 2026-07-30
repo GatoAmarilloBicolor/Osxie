@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <string.h>
-#include <darling/emulation/common/simple.h>
+#include <osxie/emulation/common/simple.h>
 #include "xtracelib.h"
 #include "mig_trace.h"
 #include "tls.h"
@@ -12,15 +12,15 @@
 #include "memory.h"
 #include <limits.h>
 
-#include <darling/emulation/linux_premigration/ext/for-xtrace.h>
+#include <osxie/emulation/linux_premigration/ext/for-xtrace.h>
 #include <fcntl.h>
 #include <signal.h>
 
 // Defined in assembly
-extern "C" void darling_mach_syscall_entry_trampoline(void);
-extern "C" void darling_mach_syscall_exit_trampoline(void);
-extern "C" void darling_bsd_syscall_entry_trampoline(void);
-extern "C" void darling_bsd_syscall_exit_trampoline(void);
+extern "C" void osxie_mach_syscall_entry_trampoline(void);
+extern "C" void osxie_mach_syscall_exit_trampoline(void);
+extern "C" void osxie_bsd_syscall_entry_trampoline(void);
+extern "C" void osxie_bsd_syscall_exit_trampoline(void);
 extern "C" int sys_thread_selfid(void);
 
 static void xtrace_thread_exit_hook(void);
@@ -187,8 +187,8 @@ static void xtrace_setup_mach(void)
 
 	mprotect((void*) area, bytes, PROT_READ | PROT_WRITE | PROT_EXEC);
 
-	setup_hook(_osixie_mach_syscall_entry, (void*)darling_mach_syscall_entry_trampoline, false);
-	setup_hook(_osixie_mach_syscall_exit, (void*)darling_mach_syscall_exit_trampoline, false);
+	setup_hook(_osixie_mach_syscall_entry, (void*)osxie_mach_syscall_entry_trampoline, false);
+	setup_hook(_osixie_mach_syscall_exit, (void*)osxie_mach_syscall_exit_trampoline, false);
 
 	mprotect((void*) area, bytes, PROT_READ | PROT_EXEC);
 }
@@ -206,8 +206,8 @@ static void xtrace_setup_bsd(void)
 
 	mprotect((void*) area, bytes, PROT_READ | PROT_WRITE | PROT_EXEC);
 
-	setup_hook(_osixie_bsd_syscall_entry, (void*)darling_bsd_syscall_entry_trampoline, false);
-	setup_hook(_osixie_bsd_syscall_exit, (void*)darling_bsd_syscall_exit_trampoline, false);
+	setup_hook(_osixie_bsd_syscall_entry, (void*)osxie_bsd_syscall_entry_trampoline, false);
+	setup_hook(_osixie_bsd_syscall_exit, (void*)osxie_bsd_syscall_exit_trampoline, false);
 
 	mprotect((void*) area, bytes, PROT_READ | PROT_EXEC);
 }

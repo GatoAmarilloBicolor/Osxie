@@ -73,11 +73,4 @@ struct elf_calls
 	void (*dserver_close_process_lifetime_pipe)(int fd);
 };
 
-// backward compat aliases for submodules
-#define darling_thread_create_callbacks_t osxie_thread_create_callbacks_t
-#define darling_thread_create osxie_thread_create
-#define darling_thread_terminate osxie_thread_terminate
-#define darling_thread_get_stack osxie_thread_get_stack
-
-#endif
 

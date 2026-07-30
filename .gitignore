@@ -34,6 +34,7 @@ tests
 
 # The suggested build folder
 build
+build_new/
 
 rpm/SOURCES
 rpm/RPMS

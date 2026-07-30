@@ -4,11 +4,11 @@ set -eu
 
 mkdir -p $HOME/rpmbuild/SOURCES
 
-if [ -e "/src/rpm/SOURCES/darling.tar.gz" ]; then
-  ln -sf /src/rpm/SOURCES/darling.tar.gz $HOME/rpmbuild/SOURCES/
+if [ -e "/src/rpm/SOURCES/osxie.tar.gz" ]; then
+  ln -sf /src/rpm/SOURCES/osxie.tar.gz $HOME/rpmbuild/SOURCES/
 else
   # Preparing tarball
-  tar --transform "s|^\./|./osixie/|" -cf $HOME/rpmbuild/SOURCES/darling.tar.gz -C /src --exclude=.git --exclude SOURCES --exclude SRPMS --exclude RPMS --exclude BUILD .
+  tar --transform "s|^\./|./osixie/|" -cf $HOME/rpmbuild/SOURCES/osxie.tar.gz -C /src --exclude=.git --exclude SOURCES --exclude SRPMS --exclude RPMS --exclude BUILD .
 fi
 
 if [ -e "/src/rpm/SOURCES/osixie-macho-deps.tar.gz" ]; then
@@ -28,6 +28,6 @@ fi
 rpmbuild -bb /src/rpm/SPECS/osixie-macho-deps.spec
 sudo rpm -U --force $HOME/rpmbuild/RPMS/x86_64/osixie-macho-deps*.rpm
 
-#spectool -g -R /src/rpm/SPECS/darling.spec
-rpmbuild -bb /src/rpm/SPECS/darling.spec
+#spectool -g -R /src/rpm/SPECS/osxie.spec
+rpmbuild -bb /src/rpm/SPECS/osxie.spec
 rpmbuild -bb /src/rpm/SPECS/osixie-cli-devenv.spec

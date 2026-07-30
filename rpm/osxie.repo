@@ -1,4 +1,4 @@
-[darling]
+[osxie]
 name=Osxie
 baseurl=file:///data/git/osixie-update/rpm/RPMS/x86_64
 enabled=1

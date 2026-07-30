@@ -3,11 +3,11 @@
 set -euxv
 
 CWD="$(cd "$(dirname "${BASH_SOURCE[0]}")"; pwd)"
-if [ -e "${CWD}/SOURCES/darling.tar.gz" ]; then
-  rm "${CWD}/SOURCES/darling.tar.gz"
+if [ -e "${CWD}/SOURCES/osxie.tar.gz" ]; then
+  rm "${CWD}/SOURCES/osxie.tar.gz"
 fi
 if [ -e "${CWD}/SOURCES/osixie-macho-deps.tar.gz" ]; then
   rm "${CWD}/SOURCES/osixie-macho-deps.tar.gz"
 fi
-tar --transform "s|^\./|darling/|" -cf "${CWD}/SOURCES/darling.tar.gz" -C "${CWD}/.." --exclude=.git --exclude SOURCES --exclude SRPMS --exclude RPMS --exclude BUILD .
+tar --transform "s|^\./|osxie/|" -cf "${CWD}/SOURCES/osxie.tar.gz" -C "${CWD}/.." --exclude=.git --exclude SOURCES --exclude SRPMS --exclude RPMS --exclude BUILD .
 tar --transform "s|^\./|osixie-macho-deps/|" -cf "${CWD}/SOURCES/osixie-macho-deps.tar.gz" -C "${CWD}/../tools/rpm" .

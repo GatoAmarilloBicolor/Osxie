@@ -47,11 +47,9 @@ add_subdirectory(bsdln)
 
 add_definitions(
 	-DOSXIE
-	-DDARLING
 )
 
 set(OSXIE TRUE)
-set(DARLING TRUE)
 
 execute_process(
 	COMMAND git rev-parse --abbrev-ref HEAD
@@ -128,11 +126,11 @@ include(osxie_bundle)
 include(osxie_exe)
 include(osxie_framework)
 # backward compat for submodules
-include(darling_lib)
-include(darling_static_lib)
-include(darling_bundle)
-include(darling_exe)
-include(darling_framework)
+include(osxie_lib)
+include(osxie_static_lib)
+include(osxie_bundle)
+include(osxie_exe)
+include(osxie_framework)
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include)
 
@@ -216,7 +214,7 @@ add_subdirectory(external/usertemplate)
 add_subdirectory(external/bsm)
 add_subdirectory(external/zlib)
 # shellspawn can actually spawn any executable we want within the prefix,
-# so we include it in core to allow executables to be executed with the `darling` command.
+# so we include it in core to allow executables to be executed with the `osxie` command.
 add_subdirectory(shellspawn)
 
 # typically considered CLI components, but required by launchctl (which is necessary for launchd to bootstrap)

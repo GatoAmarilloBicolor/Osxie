@@ -79,6 +79,7 @@ include(dsym)
 include(xcproj)
 include(architecture)
 include(create_symlink)
+include(compat)
 
 set(CLANG_RECOMMENDED_MINIMUM_VERSION 11)
 clang_version_check(${CMAKE_C_COMPILER} c ${CLANG_RECOMMENDED_MINIMUM_VERSION})
@@ -196,6 +197,7 @@ find_package(Setcap REQUIRED)
 # Missing CMakeLists.txt must trigger an error
 cmake_policy(SET CMP0014 NEW)
 
+include(osxie_static_lib)
 generate_architecture()
 
 add_subdirectory(src)

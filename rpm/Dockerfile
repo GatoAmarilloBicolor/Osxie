@@ -8,13 +8,13 @@ RUN dnf install -y rpm-build dnf-utils rpmdevtools git; \
     dnf install -y https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-${VERSION_ID}.noarch.rpm; \
     dnf clean all
 
-COPY SPECS/darling.spec /darling.spec
+COPY SPECS/osxie.spec /osxie.spec
 
 # Bootstrap
-RUN yum-builddep -y /darling.spec; \
+RUN yum-builddep -y /osxie.spec; \
     dnf clean all
 
-RUN rm /darling.spec
+RUN rm /osxie.spec
 
 RUN mkdir -p /root/rpmbuild/SOURCES
 

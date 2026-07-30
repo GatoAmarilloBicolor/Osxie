@@ -13,9 +13,9 @@ Summary:        Dependency generator for Mach-O files (used by Osxie)
 
 Group:          Utility
 License:        GPLv3
-URL:            https://www.darlinghq.org/
+URL:            https://www.osxiehq.org/
 # Use this line for Source0 if there are ever official versions.
-# Source0:        https://github.com/darlinghq/osixie/archive/%%{version}/%%{name}-%%{version}.tar.gz
+# Source0:        https://github.com/osxiehq/osixie/archive/%%{version}/%%{name}-%%{version}.tar.gz
 Source0:        %{name}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -33,11 +33,11 @@ true
 %install
 [ "$RPM_BUILD_ROOT" != "/" ] && rm -rf $RPM_BUILD_ROOT
 %{__mkdir_p} %{?buildroot}/usr/lib/rpm/fileattrs
-cp darling.attr %{?buildroot}/usr/lib/rpm/fileattrs/
+cp osxie.attr %{?buildroot}/usr/lib/rpm/fileattrs/
 cp osixie-deps.req %{?buildroot}/usr/lib/rpm/
 
 %files
-/usr/lib/rpm/fileattrs/darling.attr
+/usr/lib/rpm/fileattrs/osxie.attr
 /usr/lib/rpm/osixie-deps.req
 
 %changelog

@@ -28,7 +28,7 @@ OTOOL = 'x86_64-apple-darwin11-otool'
 NM = 'x86_64-apple-darwin11-nm'
 
 XCODE_PATH = '/data/osixie/Applications/Xcode.app'
-SYSTEM_ROOT = '/usr/local/libexec/darling'
+SYSTEM_ROOT = '/usr/local/libexec/osxie'
 OUT_DIR = os.path.join(SCRIPT_DIR, '..', 'src', 'frameworks', 'dev-stubs')
 
 ###

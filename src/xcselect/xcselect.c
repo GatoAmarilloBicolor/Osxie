@@ -174,9 +174,9 @@ bool xcselect_get_developer_dir_path(char* path, size_t path_len, bool* is_cmd_l
 		p = "/Library/Developer/CommandLineTools";
 		goto have_path;
 	}
-	else if (dir_exists("/Library/Developer/DarlingCLT"))
+	else if (dir_exists("/Library/Developer/OsxieCLT"))
 	{
-		p = "/Library/Developer/DarlingCLT";
+		p = "/Library/Developer/OsxieCLT";
 		*is_cmd_line = true;
 		goto have_path;
 	}

@@ -114,7 +114,7 @@ install(TARGETS darling-dmg RUNTIME DESTINATION bin)
 # This is used in Darling build.
 else (NOT DARLING)
 	include(wrap_elf)
-	include(darling_exe)
+	include(osxie_exe)
 	include(FindPkgConfig)
 
 	add_definitions(-D_FILE_OFFSET_BITS=64 -DCOMPILE_WITH_LZFSE=1)
@@ -129,7 +129,7 @@ else (NOT DARLING)
 
 	wrap_elf(fuse libfuse.so)
 
-	add_darling_executable(hdiutil
+	add_osxie_executable(hdiutil
 		${dmg_sources}
 		src/main-hdiutil.cpp
 	)

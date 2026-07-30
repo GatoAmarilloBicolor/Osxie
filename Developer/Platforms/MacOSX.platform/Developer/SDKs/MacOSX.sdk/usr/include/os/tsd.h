@@ -52,7 +52,7 @@
 #include <arm/arch.h>
 #endif
 
-#ifdef DARLING
+#ifdef OSXIE
 #include <osxie/emulation/linux_premigration/linux-syscalls/linux.h>
 #endif
 
@@ -62,7 +62,7 @@ __attribute__((always_inline))
 static __inline__ unsigned int
 _os_cpu_number(void)
 {
-#ifdef DARLING
+#ifdef OSXIE
 	extern int __linux_syscall(int nr, ...);
 
 	unsigned int cpu_num = 0;

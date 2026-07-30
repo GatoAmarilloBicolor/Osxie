@@ -76,7 +76,7 @@
 
 #endif /* (!_POSIX_C_SOURCE && !_XOPEN_SOURCE) || _DARWIN_C_SOURCE || __cplusplus */
 
-#ifdef DARLING
+#ifdef OSXIE
 #include <pthread_impl.h>
 #endif
 

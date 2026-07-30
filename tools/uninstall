@@ -7,18 +7,18 @@ then
 	exec sudo su -c "$0" "$@"
 fi
 
-if command -v darling
+if command -v osxie
 then
 	$(dirname "$0")/shutdown-user.sh
 fi
 
-INSTALL_PREFIX="$(dirname "$(dirname "$(which darling)")")"
+INSTALL_PREFIX="$(dirname "$(dirname "$(which osxie)")")"
 if [ -d "${INSTALL_PREFIX}/libexec" ]
 then
-	rm -rf "${INSTALL_PREFIX}/libexec/darling"
+	rm -rf "${INSTALL_PREFIX}/libexec/osxie"
 	rmdir --ignore-fail-on-non-empty "${INSTALL_PREFIX}/libexec"
 fi
-rm -f "${INSTALL_PREFIX}/bin/darling"
+rm -f "${INSTALL_PREFIX}/bin/osxie"
 rm -f "${INSTALL_PREFIX}/bin/osxieserver"
 rm -f "${INSTALL_PREFIX}/bin/osixie-coredump"
 find /lib/modules -name osixie-mach.ko -delete

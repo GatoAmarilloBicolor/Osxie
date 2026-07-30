@@ -39,7 +39,7 @@ __BEGIN_DECLS
 #include <os/base_private.h>
 #include <stdint.h>
 
-#ifdef DARLING
+#ifdef OSXIE
 	#include <string.h>
 #endif
 

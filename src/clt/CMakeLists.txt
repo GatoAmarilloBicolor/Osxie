@@ -1,6 +1,6 @@
 project(clt)
 
-set(CLT_ROOT libexec/osxie/Library/Developer/DarlingCLT)
+set(CLT_ROOT libexec/osxie/Library/Developer/OsxieCLT)
 
 install(DIRECTORY DESTINATION ${CLT_ROOT})
 

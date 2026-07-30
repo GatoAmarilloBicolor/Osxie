@@ -56,7 +56,7 @@ andl $$~15, %esp
 	movl 16+off(%ebp), %ecx ;\
 	movl %ecx, -56+off(%esp)
 
-// copy the arguments (same as in syscalls-table.S and darling_mach_syscall.S)
+// copy the arguments (same as in syscalls-table.S and osxie_mach_syscall.S)
 copy_arg(0)
 copy_arg(4)
 copy_arg(8)

@@ -10,7 +10,7 @@
 
 ## What is Osxie?
 
-Osxie is a fork of the [Osxie](https://github.com/nicktrandafil/darling) project that provides a complete macOS compatibility layer for Linux. It allows you to run macOS binaries, including GUI applications, without virtualization or emulation. The entire system installs independently to `/usr/local/libexec/osxie`.
+Osxie is a macOS compatibility layer that provides a complete macOS compatibility layer for Linux. It allows you to run macOS binaries, including GUI applications, without virtualization or emulation. The entire system installs independently to `/usr/local/libexec/osxie`.
 
 ## Key Components
 
@@ -122,11 +122,11 @@ osxie shell --prefix=/path/to/prefix
 The entire codebase was systematically renamed from Osxie to Osxie:
 
 - **Root CMakeLists.txt**: Project renamed to `osxie`, all install paths changed to `libexec/osxie`
-- **Binary renamed**: `darling` -> `osxie`
-- **Source files**: `darling.c` -> `osxie.c`, `darling.h` -> `osxie.h` in `src/startup/`
+- **Binary renamed**: `osxie` -> `osxie`
+- **Source files**: `osxie.c` -> `osxie.c`, `osxie.h` -> `osxie.h` in `src/startup/`
 - **Config header**: `osixie-config.h` -> `osxie-config.h` (with backward-compat symlink)
-- **Type renames**: `darling_thread_create_callbacks_t` -> `osxie_thread_create_callbacks_t`
-- **Struct renames**: `struct elf_calls` members renamed (e.g., `darling_thread_create` -> `osxie_thread_create`)
+- **Type renames**: `osxie_thread_create_callbacks_t` -> `osxie_thread_create_callbacks_t`
+- **Struct renames**: `struct elf_calls` members renamed (e.g., `osxie_thread_create` -> `osxie_thread_create`)
 - **Install prefix**: `/usr/local/libexec/osxie` (independent from any Osxie installation)
 - **Symlinks**: `/etc/osxie`, `/Volumes/OsxieEmulatedDrive`
 >>>>>>> 58164a634 (Enable Osxie/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
@@ -225,5 +225,5 @@ Osxie is based on the excellent work of the Osxie project team. We're grateful f
 
 **Osxie** - Because your favorite macOS apps shouldn't be locked to one platform 🚀
 =======
-Osxie is based on the [Osxie project](https://github.com/nicktrandafil/darling). We are grateful for the pioneering work of the Osxie team in macOS-on-Linux compatibility.
+This project is based on the original Darling project. We are grateful for the pioneering work of the Darling team in macOS-on-Linux compatibility.
 >>>>>>> 58164a634 (Enable Osxie/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)

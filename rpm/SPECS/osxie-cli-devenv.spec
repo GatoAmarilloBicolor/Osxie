@@ -1,4 +1,4 @@
-# NOTE: this package MUST be built after building the main `darling` package
+# NOTE: this package MUST be built after building the main `osxie` package
 
 #disable binary striping, in case this is a problem
 %global __os_install_post %{nil}
@@ -17,9 +17,9 @@ Summary:        Osxie developer environment
 
 Group:          Utility
 License:        GPLv3
-URL:            https://www.darlinghq.org/
+URL:            https://www.osxiehq.org/
 # Use this line for Source0 if there are ever official versions.
-# Source0:        https://github.com/darlinghq/osixie/archive/%%{version}/%%{name}-%%{version}.tar.gz
+# Source0:        https://github.com/osxiehq/osixie/archive/%%{version}/%%{name}-%%{version}.tar.gz
 Source0:        %{name}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -42,9 +42,9 @@ true
 cp -rla . %{?buildroot}/
 
 %files
-%{_libexecdir}/darling
+%{_libexecdir}/osxie
 
 %changelog
 * Tue May 02 2023 Ariel Abreu <facekapow@outlook.com> - 0.1.20230502-1
 - Initial version working for Fedora 37
-- Split package off from `darling` package
+- Split package off from `osxie` package

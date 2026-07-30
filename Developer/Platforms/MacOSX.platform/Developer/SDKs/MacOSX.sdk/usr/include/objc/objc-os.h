@@ -34,7 +34,7 @@
 #include "objc-config.h"
 #include "objc-private.h"
 
-#ifdef DARLING
+#ifdef OSXIE
 #include <utility>
 #endif
 

@@ -609,7 +609,7 @@ extern IMP lookUpImpOrForward(id obj, SEL, Class cls, int behavior);
 extern IMP lookUpImpOrForwardTryCache(id obj, SEL, Class cls, int behavior = 0);
 extern IMP lookUpImpOrNilTryCache(id obj, SEL, Class cls, int behavior = 0);
 
-#ifdef DARLING
+#ifdef OSXIE
 static inline IMP
 lookUpImpOrNil(id obj, SEL sel, Class cls, int behavior = 0)
 {

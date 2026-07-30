@@ -236,7 +236,7 @@
 #define __PTK_PERF_UTILS_KEY3		193
 #define __PTK_PERF_UTILS_KEY4		194
 
-#ifdef DARLING
+#ifdef OSXIE
 /* Keys 200 - 209 are for Darling */
 /* These keys seem to be entirely unused by Apple, so they should be safe to use in Darling. */
 #define __PTK_DARLING_KEY0 200

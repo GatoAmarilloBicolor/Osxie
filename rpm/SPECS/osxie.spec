@@ -211,7 +211,7 @@ GUI stub components of Osxie
 %build
 %{__mkdir_p} build
 pushd build
-	# Release is broken https://github.com/darlinghq/osixie/issues/331
+	# Release is broken https://github.com/osxiehq/osixie/issues/331
 	#          -DCMAKE_BUILD_TYPE=Release \
 	CFLAGS="" CXXFLAGS="" CPPFLAGS="" LDFLAGS="" \
 	%{__cmake} -DCMAKE_INSTALL_PREFIX=%{_prefix} \

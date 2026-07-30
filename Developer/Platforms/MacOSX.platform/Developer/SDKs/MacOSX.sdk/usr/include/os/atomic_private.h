@@ -29,6 +29,8 @@
 #ifndef __OS_ATOMIC_PRIVATE_H__
 #define __OS_ATOMIC_PRIVATE_H__
 
+#include <stdatomic.h>
+
 /*!
  * @file <os/atomic_private.h>
  *

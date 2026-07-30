@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(darling-dmg CXX)
+project(osxie-dmg CXX)
 
 set(dmg_sources
 	src/unichar.cpp
@@ -33,7 +33,7 @@ set(dmg_sources
 )
 
 
-# This part of CMakeLists.txt is for when building darling-dmg
+# This part of CMakeLists.txt is for when building osxie-dmg
 # as a standalone FUSE module outside of Darling.
 if (NOT DARLING)
 
@@ -100,7 +100,7 @@ target_compile_features(dmg PRIVATE cxx_std_11)
 target_link_libraries(dmg -licuuc -lcrypto -lz -lbz2 ${LIBXML2_LIBRARY})
 install(TARGETS dmg DESTINATION lib)
 
-add_executable(darling-dmg
+add_executable(osxie-dmg
 	src/main-fuse.cpp
 )
 
@@ -108,8 +108,8 @@ SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) 
 SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 
-target_link_libraries(darling-dmg -lfuse dmg)
-install(TARGETS darling-dmg RUNTIME DESTINATION bin)
+target_link_libraries(osxie-dmg -lfuse dmg)
+install(TARGETS osxie-dmg RUNTIME DESTINATION bin)
 
 # This is used in Darling build.
 else (NOT DARLING)
@@ -135,6 +135,6 @@ else (NOT DARLING)
 	)
 
 	target_link_libraries(hdiutil fuse icucore z bz2 crypto44 xml2 iconv lzfse)
-	install(TARGETS hdiutil DESTINATION libexec/darling/usr/bin)
+	install(TARGETS hdiutil DESTINATION libexec/osxie/usr/bin)
 
 endif (NOT DARLING)

@@ -134,6 +134,15 @@ include(osxie_framework)
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include)
 
+set(EMULATION_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/external/xnu/osxie/src/libsystem_kernel/emulation/include")
+set(OSXIE_SDK_INCLUDE_DIR "${CMAKE_BINARY_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include")
+if (EXISTS "${EMULATION_INCLUDE_DIR}" AND NOT EXISTS "${OSXIE_SDK_INCLUDE_DIR}/osxie")
+	file(MAKE_DIRECTORY "${OSXIE_SDK_INCLUDE_DIR}/osxie/emulation")
+	execute_process(COMMAND ${CMAKE_COMMAND} -E create_symlink
+		"${EMULATION_INCLUDE_DIR}/linux_premigration"
+		"${OSXIE_SDK_INCLUDE_DIR}/osxie/emulation/linux_premigration")
+endif ()
+
 include_directories(
 	${CMAKE_SOURCE_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include
 	${CMAKE_BINARY_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include

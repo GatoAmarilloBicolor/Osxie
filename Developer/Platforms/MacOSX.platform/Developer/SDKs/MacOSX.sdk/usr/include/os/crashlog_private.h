@@ -26,7 +26,7 @@
 #if __has_include(<CrashReporterClient.h>)
 #include <CrashReporterClient.h>
 
-#if defined(DARLING)
+#if defined(DARLING) || defined(OSXIE)
 
 #define __os_set_crash_log_cause_and_message(ac, msg) ((void)(ac), (void)(msg))
 #define _os_set_crash_log_message(msg) ((void)(msg))

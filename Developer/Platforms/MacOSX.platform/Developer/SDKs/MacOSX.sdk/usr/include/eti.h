@@ -1,1 +1,1 @@
-../../../../../../../../src/external/ncurses/darling/include/eti.h
+../../../../../../../../src/external/ncurses/osxie/include/eti.h

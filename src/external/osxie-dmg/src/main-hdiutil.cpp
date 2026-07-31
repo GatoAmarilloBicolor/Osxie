@@ -22,7 +22,7 @@ static int doAttach(int argc, char** argv);
 static int doDetach(int argc, char** argv);
 static void addFusermountIntoPath();
 
-extern "C" int __darling_vchroot_expand(const char* path, char* out);
+extern "C" int __osxie_vchroot_expand(const char* path, char* out);
 
 int main(int argc, char** argv)
 {
@@ -195,7 +195,7 @@ static int doAttach(int argc, char** argv)
 	args[1] = dmg.c_str();
 
 	char linux_path[4096];
-	__darling_vchroot_expand(mount.c_str(), linux_path);
+	__osxie_vchroot_expand(mount.c_str(), linux_path);
 	args[2] = linux_path;
 
 	std::cerr << "Will pass " << args[2] << std::endl;
@@ -323,7 +323,7 @@ static int doDetach(int argc, char** argv)
 	addFusermountIntoPath();
 
 	char linux_path[4096];
-	__darling_vchroot_expand(argv[optind], linux_path);
+	__osxie_vchroot_expand(argv[optind], linux_path);
 	const char* pargv[] = { "fusermount", "-u", linux_path, nullptr };
 
 	*((void**)(&elf_posix_spawnp)) = _elfcalls->dlsym_fatal(nullptr, "posix_spawnp");

@@ -1,1 +1,1 @@
-../../../../../../../../src/external/ncurses/darling/include/nc_tparm.h
+../../../../../../../../src/external/ncurses/osxie/include/nc_tparm.h

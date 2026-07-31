@@ -10,54 +10,18 @@
 
 ## What is Osxie?
 
-Osxie is a macOS compatibility layer that provides a complete macOS compatibility layer for Linux. It allows you to run macOS binaries, including GUI applications, without virtualization or emulation. The entire system installs independently to `/usr/local/libexec/osxie`.
+Osxie is a macOS compatibility layer that provides complete compatibility for Linux. It allows you to run macOS binaries, including GUI applications, without virtualization or emulation. The entire system installs independently to `/usr/local/libexec/osxie`.
 
 ## Key Components
 
-<<<<<<< HEAD
-✅ **Full GUI Support** - Complete AppKit/Cocoa implementation via Cocotron
-✅ **WindowServer** - Native X11 backend for macOS window management  
-✅ **Security Framework** - Keychain and authorization services
-✅ **WebKit** - Basic web rendering for modern applications
-✅ **Homebrew Compatible** - Run brew and install macOS packages
-✅ **iTerm2 Support** - Full terminal emulator compatibility
+- **Full GUI Support** - Complete AppKit/Cocoa implementation via Cocotron
+- **WindowServer** - Native X11 backend for macOS window management  
+- **Security Framework** - Keychain and authorization services
+- **WebKit** - Basic web rendering for modern applications
+- **Homebrew Compatible** - Run brew and install macOS packages
+- **iTerm2 Support** - Full terminal emulator compatibility
 
-=======
-- **Osxie binary** (`/usr/local/bin/osxie`) - Main entry point (shell, prefix management)
-- **Osxieserver** (`osxieserver`) - RPC server for Mach/POSIX syscall translation
-- **dyld** - Dynamic library loader for Mach-O binaries
-- **libSystem** - POSIX/libc/libm/libpthread for macOS ABI
-- **Mach kernel emulation** - XNU syscall layer via Linux syscalls
-- **Framework stubs** - Foundation, AppKit, CoreGraphics, CoreText, QuartzCore, etc.
-- **Security framework** - Keychain and CommonCrypto via OpenSSL
-- **WindowServer** - X11-based window management (new)
->>>>>>> 58164a634 (Enable Osxie/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
-
-## Build Status
-
-| Component | Status |
-|-----------|--------|
-| Core (libSystem, kernel emulation) | Builds and links |
-| osxieserver | Builds and links |
-| dyld (dynamic linker) | Builds and links |
-| Foundation | Builds (warnings only) |
-| AppKit / CoreGraphics | Builds (Cocotron) |
-| QuartzCore (CATiledLayer fix) | Builds |
-| Security framework | Builds (new) |
-| WebKit / JavaScriptCore | Pre-existing upstream issues (disabled temporarily) |
-| WindowServer | Builds (new, X11 backend) |
-
-<<<<<<< HEAD
-- **Complete GUI Stack**: Full implementation of AppKit, CoreGraphics, QuartzCore
-- **Enhanced CATiledLayer**: Proper tiled rendering support for iTerm2
-- **WindowServer**: Complete window management with X11 backend
-- **Security Framework**: Full keychain and authorization implementation
-- **WebKit Implementation**: Basic but functional WebView support
-
-- **Independent Installation**: Installs to `/usr/local/libexec/osxie` (separate from Osxie)
-=======
 ## Building
->>>>>>> 58164a634 (Enable Osxie/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
 
 ### Prerequisites
 
@@ -112,10 +76,7 @@ osxie shell -c "echo Hello from Osxie"
 osxie shell --prefix=/path/to/prefix
 ```
 
-<<<<<<< HEAD
-
-=======
-## What Was Done (Changelog)
+## Changelog
 
 ### Rename: Osxie -> Osxie
 
@@ -129,7 +90,6 @@ The entire codebase was systematically renamed from Osxie to Osxie:
 - **Struct renames**: `struct elf_calls` members renamed (e.g., `osxie_thread_create` -> `osxie_thread_create`)
 - **Install prefix**: `/usr/local/libexec/osxie` (independent from any Osxie installation)
 - **Symlinks**: `/etc/osxie`, `/Volumes/OsxieEmulatedDrive`
->>>>>>> 58164a634 (Enable Osxie/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
 
 ### Bug Fixes
 
@@ -140,21 +100,20 @@ The entire codebase was systematically renamed from Osxie to Osxie:
 - **Release builds**: Added `-O2 -DNDEBUG -fno-strict-aliasing` flags
 - **osixie-config.h**: Created backward-compat symlink in build dir for external submodules
 
-<<<<<<< HEAD
-### In Progress 🚧
+## In Progress 🚧
+
 - iTerm2 
 - VSCode
 - Discord
 - Slack
-=======
-### New Components
->>>>>>> 58164a634 (Enable Osxie/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)
+
+## New Components
 
 - **WindowServer** (`src/WindowServer/`): X11-based window management with cursor handling, display management, and event processing
 - **Security framework** (`src/frameworks/Security/`): Keychain, authorization, and CommonCrypto implementations backed by OpenSSL
 - **WebKit WebView** (`src/frameworks/WebKit/`): Basic WKWebView, WKWebViewConfiguration, WKPreferences implementation
 
-### Component Exclusions
+## Component Exclusions
 
 - **JavaScriptCore / WebKit**: Disabled from default build due to pre-existing LLInt opcode label generation issues (undeclared labels for `op_iterator_open`, `op_call_varargs`, etc.). These will be re-enabled once the upstream build system is fixed.
 
@@ -218,12 +177,8 @@ Osxie is licensed under the GNU General Public License v3.0, maintaining compati
 
 ## Acknowledgments
 
-<<<<<<< HEAD
-Osxie is based on the excellent work of the Osxie project team. We're grateful for their pioneering efforts in macOS compatibility on Linux.
+This project is based on the original Darling project. We are grateful for the pioneering work of the Darling team in macOS-on-Linux compatibility.
 
 ---
 
 **Osxie** - Because your favorite macOS apps shouldn't be locked to one platform 🚀
-=======
-This project is based on the original Darling project. We are grateful for the pioneering work of the Darling team in macOS-on-Linux compatibility.
->>>>>>> 58164a634 (Enable Osxie/Osxie initialization: WebKit linker fix, mldr path correction, overlay mount setup)

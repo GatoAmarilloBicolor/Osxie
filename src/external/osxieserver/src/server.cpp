@@ -28,6 +28,7 @@
 #include <sys/epoll.h>
 #include <fcntl.h>
 #include <system_error>
+#include <iostream>
 #include <thread>
 #include <array>
 #include <osxieserver/registry.hpp>
@@ -566,8 +567,9 @@ void DarlingServer::Server::start() {
 		// Apply 5-second timeout to prevent network syscall blocking from freezing osxieserver
 		const auto start = std::chrono::steady_clock::now();
 		
+		int ret = 0;
 		while (true) {
-			int ret = epoll_wait(_epollFD, events, 16, 5000);
+			ret = epoll_wait(_epollFD, events, 16, 5000);
 			if (ret < 0) {
 				break; // EINTR handled above, timeout or error exits loop
 			}

@@ -42,7 +42,7 @@ typedef void *xpc_object_t;
 
 __BEGIN_DECLS
 
-#ifndef DARLING
+#if !defined(DARLING) && !defined(OSXIE)
 extern void *__dso_handle;
 #endif
 

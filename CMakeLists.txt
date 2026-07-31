@@ -81,6 +81,7 @@ include(architecture)
 include(create_symlink)
 include(compat)
 
+include(compiler_include)
 set(CLANG_RECOMMENDED_MINIMUM_VERSION 11)
 clang_version_check(${CMAKE_C_COMPILER} c ${CLANG_RECOMMENDED_MINIMUM_VERSION})
 clang_version_check(${CMAKE_CXX_COMPILER} cpp ${CLANG_RECOMMENDED_MINIMUM_VERSION})

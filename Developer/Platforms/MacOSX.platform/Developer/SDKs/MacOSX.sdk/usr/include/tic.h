@@ -1,1 +1,1 @@
-../../../../../../../../src/external/ncurses/darling/include/tic.h
+../../../../../../../../src/external/ncurses/osxie/include/tic.h

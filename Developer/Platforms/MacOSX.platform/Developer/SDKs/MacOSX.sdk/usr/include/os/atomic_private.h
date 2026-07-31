@@ -29,7 +29,9 @@
 #ifndef __OS_ATOMIC_PRIVATE_H__
 #define __OS_ATOMIC_PRIVATE_H__
 
+#ifndef __cplusplus
 #include <stdatomic.h>
+#endif
 
 /*!
  * @file <os/atomic_private.h>

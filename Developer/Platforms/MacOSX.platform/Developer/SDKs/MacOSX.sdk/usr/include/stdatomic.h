@@ -71,7 +71,9 @@ typedef enum memory_order {
   memory_order_seq_cst = __ATOMIC_SEQ_CST
 } memory_order;
 
+#ifndef __cplusplus
 #define kill_dependency(y) (y)
+#endif
 
 /* 7.17.4 Fences */
 

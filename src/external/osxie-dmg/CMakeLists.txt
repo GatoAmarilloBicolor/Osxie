@@ -35,7 +35,7 @@ set(dmg_sources
 
 # This part of CMakeLists.txt is for when building osxie-dmg
 # as a standalone FUSE module outside of Darling.
-if (NOT DARLING)
+if (NOT DARLING AND NOT OSXIE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/")
@@ -97,12 +97,15 @@ add_library(dmg SHARED
 	src/HFSHighLevelVolume.cpp
 )
 target_compile_features(dmg PRIVATE cxx_std_11)
+target_compile_definitions(dmg PRIVATE U_SHOW_CPLUSPLUS_API=1)
 target_link_libraries(dmg -licuuc -lcrypto -lz -lbz2 ${LIBXML2_LIBRARY})
 install(TARGETS dmg DESTINATION lib)
 
 add_executable(osxie-dmg
 	src/main-fuse.cpp
 )
+
+target_compile_definitions(osxie-dmg PRIVATE U_SHOW_CPLUSPLUS_API=1)
 
 SET(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 SET(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE) 
@@ -133,6 +136,8 @@ else (NOT DARLING)
 		${dmg_sources}
 		src/main-hdiutil.cpp
 	)
+
+	target_compile_definitions(hdiutil PRIVATE DARLING U_SHOW_CPLUSPLUS_API=1)
 
 	target_link_libraries(hdiutil fuse icucore z bz2 crypto44 xml2 iconv lzfse)
 	install(TARGETS hdiutil DESTINATION libexec/osxie/usr/bin)

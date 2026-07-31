@@ -75,6 +75,12 @@ cmake --build build_new --target system_kernel_firstpass
 - **Problem**: libsyscall target needed the emulation `include/` directory for `<osxie/emulation/...>` headers.
 - **Fix**: Added `include_directories("...emulation/include")`.
 
+### 13. vchroot link failure: misspelled symbol
+- **File**: `src/vchroot/vchroot.c`
+- **Problem**: `vchroot` failed to link with `Undefined symbols: "___osixie_vchroot"`. `vchroot.c` declared/referenced `__osixie_vchroot` (typo, extra "i") but libsystem_kernel's emulation exports `__osxie_vchroot` / `__osxie_vchroot_expand` (see `src/external/xnu/osxie/src/libsystem_kernel/emulation/src/linux_premigration/vchroot_userspace.c`). Introduced in commit `f30104686` when renaming `__darling_vchroot`.
+- **Fix**: Changed `__osixie_vchroot` → `__osxie_vchroot` in `vchroot.c` (lines 8 and 40). Verified with `cmake --build . --target vchroot`; binary now imports `___osxie_vchroot` correctly.
+- **Note**: The codebase uses both spellings (`osixie` in lkm/xtrace/commpage, `osxie` in libsystem_kernel emulation and shellspawn plist). For the vchroot ABI, `osxie` is canonical since libsystem_kernel already exports it.
+
 ## Next Targets to Build
 After `system_kernel_firstpass`, the next targets would be:
 - `system_kernel` (the fat binary, second pass)

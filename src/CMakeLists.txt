@@ -6,8 +6,14 @@ unset(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES)
 cmake_policy(SET CMP0005 NEW)
 
 set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
-include(mig)
-include(pyc)
+
+# Only include mig and pyc if their corresponding components are enabled
+if (COMPONENT_system OR COMPONENT_python OR COMPONENT_ruby)
+    include(mig)
+endif()
+if (COMPONENT_python OR COMPONENT_ruby)
+    include(pyc)
+endif()
 
 # Force linker settings to match 3.30.5 behavior
 # Apple's ld64 in cctools does not support the `--dependency-file` flag
@@ -67,17 +73,29 @@ execute_process(
 configure_file(include/osxie-config.h.in include/osxie-config.h)
 include_directories("${CMAKE_CURRENT_BINARY_DIR}/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
-
-include(compiler_include)
-GetCompilerInclude(COMPILER_INC_PATH)
-message(STATUS "Compiler include path detected as ${COMPILER_INC_PATH}")
-include_directories(SYSTEM ${COMPILER_INC_PATH})
+# Only include compiler_include if building core components that need it
+if (COMPONENT_system OR COMPONENT_python)
+    include(compiler_include)
+    if (EXISTS "${CMAKE_SOURCE_DIR}/external/cctools-port")
+        find_program(CPUCHECKER "${CMAKE_SOURCE_DIR}/external/cctools-port/util/cpuid")
+        if (CPUCHECKER)
+            execute_process(
+                COMMAND ${CPUCHECKER} -q x86
+                WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+                OUTPUT_VARIABLE CPUCHECKER_RESULT
+                ERROR_STRIP_WHITESPACE 1
+            )
+        endif()
+    endif()
+endif()
 
 find_package(BISON)
 find_package(FLEX)
 
 set(OSXIE_SDK_RELATIVE_PATH "Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk")
 set(OSXIE_ROOT_RELATIVE_TO_SDK "../../../../../..")
+set(DARLING_SDK_RELATIVE_PATH "${OSXIE_SDK_RELATIVE_PATH}")
+set(DARLING_ROOT_RELATIVE_TO_SDK "${OSXIE_ROOT_RELATIVE_TO_SDK}")
 
 add_subdirectory(external/cctools-port/cctools/ld64/src)
 add_subdirectory(external/cctools-port/cctools/ar)

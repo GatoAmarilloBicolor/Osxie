@@ -118,3 +118,32 @@ cmake --build build_new --target system_kernel_firstpass
 After `osxieserver` and `osxie` (both done), the next targets would be:
 - Other system libraries (`libsystem_c`, `libsystem_dyld`, ...)
 - The full core build (`ninja -C build_new`)
+
+## Full build automation (RAM-constrained machine)
+
+The shared machine (17Gi RAM, ~12Gi used by other agents) OOMs under `-j2` on heavy
+TUs (`LowLevelInterpreter.cpp.o`, `NSPredicateParser.tab.c`, `cryptkitcsp.cpp.o`).
+The OOM killer even took the old retry-loop shell itself, killing it silently.
+
+**Use `scripts/build_complete.sh` — one command for build + install (+ optional
+osxify fork/push):**
+
+```bash
+./scripts/build_complete.sh                 # build + install (1 comando)
+./scripts/build_complete.sh --osxify-push   # + fork/push submódulos osxificados
+./scripts/build_complete.sh --no-install --jobs=1 --max-attempts=60
+```
+
+Key mechanics (details in `.opencode/plans/build-completion.md`):
+- `ulimit -v 6Gi` per process → the build never triggers a system OOM, so the retry
+  shell survives; TUs over the cap just fail and are retried (observed max ~2.5Gi).
+- Adaptive parallelism: `-j2` if `MemAvailable ≥ 8Gi`, else `-j1`; after first OOM
+  it drops to `-j1` (peak TU + third-party ~14.5Gi < 17Gi → stable).
+- Stops (rc=3) on real errors with the last `error:`/`fatal error`; retries on
+  `Terminado|Killed|bad_alloc`. Log: `/tmp/opencode/build-retry.log`.
+- **ccache is NOT installed** (`CCACHE_PROGRAM-NOTFOUND`): install it to make
+  OOM-retries nearly free.
+- Osxified submodules to fork/push when green (rest of `git submodule status` is
+  build junk): `OpenLDAP`, `python`, `JavaScriptCore`, `Heimdal`, `security`
+  (`git add -u` + commit `osxify: replace DARLING guards/refs with OSXIE`, branch
+  `osxie`, `gh repo fork`, push) — see `.opencode/plans/build-completion.md`.

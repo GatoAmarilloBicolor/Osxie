@@ -1,19 +1,42 @@
+cmake_minimum_required(VERSION 3.13)
+
+# Prefer clang (GCC does not recognize __private_extern__, which cctools headers use).
+# Must run before project() so the compiler is selected here. Mirrors the repo-root
+# CMakeLists.txt so the `cmake -S src` workflow behaves the same.
+if (NOT DEFINED CMAKE_C_COMPILER)
+	find_program(CMAKE_C_COMPILER NAMES clang clang-22 clang-21 clang-20)
+endif()
+if (NOT DEFINED CMAKE_CXX_COMPILER)
+	find_program(CMAKE_CXX_COMPILER NAMES clang++ clang++-22 clang++-21 clang++-20)
+endif()
+
 project(osxie-src)
 
 unset(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES)
 unset(CMAKE_CXX_IMPLICIT_INCLUDE_DIRECTORIES)
 
+enable_language(ASM)
+
 cmake_policy(SET CMP0005 NEW)
 
-set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake")
+# Module path is relative to CMAKE_CURRENT_SOURCE_DIR so it resolves whether
+# this file is the top-level (cmake -S src) or a subdirectory (cmake -S .)
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../cmake")
 
-# Only include mig and pyc if their corresponding components are enabled
-if (COMPONENT_system OR COMPONENT_python OR COMPONENT_ruby)
-    include(mig)
-endif()
+# mig is needed unconditionally: osxieserver (a core component) uses mig() to
+# generate MIG stubs, and the COMPONENT_* variables are only set by the
+# repo-root CMakeLists.txt, never in the `-S src` workflow.
+include(mig)
 if (COMPONENT_python OR COMPONENT_ruby)
     include(pyc)
 endif()
+
+# Derive architecture variables (APPLE_ARCH_PRIMARY, APPLE_TARGET_TRIPLET_PRIMARY,
+# BUILD_TARGET_32BIT, BUILD_TARGET_64BIT) from the TARGET_i386/TARGET_x86_64 options.
+# The repo-root CMakeLists.txt does this via generate_architecture(), but this file
+# is a standalone top-level in the `cmake -S src` workflow, so do it here as well.
+include(architecture)
+generate_architecture()
 
 # Force linker settings to match 3.30.5 behavior
 # Apple's ld64 in cctools does not support the `--dependency-file` flag
@@ -73,21 +96,14 @@ execute_process(
 configure_file(include/osxie-config.h.in include/osxie-config.h)
 include_directories("${CMAKE_CURRENT_BINARY_DIR}/include")
 include_directories("${CMAKE_CURRENT_SOURCE_DIR}/include")
-# Only include compiler_include if building core components that need it
-if (COMPONENT_system OR COMPONENT_python)
-    include(compiler_include)
-    if (EXISTS "${CMAKE_SOURCE_DIR}/external/cctools-port")
-        find_program(CPUCHECKER "${CMAKE_SOURCE_DIR}/external/cctools-port/util/cpuid")
-        if (CPUCHECKER)
-            execute_process(
-                COMMAND ${CPUCHECKER} -q x86
-                WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
-                OUTPUT_VARIABLE CPUCHECKER_RESULT
-                ERROR_STRIP_WHITESPACE 1
-            )
-        endif()
-    endif()
-endif()
+# libsyscall (a core component) uses -nostdinc and needs the compiler's own
+# headers (stdarg.h, cpuid.h, ...), so the compiler include path is required
+# unconditionally. COMPONENT_system/COMPONENT_python are not set for
+# COMPONENTS=core, which would otherwise skip this.
+include(compiler_include)
+GetCompilerInclude(COMPILER_INC_PATH)
+message(STATUS "Compiler include path detected as ${COMPILER_INC_PATH}")
+include_directories(SYSTEM ${COMPILER_INC_PATH})
 
 find_package(BISON)
 find_package(FLEX)
@@ -113,7 +129,7 @@ add_subdirectory(libsimple "${CMAKE_CURRENT_BINARY_DIR}/libsimple-linux")
 add_subdirectory(external/osxieserver)
 add_subdirectory(startup)
 
-include_directories(${CMAKE_SOURCE_DIR}/basic-headers)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../basic-headers)
 
 add_subdirectory(external/bootstrap_cmds)
 
@@ -128,8 +144,8 @@ add_definitions(
 	-DPLATFORM_MacOSX
 )
 
-set(CMAKE_AR "${CMAKE_BINARY_DIR}/src/external/cctools-port/cctools/ar/${APPLE_TARGET_TRIPLET_PRIMARY}-ar")
-set(CMAKE_RANLIB "${CMAKE_BINARY_DIR}/src/external/cctools-port/cctools/ar/${APPLE_TARGET_TRIPLET_PRIMARY}-ranlib")
+set(CMAKE_AR "${CMAKE_CURRENT_BINARY_DIR}/external/cctools-port/cctools/ar/${APPLE_TARGET_TRIPLET_PRIMARY}-ar")
+set(CMAKE_RANLIB "${CMAKE_CURRENT_BINARY_DIR}/external/cctools-port/cctools/ar/${APPLE_TARGET_TRIPLET_PRIMARY}-ranlib")
 #set(CMAKE_ASM_COMPILER "${CMAKE_BINARY_DIR}/src/external/cctools-port/cctools/as/${APPLE_TARGET_TRIPLET_PRIMARY}-as")
 
 # set macOS deployment version
@@ -162,10 +178,10 @@ if (EXISTS "${EMULATION_INCLUDE_DIR}" AND NOT EXISTS "${OSXIE_SDK_INCLUDE_DIR}/o
 endif ()
 
 include_directories(
-	${CMAKE_SOURCE_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include
+	${CMAKE_CURRENT_SOURCE_DIR}/../${OSXIE_SDK_RELATIVE_PATH}/usr/include
 	${CMAKE_BINARY_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include
-	${CMAKE_SOURCE_DIR}/framework-include
-	${CMAKE_SOURCE_DIR}/framework-private-include
+	${CMAKE_CURRENT_SOURCE_DIR}/../framework-include
+	${CMAKE_CURRENT_SOURCE_DIR}/../framework-private-include
 )
 
 include_directories(AFTER
@@ -176,7 +192,7 @@ include_directories(AFTER
 
 	# necessary because this is the expected behavior when using `xml2-config --cflags`
 	# it adds `$sdk_dir/libxml2` to the include path
-	${CMAKE_SOURCE_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include/libxml2
+	${CMAKE_CURRENT_SOURCE_DIR}/../${OSXIE_SDK_RELATIVE_PATH}/usr/include/libxml2
 	${CMAKE_BINARY_DIR}/${OSXIE_SDK_RELATIVE_PATH}/usr/include/libxml2
 )
 
@@ -200,7 +216,7 @@ add_subdirectory(lib)
 add_subdirectory(external/libstdcxx)
 
 include_directories(BEFORE
-	${CMAKE_SOURCE_DIR}/src/external/libcxx/include
+	${CMAKE_CURRENT_SOURCE_DIR}/external/libcxx/include
 )
 
 add_definitions(-D_LIBC_NO_FEATURE_VERIFICATION)

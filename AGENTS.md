@@ -1,11 +1,20 @@
 # Osxie Build Progress
 
 ## Build Status
-- `system_kernel_firstpass`: **BUILDS** (as of 2026-07-30)
+- `system_kernel_firstpass`: **BUILDS** (as of 2026-07-31, verified with `-S .`)
+- `system_kernel`: **BUILDS** (as of 2026-07-31, second pass; produces `libsystem_kernel.dylib`)
+- `osxieserver`: **BUILDS** (as of 2026-07-31; executable at `build_new/src/external/osxieserver/osxieserver`)
+- `osxie`: **BUILDS** (as of 2026-07-31; host executable at `build_new/src/startup/osxie`, ELF x86-64)
 
 ## Build Command
+The canonical flow configures the **repo-root** as the source directory (`-S .`).
+`src/CMakeLists.txt` is a subdirectory of the repo-root `CMakeLists.txt`
+(`add_subdirectory(src)`); the `-S src` workflow never worked because subproject
+CMakeLists (startup, osxieserver, libsystem_kernel/emulation, ...) hardcode
+`${CMAKE_SOURCE_DIR}/src/...` and `${CMAKE_BINARY_DIR}/src/...` paths that only
+resolve with the repo root as top-level.
 ```
-cmake -DCMAKE_BUILD_TYPE=Debug -DCOMPONENTS=core -GNinja -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 -DTARGET_i386=1 -S src -B build_new
+cmake -DCMAKE_BUILD_TYPE=Debug -DCOMPONENTS=core -GNinja -DCMAKE_OSX_DEPLOYMENT_TARGET=11.0 -DTARGET_i386=1 -S . -B build_new
 cmake --build build_new --target system_kernel_firstpass
 ```
 
@@ -81,7 +90,31 @@ cmake --build build_new --target system_kernel_firstpass
 - **Fix**: Changed `__osixie_vchroot` → `__osxie_vchroot` in `vchroot.c` (lines 8 and 40). Verified with `cmake --build . --target vchroot`; binary now imports `___osxie_vchroot` correctly.
 - **Note**: The codebase uses both spellings (`osixie` in lkm/xtrace/commpage, `osxie` in libsystem_kernel emulation and shellspawn plist). For the vchroot ABI, `osxie` is canonical since libsystem_kernel already exports it.
 
+### 14. `-S src` never worked; use `-S .` (repo root)
+- **Problem**: AGENTS.md documented `cmake -S src -B build_new`, but `src/CMakeLists.txt` was written as a subdirectory of the repo-root `CMakeLists.txt` (`add_subdirectory(src)`). Subproject CMakeLists (startup, osxieserver, libsystem_kernel/emulation, ...) hardcode `${CMAKE_SOURCE_DIR}/src/...` and `${CMAKE_BINARY_DIR}/src/...`, which only resolve with the repo root as top-level. Under `-S src` these became double-`src` paths (e.g. `-I.../src/src/external/osxieserver/include`) and migcom failed on `Availability.h` (repo-root `basic-headers` not on path).
+- **Fix**: Standardize on `-S .` (see Build Command). Also fixed `src/CMakeLists.txt` to be flow-agnostic where cheap (module path, basic-headers/SDK/framework/libcxx include dirs, CMAKE_AR/RANLIB via `CMAKE_CURRENT_*`).
+
+### 15. mig() not defined for COMPONENTS=core
+- **File**: `src/CMakeLists.txt`
+- **Problem**: `include(mig)` was guarded by `if (COMPONENT_system OR COMPONENT_python OR COMPONENT_ruby)` (regression in commit `436ade32d`), but `osxie_parse_components` only sets `COMPONENT_core` for `COMPONENTS=core`. osxieserver (a core component) calls `mig()`, so configure failed with "Unknown CMake command 'mig'". The `-S src` workflow also never parses components, so no `COMPONENT_*` vars existed at all.
+- **Fix**: Made `include(mig)` unconditional.
+
+### 16. Missing CMake scaffolding for standalone/`-S src` configure
+- **Files**: `src/CMakeLists.txt`
+- **Problem**: With `-S src`, `src/CMakeLists.txt` ran standalone but lacked `cmake_minimum_required` (CMP0000 error), `enable_language(ASM)` (missing `CMAKE_ASM_COMPILE_OBJECT` in CMake 4.4), and `generate_architecture()` (`CoreFoundation_i386` target not found, `APPLE_TARGET_TRIPLET_PRIMARY` undefined).
+- **Fix**: Added `cmake_minimum_required(VERSION 3.13)`, `enable_language(ASM)`, and `include(architecture)` + `generate_architecture()`. These are no-ops in the repo-root flow (vars already set).
+
+### 17. Compiler selection: clang required
+- **File**: `src/CMakeLists.txt`
+- **Problem**: `-S src` with default CMake compiler detection picked `/usr/bin/cc` (GCC), which does not recognize the `__private_extern__` keyword used by cctools headers (`libstuff/rnd.c: error: unknown type name '__private_extern__'`). The repo-root `CMakeLists.txt` explicitly prefers clang; the `-S src` flow had no such logic.
+- **Fix**: Added a `find_program` clang/clang++ preference before `project()` in `src/CMakeLists.txt` (skipped when `CMAKE_C_COMPILER` is already set).
+
+### 18. Compiler builtin headers missing under `-nostdinc` (stdarg.h)
+- **File**: `src/CMakeLists.txt`
+- **Problem**: libsyscall compiles with `-nostdinc`, which also drops clang's builtin header dir, so MIG-generated sources failed with `fatal error: 'stdarg.h' file not found`. `GetCompilerInclude()` (which adds `-isystem /usr/lib/clang/<ver>/include`) was guarded by `if (COMPONENT_system OR COMPONENT_python)`, neither set for `COMPONENTS=core`. The old `build/` used `stock` components, which transitively enabled `system`, masking the bug.
+- **Fix**: Made `include(compiler_include)` + `GetCompilerInclude()` + `include_directories(SYSTEM ...)` unconditional.
+
 ## Next Targets to Build
-After `system_kernel_firstpass`, the next targets would be:
-- `system_kernel` (the fat binary, second pass)
-- Other system libraries
+After `osxieserver` and `osxie` (both done), the next targets would be:
+- Other system libraries (`libsystem_c`, `libsystem_dyld`, ...)
+- The full core build (`ninja -C build_new`)

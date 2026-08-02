@@ -15,7 +15,7 @@
 #include "CachedReader.h"
 #include "exceptions.h"
 #include "HFSHighLevelVolume.h"
-#ifdef DARLING
+#if defined(DARLING) || defined(OSXIE)
 #	include "stat_xlate.h"
 #endif
 
@@ -187,7 +187,7 @@ int hfs_getattr(const char* path, struct stat* stat)
 	std::cerr << "hfs_getattr(" << path << ")\n";
 
 	return handle_exceptions([&]() {
-#ifndef DARLING
+#if !defined(DARLING) && !defined(OSXIE)
 		*stat = g_volume->stat(path);
 #else
 		struct stat st = g_volume->stat(path);

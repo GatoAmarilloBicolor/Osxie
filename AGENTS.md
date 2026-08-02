@@ -3,8 +3,10 @@
 ## Build Status
 - `system_kernel_firstpass`: **BUILDS** (as of 2026-07-31, verified with `-S .`)
 - `system_kernel`: **BUILDS** (as of 2026-07-31, second pass; produces `libsystem_kernel.dylib`)
-- `osxieserver`: **BUILDS** (as of 2026-07-31; executable at `build_new/src/external/osxieserver/osxieserver`)
-- `osxie`: **BUILDS** (as of 2026-07-31; host executable at `build_new/src/startup/osxie`, ELF x86-64)
+- `osxieserver`: **RUNS** (2026-08-01; ELF x86-64, usage displayed correctly)
+- `osxie`: **RUNS** (2026-08-01; ELF x86-64, usage displayed correctly)
+- **FULL `COMPONENTS=all` build (Make, `build-all`): **BUILDS** (2026-08-01, `scripts/build_complete.sh --no-install`, rc=0). Includes JavaScriptCore, Ruby, vim, pyobjc, QuartzComposer, SceneKit, AVKit, etc.
+- **FULL `COMPONENTS=all` Release build (`build-all`, Unix Makefiles): **BUILDS** (2026-08-01, `make -j4`, rc=0). JavaScriptCore Release link failures fixed (see Issues Fixed #19, #20).
 
 ## Build Command
 The canonical flow configures the **repo-root** as the source directory (`-S .`).
@@ -114,6 +116,16 @@ cmake --build build_new --target system_kernel_firstpass
 - **Problem**: libsyscall compiles with `-nostdinc`, which also drops clang's builtin header dir, so MIG-generated sources failed with `fatal error: 'stdarg.h' file not found`. `GetCompilerInclude()` (which adds `-isystem /usr/lib/clang/<ver>/include`) was guarded by `if (COMPONENT_system OR COMPONENT_python)`, neither set for `COMPONENTS=core`. The old `build/` used `stock` components, which transitively enabled `system`, masking the bug.
 - **Fix**: Made `include(compiler_include)` + `GetCompilerInclude()` + `include_directories(SYSTEM ...)` unconditional.
 
+### 19. JavaScriptCore LLInt empty object in Release builds (missing vmEntry*/wasm_entry symbols)
+- **File**: `src/external/JavaScriptCore/CMakeLists.txt` (submodule)
+- **Problem**: `low_level_interpreter_x86_64` was hardcoded to the `DerivedSources/JavaScriptCore/LLIntOffsets/X86_64/debug` LLIntAssembly header. Its guard requires `OFFLINE_ASM_ASSERT_ENABLED` (i.e. `ASSERT_ENABLED`, only set in Debug). In a `Release` build (`-DNDEBUG`) the guard fails, the header compiles to nothing, `llint/LowLevelInterpreter.cpp` produces an **empty `__text` object**, and linking JavaScriptCore fails with undefined `_vmEntryToJavaScript`, `_vmEntryToNative`, `_vmEntryHostFunction`, `_vmEntryCustomAccessor`, `_vmEntryRecord`, `_wasm_entry`, `_wasmLLIntPCRangeStart/End`, `_llintPCRangeStart`. The x86_64 case was a debug-only leftover; the i386 C_LOOP case already selected `release` vs `debug` by build type (see CMakeLists.txt lines ~2172).
+- **Fix**: Select `X86_64/release` when `CMAKE_BUILD_TYPE` is `Release`/`RelWithDebInfo`/`MinSizeRel`, else `X86_64/debug` — mirroring the i386 logic. (Also documented in the CMake comment: if the header/assertion guard mismatches, the object comes out empty.)
+
+### 20. JavaScriptCore missing `JSObject::getNonReifiedStaticPropertyNames` in Release (always_inline drops out-of-line symbol)
+- **File**: `src/external/JavaScriptCore/runtime/JSObject.cpp` (submodule)
+- **Problem**: Under `NDEBUG`, `ALWAYS_INLINE` (`wtf/Compiler.h`) expands to `inline __attribute__((always_inline))`. `JSObject::getNonReifiedStaticPropertyNames` is defined `ALWAYS_INLINE` in `JSObject.cpp` but called from a **different** TU (`runtime/JSPropertyNameEnumerator.cpp:113`). In a unified build Apple inlines everything into one TU; in Osxie's non-unified build Clang inlines all same-TU call sites and **drops the out-of-line copy**, so linking fails with `Undefined symbols for architecture x86_64: __ZN3JSC8JSObject32getNonReifiedStaticPropertyNamesE...`. (Debug builds are unaffected because `ALWAYS_INLINE` is plain `inline` when `NDEBUG` is not defined.)
+- **Fix**: Changed the definition to plain `inline` — the optimizer still inlines, but the symbol is also emitted for cross-TU callers. If more such cross-TU `ALWAYS_INLINE` symbols surface in Release, the same one-file fix applies (or gate `Compiler.h` on `OSXIE`, which would trigger a full-tree recompile).
+
 ## Next Targets to Build
 After `osxieserver` and `osxie` (both done), the next targets would be:
 - Other system libraries (`libsystem_c`, `libsystem_dyld`, ...)
@@ -146,4 +158,9 @@ Key mechanics (details in `.opencode/plans/build-completion.md`):
 - Osxified submodules to fork/push when green (rest of `git submodule status` is
   build junk): `OpenLDAP`, `python`, `JavaScriptCore`, `Heimdal`, `security`
   (`git add -u` + commit `osxify: replace DARLING guards/refs with OSXIE`, branch
-  `osxie`, `gh repo fork`, push) — see `.opencode/plans/build-completion.md`.
+  `osxie`, `gh repo fork`, push) — see `.opencode/plans/build-completion.md`.---
+## Progress: July 31 → August 1, 2026
+- Rebuilt with flow configuration (repo-root -S .)
+- Verified osxie and system_kernel.dylib linking
+---
+## Build: CORE COMPLETE, READY FOR INSTALL

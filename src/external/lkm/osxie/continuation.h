@@ -43,7 +43,7 @@ int cont_setjmp(struct cont_jmpbuf* buf);
 void cont_longjmp(struct cont_jmpbuf* buf, int v);
 
 #define XNU_CONTINUATION_ENABLED(call) ({ \
-	thread_t myself = darling_thread_get_current(); \
+	thread_t myself = osxie_thread_get_current(); \
 	int rv; \
 	int v = cont_setjmp((struct cont_jmpbuf*)myself->cont_jmpbuf); \
 	if (v == 0) { \

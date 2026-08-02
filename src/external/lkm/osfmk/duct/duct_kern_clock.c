@@ -43,7 +43,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "duct_post_xnu.h"
 
 #include <linux/delay.h>
-#include <darling/debug_print.h>
+#include <osxie/debug_print.h>
 
 /* WC - todo wrapper */
 void duct_clock_init (void)

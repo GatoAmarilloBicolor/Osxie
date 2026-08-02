@@ -35,7 +35,7 @@
 #ifdef __OSXIE__
 #ifndef BUILDING_DTHREAD
 #undef _SYS_PTHREAD_INTERNAL_H_
-#include <darling/pthread_internal.h>
+#include <osxie/pthread_internal.h>
 #endif
 #else
 struct ksyn_waitq_element {

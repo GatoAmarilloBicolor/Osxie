@@ -32,7 +32,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 */
 
-#include <darling/task_registry.h>
+#include <osxie/task_registry.h>
 #include "duct.h"
 #include "duct_pre_xnu.h"
 #include "duct_pcb.h"
@@ -46,5 +46,5 @@ void machine_set_current_thread (thread_t thread)
 {
         CurrentThread   = thread;
 
-		darling_thread_register(thread);
+		osxie_thread_register(thread);
 }

@@ -64,7 +64,7 @@
 #undef zfree
 //#undef panic
 #define zfree(where, what) kfree(what)
-#define __pthread_testcancel(x) if (darling_thread_canceled()) return LINUX_EINTR;
+#define __pthread_testcancel(x) if (osxie_thread_canceled()) return LINUX_EINTR;
 //#define panic(str, arg...) WARN(1, str)
 #define task_threadmax 1024
 #define lck_mtx_destroy(lock, prop)
@@ -712,7 +712,7 @@ out:
  */
 
 int
-darling_psynch_mutexwait(__unused proc_t p, user_addr_t mutex, uint32_t mgen, uint32_t ugen, uint64_t tid, uint32_t flags, uint32_t* retval)
+osxie_psynch_mutexwait(__unused proc_t p, user_addr_t mutex, uint32_t mgen, uint32_t ugen, uint64_t tid, uint32_t flags, uint32_t* retval)
 {
 	ksyn_wait_queue_t kwq;
 	int error=0;
@@ -891,7 +891,7 @@ psynch_mtxcontinue(void * parameter, wait_result_t result)
  *  psynch_mutexdrop: This system call is used for unlock postings on contended psynch mutexes.
   */
 int
-darling_psynch_mutexdrop(__unused proc_t p, user_addr_t mutex, uint32_t mgen, uint32_t ugen, uint64_t tid, uint32_t flags, uint32_t* retval)
+osxie_psynch_mutexdrop(__unused proc_t p, user_addr_t mutex, uint32_t mgen, uint32_t ugen, uint64_t tid, uint32_t flags, uint32_t* retval)
 {
 	ksyn_wait_queue_t kwq;
 	uint32_t updateval;	
@@ -914,7 +914,7 @@ darling_psynch_mutexdrop(__unused proc_t p, user_addr_t mutex, uint32_t mgen, ui
  *  psynch_cvbroad: This system call is used for broadcast posting on blocked waiters of psynch cvars.
  */
 int
-darling_psynch_cvbroad(__unused proc_t p, user_addr_t cond, uint64_t cvlsgen, uint64_t cvudgen, uint32_t flags, user_addr_t mutex, uint64_t mugen, uint64_t tid, uint32_t* retval)
+osxie_psynch_cvbroad(__unused proc_t p, user_addr_t cond, uint64_t cvlsgen, uint64_t cvudgen, uint32_t flags, user_addr_t mutex, uint64_t mugen, uint64_t tid, uint32_t* retval)
 {
 	uint32_t cgen, cugen, csgen, diffgen;
 	uint32_t uptoseq, fromseq;
@@ -1000,7 +1000,7 @@ ksyn_queue_find_threadseq(ksyn_wait_queue_t ckwq, __unused ksyn_queue_t kq, thre
  *  psynch_cvsignal: This system call is used for signalling the  blocked waiters of  psynch cvars.
  */
 int
-darling_psynch_cvsignal(__unused proc_t p, user_addr_t cond, uint64_t cvlsgen, uint32_t cugen, int threadport, user_addr_t mutex, uint64_t mugen, uint64_t tid, uint32_t flags, uint32_t* retval)
+osxie_psynch_cvsignal(__unused proc_t p, user_addr_t cond, uint64_t cvlsgen, uint32_t cugen, int threadport, user_addr_t mutex, uint64_t mugen, uint64_t tid, uint32_t flags, uint32_t* retval)
 {
 	uint32_t cgen, csgen, signalseq, uptoseq;
 	ksyn_wait_queue_t ckwq = NULL;
@@ -1170,7 +1170,7 @@ out:
  *  psynch_cvwait: This system call is used for psynch cvar waiters to block in kernel.
  */
 int
-darling_psynch_cvwait(__unused proc_t p, user_addr_t cond, uint64_t cvlsgen, uint32_t cugen, user_addr_t mutex, uint64_t mugen, uint32_t flags, int64_t sec, uint32_t nsec, uint32_t* retval)
+osxie_psynch_cvwait(__unused proc_t p, user_addr_t cond, uint64_t cvlsgen, uint32_t cugen, user_addr_t mutex, uint64_t mugen, uint32_t flags, int64_t sec, uint32_t nsec, uint32_t* retval)
 {
 	uint32_t cgen, csgen;
 	uint32_t mgen, ugen;
@@ -1449,7 +1449,7 @@ out:
  *  psynch_cvclrprepost: This system call clears pending prepost if present.
  */
 int
-darling_psynch_cvclrprepost(__unused proc_t p, user_addr_t cond, uint32_t cgen, uint32_t cugen, uint32_t csgen, uint32_t pseq, uint32_t preposeq, uint32_t flags, int* retval)
+osxie_psynch_cvclrprepost(__unused proc_t p, user_addr_t cond, uint32_t cgen, uint32_t cugen, uint32_t csgen, uint32_t pseq, uint32_t preposeq, uint32_t flags, int* retval)
 {
 	int error;
 	ksyn_wait_queue_t ckwq = NULL;
@@ -1508,7 +1508,7 @@ darling_psynch_cvclrprepost(__unused proc_t p, user_addr_t cond, uint32_t cgen, 
  *  psynch_rw_rdlock: This system call is used for psync rwlock readers to block.
  */
 int
-darling_psynch_rw_rdlock(__unused proc_t p, user_addr_t rwlock, uint32_t lgen, uint32_t ugen, uint32_t rw_wc, int flags, uint32_t* retval)
+osxie_psynch_rw_rdlock(__unused proc_t p, user_addr_t rwlock, uint32_t lgen, uint32_t ugen, uint32_t rw_wc, int flags, uint32_t* retval)
 {
 	int error = 0, block;
 	uint32_t lockseq = 0, updatebits = 0, preseq = 0, prerw_wc = 0;
@@ -1670,9 +1670,9 @@ out:
  */
 int
 #ifdef NOTYET
-darling_psynch_rw_longrdlock(__unused proc_t p, user_addr_t rwlock, uint32_t lgen, uint32_t ugen, uint32_t rw_wc, int flags, uint32_t* retval)
+osxie_psynch_rw_longrdlock(__unused proc_t p, user_addr_t rwlock, uint32_t lgen, uint32_t ugen, uint32_t rw_wc, int flags, uint32_t* retval)
 #else /* NOTYET */
-darling_psynch_rw_longrdlock(__unused proc_t p, __unused user_addr_t rwlock, __unused uint32_t lgenval, __unused uint32_t ugenval, __unused uint32_t rw_wc, __unused int flags, __unused uint32_t* retval)
+osxie_psynch_rw_longrdlock(__unused proc_t p, __unused user_addr_t rwlock, __unused uint32_t lgenval, __unused uint32_t ugenval, __unused uint32_t rw_wc, __unused int flags, __unused uint32_t* retval)
 #endif /* NOTYET */
 {
 #ifdef NOTYET
@@ -1814,7 +1814,7 @@ out:
  *  psynch_rw_wrlock: This system call is used for psync rwlock writers to block.
  */
 int
-darling_psynch_rw_wrlock(__unused proc_t p, user_addr_t rwlock, uint32_t lgen, uint32_t ugen, uint32_t rw_wc, int flags, uint32_t* retval)
+osxie_psynch_rw_wrlock(__unused proc_t p, user_addr_t rwlock, uint32_t lgen, uint32_t ugen, uint32_t rw_wc, int flags, uint32_t* retval)
 {
 	int block;
 	ksyn_wait_queue_t kwq;
@@ -1959,9 +1959,9 @@ out1:
  */
 int
 #ifdef NOTYET
-darling_psynch_rw_yieldwrlock(__unused proc_t p, user_addr_t rwlock, uint32_t lgen, uint32_t ugen, uint32_t rw_wc, int flags, uint32_t* retval)
+osxie_psynch_rw_yieldwrlock(__unused proc_t p, user_addr_t rwlock, uint32_t lgen, uint32_t ugen, uint32_t rw_wc, int flags, uint32_t* retval)
 #else /* NOTYET */
-darling_psynch_rw_yieldwrlock(__unused proc_t p, __unused user_addr_t rwlock, __unused uint32_t lgen, __unused uint32_t ugen, __unused uint32_t rw_wc, __unused int flags, __unused uint32_t* retval)
+osxie_psynch_rw_yieldwrlock(__unused proc_t p, __unused user_addr_t rwlock, __unused uint32_t lgen, __unused uint32_t ugen, __unused uint32_t rw_wc, __unused int flags, __unused uint32_t* retval)
 #endif /* NOTYET */
 {
 #ifdef NOTYET
@@ -2105,7 +2105,7 @@ out:
  */
 
 int
-darling_psynch_rw_unlock(__unused proc_t p, user_addr_t rwlock, uint32_t lgen, uint32_t ugen, uint32_t rw_wc, int flags, uint32_t* retval)
+osxie_psynch_rw_unlock(__unused proc_t p, user_addr_t rwlock, uint32_t lgen, uint32_t ugen, uint32_t rw_wc, int flags, uint32_t* retval)
 {
 	uint32_t curgen;
 	uthread_t uth;
@@ -2219,7 +2219,7 @@ prepost:
 }
 
 extern void* hashinit(int elements, int type, u_long* hashmask);
-static void* darling_psynch_hashinit(int elements, int type, u_long* hashmask) {
+static void* osxie_psynch_hashinit(int elements, int type, u_long* hashmask) {
 	struct pthhashhead* hashtbl = hashinit(elements, type, hashmask);
 	if (hashtbl) {
 		long hashsize = *hashmask + 1;
@@ -2249,7 +2249,7 @@ pth_global_hashinit()
 {
 	int arg;
 
-	pth_glob_hashtbl = darling_psynch_hashinit(PTH_HASHSIZE * 4, M_PROC, &pthhash);
+	pth_glob_hashtbl = osxie_psynch_hashinit(PTH_HASHSIZE * 4, M_PROC, &pthhash);
 
 #ifndef __OSXIE__
 	/*
@@ -2284,9 +2284,9 @@ pth_global_hashexit()
 }
 
 void
-darling_pth_proc_hashinit(proc_t p)
+osxie_pth_proc_hashinit(proc_t p)
 {
-	p->p_pthhash  = darling_psynch_hashinit(PTH_HASHSIZE, M_PROC, &pthhash);
+	p->p_pthhash  = osxie_psynch_hashinit(PTH_HASHSIZE, M_PROC, &pthhash);
 	if (p->p_pthhash == NULL)
 		panic("pth_proc_hashinit: hash init returned 0\n");
 }
@@ -2345,7 +2345,7 @@ ksyn_wq_hash_lookup(user_addr_t mutex, proc_t p, int flags, uint64_t object, uin
 }
 
 void
-darling_pth_proc_hashdelete(proc_t p)
+osxie_pth_proc_hashdelete(proc_t p)
 {
 	struct pthhashhead * hashptr;
 	ksyn_wait_queue_t kwq;
@@ -2472,8 +2472,8 @@ loop:
 					(void)msleep(&kwq->kw_pflags, pthread_list_mlock, PDROP, "ksyn_wqfind", 0);
 #else
 					pthread_list_unlock();
-					if (wait_event_interruptible(kwq->linux_wq, !(kwq->kw_pflags & KSYN_WQ_WAITING) || darling_thread_canceled()) != 0
-						|| darling_thread_canceled())
+					if (wait_event_interruptible(kwq->linux_wq, !(kwq->kw_pflags & KSYN_WQ_WAITING) || osxie_thread_canceled()) != 0
+						|| osxie_thread_canceled())
 					{
 						return LINUX_EINTR;
 					}
@@ -2569,8 +2569,8 @@ loop:
 					(void)msleep(&kwq->kw_pflags, pthread_list_mlock, PDROP, "ksyn_wqfind", 0);
 #else
 					pthread_list_unlock();
-					if (wait_event_interruptible(kwq->linux_wq, !(kwq->kw_pflags & KSYN_WQ_WAITING) || darling_thread_canceled()) != 0
-						|| darling_thread_canceled())
+					if (wait_event_interruptible(kwq->linux_wq, !(kwq->kw_pflags & KSYN_WQ_WAITING) || osxie_thread_canceled()) != 0
+						|| osxie_thread_canceled())
 					{
 						return LINUX_EINTR;
 					}

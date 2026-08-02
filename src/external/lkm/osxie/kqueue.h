@@ -13,14 +13,14 @@ struct proc;
  * like files, processes, etc. However, for stuff that our XNU code *does* handle, like Mach ports, we defer to the filter implementations
  * in XNU and just implement the necessary plumbing to make them work.
  */
-int darling_kqueue_create(struct task* task);
+int osxie_kqueue_create(struct task* task);
 
 /**
  * @brief Notifies the LKM that the specified descriptor is being closed.
  *
  * This is used by our kqueue plumbing to delete knotes when their descriptors are closed.
  */
-int darling_closing_descriptor(struct task* task, int fd);
+int osxie_closing_descriptor(struct task* task, int fd);
 
 /**
  * @brief Initializes Osxie's kqueue plumbing.

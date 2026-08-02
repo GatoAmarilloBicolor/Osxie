@@ -58,16 +58,16 @@ struct zone* proc_zone = NULL;
  */
 int pidversion_counter = 0;
 
-void darling_procs_init(void) {
+void osxie_procs_init(void) {
 	// initialize the zone for `proc`s
 	proc_zone = zinit(sizeof(struct proc), proc_max * sizeof(struct proc), PROC_CHUNK * sizeof(struct proc), "procs");
 };
 
-void darling_procs_exit(void) {
+void osxie_procs_exit(void) {
 	// nothing for now
 };
 
-proc_t darling_proc_create(task_t task) {
+proc_t osxie_proc_create(task_t task) {
 	proc_t parent;
 	proc_t proc;
 	struct filedesc* fdp = NULL;
@@ -145,7 +145,7 @@ error_out:
 	return NULL;
 };
 
-void darling_proc_destroy(proc_t proc) {
+void osxie_proc_destroy(proc_t proc) {
 	struct filedesc* fdp;
 
 	proc_lock(proc);

@@ -46,9 +46,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <kern/policy_internal.h>
 
 #include "duct_post_xnu.h"
-#include <darling/task_registry.h>
-#include <darling/debug_print.h>
-#include <darling/uthreads.h>
+#include <osxie/task_registry.h>
+#include <osxie/debug_print.h>
+#include <osxie/uthreads.h>
 
 // From pcb.c
 #ifdef __x86_64__
@@ -448,7 +448,7 @@ kern_return_t duct_thread_create_with_continuation(task_t task, thread_t* new_th
 thread_t current_thread (void)
 {
         // kprintf ("calling current thread on linux task: 0x%x\n", (unsigned int) linux_current);
-		return darling_thread_get_current();
+		return osxie_thread_get_current();
 }
 
 void duct_thread_destroy(thread_t thread)
@@ -458,7 +458,7 @@ void duct_thread_destroy(thread_t thread)
 	thread->linux_task = NULL;
 
 	if (thread->uthread) {
-		darling_uthread_destroy((uthread_t)thread->uthread);
+		osxie_uthread_destroy((uthread_t)thread->uthread);
 	}
 	
 	thread->active = FALSE;

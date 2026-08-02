@@ -47,7 +47,7 @@ static unsigned int task_count = 0;
 
 extern unsigned int task_get_linux_pid(task_t t);
 
-static struct registry_entry* darling_task_get_entry_unlocked(int pid);
+static struct registry_entry* osxie_task_get_entry_unlocked(int pid);
 
 #define THREAD_CANCELDISABLED	0x1
 #define THREAD_CANCELED			0x2
@@ -86,19 +86,19 @@ struct proc_notification
 {
 	struct list_head list;
 	int registration_id;
-	darling_proc_notification_listener listener;
+	osxie_proc_notification_listener listener;
 	void* context;
-	darling_proc_event_t event_mask;
+	osxie_proc_event_t event_mask;
 };
 
 static struct kmem_cache* proc_notification_cache = NULL;
 
-void darling_task_init(void)
+void osxie_task_init(void)
 {
 	proc_notification_cache = kmem_cache_create("proc_notification", sizeof(struct proc_notification), 0, 0, NULL);
 }
 
-static void darling_proc_post_notification_internal(struct registry_entry* entry, darling_proc_event_t event, unsigned long int extra)
+static void osxie_proc_post_notification_internal(struct registry_entry* entry, osxie_proc_event_t event, unsigned long int extra)
 {
 	struct list_head *pos, *tmp;
 
@@ -117,31 +117,31 @@ static void darling_proc_post_notification_internal(struct registry_entry* entry
 	mutex_unlock(&entry->mut_proc_notification);
 }
 
-_Bool darling_proc_post_notification(int pid, darling_proc_event_t event, unsigned long int extra)
+_Bool osxie_proc_post_notification(int pid, osxie_proc_event_t event, unsigned long int extra)
 {
 	struct registry_entry* e;
 
 	rcu_read_lock();
-	e = darling_task_get_entry_unlocked(pid);
+	e = osxie_task_get_entry_unlocked(pid);
 	rcu_read_unlock();
 
 	if (e != NULL) {
-		darling_proc_post_notification_internal(e, event, extra);
+		osxie_proc_post_notification_internal(e, event, extra);
 		return true;
 	}
 
 	return false;
 }
 
-static struct registry_entry* darling_task_get_current_entry(void)
+static struct registry_entry* osxie_task_get_current_entry(void)
 {
 	rcu_read_lock();
-	struct registry_entry* e = darling_task_get_entry_unlocked(current->tgid);
+	struct registry_entry* e = osxie_task_get_entry_unlocked(current->tgid);
 	rcu_read_unlock();
 	return e;
 }
 
-static struct registry_entry* darling_task_get_entry_unlocked(int pid)
+static struct registry_entry* osxie_task_get_entry_unlocked(int pid)
 {
 	struct registry_entry* ret;
 
@@ -154,19 +154,19 @@ static struct registry_entry* darling_task_get_entry_unlocked(int pid)
 	return NULL;
 }
 
-task_t darling_task_get_current(void)
+task_t osxie_task_get_current(void)
 {
-	struct registry_entry* ret = darling_task_get_current_entry();
+	struct registry_entry* ret = osxie_task_get_current_entry();
 	return (ret) ? ret->task : NULL;
 }
 
 extern void task_reference_wrapper(task_t);
-task_t darling_task_get(int pid)
+task_t osxie_task_get(int pid)
 {
 	task_t task = NULL;
 	rcu_read_lock();
 
-	struct registry_entry* ret = darling_task_get_entry_unlocked(pid);
+	struct registry_entry* ret = osxie_task_get_entry_unlocked(pid);
 	if (ret != NULL)
 	{
 		task_reference_wrapper(ret->task);
@@ -179,7 +179,7 @@ task_t darling_task_get(int pid)
 }
 
 // Requires read_lock(&my_thread_lock)
-struct registry_entry* darling_thread_get_entry(unsigned int pid)
+struct registry_entry* osxie_thread_get_entry(unsigned int pid)
 {
 	struct registry_entry* ret;
 
@@ -192,20 +192,20 @@ struct registry_entry* darling_thread_get_entry(unsigned int pid)
 	return NULL;
 }
 
-struct registry_entry* darling_thread_get_current_entry(void)
+struct registry_entry* osxie_thread_get_current_entry(void)
 {
 	struct registry_entry* e;
 
 	rcu_read_lock();
-	e = darling_thread_get_entry(current->pid);
+	e = osxie_thread_get_entry(current->pid);
 	rcu_read_unlock();
 
 	return e;
 }
 
-thread_t darling_thread_get_current(void)
+thread_t osxie_thread_get_current(void)
 {
-	struct registry_entry* e = darling_thread_get_current_entry();
+	struct registry_entry* e = osxie_thread_get_current_entry();
 	if (!e)
 	{
 		debug_msg("No current thread in registry!\n");
@@ -214,18 +214,18 @@ thread_t darling_thread_get_current(void)
 	return e->thread;
 }
 
-thread_t darling_thread_get(unsigned int pid)
+thread_t osxie_thread_get(unsigned int pid)
 {
 	struct registry_entry* e;
 
-	e = darling_thread_get_entry(current->pid);
+	e = osxie_thread_get_entry(current->pid);
 
 	if (e != NULL)
 		return e->thread;
 	return NULL;
 }
 
-void darling_task_register(task_t task)
+void osxie_task_register(task_t task)
 {
 	struct registry_entry *entry, *this;
 
@@ -239,7 +239,7 @@ void darling_task_register(task_t task)
 			this->task = task;
 				
 			// exec case
-			darling_proc_post_notification_internal(this, DTE_REPLACED, 0);
+			osxie_proc_post_notification_internal(this, DTE_REPLACED, 0);
 			
 			rcu_read_unlock();
 			return;
@@ -264,7 +264,7 @@ void darling_task_register(task_t task)
 }
 
 
-void darling_thread_register(thread_t thread)
+void osxie_thread_register(thread_t thread)
 {
 	struct registry_entry *entry, *this;
 
@@ -298,7 +298,7 @@ void darling_thread_register(thread_t thread)
 	spin_unlock(&my_thread_lock);
 }
 
-void darling_task_free(struct registry_entry* entry)
+void osxie_task_free(struct registry_entry* entry)
 {
 	int i;
 	struct list_head *pos, *tmp;
@@ -321,7 +321,7 @@ void darling_task_free(struct registry_entry* entry)
 	kfree(entry);
 }
 
-void darling_task_deregister(task_t t)
+void osxie_task_deregister(task_t t)
 {
 	struct registry_entry *entry;
 
@@ -339,7 +339,7 @@ void darling_task_deregister(task_t t)
 			spin_unlock(&my_task_lock);
 			synchronize_rcu();
 
-			darling_task_free(entry);
+			osxie_task_free(entry);
 			return;
 		}
 	}
@@ -347,7 +347,7 @@ void darling_task_deregister(task_t t)
 	spin_unlock(&my_task_lock);
 }
 
-void darling_thread_deregister(thread_t t)
+void osxie_thread_deregister(thread_t t)
 {
 	struct registry_entry *entry;
 	unsigned int temp;
@@ -372,10 +372,10 @@ void darling_thread_deregister(thread_t t)
 	spin_unlock(&my_thread_lock);
 }
 
-bool darling_task_key_set(unsigned int key, void* value, task_key_dtor dtor)
+bool osxie_task_key_set(unsigned int key, void* value, task_key_dtor dtor)
 {
 	struct registry_entry* entry;
-	entry = darling_task_get_current_entry();
+	entry = osxie_task_get_current_entry();
 
 	if (entry->keys[key] != NULL)
 		return false;
@@ -388,24 +388,24 @@ bool darling_task_key_set(unsigned int key, void* value, task_key_dtor dtor)
 	return true;
 }
 
-void* darling_task_key_get(unsigned int key)
+void* osxie_task_key_get(unsigned int key)
 {
 	struct registry_entry* entry;
-	entry = darling_task_get_current_entry();
+	entry = osxie_task_get_current_entry();
 	return entry ? entry->keys[key] : NULL;
 }
 
-void darling_task_fork_wait_for_child(void)
+void osxie_task_fork_wait_for_child(void)
 {
-	struct registry_entry* e = darling_task_get_current_entry();
+	struct registry_entry* e = osxie_task_get_current_entry();
 
 	down_interruptible(&e->sem_fork);
 }
 
-void darling_task_fork_child_done(void)
+void osxie_task_fork_child_done(void)
 {
 	rcu_read_lock();
-	struct registry_entry* entry = darling_task_get_entry_unlocked(current->real_parent->tgid);
+	struct registry_entry* entry = osxie_task_get_entry_unlocked(current->real_parent->tgid);
 
 	debug_msg("task_fork_child_done - notify entry %p\n", entry);
 	if (entry != NULL)
@@ -413,7 +413,7 @@ void darling_task_fork_child_done(void)
 	rcu_read_unlock();
 }
 
-long int darling_proc_notify_register(int pid, darling_proc_notification_listener listener, void* context, darling_proc_event_t event_mask)
+long int osxie_proc_notify_register(int pid, osxie_proc_notification_listener listener, void* context, osxie_proc_event_t event_mask)
 {
 	struct proc_notification* dn;
 	struct registry_entry* e;
@@ -422,7 +422,7 @@ long int darling_proc_notify_register(int pid, darling_proc_notification_listene
 
 	rcu_read_lock();
 
-	e = darling_task_get_entry_unlocked(pid);
+	e = osxie_task_get_entry_unlocked(pid);
 
 	if (e == NULL) {
 		rv = -ESRCH;
@@ -449,7 +449,7 @@ out:
 	return rv;
 }
 
-_Bool darling_proc_notify_deregister(int pid, long int registration_id)
+_Bool osxie_proc_notify_deregister(int pid, long int registration_id)
 {
 	struct registry_entry* e;
 	_Bool rv = false;
@@ -457,11 +457,11 @@ _Bool darling_proc_notify_deregister(int pid, long int registration_id)
 
 	rcu_read_lock();
 
-	e = darling_task_get_entry_unlocked(pid);
+	e = osxie_task_get_entry_unlocked(pid);
 
 	if (e == NULL)
 	{
-		debug_msg("darling_proc_notify_deregister failed to get task for PID %d\n", pid);
+		debug_msg("osxie_proc_notify_deregister failed to get task for PID %d\n", pid);
 		goto out;
 	}
 
@@ -472,7 +472,7 @@ _Bool darling_proc_notify_deregister(int pid, long int registration_id)
 
 		if (dn->registration_id == registration_id)
 		{
-			debug_msg("darling_proc_notify_deregister found proc notification entry for id %ld, deleting it...\n", registration_id);
+			debug_msg("osxie_proc_notify_deregister found proc notification entry for id %ld, deleting it...\n", registration_id);
 			rv = true;
 			list_del(&dn->list);
 			kmem_cache_free(proc_notification_cache, dn);
@@ -486,9 +486,9 @@ out:
 	return rv;
 }
 
-void darling_task_set_dyld_info(unsigned long all_img_location, unsigned long all_img_length)
+void osxie_task_set_dyld_info(unsigned long all_img_location, unsigned long all_img_length)
 {
-	struct registry_entry* e = darling_task_get_current_entry();
+	struct registry_entry* e = osxie_task_get_current_entry();
 
 	e->proc_dyld_info_allimg_loc = all_img_location;
 	e->proc_dyld_info_allimg_len = all_img_length;
@@ -496,14 +496,14 @@ void darling_task_set_dyld_info(unsigned long all_img_location, unsigned long al
 	complete_all(&e->proc_dyld_info);
 }
 
-void darling_task_get_dyld_info(unsigned int pid, unsigned long long* all_img_location, unsigned long long* all_img_length)
+void osxie_task_get_dyld_info(unsigned int pid, unsigned long long* all_img_location, unsigned long long* all_img_length)
 {
 	struct registry_entry* e;
 
 	*all_img_location = *all_img_length = 0;
 	rcu_read_lock();
 
-	e = darling_task_get_entry_unlocked(pid);
+	e = osxie_task_get_entry_unlocked(pid);
 	if (e != NULL)
 	{
 		if (wait_for_completion_interruptible(&e->proc_dyld_info) == 0)
@@ -516,16 +516,16 @@ void darling_task_get_dyld_info(unsigned int pid, unsigned long long* all_img_lo
 	rcu_read_unlock();
 }
 
-// Will send SIGSTOP at next darling_task_set_dyld_info() call
-void darling_task_mark_start_suspended(void)
+// Will send SIGSTOP at next osxie_task_set_dyld_info() call
+void osxie_task_mark_start_suspended(void)
 {
-	struct registry_entry* e = darling_task_get_current_entry();
+	struct registry_entry* e = osxie_task_get_current_entry();
 	e->do_sigstop = true;
 }
 
-_Bool darling_task_marked_start_suspended(void)
+_Bool osxie_task_marked_start_suspended(void)
 {
-	struct registry_entry* e = darling_task_get_current_entry();
+	struct registry_entry* e = osxie_task_get_current_entry();
 	bool rv = e->do_sigstop;
 	e->do_sigstop = false;
 	return rv;
@@ -533,24 +533,24 @@ _Bool darling_task_marked_start_suspended(void)
 
 extern struct uthread* current_uthread(void);
 
-_Bool darling_thread_canceled(void)
+_Bool osxie_thread_canceled(void)
 {
 	struct uthread* uth = current_uthread();
-	return (uth == NULL) ? false : darling_uthread_is_canceling(uth);
+	return (uth == NULL) ? false : osxie_uthread_is_canceling(uth);
 }
 
-void darling_thread_cancelable(_Bool cancelable)
+void osxie_thread_cancelable(_Bool cancelable)
 {
 	struct uthread* uth = current_uthread();
 	if (uth != NULL) {
-		darling_uthread_change_cancelable(uth, cancelable);
+		osxie_uthread_change_cancelable(uth, cancelable);
 	}
 }
 
 extern struct task_struct* thread_get_linux_task(thread_t thread);
 extern struct uthread* get_bsdthread_info(thread_t thread);
 
-void darling_thread_markcanceled(unsigned int pid)
+void osxie_thread_markcanceled(unsigned int pid)
 {
 	struct registry_entry* e;
 	struct uthread* uth;
@@ -558,10 +558,10 @@ void darling_thread_markcanceled(unsigned int pid)
 	debug_msg("Marking thread %d as canceled\n", pid);
 
 	rcu_read_lock();
-	e = darling_thread_get_entry(pid);
+	e = osxie_thread_get_entry(pid);
 	uth = (e == NULL) ? NULL : get_bsdthread_info(e->thread);
 
-	if (uth != NULL && darling_uthread_mark_canceling(uth))
+	if (uth != NULL && osxie_uthread_mark_canceling(uth))
 	{
 		// FIXME: We should be calling wake_up_state(TASK_INTERRUPTIBLE),
 		// but this function is not exported.

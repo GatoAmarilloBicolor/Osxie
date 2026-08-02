@@ -201,7 +201,7 @@ int macho_load(struct linux_binprm* bprm)
 		setup_stack64(bprm, &lr);
 
 	// Set DYLD_INFO
-	darling_task_set_dyld_info(lr.dyld_all_image_location, lr.dyld_all_image_size);
+	osxie_task_set_dyld_info(lr.dyld_all_image_location, lr.dyld_all_image_size);
 
 	// debug_msg("Entry point: %lx, stack: %lx, mh: %lx\n", (void*) lr.entry_point, (void*) bprm->p, (void*) lr.mh);
 
@@ -481,7 +481,7 @@ int native_prot(int prot)
 void vchroot_detect(struct load_results* lr)
 {
 	// Find out if the current process has an associated XNU task_t
-	task_t task = darling_task_get_current();
+	task_t task = osxie_task_get_current();
 
 	if (task)
 		lr->root_path = task_copy_vchroot_path(task);

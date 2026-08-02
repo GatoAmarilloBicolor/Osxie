@@ -34,7 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /*
  * naming conventions in duct zone:
- * darling_*: duct zone's darling private implementation
+ * osxie_*: duct zone's osxie private implementation
  * duct_*: overriding the original implmentation
  * xnu_*: rename original xnu function to avoid symbol conflicts
  */
@@ -94,7 +94,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #if LINUX_VERSION_CODE >= KERNEL_VERSION(5,4,0)
 #include <linux/alarmtimer.h>
 #endif
-#include <darling/down_interruptible.h>
+#include <osxie/down_interruptible.h>
 
 #include <linux/mutex.h>
 #include <linux/rbtree.h>

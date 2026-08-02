@@ -39,7 +39,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 /*
  * naming conventions in duct zone:
- * darling_*: duct zone's darling private implementation
+ * osxie_*: duct zone's osxie private implementation
  * duct_*: overriding the original implmentation
  * xnu_*: rename original xnu function to avoid symbol conflicts
  */

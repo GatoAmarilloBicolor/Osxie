@@ -9,7 +9,7 @@
 
 #include "uthreads.h"
 
-void darling_uthread_destroy(struct uthread* uth) {
+void osxie_uthread_destroy(struct uthread* uth) {
 	if (!uth) {
 		return;
 	}
@@ -24,23 +24,23 @@ void darling_uthread_destroy(struct uthread* uth) {
 	uthread_zone_free(uth);
 };
 
-_Bool darling_uthread_is_canceling(struct uthread* uth) {
+_Bool osxie_uthread_is_canceling(struct uthread* uth) {
 	return (uth->uu_flag & (UT_CANCELDISABLE | UT_CANCEL | UT_CANCELED)) == UT_CANCEL;
 };
 
-_Bool darling_uthread_is_cancelable(struct uthread* uth) {
+_Bool osxie_uthread_is_cancelable(struct uthread* uth) {
 	return (uth->uu_flag & UT_CANCELDISABLE) == 0;
 };
 
-_Bool darling_uthread_mark_canceling(struct uthread* uth) {
-	if (darling_uthread_is_cancelable(uth)) {
+_Bool osxie_uthread_mark_canceling(struct uthread* uth) {
+	if (osxie_uthread_is_cancelable(uth)) {
 		uth->uu_flag |= UT_CANCEL;
 		return true;
 	}
 	return false;
 };
 
-void darling_uthread_change_cancelable(struct uthread* uth, _Bool cancelable) {
+void osxie_uthread_change_cancelable(struct uthread* uth, _Bool cancelable) {
 	if (cancelable) {
 		uth->uu_flag &= ~UT_CANCELDISABLE;
 	} else {

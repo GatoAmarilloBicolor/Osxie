@@ -35,16 +35,16 @@
 #include "task_registry.h"
 
 #if LINUX_VERSION_CODE < KERNEL_VERSION(5,11,0)
-#	define darling_fcheck_files fcheck_files
-#	define darling_close_fd ksys_close
+#	define osxie_fcheck_files fcheck_files
+#	define osxie_close_fd ksys_close
 #else
-#	define darling_fcheck_files files_lookup_fd_rcu
-#	define darling_close_fd close_fd
+#	define osxie_fcheck_files files_lookup_fd_rcu
+#	define osxie_close_fd close_fd
 #endif
 
 
 // re-define `fcheck` because we use `linux_current`
-#define fcheck(fd) darling_fcheck_files(linux_current->files, fd)
+#define fcheck(fd) osxie_fcheck_files(linux_current->files, fd)
 
 struct dkqueue_pte;
 typedef SLIST_HEAD(dkqueue_pte_head, dkqueue_pte) dkqueue_pte_head_t;
@@ -132,9 +132,9 @@ static int dkqueue_proc_touch(struct knote* kn, struct kevent_qos_s* kev);
 static int dkqueue_proc_process(struct knote* kn, struct kevent_qos_s* kev);
 
 static void dkqueue_proc_init(void);
-static void dkqueue_proc_listener(int pid, void* context, darling_proc_event_t event, unsigned long extra);
+static void dkqueue_proc_listener(int pid, void* context, osxie_proc_event_t event, unsigned long extra);
 
-static void dkqueue_fork_listener(int pid, void* context, darling_proc_event_t event, unsigned long extra);
+static void dkqueue_fork_listener(int pid, void* context, osxie_proc_event_t event, unsigned long extra);
 
 static int dkqueue_vnode_attach(struct knote* kn, struct kevent_qos_s* kev);
 static void dkqueue_vnode_detach(struct knote* kn);
@@ -267,7 +267,7 @@ static struct file *__fget_files(struct files_struct *files, unsigned int fd,
 
 	rcu_read_lock();
 loop:
-	file = darling_fcheck_files(files, fd);
+	file = osxie_fcheck_files(files, fd);
 	if (file) {
 		/* File object ref couldn't be taken.
 		 * dup2() atomicity guarantee is the reason
@@ -300,7 +300,7 @@ struct file *fget_task(struct task_struct *task, unsigned int fd)
 }
 // </copied>
 
-int darling_fd_lookup(proc_t proc, int fd, struct file** out_file) {
+int osxie_fd_lookup(proc_t proc, int fd, struct file** out_file) {
 	struct file* tmp = fget_task_noconflict(((task_t)proc->task)->map->linux_task, fd);
 	if (!tmp) {
 		return EBADF;
@@ -704,7 +704,7 @@ static void dkqueue_proc_init(void) {
 	proc_context_cache = kmem_cache_create("dkq_proc_context", sizeof(dkqueue_proc_context_t), 0, 0, NULL);
 };
 
-static void dkqueue_proc_listener(int pid, void* context, darling_proc_event_t event, unsigned long extra) {
+static void dkqueue_proc_listener(int pid, void* context, osxie_proc_event_t event, unsigned long extra) {
 	dkqueue_proc_context_t* ctx = context;
 	struct knote* kn = ctx->kn;
 	struct kqueue* kq = knote_get_kq(kn);
@@ -725,7 +725,7 @@ static void dkqueue_proc_listener(int pid, void* context, darling_proc_event_t e
 			}
 
 			// we won't get any more events; destroy our context
-			// note that we don't need to call `darling_proc_notify_deregister` (because won't get called again)
+			// note that we don't need to call `osxie_proc_notify_deregister` (because won't get called again)
 			kn->kn_hook = NULL;
 			kmem_cache_free(proc_context_cache, ctx);
 
@@ -807,9 +807,9 @@ static int dkqueue_proc_attach(struct knote* kn, struct kevent_qos_s* kev) {
 	ctx->kn = kn;
 	ctx->xnu_pid = xnu_pid;
 
-	ctx->registration_id = darling_proc_notify_register(xnu_pid, dkqueue_proc_listener, ctx, DTE_ALL_EVENTS);
+	ctx->registration_id = osxie_proc_notify_register(xnu_pid, dkqueue_proc_listener, ctx, DTE_ALL_EVENTS);
 	if (ctx->registration_id < 0) {
-		// `darling_proc_notify_register` currently only fails if it didn't find the task
+		// `osxie_proc_notify_register` currently only fails if it didn't find the task
 		knote_set_error(kn, ESRCH);
 		dkqueue_log("failed to attach a listener onto process with Osxie PID %ld", kn->kn_id);
 		goto error_out;
@@ -821,7 +821,7 @@ static int dkqueue_proc_attach(struct knote* kn, struct kevent_qos_s* kev) {
 error_out:
 	if (ctx) {
 		if (ctx->registration_id >= 0) {
-			darling_proc_notify_deregister(xnu_pid, ctx->registration_id);
+			osxie_proc_notify_deregister(xnu_pid, ctx->registration_id);
 		}
 		kmem_cache_free(proc_context_cache, ctx);
 	}
@@ -839,7 +839,7 @@ static void dkqueue_proc_detach(struct knote* kn) {
 
 	dkqueue_log("detaching process filter from process with Linux PID %d", ctx->xnu_pid);
 
-	darling_proc_notify_deregister(ctx->xnu_pid, ctx->registration_id);
+	osxie_proc_notify_deregister(ctx->xnu_pid, ctx->registration_id);
 	kmem_cache_free(proc_context_cache, ctx);
 };
 
@@ -1146,8 +1146,8 @@ const static struct filterops dkqueue_vnode_filtops = {
 //
 
 // used to close kqueues on fork
-static void dkqueue_fork_listener(int pid, void* context, darling_proc_event_t event, unsigned long extra) {
-	task_t task = darling_task_get(pid);
+static void dkqueue_fork_listener(int pid, void* context, osxie_proc_event_t event, unsigned long extra) {
+	task_t task = osxie_task_get(pid);
 	proc_t parent_proc = get_bsdtask_info(task);
 	dkqueue_list_entry_t* curr;
 
@@ -1156,7 +1156,7 @@ static void dkqueue_fork_listener(int pid, void* context, darling_proc_event_t e
 	LIST_FOREACH(curr, &parent_proc->p_fd->kqueue_list, link) {
 		dkqueue_log("closing kqueue with fd %d on fork", curr->fd);
 		proc_fdunlock(parent_proc);
-		darling_close_fd(curr->fd);
+		osxie_close_fd(curr->fd);
 		proc_fdlock(parent_proc);
 	}
 	proc_fdunlock(parent_proc);
@@ -1201,7 +1201,7 @@ void dkqueue_clear(struct proc* proc) {
 	}
 };
 
-int darling_kqueue_create(struct task* task) {
+int osxie_kqueue_create(struct task* task) {
 	proc_t proc = PROC_NULL;
 	struct kqfile* kq = NULL;
 	int fd = -1;
@@ -1263,11 +1263,11 @@ int darling_kqueue_create(struct task* task) {
 	if (proc->kqueue_fork_listener_id < 0) {
 		dkqueue_log("setting up fork listener for process");
 
-		proc->kqueue_fork_listener_id = darling_proc_notify_register(task->map->linux_task->tgid, dkqueue_fork_listener, NULL, DTE_FORKED);
+		proc->kqueue_fork_listener_id = osxie_proc_notify_register(task->map->linux_task->tgid, dkqueue_fork_listener, NULL, DTE_FORKED);
 		if (proc->kqueue_fork_listener_id < 0) {
 			proc_unlock(proc);
-			result = -LINUX_ESRCH; // `darling_proc_notify_register` only fails with ESRCH
-			dkqueue_log("darling_kqueue_create: failed to set up fork listener (with status %ld)", proc->kqueue_fork_listener_id);
+			result = -LINUX_ESRCH; // `osxie_proc_notify_register` only fails with ESRCH
+			dkqueue_log("osxie_kqueue_create: failed to set up fork listener (with status %ld)", proc->kqueue_fork_listener_id);
 			goto error_out;
 		}
 	}
@@ -1277,7 +1277,7 @@ int darling_kqueue_create(struct task* task) {
 
 error_out:
 	if (fd >= 0) {
-		darling_close_fd(fd);
+		osxie_close_fd(fd);
 	} else {
 		// we only cleanup the rest ourselves if the fd still hasn't been created.
 		// otherwise (if it *has* been created), Linux will call `dkqueue_release` on the file
@@ -1292,7 +1292,7 @@ error_out:
 	return result;
 };
 
-int darling_closing_descriptor(struct task* task, int fd) {
+int osxie_closing_descriptor(struct task* task, int fd) {
 	struct knote* kn;
 	proc_t proc = get_bsdtask_info(task);
 

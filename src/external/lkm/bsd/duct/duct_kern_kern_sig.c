@@ -11,7 +11,7 @@
 #include <sys/systm.h>
 #include <duct/duct_post_xnu.h>
 
-#include <darling/task_registry.h>
+#include <osxie/task_registry.h>
 
 extern proc_t current_proc(void);
 
@@ -163,7 +163,7 @@ filt_signalprocess(struct knote *kn, struct kevent_qos_s *kev)
 void __pthread_testcancel(int presyscall) {
 	thread_t thread = current_thread();
 
-	if (darling_thread_canceled()) {
+	if (osxie_thread_canceled()) {
 		unix_syscall_return(EINTR);
 	}
 };

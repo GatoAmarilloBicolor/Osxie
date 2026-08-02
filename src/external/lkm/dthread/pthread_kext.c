@@ -73,9 +73,9 @@ static const struct pthread_functions_s _osixie_pthread_functions = {
 
 // called by our kernel module during initialization
 //
-// this is different from `darling_pthread_init`, because this function is the one that sets up
+// this is different from `osxie_pthread_init`, because this function is the one that sets up
 // the pthread kext plumbing, while the `pthread_init` is only called by some BSD code after the kext has already been set up
-void darling_pthread_kext_init(void) {
+void osxie_pthread_kext_init(void) {
 	// we don't really need the callbacks, since we're not actually a kext and we have full access to the whole kernel,
 	// but it's easier to provide the callbacks than it is to modify every instance of `pthread_kern->whatever(...)`.
 	// plus, `pthread_shims.c` won't take "no" for an answer (it'll panic if we give it `NULL`).
@@ -86,7 +86,7 @@ void darling_pthread_kext_init(void) {
 };
 
 // called by our kernel module when it's going to be unloaded
-void darling_pthread_kext_exit(void) {};
+void osxie_pthread_kext_exit(void) {};
 
 // temporarily copied over from kern_support.c (until we start building that file)
 // <copied from="libpthread://416.60.2/kern/kern_support.c" modified="true">

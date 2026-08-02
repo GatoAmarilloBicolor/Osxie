@@ -10,17 +10,17 @@ struct uthread;
  *
  * @param uth The BSD thread to destroy
  */
-void darling_uthread_destroy(struct uthread* uth);
+void osxie_uthread_destroy(struct uthread* uth);
 
 /**
  * @brief Checks if the given BSD thread has been marked for cancellation
  */
-_Bool darling_uthread_is_canceling(struct uthread* uth);
+_Bool osxie_uthread_is_canceling(struct uthread* uth);
 
 /**
  * @brief Checks if the given BSD thread can be canceled
  */
-_Bool darling_uthread_is_cancelable(struct uthread* uth);
+_Bool osxie_uthread_is_cancelable(struct uthread* uth);
 
 /**
  * @brief Marks the given BSD thread for cancellation
@@ -29,11 +29,11 @@ _Bool darling_uthread_is_cancelable(struct uthread* uth);
  *
  * @returns `true` if the thread was successfully marked for cancellation, `false` otherwise
  */
-_Bool darling_uthread_mark_canceling(struct uthread* uth);
+_Bool osxie_uthread_mark_canceling(struct uthread* uth);
 
 /**
  * @brief Enables/disables cancellation for the given BSD thread
  */
-void darling_uthread_change_cancelable(struct uthread* uth, _Bool cancelable);
+void osxie_uthread_change_cancelable(struct uthread* uth, _Bool cancelable);
 
 #endif // _OSXIE_LKM_UTHREADS_H_

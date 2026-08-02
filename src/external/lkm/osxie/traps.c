@@ -217,17 +217,17 @@ static struct miscdevice mach_dev = {
 	&mach_chardev_ops,
 };
 
-extern void darling_xnu_init(void);
-extern void darling_xnu_deinit(void);
+extern void osxie_xnu_init(void);
+extern void osxie_xnu_deinit(void);
 
 static int mach_init(void)
 {
 	int err = 0;
 
-	darling_task_init();
-	darling_pthread_kext_init();
-	darling_xnu_init();
-	darling_procs_init();
+	osxie_task_init();
+	osxie_pthread_kext_init();
+	osxie_xnu_init();
+	osxie_procs_init();
 
 	commpage32 = commpage_setup(false);
 	commpage64 = commpage_setup(true);
@@ -253,9 +253,9 @@ fail:
 }
 static void mach_exit(void)
 {
-	darling_procs_exit();
-	darling_xnu_deinit();
-	darling_pthread_kext_exit();
+	osxie_procs_exit();
+	osxie_xnu_deinit();
+	osxie_pthread_kext_exit();
 	misc_deregister(&mach_dev);
 	printk(KERN_INFO "Osxie Mach: kernel emulation unloaded\n");
 
@@ -276,7 +276,7 @@ int mach_dev_open(struct inode* ino, struct file* file)
 	debug_msg("Setting up new XNU task for pid %d\n", linux_current->tgid);
 
 	// Are we being opened after fork or execve?
-	old_task = darling_task_get_current();
+	old_task = osxie_task_get_current();
 	if (old_task != NULL)
 	{
 		// execve case
@@ -286,7 +286,7 @@ int mach_dev_open(struct inode* ino, struct file* file)
 	{
 		// fork case
 		ppid = linux_current->real_parent->tgid;
-		inherit_task = parent_task = darling_task_get(ppid);
+		inherit_task = parent_task = osxie_task_get(ppid);
 
 		// Try inheriting from VPID 1
 		if (inherit_task == NULL)
@@ -303,7 +303,7 @@ int mach_dev_open(struct inode* ino, struct file* file)
 			rcu_read_unlock();
 
 			if (pid != 0)
-				inherit_task = darling_task_get(pid);
+				inherit_task = osxie_task_get(pid);
 		}
 	}
 
@@ -342,7 +342,7 @@ int mach_dev_open(struct inode* ino, struct file* file)
 	debug_msg("mach_dev_open().0 refc %d\n", os_ref_get_count(&new_task->ref_count));
 
 	// will automatically attach the BSD process to the Mach task
-	proc_t new_proc = darling_proc_create(new_task);
+	proc_t new_proc = osxie_proc_create(new_task);
 
 	// Create a new thread_t
 	ret = duct_thread_create(new_task, &new_thread);
@@ -353,8 +353,8 @@ int mach_dev_open(struct inode* ino, struct file* file)
 	}
 
 	debug_msg("thread %p refc %d at #1\n", new_thread, os_ref_get_count(&new_thread->ref_count));
-	darling_task_register(new_task);
-	darling_thread_register(new_thread);
+	osxie_task_register(new_task);
+	osxie_thread_register(new_thread);
 
 	debug_msg("thread refc %d at #2\n", os_ref_get_count(&new_thread->ref_count));
 	task_deallocate(new_task);
@@ -371,9 +371,9 @@ out:
 		task_deallocate(parent_task);
 		if (ret == KERN_SUCCESS)
 		{
-			darling_task_fork_child_done();
-			darling_proc_post_notification(ppid, DTE_FORKED, linux_current->tgid);
-			darling_proc_post_notification(linux_current->tgid, DTE_CHILD_ENTERING, ppid);
+			osxie_task_fork_child_done();
+			osxie_proc_post_notification(ppid, DTE_FORKED, linux_current->tgid);
+			osxie_proc_post_notification(linux_current->tgid, DTE_CHILD_ENTERING, ppid);
 		}
 	}
 
@@ -394,7 +394,7 @@ kern_return_t xnu_kthread_register(void)
 		return ret;
 	}
 
-	darling_thread_register(new_thread);
+	osxie_thread_register(new_thread);
 
 	thread_deallocate(new_thread);
 	return KERN_SUCCESS;
@@ -402,7 +402,7 @@ kern_return_t xnu_kthread_register(void)
 
 kern_return_t xnu_kthread_deregister(void)
 {
-	thread_t cur_thread = darling_thread_get_current();
+	thread_t cur_thread = osxie_thread_get_current();
 	
 	task_lock(kernel_task);
 	queue_remove(&kernel_task->threads, cur_thread, thread_t, task_threads);
@@ -414,7 +414,7 @@ kern_return_t xnu_kthread_deregister(void)
 		put_task_struct(cur_thread->linux_task);
 		cur_thread->linux_task = NULL;
 	}
-	darling_thread_deregister(cur_thread);
+	osxie_thread_deregister(cur_thread);
 
 	return KERN_SUCCESS;
 }
@@ -516,7 +516,7 @@ int mach_dev_release(struct inode* ino, struct file* file)
 	
 	// close(/dev/mach) may happen on any thread, even on a thread that
 	// has never seen any ioctl() calls into LKM.
-	if (!darling_thread_get_current())
+	if (!osxie_thread_get_current())
 	{
 		debug_msg("No current thread!\n");
 		// return -LINUX_EINVAL;
@@ -555,17 +555,17 @@ int mach_dev_release(struct inode* ino, struct file* file)
 
 			rcu_read_unlock();
 		}
-		darling_proc_post_notification(my_task->map->linux_task->tgid, DTE_EXITED, current->exit_code);
+		osxie_proc_post_notification(my_task->map->linux_task->tgid, DTE_EXITED, current->exit_code);
 	}
 
 	// This works around an occasional race caused by the above trick when the debugger is terminating.
 	// Without this, this BUG_ON sometimes fires: https://github.com/torvalds/linux/blob/master/include/linux/ptrace.h#L237
 	INIT_LIST_HEAD(&current->ptraced);
 	
-	darling_task_deregister(my_task);
-	// darling_thread_deregister(NULL);
+	osxie_task_deregister(my_task);
+	// osxie_thread_deregister(NULL);
 	
-	cur_thread = darling_thread_get_current();
+	cur_thread = osxie_thread_get_current();
 	
 	debug_msg("Destroying XNU task for pid %d, refc %d, exec_case %d\n", linux_current->tgid, os_ref_get_count(&my_task->ref_count), exec_case);
 	
@@ -582,7 +582,7 @@ int mach_dev_release(struct inode* ino, struct file* file)
 		{
 			task_unlock(my_task);
 			duct_thread_destroy(thread);
-			darling_thread_deregister(thread);
+			osxie_thread_deregister(thread);
 			task_lock(my_task);
 		}
 		else
@@ -600,7 +600,7 @@ int mach_dev_release(struct inode* ino, struct file* file)
 		mntput(my_task->vchroot);
 
 	if (!exec_case && my_proc && cur_thread->uthread) {
-		// prevent `darling_proc_destroy` from panicking when it sees a uthread still attached to the process
+		// prevent `osxie_proc_destroy` from panicking when it sees a uthread still attached to the process
 		proc_lock(my_proc);
 		TAILQ_REMOVE(&my_proc->p_uthlist, (uthread_t)cur_thread->uthread, uu_list);
 		proc_unlock(my_proc);
@@ -620,7 +620,7 @@ int mach_dev_release(struct inode* ino, struct file* file)
 			put_task_struct(cur_thread->linux_task);
 			cur_thread->linux_task = NULL;
 		}
-		darling_thread_deregister(cur_thread);
+		osxie_thread_deregister(cur_thread);
 	}
 
 	return 0;
@@ -713,7 +713,7 @@ long mach_dev_ioctl(struct file* file, unsigned int ioctl_num, unsigned long ioc
 
 	debug_msg("function %s (0x%x) called...\n", entry->name, ioctl_num);
 
-	if (!darling_thread_get_current())
+	if (!osxie_thread_get_current())
 	{
 		debug_msg("New thread! Registering.\n");
 		thread_self_trap_entry(task);
@@ -776,13 +776,13 @@ int host_self_trap_entry(task_t task)
 
 int thread_self_trap_entry(task_t task)
 {
-	if (darling_thread_get_current() == NULL)
+	if (osxie_thread_get_current() == NULL)
 	{
 		thread_t thread;
 		duct_thread_create(task, &thread);
 		thread_deallocate(thread);
 
-		darling_thread_register(thread);
+		osxie_thread_register(thread);
 	}
 	return thread_self_trap(NULL);
 }
@@ -1171,7 +1171,7 @@ int mk_timer_destroy_entry(task_t task, struct mk_timer_destroy_args* in_args)
 
 int thread_death_announce_entry(task_t task)
 {
-	thread_t thread = darling_thread_get_current();
+	thread_t thread = osxie_thread_get_current();
 	if (thread != NULL)
 	{
 		if (thread->linux_task != NULL)
@@ -1181,7 +1181,7 @@ int thread_death_announce_entry(task_t task)
 		}
 
 		duct_thread_destroy(thread);
-		darling_thread_deregister(thread);
+		osxie_thread_deregister(thread);
 		return 0;
 	}
 
@@ -1191,7 +1191,7 @@ int thread_death_announce_entry(task_t task)
 int fork_wait_for_child_entry(task_t task)
 {
 	// Wait until the fork() child re-opens /dev/mach
-	darling_task_fork_wait_for_child();
+	osxie_task_fork_wait_for_child();
 	return 0;
 }
 
@@ -1242,7 +1242,7 @@ int task_for_pid_entry(task_t task, struct task_for_pid* in_args)
 		return KERN_FAILURE;
 	
 	// Lookup task in task registry
-	task_out = darling_task_get(pid);
+	task_out = osxie_task_get(pid);
 	if (task_out == NULL)
 		return KERN_FAILURE;
 	
@@ -1280,7 +1280,7 @@ int task_name_for_pid_entry(task_t task, struct task_name_for_pid* in_args)
 		return KERN_FAILURE;
 	
 	// Lookup task in task registry
-	task_out = darling_task_get(pid);
+	task_out = osxie_task_get(pid);
 	if (task_out == NULL)
 		return KERN_FAILURE;
 	
@@ -1339,14 +1339,14 @@ int set_dyld_info_entry(task_t task, struct set_dyld_info_args* in_args)
 {
 	copyargs(args, in_args);
 
-	darling_task_set_dyld_info(args.all_images_address, args.all_images_length);
+	osxie_task_set_dyld_info(args.all_images_address, args.all_images_length);
 	return 0;
 }
 
 // Needed for POSIX_SPAWN_START_SUSPENDED
 int stop_after_exec_entry(task_t task)
 {
-	darling_task_mark_start_suspended();
+	osxie_task_mark_start_suspended();
 	return 0;
 }
 
@@ -1400,7 +1400,7 @@ failure:
 	int name##_trap(task_t task, struct name##_args* in_args) \
 	{ \
 		copyargs(args, in_args); \
-		uint32_t* retval = ((uthread_t)darling_thread_get_current()->uthread)->uu_rval; \
+		uint32_t* retval = ((uthread_t)osxie_thread_get_current()->uthread)->uu_rval; \
 		int error = XNU_CONTINUATION_ENABLED(name((proc_t)task->bsd_info, &args, retval)); \
 		if (error) \
 			return -error; \
@@ -1443,7 +1443,7 @@ int setuidgid_entry(task_t task, struct uidgid* in_args)
 
 int ovl_osixie_fake_fsuid(void)
 {
-	task_t task = darling_task_get_current();
+	task_t task = osxie_task_get_current();
 	if (task == NULL)
 		return from_kuid(&init_user_ns, current_fsuid());
 	return task->audit_token.val[1];
@@ -1461,7 +1461,7 @@ int get_tracer_entry(task_t self, void* pid_in)
 		target_task = self;
 	}
 	else
-		target_task = darling_task_get(vpid_to_pid(pid));
+		target_task = osxie_task_get(vpid_to_pid(pid));
 	if (target_task == NULL)
 		return -LINUX_ESRCH;
 
@@ -1483,7 +1483,7 @@ int set_tracer_entry(task_t self, struct set_tracer_args* in_args)
 		target_task = self;
 	}
 	else
-		target_task = darling_task_get(vpid_to_pid(args.target));
+		target_task = osxie_task_get(vpid_to_pid(args.target));
 
 	if (target_task == NULL)
 		return -LINUX_ESRCH;
@@ -1507,7 +1507,7 @@ int pthread_markcancel_entry(task_t task, void* tport_in)
 	if (!t)
 		return -LINUX_ESRCH;
 
-	darling_thread_markcanceled(t->linux_task->pid);
+	osxie_thread_markcanceled(t->linux_task->pid);
 	thread_deallocate(t);
 
 	return 0;
@@ -1519,17 +1519,17 @@ int pthread_canceled_entry(task_t task, void* arg)
 	{
 		case 0:
 			// is cancelable & canceled?
-			if (darling_thread_canceled())
+			if (osxie_thread_canceled())
 				return 0;
 			else
 				return -LINUX_EINVAL;
 		case 1:
 			// enable cancelation
-			darling_thread_cancelable(true);
+			osxie_thread_cancelable(true);
 			return 0;
 		case 2:
 			// disable cancelation
-			darling_thread_cancelable(false);
+			osxie_thread_cancelable(false);
 			return 0;
 		default:
 			return -LINUX_EINVAL;
@@ -1570,7 +1570,7 @@ int pid_get_state_entry(task_t task_self, void* pid_in)
 
 int started_suspended_entry(task_t task, void* arg)
 {
-	return darling_task_marked_start_suspended();
+	return osxie_task_marked_start_suspended();
 }
 
 int task_64bit_entry(task_t task_self, void* pid_in)
@@ -1599,7 +1599,7 @@ int task_64bit_entry(task_t task_self, void* pid_in)
 
 unsigned long last_triggered_watchpoint_entry(task_t task, struct last_triggered_watchpoint_args* in_args)
 {
-	thread_t thread = darling_thread_get_current();
+	thread_t thread = osxie_thread_get_current();
 
 	struct last_triggered_watchpoint_args out;
 	out.address = thread->triggered_watchpoint_address;
@@ -2379,7 +2379,7 @@ int ptrace_thupdate_entry(task_t task, struct ptrace_thupdate_args* in_args)
 	thread_t target_thread;
 
 	rcu_read_lock();
-	target_thread = darling_thread_get(args.tid);
+	target_thread = osxie_thread_get(args.tid);
 	if (target_thread != NULL)
 		target_thread->pending_signal = args.signum;
 	rcu_read_unlock();
@@ -2401,7 +2401,7 @@ int ptrace_sigexc_entry(task_t task, struct ptrace_sigexc_args* in_args)
 		return KERN_FAILURE;
 	
 	// Lookup task in task registry
-	that_task = darling_task_get(pid);
+	that_task = osxie_task_get(pid);
 	if (that_task == NULL)
 		return KERN_FAILURE;
 
@@ -2447,7 +2447,7 @@ int set_thread_handles_entry(task_t t, struct set_thread_handles_args* in_args)
 }
 
 int kqueue_create_entry(task_t task) {
-	return darling_kqueue_create(task);
+	return osxie_kqueue_create(task);
 };
 
 extern int kevent(struct proc* p, struct kevent_args* uap, int32_t* retval);
@@ -2460,7 +2460,7 @@ BSD_ENTRY(kevent_qos);
 
 int closing_descriptor_entry(task_t task, struct closing_descriptor_args* in_args) {
 	copyargs(args, in_args);
-	return darling_closing_descriptor(task, args.fd);
+	return osxie_closing_descriptor(task, args.fd);
 };
 
 module_init(mach_init);

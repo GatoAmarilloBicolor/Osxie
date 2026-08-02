@@ -116,7 +116,7 @@
 
 #ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
-#include <darling/debug_print.h>
+#include <osxie/debug_print.h>
 
 #include <linux/version.h>
 #include <linux/kernel_stat.h>
@@ -202,8 +202,8 @@ kern_return_t
 host_info(host_t host, host_flavor_t flavor, host_info_t info, mach_msg_type_number_t * count)
 {
 #ifdef __OSXIE__
-	extern kern_return_t darling_host_info(host_flavor_t flavor, host_info_t info, mach_msg_type_number_t* count);
-	return darling_host_info(flavor, info, count);
+	extern kern_return_t osxie_host_info(host_flavor_t flavor, host_info_t info, mach_msg_type_number_t* count);
+	return osxie_host_info(flavor, info, count);
 #else
 	if (host == HOST_NULL) {
 		return KERN_INVALID_ARGUMENT;
@@ -1155,7 +1155,7 @@ extern char version[];
 
 #ifdef __OSXIE__
 #include <generated/utsrelease.h>
-#include <darling/api.h>
+#include <osxie/api.h>
 static const char KERNEL_VERSION[] = "Osxie Mach (API level " OSXIE_MACH_API_VERSION_STR ") on Linux " UTS_RELEASE;
 #endif
 

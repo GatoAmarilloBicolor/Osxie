@@ -43,8 +43,8 @@
 #include <kern/timer_call.h>
 
 #include <libkern/OSAtomic.h>
-#include <darling/debug_print.h>
-#include <darling/task_registry.h>
+#include <osxie/debug_print.h>
+#include <osxie/task_registry.h>
 
 static struct workqueue_struct* _thread_call_wq = NULL;
 
@@ -110,17 +110,17 @@ thread_call_wq_init(struct work_struct* work)
 	duct_thread_create(kernel_task, &my_thread);
 	thread_deallocate(my_thread);
 	
-	// darling_thread_register(thread);
+	// osxie_thread_register(thread);
 }
 
 static void
 thread_call_wq_exit(struct work_struct* work)
 {
-	// thread_t thread = darling_thread_get_current();
+	// thread_t thread = osxie_thread_get_current();
 	//if (thread != NULL)
 	//{
 		duct_thread_destroy(my_thread);
-		// darling_thread_deregister(thread);
+		// osxie_thread_deregister(thread);
 	// }
 }
 
@@ -351,9 +351,9 @@ thread_call_worker(struct work_struct* work)
 	call = container_of(to_delayed_work(work), struct thread_call, tc_work);
 	thread_call_debug_msg("thread_call_worker() invoked on call %p\n", call);
 	
-	darling_thread_register(my_thread);
+	osxie_thread_register(my_thread);
 	call->tc_call.func(call->tc_call.param0, call->tc_call.param1);
-	darling_thread_deregister(my_thread);
+	osxie_thread_deregister(my_thread);
 
 	if (call->free)
 		kfree(call, sizeof(struct thread_call));

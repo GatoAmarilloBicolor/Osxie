@@ -152,7 +152,7 @@
 
 #ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
-#include <darling/debug_print.h>
+#include <osxie/debug_print.h>
 #endif
 
 #pragma pack(4)

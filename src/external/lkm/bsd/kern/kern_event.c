@@ -135,7 +135,7 @@
 
 #include <duct/duct_post_xnu.h>
 
-extern int darling_fd_lookup(proc_t proc, int fd, struct file** out_file);
+extern int osxie_fd_lookup(proc_t proc, int fd, struct file** out_file);
 extern boolean_t kdp_is_in_zone(void* addr, const char* zone_name);
 #endif
 
@@ -3843,7 +3843,7 @@ restart:
 		/* grab a file reference for the new knote */
 		if (fops->f_isfd) {
 #ifdef __OSXIE__
-			if ((error = darling_fd_lookup(p, (int)kev->ident, &knote_fp)) != 0) {
+			if ((error = osxie_fd_lookup(p, (int)kev->ident, &knote_fp)) != 0) {
 #else
 			if ((error = fp_lookup(p, (int)kev->ident, &knote_fp, 0)) != 0) {
 #endif
@@ -7005,7 +7005,7 @@ kevent_get_kqfile(struct proc *p, int fd, int flags,
 	struct kqueue *kq;
 
 #ifdef __OSXIE__
-	if ((error = darling_fd_lookup(p, fd, fp)) == 0) {
+	if ((error = osxie_fd_lookup(p, fd, fp)) == 0) {
 		// no error; fp contains a valid file pointer
 		kq = (struct kqueue*)(*fp)->f_data;
 	}

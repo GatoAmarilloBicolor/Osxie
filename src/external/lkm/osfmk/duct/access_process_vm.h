@@ -5,7 +5,7 @@
  * Access another process' address space as given in mm.  If non-NULL, use the
  * given task for page fault accounting.
  */
-static int __access_remote_vm_darling(struct task_struct *tsk, struct mm_struct *mm,
+static int __access_remote_vm_osxie(struct task_struct *tsk, struct mm_struct *mm,
                 unsigned long addr, void *buf, int len, unsigned int gup_flags)
 {
         struct vm_area_struct *vma;
@@ -104,7 +104,7 @@ static int __access_process_vm(struct task_struct *tsk, unsigned long addr,
         if (!mm)
                 return 0;
 
-        ret = __access_remote_vm_darling(tsk, mm, addr, buf, len, gup_flags);
+        ret = __access_remote_vm_osxie(tsk, mm, addr, buf, len, gup_flags);
 
         mmput(mm);
 

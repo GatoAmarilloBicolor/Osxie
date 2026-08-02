@@ -54,7 +54,7 @@
 #include <sys/proc_info.h>
 #include <sys/proc_internal.h>
 #ifdef __OSXIE__
-#include <darling/api.h> // for psynch argument structure definitions
+#include <osxie/api.h> // for psynch argument structure definitions
 #else
 #include <sys/sysproto.h>
 #endif
@@ -66,7 +66,7 @@
 #ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 
-#include <darling/syscall_args.h>
+#include <osxie/syscall_args.h>
 #endif
 
 /* version number of the in-kernel shims given to pthread.kext */

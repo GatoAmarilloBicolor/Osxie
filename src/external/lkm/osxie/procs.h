@@ -10,17 +10,17 @@
 /**
  * @brief Initializes the `procs` subsystem.
  */
-void darling_procs_init(void);
+void osxie_procs_init(void);
 
 /**
  * @brief Performs any `procs`-related cleanup necessary when the LKM is being unloaded.
  */
-void darling_procs_exit(void);
+void osxie_procs_exit(void);
 
 /**
  * @brief Creates a new BSD process for a given Mach task.
  *
- * This function (along with `darling_proc_destroy`) is Osxie-specific; XNU does process creation and destruction at the same time
+ * This function (along with `osxie_proc_destroy`) is Osxie-specific; XNU does process creation and destruction at the same time
  * that it performs other "process lifetime"-related like forking.
  *
  * This function needs to be callable before any threads are attached, and as such, it will not retrieve the PID from
@@ -30,7 +30,7 @@ void darling_procs_exit(void);
  * @param task The corresponding task for this new process
  * @returns A brand new BSD process
  */
-proc_t darling_proc_create(task_t task);
+proc_t osxie_proc_create(task_t task);
 
 /**
  * @brief Destroys the given BSD process and all of its associated data.
@@ -45,6 +45,6 @@ proc_t darling_proc_create(task_t task);
  *
  * @param proc The BSD process to destroy
  */
-void darling_proc_destroy(proc_t proc);
+void osxie_proc_destroy(proc_t proc);
 
 #endif // _OSXIE_LKM_PROCS_H_

@@ -102,7 +102,7 @@
 #ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
 
-#include <darling/task_registry.h>
+#include <osxie/task_registry.h>
 #endif
 
 typedef struct uthread *uthread_t;
@@ -553,7 +553,7 @@ ksyn_wqunlock(ksyn_wait_queue_t kwq)
 static int msleep(void* chan, lck_mtx_t* mtx, int pri, const char* wmesg, struct timespec* ts) {
 	ksyn_wait_queue_t kwq = container_of(chan, struct ksyn_wait_queue, kw_pflags);
 	pthread_list_unlock();
-	if (wait_event_interruptible(kwq->linux_wq, !(kwq->kw_pflags & KSYN_WQ_WAITING) || darling_thread_canceled()) != 0 || darling_thread_canceled()) {
+	if (wait_event_interruptible(kwq->linux_wq, !(kwq->kw_pflags & KSYN_WQ_WAITING) || osxie_thread_canceled()) != 0 || osxie_thread_canceled()) {
 		return EINTR;
 	}
 	return 0;

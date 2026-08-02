@@ -28,11 +28,11 @@
 #	include <stdint.h>
 #endif
 
-#define darling_mach_xstr(a) darling_mach_str(a)
-#define darling_mach_str(a) #a
+#define osxie_mach_xstr(a) osxie_mach_str(a)
+#define osxie_mach_str(a) #a
 
 #define OSXIE_MACH_API_VERSION		19
-#define OSXIE_MACH_API_VERSION_STR	darling_mach_xstr(OSXIE_MACH_API_VERSION)
+#define OSXIE_MACH_API_VERSION_STR	osxie_mach_xstr(OSXIE_MACH_API_VERSION)
 
 #define OSXIE_MACH_API_BASE		0x1000
 

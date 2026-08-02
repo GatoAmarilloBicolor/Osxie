@@ -110,7 +110,7 @@
 
 #ifdef __OSXIE__
 #include <duct/duct_post_xnu.h>
-#include <darling/debug_print.h>
+#include <osxie/debug_print.h>
 #endif
 
 #if !defined(XNU_TARGET_OS_OSX) && !SECURE_KERNEL

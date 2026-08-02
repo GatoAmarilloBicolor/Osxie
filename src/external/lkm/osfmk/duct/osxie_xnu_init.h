@@ -35,10 +35,10 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include <mach/mach_types.h>
 
-extern void darling_xnu_init (void);
+extern void osxie_xnu_init (void);
 
-extern void darling_xnu_deinit (void);
+extern void osxie_xnu_deinit (void);
 
-extern void * darling_copy_mach_thread (unsigned long clone_flags, struct task_struct * p, struct pt_regs * regs);
+extern void * osxie_copy_mach_thread (unsigned long clone_flags, struct task_struct * p, struct pt_regs * regs);
 
 #endif // OSXIE_XNU_INIT_H

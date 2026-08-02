@@ -43,7 +43,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <kern/mach_param.h>
 #include <kern/thread.h>
 #include <kern/spl.h>
-#include <darling/task_registry.h>
+#include <osxie/task_registry.h>
 
 #include "duct_post_xnu.h"
 
@@ -454,12 +454,12 @@ waitq_wakeup64_identity_locked(
         {
 			if ( lwait_curr->private) {
 				struct task_struct    * ltask   = lwait_curr->private;
-				receiver    = darling_thread_get(ltask->pid);
+				receiver    = osxie_thread_get(ltask->pid);
 
 				if (receiver != NULL)
 					thread_lock(receiver);
 				else
-					printf("- BUG? Cannot darling_thread_get(%d)\n", ltask->pid);
+					printf("- BUG? Cannot osxie_thread_get(%d)\n", ltask->pid);
 
 				if (lwait_curr->func (lwait_curr, TASK_NORMAL, 0, (void *) event) )
 					break;
@@ -563,7 +563,7 @@ int duct_autoremove_wake_function (linux_wait_queue_t * lwait, unsigned mode, in
         struct task_struct    * ltask   = lwait->private;
         thread_t                thread;
 
-		thread = darling_thread_get(ltask->pid);
+		thread = osxie_thread_get(ltask->pid);
         printk ( KERN_NOTICE "- thread: 0x%p wakeup_event: 0x%llx, thread's wait_event: 0x%llx\n",
                  thread, CAST_EVENT64_T (key), thread->wait_event );
 

@@ -31,7 +31,7 @@
 #	define check_64bit_mode(regs) any_64bit_mode(regs)
 #endif
 
-kern_return_t darling_host_info(host_flavor_t flavor, host_info_t host_info_out, mach_msg_type_number_t* host_info_outCnt)
+kern_return_t osxie_host_info(host_flavor_t flavor, host_info_t host_info_out, mach_msg_type_number_t* host_info_outCnt)
 {
 	switch (flavor)
 	{

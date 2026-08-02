@@ -34,7 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 #include "duct.h"
-#include <darling/debug_print.h>
+#include <osxie/debug_print.h>
 #include "duct_pre_xnu.h"
 #include "duct_vm_map.h"
 #include "duct_kern_kalloc.h"
@@ -196,7 +196,7 @@ vm_map_t duct_vm_map_create (struct task_struct* linux_task)
 	if (linux_task)
 		get_task_struct(linux_task);
 	result->linux_task = linux_task;
-    result->max_offset = darling_is_task_64bit() ? 0x7fffffffffffull : VM_MAX_ADDRESS;
+    result->max_offset = osxie_is_task_64bit() ? 0x7fffffffffffull : VM_MAX_ADDRESS;
 	os_ref_init_count(&result->map_refcnt, &map_refgrp, 1);
     result->hdr.page_shift = PAGE_SHIFT;
 #endif
@@ -435,7 +435,7 @@ boolean_t vm_map_copy_validate_size(vm_map_t dst_map, vm_map_copy_t copy, vm_map
 }
 
 
-int darling_is_task_64bit(void)
+int osxie_is_task_64bit(void)
 {
 #if (__x86_64__ || __arm64__) && LINUX_VERSION_CODE < KERNEL_VERSION(5,11,0)
     return !test_thread_flag(TIF_IA32);

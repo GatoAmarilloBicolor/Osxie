@@ -34,7 +34,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "duct.h"
 #include "duct_pre_xnu.h"
-#include "darling_xnu_init.h"
+#include "osxie_xnu_init.h"
 #include "duct_kern_thread.h"
 #include "duct_kern_task.h"
 #include "duct_vm_map.h"
@@ -50,24 +50,24 @@ extern void duct_kernel_bootstrap(void);
 extern void ux_handler_init(void);
 
 // [i386|arm]_init.h
-void darling_xnu_init ()
+void osxie_xnu_init ()
 {
-        kprintf ("darling_xnu_init () called");
+        kprintf ("osxie_xnu_init () called");
         // kprintf (KERN_NOTICE "now print using xnu's kprintf ()\n");
 
 
-        kprintf ("darling.xnu.init.1 ()\n");
+        kprintf ("osxie.xnu.init.1 ()\n");
 
         duct_kernel_early_bootstrap ();
         duct_thread_bootstrap ();
         machine_startup ();
         ux_handler_init();
 
-        //kprintf ("darling.xnu.init.2 ()\n");
+        //kprintf ("osxie.xnu.init.2 ()\n");
         //machine_startup();
 }
 
-void darling_xnu_deinit (void)
+void osxie_xnu_deinit (void)
 {
         thread_call_deinitialize();
 
@@ -89,9 +89,9 @@ static void machine_startup ()
 
 #if 0
 // WC: ref to fork_create_child ()
-void * darling_copy_mach_thread (unsigned long clone_flags, struct task_struct * p, struct pt_regs * regs)
+void * osxie_copy_mach_thread (unsigned long clone_flags, struct task_struct * p, struct pt_regs * regs)
 {
-        // printk (KERN_NOTICE "darling_copy_mach_thread () called");
+        // printk (KERN_NOTICE "osxie_copy_mach_thread () called");
 
         thread_t        thread  = NULL;
         thread_t        curr_thread  = (thread_t) linux_current->mach_thread;
@@ -220,7 +220,7 @@ ret:
 }
 #endif
 
-void darling_exit_mach_thread (void * mach_thread)
+void osxie_exit_mach_thread (void * mach_thread)
 {
         // WC - todo check below
         duct_thread_deallocate ((thread_t) mach_thread);

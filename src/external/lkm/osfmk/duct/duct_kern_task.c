@@ -51,7 +51,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include "duct_post_xnu.h"
 
 #include <vm/vm_map.h>
-#include <darling/task_registry.h>
+#include <osxie/task_registry.h>
 #define current linux_current
 #include <linux/mm.h>
 #include <linux/sched.h>
@@ -60,7 +60,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <linux/sched/cputime.h>
 #endif
 
-#include <darling/procs.h>
+#include <osxie/procs.h>
 
 task_t            kernel_task;
 zone_t            task_zone;
@@ -131,7 +131,7 @@ void duct_task_destroy(task_t task)
             free_page((unsigned long) task->vchroot_path);
 
         if (task->bsd_info) {
-          darling_proc_destroy(task->bsd_info);
+          osxie_proc_destroy(task->bsd_info);
         }
 
         semaphore_destroy_all(task);
@@ -320,7 +320,7 @@ task_info(
 			error = KERN_FAILURE;
 			break;
 		}
-		darling_task_get_dyld_info(ltask->pid,
+		osxie_task_get_dyld_info(ltask->pid,
 				&task->all_image_info_addr,
 				&task->all_image_info_size);
 

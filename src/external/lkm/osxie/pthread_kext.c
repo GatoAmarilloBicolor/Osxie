@@ -41,44 +41,44 @@
  */
 
 static const struct pthread_functions_s _osixie_pthread_functions = {
-	.pthread_init               = darling_pthread_init,
+	.pthread_init               = osxie_pthread_init,
 
-	.pth_proc_hashinit          = darling_pth_proc_hashinit,
-	.pth_proc_hashdelete        = darling_pth_proc_hashdelete,
+	.pth_proc_hashinit          = osxie_pth_proc_hashinit,
+	.pth_proc_hashdelete        = osxie_pth_proc_hashdelete,
 
-	.bsdthread_create           = darling_bsdthread_create,
-	.bsdthread_register         = darling_bsdthread_register,
-	.bsdthread_terminate        = darling_bsdthread_terminate,
+	.bsdthread_create           = osxie_bsdthread_create,
+	.bsdthread_register         = osxie_bsdthread_register,
+	.bsdthread_terminate        = osxie_bsdthread_terminate,
 
-	.thread_selfid              = darling_thread_selfid,
+	.thread_selfid              = osxie_thread_selfid,
 
-	.psynch_mutexwait           = darling_psynch_mutexwait,
-	.psynch_mutexdrop           = darling_psynch_mutexdrop,
-	.psynch_cvbroad             = darling_psynch_cvbroad,
-	.psynch_cvsignal            = darling_psynch_cvsignal,
-	.psynch_cvwait              = darling_psynch_cvwait,
-	.psynch_cvclrprepost        = darling_psynch_cvclrprepost,
-	.psynch_rw_longrdlock       = darling_psynch_rw_longrdlock,
-	.psynch_rw_rdlock           = darling_psynch_rw_rdlock,
-	.psynch_rw_unlock           = darling_psynch_rw_unlock,
-	.psynch_rw_wrlock           = darling_psynch_rw_wrlock,
-	.psynch_rw_yieldwrlock      = darling_psynch_rw_yieldwrlock,
+	.psynch_mutexwait           = osxie_psynch_mutexwait,
+	.psynch_mutexdrop           = osxie_psynch_mutexdrop,
+	.psynch_cvbroad             = osxie_psynch_cvbroad,
+	.psynch_cvsignal            = osxie_psynch_cvsignal,
+	.psynch_cvwait              = osxie_psynch_cvwait,
+	.psynch_cvclrprepost        = osxie_psynch_cvclrprepost,
+	.psynch_rw_longrdlock       = osxie_psynch_rw_longrdlock,
+	.psynch_rw_rdlock           = osxie_psynch_rw_rdlock,
+	.psynch_rw_unlock           = osxie_psynch_rw_unlock,
+	.psynch_rw_wrlock           = osxie_psynch_rw_wrlock,
+	.psynch_rw_yieldwrlock      = osxie_psynch_rw_yieldwrlock,
 
-	.pthread_find_owner         = darling_pthread_find_owner,
-	.pthread_get_thread_kwq     = darling_pthread_get_thread_kwq,
+	.pthread_find_owner         = osxie_pthread_find_owner,
+	.pthread_get_thread_kwq     = osxie_pthread_get_thread_kwq,
 
-	.workq_create_threadstack   = darling_workq_create_threadstack,
-	.workq_destroy_threadstack  = darling_workq_destroy_threadstack,
-	.workq_setup_thread         = darling_workq_setup_thread,
-	.workq_handle_stack_events  = darling_workq_handle_stack_events,
-	.workq_markfree_threadstack = darling_workq_markfree_threadstack,
+	.workq_create_threadstack   = osxie_workq_create_threadstack,
+	.workq_destroy_threadstack  = osxie_workq_destroy_threadstack,
+	.workq_setup_thread         = osxie_workq_setup_thread,
+	.workq_handle_stack_events  = osxie_workq_handle_stack_events,
+	.workq_markfree_threadstack = osxie_workq_markfree_threadstack,
 };
 
 // called by our kernel module during initialization
 //
-// this is different from `darling_pthread_init`, because this function is the one that sets up
+// this is different from `osxie_pthread_init`, because this function is the one that sets up
 // the pthread kext plumbing, while the `pthread_init` is only called by some BSD code after the kext has already been set up
-void darling_pthread_kext_init(void) {
+void osxie_pthread_kext_init(void) {
 	// we don't really need this, since we're not actually a kext and we have full access to the whole kernel,
 	// but `pthread_shims.c` won't take "no" for an answer (it'll panic if we give it `NULL`)
 	pthread_callbacks_t callbacks = NULL;
@@ -88,7 +88,7 @@ void darling_pthread_kext_init(void) {
 };
 
 // called by our kernel module when it's going to be unloaded
-void darling_pthread_kext_exit(void) {
+void osxie_pthread_kext_exit(void) {
 	psynch_exit();
 };
 
@@ -97,7 +97,7 @@ void darling_pthread_kext_exit(void) {
  */
 
 // called by BSD code through `pthread_init` in `pthread_shims.c`
-void darling_pthread_init(void) {
+void osxie_pthread_init(void) {
 	// we don't really need this, but it has to exist
 };
 
@@ -106,31 +106,31 @@ void darling_pthread_init(void) {
  * so we can just stub them for now
  */
 
-int darling_bsdthread_create(proc_t p, user_addr_t user_func, user_addr_t user_funcarg, user_addr_t user_stack, user_addr_t user_pthread, uint32_t flags, user_addr_t* retval) {
+int osxie_bsdthread_create(proc_t p, user_addr_t user_func, user_addr_t user_funcarg, user_addr_t user_stack, user_addr_t user_pthread, uint32_t flags, user_addr_t* retval) {
 	return ENOTSUP;
 };
 
-int darling_bsdthread_register(proc_t p, user_addr_t threadstart, user_addr_t wqthread, int pthsize, user_addr_t dummy_value, user_addr_t targetconc_ptr, uint64_t dispatchqueue_offset, int32_t* retval) {
+int osxie_bsdthread_register(proc_t p, user_addr_t threadstart, user_addr_t wqthread, int pthsize, user_addr_t dummy_value, user_addr_t targetconc_ptr, uint64_t dispatchqueue_offset, int32_t* retval) {
 	return ENOTSUP;
 };
 
-int darling_bsdthread_terminate(proc_t p, user_addr_t stackaddr, size_t size, uint32_t kthport, uint32_t sem, int32_t* retval) {
+int osxie_bsdthread_terminate(proc_t p, user_addr_t stackaddr, size_t size, uint32_t kthport, uint32_t sem, int32_t* retval) {
 	return ENOTSUP;
 };
 
-int darling_thread_selfid(proc_t p, uint64_t* retval) {
+int osxie_thread_selfid(proc_t p, uint64_t* retval) {
 	return ENOTSUP;
 };
 
-int darling_bsdthread_register2(proc_t p, user_addr_t threadstart, user_addr_t wqthread, uint32_t flags, user_addr_t stack_addr_hint, user_addr_t targetconc_ptr, uint32_t dispatchqueue_offset, uint32_t tsd_offset, int32_t* retval) {
+int osxie_bsdthread_register2(proc_t p, user_addr_t threadstart, user_addr_t wqthread, uint32_t flags, user_addr_t stack_addr_hint, user_addr_t targetconc_ptr, uint32_t dispatchqueue_offset, uint32_t tsd_offset, int32_t* retval) {
 	return ENOTSUP;
 };
 
-void darling_pthread_find_owner(thread_t thread, struct stackshot_thread_waitinfo *waitinfo) {
+void osxie_pthread_find_owner(thread_t thread, struct stackshot_thread_waitinfo *waitinfo) {
 
 };
 
-void* darling_pthread_get_thread_kwq(thread_t thread) {
+void* osxie_pthread_get_thread_kwq(thread_t thread) {
 	return NULL;
 };
 
@@ -138,22 +138,22 @@ void* darling_pthread_get_thread_kwq(thread_t thread) {
  * now these are actually needed by `pthread_workqueue.c`
  */
 
-int darling_workq_handle_stack_events(proc_t p, thread_t th, vm_map_t map, user_addr_t stackaddr, mach_port_name_t kport, user_addr_t events, int nevents, int upcall_flags) {
+int osxie_workq_handle_stack_events(proc_t p, thread_t th, vm_map_t map, user_addr_t stackaddr, mach_port_name_t kport, user_addr_t events, int nevents, int upcall_flags) {
 	return ENOTSUP;
 };
 
-int darling_workq_create_threadstack(proc_t p, vm_map_t vmap, mach_vm_offset_t* out_addr) {
+int osxie_workq_create_threadstack(proc_t p, vm_map_t vmap, mach_vm_offset_t* out_addr) {
 	return ENOTSUP;
 };
 
-int darling_workq_destroy_threadstack(proc_t p, vm_map_t vmap, mach_vm_offset_t stackaddr) {
+int osxie_workq_destroy_threadstack(proc_t p, vm_map_t vmap, mach_vm_offset_t stackaddr) {
 	return ENOTSUP;
 };
 
-void darling_workq_setup_thread(proc_t p, thread_t th, vm_map_t map, user_addr_t stackaddr, mach_port_name_t kport, int th_qos, int setup_flags, int upcall_flags) {
+void osxie_workq_setup_thread(proc_t p, thread_t th, vm_map_t map, user_addr_t stackaddr, mach_port_name_t kport, int th_qos, int setup_flags, int upcall_flags) {
 
 };
 
-void darling_workq_markfree_threadstack(proc_t p, thread_t th, vm_map_t map, user_addr_t stackaddr) {
+void osxie_workq_markfree_threadstack(proc_t p, thread_t th, vm_map_t map, user_addr_t stackaddr) {
 
 };

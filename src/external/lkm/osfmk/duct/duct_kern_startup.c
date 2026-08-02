@@ -49,7 +49,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <kern/ltable.h>
 #include <kern/thread_call.h>
 #include <libkern/version.h>
-#include <darling/debug_print.h>
+#include <osxie/debug_print.h>
 
 extern void compat_init (void);
 extern void bsd_init(void);

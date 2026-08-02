@@ -7,7 +7,7 @@
 #include <kern/sched_prim.h>
 #include <duct/duct_post_xnu.h>
 
-#include <darling/debug_print.h>
+#include <osxie/debug_print.h>
 
 void unix_syscall_return(int error) {
 	debug_msg("unix_syscall_return called with error=%d", error);

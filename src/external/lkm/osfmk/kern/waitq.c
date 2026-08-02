@@ -2413,7 +2413,7 @@ do_waitq_select_n_locked(struct waitq_select_args *args)
 		// Special hack follows
 		//
 		// Explanation:
-		// In darling/evpsetfd.c, we implement a pollable driver that provides notifications on port set events.
+		// In osxie/evpsetfd.c, we implement a pollable driver that provides notifications on port set events.
 		// Linux polling mechanisms require the use of Linux wait_queue. There is no other way of providing
 		// an event to wait on besides passing a wait_queue to poll_wait(). The kernel then manages (de)registering
 		// with the wait_queue behind the scenes.

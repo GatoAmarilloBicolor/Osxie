@@ -5,8 +5,8 @@
 #include <kern/locks.h>
 #include <duct/duct_post_xnu.h>
 
-#include <darling/kqueue.h>
-#include <darling/debug_print.h>
+#include <osxie/kqueue.h>
+#include <osxie/debug_print.h>
 
 extern void kmeminit(void);
 extern void pthread_init(void);

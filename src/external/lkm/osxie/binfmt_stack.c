@@ -56,7 +56,7 @@ int FUNCTION_NAME(struct linux_binprm* bprm, struct load_results* lr)
 		goto out;
 	}
 
-	task_t task = darling_task_get_current();
+	task_t task = osxie_task_get_current();
 
 	if (task)
 		vchroot_path = task_copy_vchroot_path(task);

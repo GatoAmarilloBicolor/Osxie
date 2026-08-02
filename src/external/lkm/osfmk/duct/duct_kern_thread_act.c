@@ -45,8 +45,8 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #include <vm/vm_map.h>
 #include <kern/mach_param.h>
 #include <kern/thread.h>
-#include <darling/task_registry.h>
-#include <darling/debug_print.h>
+#include <osxie/task_registry.h>
+#include <osxie/debug_print.h>
 
 #include "duct_post_xnu.h"
 
@@ -632,7 +632,7 @@ thread_set_state(
 		{
 			if (state_count < x86_FLOAT_STATE64_COUNT)
 				return KERN_INVALID_ARGUMENT;
-			if (!darling_is_task_64bit())
+			if (!osxie_is_task_64bit())
 				return KERN_INVALID_ARGUMENT;
 
 			const x86_float_state64_t* s = (x86_float_state64_t*) state;
@@ -771,7 +771,7 @@ static void watchpoint_callback(struct perf_event* pevent, struct perf_sample_da
 	{
 		if (lthread->ptrace_bps[i] == pevent)
 		{
-			thread_t thread = darling_thread_get_current();
+			thread_t thread = osxie_thread_get_current();
 			thread->triggered_watchpoint_address = lthread->ptrace_bps[i]->attr.bp_addr;
 			
 			switch (lthread->ptrace_bps[i]->attr.bp_type)

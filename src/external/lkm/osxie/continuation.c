@@ -33,7 +33,7 @@ void cont_discard(struct cont_jmpbuf* buf)
 
 void thread_syscall_return(kern_return_t ret)
 {
-	thread_t myself = darling_thread_get_current();
+	thread_t myself = osxie_thread_get_current();
 	if (((struct cont_jmpbuf*) myself->cont_jmpbuf)->__rip == 0)
 		duct_panic("thread_syscall_return invoked, but XNU_CONTINUATION_ENABLED() was not used!");
 	else

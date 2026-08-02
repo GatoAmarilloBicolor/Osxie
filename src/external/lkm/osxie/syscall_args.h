@@ -1,7 +1,7 @@
 #ifndef _OSXIE_LKM_SYSCALL_ARGS_H_
 #define _OSXIE_LKM_SYSCALL_ARGS_H_
 
-#include <darling/api.h> // for most of the arg structures...
+#include <osxie/api.h> // for most of the arg structures...
 
 // ...and now let's define the rest (the ones that the outside world doesn't need to use)
 

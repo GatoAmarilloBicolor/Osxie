@@ -15,7 +15,7 @@
 #include "CachedReader.h"
 #include "exceptions.h"
 #include "HFSHighLevelVolume.h"
-#if defined(DARLING) || defined(OSXIE)
+#if defined(OSXIE)
 #	include "stat_xlate.h"
 #endif
 
@@ -187,7 +187,7 @@ int hfs_getattr(const char* path, struct stat* stat)
 	std::cerr << "hfs_getattr(" << path << ")\n";
 
 	return handle_exceptions([&]() {
-#if !defined(DARLING) && !defined(OSXIE)
+#if !defined(OSXIE)
 		*stat = g_volume->stat(path);
 #else
 		struct stat st = g_volume->stat(path);
@@ -276,14 +276,14 @@ int hfs_readdir(const char* path, void* buf, fuse_fill_dir_t filler, off_t offse
 
 }
 
-#if defined(__APPLE__) && !defined(DARLING)
+#if defined(__APPLE__) && !defined(OSXIE)
 int hfs_getxattr(const char* path, const char* name, char* value, size_t vlen, uint32_t position)
 #else
 int hfs_getxattr(const char* path, const char* name, char* value, size_t vlen)
 #endif
 {
 	std::cerr << "hfs_getxattr(" << path << ", " << name << ")\n";
-#if defined(__APPLE__) && !defined(DARLING)
+#if defined(__APPLE__) && !defined(OSXIE)
 	if (position > 0) return -ENOSYS; // it's not supported... yet. I think it doesn't happen anymore since osx use less ressource fork
 #endif
 

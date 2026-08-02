@@ -35,7 +35,7 @@ set(dmg_sources
 
 # This part of CMakeLists.txt is for when building osxie-dmg
 # as a standalone FUSE module outside of Darling.
-if (NOT DARLING AND NOT OSXIE)
+if (NOT OSXIE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}
 	"${CMAKE_CURRENT_SOURCE_DIR}/cmake_modules/")
@@ -114,8 +114,8 @@ SET(CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
 target_link_libraries(osxie-dmg -lfuse dmg)
 install(TARGETS osxie-dmg RUNTIME DESTINATION bin)
 
-# This is used in Darling build.
-else (NOT DARLING)
+# This is used in Osxie build.
+else (NOT OSXIE)
 	include(wrap_elf)
 	include(osxie_exe)
 	include(FindPkgConfig)
@@ -137,9 +137,9 @@ else (NOT DARLING)
 		src/main-hdiutil.cpp
 	)
 
-	target_compile_definitions(hdiutil PRIVATE DARLING U_SHOW_CPLUSPLUS_API=1)
+	target_compile_definitions(hdiutil PRIVATE OSXIE U_SHOW_CPLUSPLUS_API=1)
 
 	target_link_libraries(hdiutil fuse icucore z bz2 crypto44 xml2 iconv lzfse)
 	install(TARGETS hdiutil DESTINATION libexec/osxie/usr/bin)
 
-endif (NOT DARLING)
+endif (NOT OSXIE)

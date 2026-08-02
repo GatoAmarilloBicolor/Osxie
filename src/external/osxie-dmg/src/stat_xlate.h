@@ -1,10 +1,10 @@
 #ifndef _STAT_XLATE_H
 #define _STAT_XLATE_H
 
-// THIS FILE IS ONLY USED UNDER DARLING.
+// THIS FILE IS ONLY USED UNDER OSXIE.
 //
 // Explanation:
-// Under Darling, this FUSE module is built as a Mach-O
+// Under Osxie, this FUSE module is built as a Mach-O
 // application against macOS header files. However,
 // it still links against host system's libfuse.so.
 // This causes problems with struct stat, the layout

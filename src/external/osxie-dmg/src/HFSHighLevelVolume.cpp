@@ -311,7 +311,7 @@ void HFSHighLevelVolume::hfs_nativeToStat(const HFSPlusCatalogFileOrFolder& ff, 
 	assert(stat != nullptr);
 	memset(stat, 0, sizeof(*stat));
 
-#if defined(__APPLE__) && !defined(DARLING)
+#if defined(__APPLE__) && !defined(OSXIE)
 	stat->st_birthtime = HFSCatalogBTree::appleToUnixTime(be(ff.file.createDate));
 #endif
 	stat->st_atime = HFSCatalogBTree::appleToUnixTime(be(ff.file.accessDate));

@@ -63,7 +63,7 @@ int main(int argc, const char** argv)
 	
 		std::cerr << "Everything looks OK, disk mounted\n";
 
-#ifdef BEFORE_MOUNT_EXTRA // Darling only
+#ifdef BEFORE_MOUNT_EXTRA // Osxie only
 		BEFORE_MOUNT_EXTRA;
 #endif
 
@@ -77,7 +77,7 @@ int main(int argc, const char** argv)
 		std::cerr << "Possible reasons:\n"
 			"1) The file is corrupt.\n"
 			"2) The file is not really a DMG file, although it resembles one.\n"
-			"3) There is a bug in darling-dmg.\n";
+			"3) There is a bug in osxie-dmg.\n";
 
 		return 1;
 	}

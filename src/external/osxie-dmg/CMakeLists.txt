@@ -34,7 +34,7 @@ set(dmg_sources
 
 
 # This part of CMakeLists.txt is for when building osxie-dmg
-# as a standalone FUSE module outside of Darling.
+# as a standalone FUSE module outside of Osxie.
 if (NOT OSXIE)
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH}

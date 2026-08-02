@@ -191,7 +191,7 @@ static int doAttach(int argc, char** argv)
 
 	dup2(fd, 2);
 
-	args[0] = "darling-dmg";
+	args[0] = "osxie-dmg";
 	args[1] = dmg.c_str();
 
 	char linux_path[4096];
@@ -200,7 +200,7 @@ static int doAttach(int argc, char** argv)
 
 	std::cerr << "Will pass " << args[2] << std::endl;
 
-	args[3] = "-f"; // Fork has to be done by Darling code, otherwise the LKM will not talk to us any more
+	args[3] = "-f"; // Fork has to be done by Osxie code, otherwise the LKM will not talk to us any more
 	args[4] = "-o";
 	args[5] = "nonempty";
 	args[6] = nullptr;

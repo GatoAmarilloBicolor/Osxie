@@ -23,16 +23,16 @@
 #define NOTE_PDATAMASK   0x000fffffU
 #define NOTE_PCTRLMASK  (~(NOTE_PDATAMASK))
 
-namespace DarlingServer {
+namespace OsxieServer {
 	class Process;
 	class Thread;
 
 	class Kqchan: public Loggable {
-		friend class DarlingServer::Process;
+		friend class OsxieServer::Process;
 
 	protected:
 		uint64_t _debugID;
-		std::weak_ptr<DarlingServer::Process> _process;
+		std::weak_ptr<OsxieServer::Process> _process;
 		std::shared_ptr<FD> _socket;
 		std::shared_ptr<Monitor> _monitor;
 		MessageQueue _inbox;
@@ -45,7 +45,7 @@ namespace DarlingServer {
 		std::mutex _sendingMutex;
 		uint64_t _notificationCount = 0;
 
-		Kqchan(std::shared_ptr<DarlingServer::Process> process);
+		Kqchan(std::shared_ptr<OsxieServer::Process> process);
 
 		virtual uintptr_t _idForProcess() const;
 
@@ -97,7 +97,7 @@ namespace DarlingServer {
 		virtual std::shared_ptr<Kqchan> sharedFromRoot();
 
 	public:
-		MachPort(std::shared_ptr<DarlingServer::Process> process, uint32_t port, uint64_t receiveBuffer, uint64_t receiveBufferSize, uint64_t savedFilterFlags);
+		MachPort(std::shared_ptr<OsxieServer::Process> process, uint32_t port, uint64_t receiveBuffer, uint64_t receiveBufferSize, uint64_t savedFilterFlags);
 		~MachPort();
 
 		MachPort(const MachPort&) = delete;
@@ -110,7 +110,7 @@ namespace DarlingServer {
 	};
 
 	class Kqchan::Process: public Kqchan, public std::enable_shared_from_this<Process> {
-		friend class DarlingServer::Process;
+		friend class OsxieServer::Process;
 
 	private:
 		// some events can be coalesced, but ones like NOTE_FORK and NOTE_EXIT can't be sent in a single event
@@ -125,7 +125,7 @@ namespace DarlingServer {
 		uint32_t _flags;
 		std::mutex _mutex;
 		std::deque<Event> _events;
-		std::weak_ptr<DarlingServer::Process> _targetProcess;
+		std::weak_ptr<OsxieServer::Process> _targetProcess;
 		bool _attached = false;
 
 		void _modify(uint32_t flags);
@@ -147,7 +147,7 @@ namespace DarlingServer {
 		virtual std::shared_ptr<Kqchan> sharedFromRoot();
 
 	public:
-		Process(std::shared_ptr<DarlingServer::Process> process, pid_t nspid, uint32_t flags);
+		Process(std::shared_ptr<OsxieServer::Process> process, pid_t nspid, uint32_t flags);
 		~Process();
 
 		Process(const Process&) = delete;

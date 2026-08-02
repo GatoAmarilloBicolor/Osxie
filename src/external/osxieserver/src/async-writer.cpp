@@ -7,13 +7,13 @@
 // writer
 //
 
-DarlingServer::AsyncWriter::~AsyncWriter() {
+OsxieServer::AsyncWriter::~AsyncWriter() {
 	if (auto monitor = _monitor.lock()) {
 		Server::sharedInstance().removeMonitor(monitor);
 	}
 };
 
-void DarlingServer::AsyncWriter::init(std::shared_ptr<FD> fd) {
+void OsxieServer::AsyncWriter::init(std::shared_ptr<FD> fd) {
 	_fd = fd;
 
 	int flags = fcntl(_fd->fd(), F_GETFL);
@@ -49,7 +49,7 @@ void DarlingServer::AsyncWriter::init(std::shared_ptr<FD> fd) {
 	Server::sharedInstance().addMonitor(monitor);
 };
 
-void DarlingServer::AsyncWriter::_trySendLocked() {
+void OsxieServer::AsyncWriter::_trySendLocked() {
 	do {
 		auto written = ::write(_fd->fd(), _buffer.data(), _buffer.size());
 		if (written < 0) {
@@ -75,17 +75,17 @@ void DarlingServer::AsyncWriter::_trySendLocked() {
 	} while (_canSend);
 };
 
-std::shared_ptr<DarlingServer::AsyncWriter> DarlingServer::AsyncWriter::make(std::shared_ptr<FD> fd) {
+std::shared_ptr<OsxieServer::AsyncWriter> OsxieServer::AsyncWriter::make(std::shared_ptr<FD> fd) {
 	auto writer = std::make_shared<AsyncWriter>();
 	writer->init(fd);
 	return writer;
 };
 
-DarlingServer::AsyncWriter::Stream DarlingServer::AsyncWriter::stream() {
+OsxieServer::AsyncWriter::Stream OsxieServer::AsyncWriter::stream() {
 	return AsyncWriter::Stream(shared_from_this());
 };
 
-void DarlingServer::AsyncWriter::write(const char* data, size_t length) {
+void OsxieServer::AsyncWriter::write(const char* data, size_t length) {
 	if (length == 0) {
 		return;
 	}
@@ -100,7 +100,7 @@ void DarlingServer::AsyncWriter::write(const char* data, size_t length) {
 	_trySendLocked();
 };
 
-void DarlingServer::AsyncWriter::write(const std::string& data) {
+void OsxieServer::AsyncWriter::write(const std::string& data) {
 	return write(data.data(), data.length());
 };
 
@@ -108,10 +108,10 @@ void DarlingServer::AsyncWriter::write(const std::string& data) {
 // stream
 //
 
-DarlingServer::AsyncWriter::Stream::Stream(std::shared_ptr<AsyncWriter> writer):
+OsxieServer::AsyncWriter::Stream::Stream(std::shared_ptr<AsyncWriter> writer):
 	_writer(writer)
 	{};
 
-DarlingServer::AsyncWriter::Stream::~Stream() {
+OsxieServer::AsyncWriter::Stream::~Stream() {
 	_writer->write(_stream.str());
 };

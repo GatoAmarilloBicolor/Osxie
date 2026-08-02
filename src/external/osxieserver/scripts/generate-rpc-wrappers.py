@@ -1095,7 +1095,7 @@ for call in calls:
 	elif len(reply_parameters) > 0:
 		raise RuntimeError("Call marked as an XNU trap has reply parameters")
 
-	internal_header.write("\tvoid DarlingServer::Call::{0}::processCall() {{ \\\n".format(camel_name))
+	internal_header.write("\tvoid OsxieServer::Call::{0}::processCall() {{ \\\n".format(camel_name))
 
 	if (flags & XNU_TRAP_BSD) != 0:
 		internal_header.write("\t\tuint32_t* retvalPointer = nullptr; \\\n")

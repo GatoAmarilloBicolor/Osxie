@@ -8,7 +8,7 @@
 
 #include <osxieserver/utility.hpp>
 
-namespace DarlingServer {
+namespace OsxieServer {
 	class Server;
 
 	class Monitor {
@@ -41,18 +41,18 @@ namespace DarlingServer {
 	};
 };
 
-inline DarlingServer::Monitor::Event operator|(DarlingServer::Monitor::Event a, DarlingServer::Monitor::Event b) {
-	using UnderlyingType = std::underlying_type_t<DarlingServer::Monitor::Event>;
-	return static_cast<DarlingServer::Monitor::Event>(static_cast<UnderlyingType>(a) | static_cast<UnderlyingType>(b));
+inline OsxieServer::Monitor::Event operator|(OsxieServer::Monitor::Event a, OsxieServer::Monitor::Event b) {
+	using UnderlyingType = std::underlying_type_t<OsxieServer::Monitor::Event>;
+	return static_cast<OsxieServer::Monitor::Event>(static_cast<UnderlyingType>(a) | static_cast<UnderlyingType>(b));
 };
 
-inline DarlingServer::Monitor::Event operator&(DarlingServer::Monitor::Event a, DarlingServer::Monitor::Event b) {
-	using UnderlyingType = std::underlying_type_t<DarlingServer::Monitor::Event>;
-	return static_cast<DarlingServer::Monitor::Event>(static_cast<UnderlyingType>(a) & static_cast<UnderlyingType>(b));
+inline OsxieServer::Monitor::Event operator&(OsxieServer::Monitor::Event a, OsxieServer::Monitor::Event b) {
+	using UnderlyingType = std::underlying_type_t<OsxieServer::Monitor::Event>;
+	return static_cast<OsxieServer::Monitor::Event>(static_cast<UnderlyingType>(a) & static_cast<UnderlyingType>(b));
 };
 
-inline bool operator!(DarlingServer::Monitor::Event event) {
-	using UnderlyingType = std::underlying_type_t<DarlingServer::Monitor::Event>;
+inline bool operator!(OsxieServer::Monitor::Event event) {
+	using UnderlyingType = std::underlying_type_t<OsxieServer::Monitor::Event>;
 	return static_cast<UnderlyingType>(event) == 0;
 };
 

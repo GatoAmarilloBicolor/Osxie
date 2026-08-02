@@ -8,39 +8,39 @@
 #include <fcntl.h>
 #include <atomic>
 
-static DarlingServer::Log kqchanLog("kqchan");
-static DarlingServer::Log kqchanMachPortLog("kqchan:mach_port");
-static DarlingServer::Log kqchanProcLog("kqchan:proc");
+static OsxieServer::Log kqchanLog("kqchan");
+static OsxieServer::Log kqchanMachPortLog("kqchan:mach_port");
+static OsxieServer::Log kqchanProcLog("kqchan:proc");
 static std::atomic_uint64_t kqchanDebugIDCounter = 0;
 
 //
 // base class
 //
 
-DarlingServer::Kqchan::Kqchan(std::shared_ptr<DarlingServer::Process> process):
+OsxieServer::Kqchan::Kqchan(std::shared_ptr<OsxieServer::Process> process):
 	_debugID(kqchanDebugIDCounter++),
 	_process(process)
 {
 	kqchanLog.debug() << *this << ": Constructing kqchan" << kqchanLog.endLog;
 };
 
-DarlingServer::Kqchan::~Kqchan() {
+OsxieServer::Kqchan::~Kqchan() {
 	kqchanLog.debug() << *this << ": Destroying kqchan" << kqchanLog.endLog;
 };
 
-uintptr_t DarlingServer::Kqchan::_idForProcess() const {
+uintptr_t OsxieServer::Kqchan::_idForProcess() const {
 	throw std::runtime_error("must be overridden in derived class");
 };
 
-void DarlingServer::Kqchan::_processMessages() {
+void OsxieServer::Kqchan::_processMessages() {
 	throw std::runtime_error("must be overridden in derived class");
 };
 
-std::shared_ptr<DarlingServer::Kqchan> DarlingServer::Kqchan::sharedFromRoot() {
+std::shared_ptr<OsxieServer::Kqchan> OsxieServer::Kqchan::sharedFromRoot() {
 	throw std::runtime_error("must be overridden in derived class");
 };
 
-int DarlingServer::Kqchan::setup() {
+int OsxieServer::Kqchan::setup() {
 	int fds[2];
 
 	kqchanLog.debug() << *this << ": Setting up kqchan" << kqchanLog.endLog;
@@ -139,12 +139,12 @@ int DarlingServer::Kqchan::setup() {
 		}
 	});
 
-	DarlingServer::Server::sharedInstance().addMonitor(_monitor);
+	OsxieServer::Server::sharedInstance().addMonitor(_monitor);
 
 	return fds[1];
 };
 
-void DarlingServer::Kqchan::_sendNotification() {
+void OsxieServer::Kqchan::_sendNotification() {
 	std::unique_lock lock(_notificationMutex);
 
 	kqchanLog.debug() << *this << ": received request to send notification" << kqchanLog.endLog;
@@ -176,7 +176,7 @@ void DarlingServer::Kqchan::_sendNotification() {
 	}
 };
 
-void DarlingServer::Kqchan::_sendDeferredNotification() {
+void OsxieServer::Kqchan::_sendDeferredNotification() {
 	std::unique_lock lock(_notificationMutex);
 
 	_deferNotification = false;
@@ -190,7 +190,7 @@ void DarlingServer::Kqchan::_sendDeferredNotification() {
 	}
 };
 
-void DarlingServer::Kqchan::logToStream(Log::Stream& stream) const {
+void OsxieServer::Kqchan::logToStream(Log::Stream& stream) const {
 	auto proc = _process.lock();
 	stream << "[KQ:" << _debugID << ":";
 	if (proc) {
@@ -205,7 +205,7 @@ void DarlingServer::Kqchan::logToStream(Log::Stream& stream) const {
 // mach port
 //
 
-DarlingServer::Kqchan::MachPort::MachPort(std::shared_ptr<DarlingServer::Process> process, uint32_t port, uint64_t receiveBuffer, uint64_t receiveBufferSize, uint64_t savedFilterFlags):
+OsxieServer::Kqchan::MachPort::MachPort(std::shared_ptr<OsxieServer::Process> process, uint32_t port, uint64_t receiveBuffer, uint64_t receiveBufferSize, uint64_t savedFilterFlags):
 	Kqchan(process),
 	_port(port),
 	_receiveBuffer(receiveBuffer),
@@ -215,7 +215,7 @@ DarlingServer::Kqchan::MachPort::MachPort(std::shared_ptr<DarlingServer::Process
 	kqchanMachPortLog.debug() << *this << ": Constructing Mach port kqchan" << kqchanMachPortLog.endLog;
 };
 
-DarlingServer::Kqchan::MachPort::~MachPort() {
+OsxieServer::Kqchan::MachPort::~MachPort() {
 	kqchanMachPortLog.debug() << *this << ": Destroying Mach port kqchan" << kqchanMachPortLog.endLog;
 
 	if (_dtapeKqchan) {
@@ -233,15 +233,15 @@ DarlingServer::Kqchan::MachPort::~MachPort() {
 	}
 };
 
-uintptr_t DarlingServer::Kqchan::MachPort::_idForProcess() const {
+uintptr_t OsxieServer::Kqchan::MachPort::_idForProcess() const {
 	return reinterpret_cast<uintptr_t>(this);
 };
 
-std::shared_ptr<DarlingServer::Kqchan> DarlingServer::Kqchan::MachPort::sharedFromRoot() {
+std::shared_ptr<OsxieServer::Kqchan> OsxieServer::Kqchan::MachPort::sharedFromRoot() {
 	return shared_from_this();
 };
 
-int DarlingServer::Kqchan::MachPort::setup() {
+int OsxieServer::Kqchan::MachPort::setup() {
 	auto proc = _process.lock();
 
 	if (!proc) {
@@ -275,7 +275,7 @@ int DarlingServer::Kqchan::MachPort::setup() {
 	return fd;
 };
 
-void DarlingServer::Kqchan::MachPort::_processMessages() {
+void OsxieServer::Kqchan::MachPort::_processMessages() {
 	while (auto msg = _inbox.pop()) {
 		if (msg->data().size() < sizeof(dserver_kqchan_callhdr_t)) {
 			throw std::invalid_argument("Message buffer was too small for kqchan call header");
@@ -310,7 +310,7 @@ void DarlingServer::Kqchan::MachPort::_processMessages() {
 	}
 };
 
-void DarlingServer::Kqchan::MachPort::_modify(uint64_t receiveBuffer, uint64_t receiveBufferSize, uint64_t savedFilterFlags, pid_t nstid) {
+void OsxieServer::Kqchan::MachPort::_modify(uint64_t receiveBuffer, uint64_t receiveBufferSize, uint64_t savedFilterFlags, pid_t nstid) {
 	kqchanMachPortLog.debug() << *this << ": Received modification request with {receiveBuffer=" << receiveBuffer << ",receiveBufferSize=" << receiveBufferSize << ",savedFilterFlags=" << savedFilterFlags << "}" << kqchanMachPortLog.endLog;
 
 	auto maybeThread = threadRegistry().lookupEntryByNSID(nstid);
@@ -342,7 +342,7 @@ void DarlingServer::Kqchan::MachPort::_modify(uint64_t receiveBuffer, uint64_t r
 	});
 };
 
-void DarlingServer::Kqchan::MachPort::_read(uint64_t defaultBuffer, uint64_t defaultBufferSize, pid_t nstid) {
+void OsxieServer::Kqchan::MachPort::_read(uint64_t defaultBuffer, uint64_t defaultBufferSize, pid_t nstid) {
 	kqchanMachPortLog.debug() << *this << ": received read request with {defaultBuffer=" << defaultBuffer << ",defaultBufferSize=" << defaultBufferSize << "}" << kqchanMachPortLog.endLog;
 
 	{
@@ -403,11 +403,11 @@ void DarlingServer::Kqchan::MachPort::_read(uint64_t defaultBuffer, uint64_t def
 	});
 };
 
-void DarlingServer::Kqchan::MachPort::_notify() {
+void OsxieServer::Kqchan::MachPort::_notify() {
 	_sendNotification();
 };
 
-void DarlingServer::Kqchan::MachPort::_checkForEventsAsync() {
+void OsxieServer::Kqchan::MachPort::_checkForEventsAsync() {
 	Thread::kernelAsync([weakSelf = weak_from_this()]() {
 		auto self = weakSelf.lock();
 		if (!self) {
@@ -420,7 +420,7 @@ void DarlingServer::Kqchan::MachPort::_checkForEventsAsync() {
 	});
 };
 
-std::function<void()> DarlingServer::Kqchan::MachPort::_checkForEventsAsyncFactory() {
+std::function<void()> OsxieServer::Kqchan::MachPort::_checkForEventsAsyncFactory() {
 	return [weakSelf = weak_from_this()]() {
 		auto self = weakSelf.lock();
 		if (!self) {
@@ -436,7 +436,7 @@ std::function<void()> DarlingServer::Kqchan::MachPort::_checkForEventsAsyncFacto
 // TODO: NOTE_REAP and NOTE_SIGNAL
 //
 
-DarlingServer::Kqchan::Process::Process(std::shared_ptr<DarlingServer::Process> process, pid_t nspid, uint32_t flags):
+OsxieServer::Kqchan::Process::Process(std::shared_ptr<OsxieServer::Process> process, pid_t nspid, uint32_t flags):
 	Kqchan(process),
 	_nspid(nspid),
 	_flags(flags)
@@ -444,7 +444,7 @@ DarlingServer::Kqchan::Process::Process(std::shared_ptr<DarlingServer::Process> 
 	kqchanProcLog.debug() << *this << ": Constructing process kqchan" << kqchanProcLog.endLog;
 };
 
-DarlingServer::Kqchan::Process::~Process() {
+OsxieServer::Kqchan::Process::~Process() {
 	kqchanProcLog.debug() << *this << ": Destroying process kqchan" << kqchanProcLog.endLog;
 
 	if (auto targetProcess = _targetProcess.lock()) {
@@ -452,15 +452,15 @@ DarlingServer::Kqchan::Process::~Process() {
 	}
 };
 
-uintptr_t DarlingServer::Kqchan::Process::_idForProcess() const {
+uintptr_t OsxieServer::Kqchan::Process::_idForProcess() const {
 	return reinterpret_cast<uintptr_t>(this);
 };
 
-std::shared_ptr<DarlingServer::Kqchan> DarlingServer::Kqchan::Process::sharedFromRoot() {
+std::shared_ptr<OsxieServer::Kqchan> OsxieServer::Kqchan::Process::sharedFromRoot() {
 	return shared_from_this();
 };
 
-int DarlingServer::Kqchan::Process::setup() {
+int OsxieServer::Kqchan::Process::setup() {
 	kqchanProcLog.debug() << *this << ": Setting up process kqchan" << kqchanProcLog.endLog;
 
 	auto maybeTargetProcess = processRegistry().lookupEntryByNSID(_nspid);
@@ -489,7 +489,7 @@ int DarlingServer::Kqchan::Process::setup() {
 	return fd;
 };
 
-void DarlingServer::Kqchan::Process::_processMessages() {
+void OsxieServer::Kqchan::Process::_processMessages() {
 	while (auto msg = _inbox.pop()) {
 		if (msg->data().size() < sizeof(dserver_kqchan_callhdr_t)) {
 			throw std::invalid_argument("Message buffer was too small for kqchan call header");
@@ -524,7 +524,7 @@ void DarlingServer::Kqchan::Process::_processMessages() {
 	}
 };
 
-void DarlingServer::Kqchan::Process::_modify(uint32_t flags) {
+void OsxieServer::Kqchan::Process::_modify(uint32_t flags) {
 	std::unique_lock lock(_mutex);
 
 	_flags = flags;
@@ -542,7 +542,7 @@ void DarlingServer::Kqchan::Process::_modify(uint32_t flags) {
 	_outbox.push(std::move(msg));
 };
 
-void DarlingServer::Kqchan::Process::_read() {
+void OsxieServer::Kqchan::Process::_read() {
 	auto listeningProcess = _process.lock();
 
 	if (!listeningProcess) {
@@ -643,7 +643,7 @@ void DarlingServer::Kqchan::Process::_read() {
 	_sendDeferredNotification();
 };
 
-void DarlingServer::Kqchan::Process::_notify(uint32_t event, int64_t data) {
+void OsxieServer::Kqchan::Process::_notify(uint32_t event, int64_t data) {
 	Event newEvent;
 
 	kqchanProcLog.debug() << *this << ": notified with {event=" << event << ",data=" << data << "}" << kqchanProcLog.endLog;
@@ -695,7 +695,7 @@ void DarlingServer::Kqchan::Process::_notify(uint32_t event, int64_t data) {
 	}
 };
 
-void DarlingServer::Kqchan::Process::_checkForEventsAsync() {
+void OsxieServer::Kqchan::Process::_checkForEventsAsync() {
 	Thread::kernelAsync([weakSelf = weak_from_this()]() {
 		auto self = weakSelf.lock();
 		if (!self) {
@@ -708,7 +708,7 @@ void DarlingServer::Kqchan::Process::_checkForEventsAsync() {
 	});
 };
 
-std::function<void()> DarlingServer::Kqchan::Process::_checkForEventsAsyncFactory() {
+std::function<void()> OsxieServer::Kqchan::Process::_checkForEventsAsyncFactory() {
 	return [weakSelf = weak_from_this()]() {
 		auto self = weakSelf.lock();
 		if (!self) {
@@ -718,7 +718,7 @@ std::function<void()> DarlingServer::Kqchan::Process::_checkForEventsAsyncFactor
 	};
 };
 
-void DarlingServer::Kqchan::Process::logToStream(Log::Stream& stream) const {
+void OsxieServer::Kqchan::Process::logToStream(Log::Stream& stream) const {
 	auto proc = _targetProcess.lock();
 
 	Kqchan::logToStream(stream);

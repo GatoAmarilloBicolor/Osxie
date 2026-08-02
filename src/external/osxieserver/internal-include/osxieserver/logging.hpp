@@ -25,7 +25,7 @@
 #include <sstream>
 #include <memory>
 
-namespace DarlingServer {
+namespace OsxieServer {
 	class Thread;
 	class Process;
 

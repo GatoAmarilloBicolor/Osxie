@@ -41,11 +41,11 @@
 
 #include <osxieserver/logging.hpp>
 
-static DarlingServer::Server* sharedInstancePointer = nullptr;
+static OsxieServer::Server* sharedInstancePointer = nullptr;
 
 struct DTapeHooks {
 	static void dtape_hook_thread_suspend(void* thread_context, dtape_thread_continuation_callback_f continuationCallback, void* continuationContext, libsimple_lock_t* unlockMe) {
-		if (auto thread = DarlingServer::Thread::currentThread()) {
+		if (auto thread = OsxieServer::Thread::currentThread()) {
 			if (auto fakeThread = thread->impersonatingThread()) {
 				if (thread_context == fakeThread.get()) {
 					return dtape_hook_thread_suspend(thread.get(), continuationCallback, continuationContext, unlockMe);
@@ -53,20 +53,20 @@ struct DTapeHooks {
 			}
 		}
 		if (continuationCallback) {
-			static_cast<DarlingServer::Thread*>(thread_context)->suspend([=]() {
+			static_cast<OsxieServer::Thread*>(thread_context)->suspend([=]() {
 				continuationCallback(continuationContext);
 			}, unlockMe);
 		} else {
-			static_cast<DarlingServer::Thread*>(thread_context)->suspend(nullptr, unlockMe);
+			static_cast<OsxieServer::Thread*>(thread_context)->suspend(nullptr, unlockMe);
 		}
 	};
 
 	static void dtape_hook_thread_resume(void* thread_context) {
-		static_cast<DarlingServer::Thread*>(thread_context)->resume();
+		static_cast<OsxieServer::Thread*>(thread_context)->resume();
 	};
 
 	static dtape_task_t* dtape_hook_current_task(void) {
-		auto thread = DarlingServer::Thread::currentThread();
+		auto thread = OsxieServer::Thread::currentThread();
 		if (!thread) {
 			return NULL;
 		}
@@ -81,7 +81,7 @@ struct DTapeHooks {
 	};
 
 	static dtape_thread_t* dtape_hook_current_thread(void) {
-		auto thread = DarlingServer::Thread::currentThread();
+		auto thread = OsxieServer::Thread::currentThread();
 		if (!thread) {
 			return NULL;
 		}
@@ -92,7 +92,7 @@ struct DTapeHooks {
 	};
 
 	static void dtape_hook_timer_arm(uint64_t deadline_ns, bool override) {
-		auto& server = DarlingServer::Server::sharedInstance();
+		auto& server = OsxieServer::Server::sharedInstance();
 
 		if (deadline_ns == UINT64_MAX) {
 			deadline_ns = 0;
@@ -117,9 +117,9 @@ struct DTapeHooks {
 	};
 
 	static void dtape_hook_log(dtape_log_level_t level, const char* message) {
-		static const auto log = DarlingServer::Log("dtape");
-		auto process = DarlingServer::Process::currentProcess();
-		auto thread = DarlingServer::Thread::currentThread();
+		static const auto log = OsxieServer::Log("dtape");
+		auto process = OsxieServer::Process::currentProcess();
+		auto thread = OsxieServer::Thread::currentThread();
 		pid_t pid = process ? process->id() : -1;
 		pid_t nspid = process ? process->nsid() : -1;
 		pid_t tid = thread ? thread->id() : -1;
@@ -142,37 +142,37 @@ struct DTapeHooks {
 	};
 
 	static void dtape_hook_get_load_info(dtape_load_info_t* load_info) {
-		load_info->task_count = DarlingServer::processRegistry().size();
-		load_info->thread_count = DarlingServer::threadRegistry().size();
+		load_info->task_count = OsxieServer::processRegistry().size();
+		load_info->thread_count = OsxieServer::threadRegistry().size();
 	};
 
 	static void dtape_hook_thread_terminate(void* thread_context) {
-		static_cast<DarlingServer::Thread*>(thread_context)->terminate();
+		static_cast<OsxieServer::Thread*>(thread_context)->terminate();
 	};
 
 	static dtape_thread_t* dtape_hook_thread_create_kernel(void) {
-		auto thread = std::make_shared<DarlingServer::Thread>(DarlingServer::Thread::KernelThreadConstructorTag());
+		auto thread = std::make_shared<OsxieServer::Thread>(OsxieServer::Thread::KernelThreadConstructorTag());
 		thread->registerWithProcess();
-		DarlingServer::threadRegistry().registerEntry(thread, true);
+		OsxieServer::threadRegistry().registerEntry(thread, true);
 		return thread->_dtapeThread;
 	};
 
 	static void dtape_hook_thread_setup(void* thread_context, dtape_thread_continuation_callback_f startupCallback, void* startupCallbackContext) {
-		static_cast<DarlingServer::Thread*>(thread_context)->setupKernelThread([=]() {
+		static_cast<OsxieServer::Thread*>(thread_context)->setupKernelThread([=]() {
 			startupCallback(startupCallbackContext);
 		});
 	};
 
 	static void dtape_hook_thread_set_pending_signal(void* thread_context, int pending_signal) {
-		static_cast<DarlingServer::Thread*>(thread_context)->setPendingSignal(pending_signal);
+		static_cast<OsxieServer::Thread*>(thread_context)->setPendingSignal(pending_signal);
 	};
 
 	static void dtape_hook_thread_set_pending_call_override(void* thread_context, bool pending_call_override) {
-		static_cast<DarlingServer::Thread*>(thread_context)->setPendingCallOverride(pending_call_override);
+		static_cast<OsxieServer::Thread*>(thread_context)->setPendingCallOverride(pending_call_override);
 	};
 
 	static dtape_thread_t* dtape_hook_thread_lookup(int id, bool id_is_nsid, bool retain) {
-		auto& registry = DarlingServer::threadRegistry();
+		auto& registry = OsxieServer::threadRegistry();
 		auto maybeThread = (id_is_nsid) ? registry.lookupEntryByNSID(id) : registry.lookupEntryByID(id);
 		if (!maybeThread) {
 			return nullptr;
@@ -185,7 +185,7 @@ struct DTapeHooks {
 	};
 
 	static dtape_thread_t* dtape_hook_thread_lookup_eternal(dtape_eternal_id_t eid, bool retain) {
-		auto& registry = DarlingServer::threadRegistry();
+		auto& registry = OsxieServer::threadRegistry();
 		auto maybeThread = registry.lookupEntryByEternalID(eid);
 		if (!maybeThread) {
 			return nullptr;
@@ -198,12 +198,12 @@ struct DTapeHooks {
 	};
 
 	static dtape_thread_state_t dtape_hook_thread_get_state(void* thread_context) {
-		return static_cast<dtape_thread_state_t>(static_cast<DarlingServer::Thread*>(thread_context)->getRunState());
+		return static_cast<dtape_thread_state_t>(static_cast<OsxieServer::Thread*>(thread_context)->getRunState());
 	};
 
 	static int dtape_hook_thread_send_signal(void* thread_context, int signal) {
 		try {
-			static_cast<DarlingServer::Thread*>(thread_context)->sendSignal(signal);
+			static_cast<OsxieServer::Thread*>(thread_context)->sendSignal(signal);
 			return 0;
 		} catch (std::system_error e) {
 			return -e.code().value();
@@ -211,42 +211,42 @@ struct DTapeHooks {
 	};
 
 	static void dtape_hook_thread_context_dispose(void* thread_context) {
-		static_cast<DarlingServer::Thread*>(thread_context)->_dispose();
+		static_cast<OsxieServer::Thread*>(thread_context)->_dispose();
 	};
 
 	static dtape_eternal_id_t dtape_hook_thread_eternal_id(void* thread_context) {
 		if (!thread_context) {
-			return DarlingServer::EternalIDInvalid;
+			return OsxieServer::EternalIDInvalid;
 		}
-		return static_cast<DarlingServer::Thread*>(thread_context)->eternalID();
+		return static_cast<OsxieServer::Thread*>(thread_context)->eternalID();
 	};
 
 	static void dtape_hook_current_thread_interrupt_disable(void) {
-		DarlingServer::Thread::interruptDisable();
+		OsxieServer::Thread::interruptDisable();
 	};
 
 	static void dtape_hook_current_thread_interrupt_enable(void) {
-		DarlingServer::Thread::interruptEnable();
+		OsxieServer::Thread::interruptEnable();
 	};
 
 	static void dtape_hook_current_thread_syscall_return(int result_code) {
-		DarlingServer::Thread::syscallReturn(result_code);
+		OsxieServer::Thread::syscallReturn(result_code);
 	};
 
 	static void dtape_hook_current_thread_set_bsd_retval(uint32_t retval) {
-		DarlingServer::Thread::currentThread()->_bsdReturnValue = retval;
+		OsxieServer::Thread::currentThread()->_bsdReturnValue = retval;
 	};
 
 	static bool dtape_hook_task_read_memory(void* task_context, uintptr_t remote_address, void* local_buffer, size_t length) {
-		return static_cast<DarlingServer::Process*>(task_context)->readMemory(remote_address, local_buffer, length);
+		return static_cast<OsxieServer::Process*>(task_context)->readMemory(remote_address, local_buffer, length);
 	};
 
 	static bool dtape_hook_task_write_memory(void* task_context, uintptr_t remote_address, const void* local_buffer, size_t length) {
-		return static_cast<DarlingServer::Process*>(task_context)->writeMemory(remote_address, local_buffer, length);
+		return static_cast<OsxieServer::Process*>(task_context)->writeMemory(remote_address, local_buffer, length);
 	};
 
 	static dtape_task_t* dtape_hook_task_lookup(int id, bool id_is_nsid, bool retain) {
-		auto& registry = DarlingServer::processRegistry();
+		auto& registry = OsxieServer::processRegistry();
 		auto maybeProcess = (id_is_nsid) ? registry.lookupEntryByNSID(id) : registry.lookupEntryByID(id);
 		if (!maybeProcess) {
 			return nullptr;
@@ -259,7 +259,7 @@ struct DTapeHooks {
 	};
 
 	static dtape_task_t* dtape_hook_task_lookup_eternal(dtape_eternal_id_t eid, bool retain) {
-		auto& registry = DarlingServer::processRegistry();
+		auto& registry = OsxieServer::processRegistry();
 		auto maybeProcess = registry.lookupEntryByEternalID(eid);
 		if (!maybeProcess) {
 			return nullptr;
@@ -272,7 +272,7 @@ struct DTapeHooks {
 	};
 
 	static void dtape_hook_task_get_memory_info(void* task_context, dtape_memory_info_t* memory_info) {
-		auto info = static_cast<DarlingServer::Process*>(task_context)->memoryInfo();
+		auto info = static_cast<OsxieServer::Process*>(task_context)->memoryInfo();
 		memory_info->virtual_size = info.virtualSize;
 		memory_info->resident_size = info.residentSize;
 		memory_info->page_size = info.pageSize;
@@ -282,7 +282,7 @@ struct DTapeHooks {
 	static bool dtape_hook_task_get_memory_region_info(void* task_context, uintptr_t address, dtape_memory_region_info_t* memory_region_info) {
 		int protection;
 		try {
-			auto info = static_cast<DarlingServer::Process*>(task_context)->memoryRegionInfo(address);
+			auto info = static_cast<OsxieServer::Process*>(task_context)->memoryRegionInfo(address);
 			memory_region_info->start_address = info.startAddress;
 			memory_region_info->page_count = info.pageCount;
 			memory_region_info->map_offset = info.mapOffset;
@@ -308,7 +308,7 @@ struct DTapeHooks {
 
 	static uintptr_t dtape_hook_task_allocate_pages(void* task_context, size_t page_count, int protection, uintptr_t address_hint, dtape_memory_flags_t flags) {
 		try {
-			return static_cast<DarlingServer::Process*>(task_context)->allocatePages(page_count, protection, address_hint, flags & dtape_memory_flag_fixed, flags & dtape_memory_flag_overwrite);
+			return static_cast<OsxieServer::Process*>(task_context)->allocatePages(page_count, protection, address_hint, flags & dtape_memory_flag_fixed, flags & dtape_memory_flag_overwrite);
 		} catch (std::system_error e) {
 			return 0;
 		}
@@ -316,7 +316,7 @@ struct DTapeHooks {
 
 	static int dtape_hook_task_free_pages(void* task_context, uintptr_t address, size_t page_count) {
 		try {
-			static_cast<DarlingServer::Process*>(task_context)->freePages(address, page_count);
+			static_cast<OsxieServer::Process*>(task_context)->freePages(address, page_count);
 			return 0;
 		} catch (std::system_error e) {
 			return -1;
@@ -325,19 +325,19 @@ struct DTapeHooks {
 
 	static uintptr_t dtape_hook_task_map_file(void* task_context, int fd, size_t page_count, int protection, uintptr_t address_hint, size_t page_offset, dtape_memory_flags_t flags) {
 		try {
-			return static_cast<DarlingServer::Process*>(task_context)->mapFile(fd, page_count, protection, address_hint, page_offset, flags & dtape_memory_flag_fixed, flags & dtape_memory_flag_overwrite);
+			return static_cast<OsxieServer::Process*>(task_context)->mapFile(fd, page_count, protection, address_hint, page_offset, flags & dtape_memory_flag_fixed, flags & dtape_memory_flag_overwrite);
 		} catch (std::system_error e) {
 			return 0;
 		}
 	};
 
 	static uintptr_t dtape_hook_task_get_next_region(void* task_context, uintptr_t address) {
-		return static_cast<DarlingServer::Process*>(task_context)->getNextRegion(address);
+		return static_cast<OsxieServer::Process*>(task_context)->getNextRegion(address);
 	};
 
 	static bool dtape_hook_task_change_protection(void* task_context, uintptr_t address, size_t page_count, int protection) {
 		try {
-			static_cast<DarlingServer::Process*>(task_context)->changeProtection(address, page_count, protection);
+			static_cast<OsxieServer::Process*>(task_context)->changeProtection(address, page_count, protection);
 			return true;
 		} catch (std::system_error e) {
 			return false;
@@ -346,7 +346,7 @@ struct DTapeHooks {
 
 	static bool dtape_hook_task_sync_memory(void* task_context, uintptr_t address, size_t size, int sync_flags) {
 		try {
-			static_cast<DarlingServer::Process*>(task_context)->syncMemory(address, size, sync_flags);
+			static_cast<OsxieServer::Process*>(task_context)->syncMemory(address, size, sync_flags);
 			return true;
 		} catch (std::system_error e) {
 			return false;
@@ -354,35 +354,35 @@ struct DTapeHooks {
 	};
 
 	static void dtape_hook_task_context_dispose(void* task_context) {
-		static_cast<DarlingServer::Process*>(task_context)->_dispose();
+		static_cast<OsxieServer::Process*>(task_context)->_dispose();
 	};
 
 	static dtape_eternal_id_t dtape_hook_task_eternal_id(void* task_context) {
 		if (!task_context) {
-			return DarlingServer::EternalIDInvalid;
+			return OsxieServer::EternalIDInvalid;
 		}
-		return static_cast<DarlingServer::Process*>(task_context)->eternalID();
+		return static_cast<OsxieServer::Process*>(task_context)->eternalID();
 	};
 
 #if DSERVER_EXTENDED_DEBUG
 	static void dtape_hook_task_register_name(void* task_context, uint32_t name, uintptr_t pointer) {
-		static_cast<DarlingServer::Process*>(task_context)->_registerName(name, pointer);
+		static_cast<OsxieServer::Process*>(task_context)->_registerName(name, pointer);
 	};
 
 	static void dtape_hook_task_unregister_name(void* task_context, uint32_t name) {
-		static_cast<DarlingServer::Process*>(task_context)->_unregisterName(name);
+		static_cast<OsxieServer::Process*>(task_context)->_unregisterName(name);
 	};
 
 	static void dtape_hook_task_add_port_set_member(void* task_context, dtape_port_set_id_t port_set, dtape_port_id_t member) {
-		static_cast<DarlingServer::Process*>(task_context)->_addPortSetMember(port_set, member);
+		static_cast<OsxieServer::Process*>(task_context)->_addPortSetMember(port_set, member);
 	};
 
 	static void dtape_hook_task_remove_port_set_member(void* task_context, dtape_port_set_id_t port_set, dtape_port_id_t member) {
-		static_cast<DarlingServer::Process*>(task_context)->_removePortSetMember(port_set, member);
+		static_cast<OsxieServer::Process*>(task_context)->_removePortSetMember(port_set, member);
 	};
 
 	static void dtape_hook_task_clear_port_set(void* task_context, dtape_port_set_id_t port_set) {
-		static_cast<DarlingServer::Process*>(task_context)->_clearPortSet(port_set);
+		static_cast<OsxieServer::Process*>(task_context)->_clearPortSet(port_set);
 	};
 #endif
 
@@ -439,7 +439,7 @@ struct DTapeHooks {
 	};
 };
 
-DarlingServer::Server::Server(std::string prefix):
+OsxieServer::Server::Server(std::string prefix):
 	_prefix(prefix),
 	_socketPath(_prefix + "/.osxieserver.sock"),
 	_workQueue(std::bind(&Server::_worker, this, std::placeholders::_1))
@@ -515,14 +515,14 @@ DarlingServer::Server::Server(std::string prefix):
 	}
 };
 
-DarlingServer::Server::~Server() {
+OsxieServer::Server::~Server() {
 	close(_epollFD);
 	close(_wakeupFD);
 	close(_listenerSocket);
 	unlink(_socketPath.c_str());
 };
 
-void DarlingServer::Server::start() {
+void OsxieServer::Server::start() {
 	Thread::interruptDisable();
 	dtape_init(&DTapeHooks::dtape_hooks);
 	Thread::interruptEnable();
@@ -539,7 +539,7 @@ void DarlingServer::Server::start() {
 
 			while (auto msg = _inbox.pop()) {
 				// TODO: this could be done concurrently
-				auto call = DarlingServer::Call::callFromMessage(std::move(*msg));
+				auto call = OsxieServer::Call::callFromMessage(std::move(*msg));
 				if (call) {
 					_workQueue.push(call->thread());
 				}
@@ -725,7 +725,7 @@ void DarlingServer::Server::start() {
 	dtape_deinit();
 };
 
-void DarlingServer::Server::monitorProcess(std::shared_ptr<Process> process) {
+void OsxieServer::Server::monitorProcess(std::shared_ptr<Process> process) {
 	// the this-capture here is safe because the Server will always out-live everything else
 	std::weak_ptr<Process> weakProcess = process;
 	auto monitor = std::make_shared<Monitor>(process->_pidfd, Monitor::Event::Readable | Monitor::Event::HangUp, false, false, [this, weakProcess](std::shared_ptr<Monitor> thisMonitor, Monitor::Event events) {
@@ -744,23 +744,23 @@ void DarlingServer::Server::monitorProcess(std::shared_ptr<Process> process) {
 	addMonitor(monitor);
 };
 
-DarlingServer::Server& DarlingServer::Server::sharedInstance() {
+OsxieServer::Server& OsxieServer::Server::sharedInstance() {
 	return *sharedInstancePointer;
 };
 
-std::string DarlingServer::Server::prefix() const {
+std::string OsxieServer::Server::prefix() const {
 	return _prefix;
 };
 
-void DarlingServer::Server::_worker(std::shared_ptr<Thread> thread) {
+void OsxieServer::Server::_worker(std::shared_ptr<Thread> thread) {
 	thread->doWork();
 };
 
-void DarlingServer::Server::scheduleThread(std::shared_ptr<Thread> thread) {
+void OsxieServer::Server::scheduleThread(std::shared_ptr<Thread> thread) {
 	_workQueue.push(thread);
 };
 
-void DarlingServer::Server::addMonitor(std::shared_ptr<Monitor> monitor) {
+void OsxieServer::Server::addMonitor(std::shared_ptr<Monitor> monitor) {
 	bool valid = true;
 
 	_monitorsLock.lock();
@@ -796,7 +796,7 @@ void DarlingServer::Server::addMonitor(std::shared_ptr<Monitor> monitor) {
 	_monitorsLock.unlock();
 };
 
-void DarlingServer::Server::removeMonitor(std::shared_ptr<Monitor> monitor) {
+void OsxieServer::Server::removeMonitor(std::shared_ptr<Monitor> monitor) {
 	bool valid = false;
 
 	_monitorsLock.lock();
@@ -826,7 +826,7 @@ void DarlingServer::Server::removeMonitor(std::shared_ptr<Monitor> monitor) {
 	eventfd_write(_wakeupFD, 1);
 };
 
-DarlingServer::Monitor::Monitor(std::shared_ptr<FD> descriptor, Event events, bool edgeTriggered, bool oneshot, std::function<void(std::shared_ptr<Monitor>, Event)> callback):
+OsxieServer::Monitor::Monitor(std::shared_ptr<FD> descriptor, Event events, bool edgeTriggered, bool oneshot, std::function<void(std::shared_ptr<Monitor>, Event)> callback):
 	_fd(descriptor),
 	_userEvents(events),
 	_events((uint32_t)events | (oneshot ? EPOLLONESHOT : 0) | (edgeTriggered ? EPOLLET : 0)),
@@ -834,7 +834,7 @@ DarlingServer::Monitor::Monitor(std::shared_ptr<FD> descriptor, Event events, bo
 	_server(nullptr)
 	{};
 
-void DarlingServer::Monitor::enable(bool edgeTriggered, bool oneshot) {
+void OsxieServer::Monitor::enable(bool edgeTriggered, bool oneshot) {
 	std::unique_lock lock(_lock);
 
 	if (!_server) {
@@ -864,7 +864,7 @@ void DarlingServer::Monitor::enable(bool edgeTriggered, bool oneshot) {
 	}
 };
 
-void DarlingServer::Monitor::disable() {
+void OsxieServer::Monitor::disable() {
 	std::unique_lock lock(_lock);
 
 	if (!_server) {
@@ -882,10 +882,10 @@ void DarlingServer::Monitor::disable() {
 	}
 };
 
-std::shared_ptr<DarlingServer::FD> DarlingServer::Monitor::fd() const {
+std::shared_ptr<OsxieServer::FD> OsxieServer::Monitor::fd() const {
 	return _fd;
 };
 
-void DarlingServer::Server::sendMessage(Message&& message) {
+void OsxieServer::Server::sendMessage(Message&& message) {
 	_outbox.push(std::move(message));
 };

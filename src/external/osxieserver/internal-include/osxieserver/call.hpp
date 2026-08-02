@@ -31,7 +31,7 @@
 
 #include <unistd.h>
 
-namespace DarlingServer {
+namespace OsxieServer {
 	class CallWithReply;
 
 	class Call {
@@ -50,7 +50,7 @@ namespace DarlingServer {
 		Address _replyAddress;
 		dserver_rpc_callhdr_t _header;
 
-		static DarlingServer::Log rpcReplyLog;
+		static OsxieServer::Log rpcReplyLog;
 
 		static void sendReply(Message&& reply);
 

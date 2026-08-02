@@ -4,7 +4,7 @@
 #include <osxie-config.h>
 #include <string>
 
-namespace DarlingServer {
+namespace OsxieServer {
 	namespace Config {
 		// NOTE: you should not rely on these values being `constexpr`;
 		//       in the future, there may be a way to change them during startup.

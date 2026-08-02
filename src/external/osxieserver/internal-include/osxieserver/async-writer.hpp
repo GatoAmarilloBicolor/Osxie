@@ -4,7 +4,7 @@
 #include <osxieserver/monitor.hpp>
 #include <sstream>
 
-namespace DarlingServer {
+namespace OsxieServer {
 	/**
 	 * A class to write data to a file descriptor asynchronously.
 	 *

@@ -31,7 +31,7 @@
 #include <osxieserver/utility.hpp>
 #include <osxieserver/monitor.hpp>
 
-namespace DarlingServer {
+namespace OsxieServer {
 	// NOTE: server instances MUST be created with `new` rather than as a normal local/stack variable
 	class Server {
 		friend class Monitor;

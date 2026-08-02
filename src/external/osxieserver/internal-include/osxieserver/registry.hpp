@@ -33,7 +33,7 @@
 
 #include <osxieserver/message.hpp>
 
-namespace DarlingServer {
+namespace OsxieServer {
 	// for our purposes, a simple uint64_t is good enough
 	using EternalID = uint64_t;
 	static constexpr EternalID EternalIDInvalid = std::numeric_limits<EternalID>::max();
@@ -301,12 +301,12 @@ namespace DarlingServer {
 };
 
 template<class T>
-thread_local bool DarlingServer::Registry<T>::_registeringWithLockHeld = false;
+thread_local bool OsxieServer::Registry<T>::_registeringWithLockHeld = false;
 
 #include <osxieserver/process.hpp>
 #include <osxieserver/thread.hpp>
 
-namespace DarlingServer {
+namespace OsxieServer {
 	Registry<Process>& processRegistry();
 	Registry<Thread>& threadRegistry();
 };

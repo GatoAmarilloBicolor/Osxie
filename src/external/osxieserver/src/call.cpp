@@ -29,11 +29,11 @@
 #include <sys/syscall.h>
 #include <osxieserver/kqchan.hpp>
 
-static DarlingServer::Log callLog("calls");
+static OsxieServer::Log callLog("calls");
 
-DarlingServer::Log DarlingServer::Call::rpcReplyLog("replies");
+OsxieServer::Log OsxieServer::Call::rpcReplyLog("replies");
 
-std::shared_ptr<DarlingServer::Call> DarlingServer::Call::callFromMessage(Message&& requestMessage) {
+std::shared_ptr<OsxieServer::Call> OsxieServer::Call::callFromMessage(Message&& requestMessage) {
 	if (requestMessage.data().size() < sizeof(dserver_rpc_callhdr_t)) {
 		throw std::invalid_argument("Message buffer was too small for call header");
 	}
@@ -225,35 +225,35 @@ std::shared_ptr<DarlingServer::Call> DarlingServer::Call::callFromMessage(Messag
 	}
 };
 
-DarlingServer::Call::Call(std::shared_ptr<Thread> thread, Address replyAddress, dserver_rpc_callhdr_t* callHeader):
+OsxieServer::Call::Call(std::shared_ptr<Thread> thread, Address replyAddress, dserver_rpc_callhdr_t* callHeader):
 	_thread(thread),
 	_replyAddress(replyAddress),
 	_header(*callHeader)
 	{};
 
-DarlingServer::Call::~Call() {};
+OsxieServer::Call::~Call() {};
 
-std::shared_ptr<DarlingServer::Thread> DarlingServer::Call::thread() const {
+std::shared_ptr<OsxieServer::Thread> OsxieServer::Call::thread() const {
 	return _thread.lock();
 };
 
-void DarlingServer::Call::sendBasicReply(int resultCode) {
+void OsxieServer::Call::sendBasicReply(int resultCode) {
 	throw std::runtime_error("This call cannot send a basic reply");
 };
 
-void DarlingServer::Call::sendBSDReply(int resultCode, uint32_t returnValue) {
+void OsxieServer::Call::sendBSDReply(int resultCode, uint32_t returnValue) {
 	throw std::runtime_error("This call cannot send a BSD reply");
 };
 
-bool DarlingServer::Call::isXNUTrap() const {
+bool OsxieServer::Call::isXNUTrap() const {
 	return false;
 };
 
-bool DarlingServer::Call::isBSDTrap() const {
+bool OsxieServer::Call::isBSDTrap() const {
 	return false;
 };
 
-void DarlingServer::Call::sendReply(Message&& reply) {
+void OsxieServer::Call::sendReply(Message&& reply) {
 	Server::sharedInstance().sendMessage(std::move(reply));
 };
 
@@ -289,7 +289,7 @@ void DarlingServer::Call::sendReply(Message&& reply) {
  *
  */
 
-void DarlingServer::Call::Checkin::processCall() {
+void OsxieServer::Call::Checkin::processCall() {
 	// the Call instance creation already took care of registering the process and thread.
 
 	int code = 0;
@@ -309,7 +309,7 @@ void DarlingServer::Call::Checkin::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::Checkout::processCall() {
+void OsxieServer::Call::Checkout::processCall() {
 	int code = 0;
 
 	if (auto thread = _thread.lock()) {
@@ -331,10 +331,10 @@ void DarlingServer::Call::Checkout::processCall() {
 						auto fd = std::make_shared<FD>(_body.exec_listener_pipe);
 						_body.exec_listener_pipe = -1; // the FD instance now owns the descriptor
 
-						auto replacingWithDarlingProcess = _body.executing_macho;
+						auto replacingWithOsxieProcess = _body.executing_macho;
 
 						std::weak_ptr<Process> weakProcess = process;
-						Server::sharedInstance().addMonitor(std::make_shared<Monitor>(fd, Monitor::Event::HangUp, false, true, [fd, weakProcess, replacingWithDarlingProcess](std::shared_ptr<Monitor> monitor, Monitor::Event events) {
+						Server::sharedInstance().addMonitor(std::make_shared<Monitor>(fd, Monitor::Event::HangUp, false, true, [fd, weakProcess, replacingWithOsxieProcess](std::shared_ptr<Monitor> monitor, Monitor::Event events) {
 							Server::sharedInstance().removeMonitor(monitor);
 
 							auto process = weakProcess.lock();
@@ -354,7 +354,7 @@ void DarlingServer::Call::Checkout::processCall() {
 
 							if (result == 0) {
 								// the execve succeeded
-								if (replacingWithDarlingProcess) {
+								if (replacingWithOsxieProcess) {
 									process->setPendingReplacement();
 								} else {
 									// the Osxie process was replaced with a non-Osxie process
@@ -387,7 +387,7 @@ void DarlingServer::Call::Checkout::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::VchrootPath::processCall() {
+void OsxieServer::Call::VchrootPath::processCall() {
 	int code = 0;
 	size_t fullLength = 0;
 
@@ -414,27 +414,27 @@ void DarlingServer::Call::VchrootPath::processCall() {
 	_sendReply(code, fullLength);
 };
 
-void DarlingServer::Call::TaskSelfTrap::processCall() {
+void OsxieServer::Call::TaskSelfTrap::processCall() {
 	const auto taskSelfPort = dtape_task_self_trap();
 	_sendReply(0, taskSelfPort);
 };
 
-void DarlingServer::Call::HostSelfTrap::processCall() {
+void OsxieServer::Call::HostSelfTrap::processCall() {
 	const auto hostSelfPort = dtape_host_self_trap();
 	_sendReply(0, hostSelfPort);
 };
 
-void DarlingServer::Call::ThreadSelfTrap::processCall() {
+void OsxieServer::Call::ThreadSelfTrap::processCall() {
 	const auto threadSelfPort = dtape_thread_self_trap();
 	_sendReply(0, threadSelfPort);
 };
 
-void DarlingServer::Call::MachReplyPort::processCall() {
+void OsxieServer::Call::MachReplyPort::processCall() {
 	const auto machReplyPort = dtape_mach_reply_port();
 	_sendReply(0, machReplyPort);
 };
 
-void DarlingServer::Call::Kprintf::processCall() {
+void OsxieServer::Call::Kprintf::processCall() {
 	static auto kprintfLog = Log("kprintf");
 	int code = 0;
 
@@ -472,7 +472,7 @@ void DarlingServer::Call::Kprintf::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::StartedSuspended::processCall() {
+void OsxieServer::Call::StartedSuspended::processCall() {
 	int code = 0;
 	bool suspended = false;
 
@@ -490,7 +490,7 @@ void DarlingServer::Call::StartedSuspended::processCall() {
 	_sendReply(code, suspended);
 };
 
-void DarlingServer::Call::GetTracer::processCall() {
+void OsxieServer::Call::GetTracer::processCall() {
 	int code = 0;
 	int32_t tracer = 0;
 
@@ -511,7 +511,7 @@ void DarlingServer::Call::GetTracer::processCall() {
 	_sendReply(code, tracer);
 };
 
-void DarlingServer::Call::Uidgid::processCall() {
+void OsxieServer::Call::Uidgid::processCall() {
 	int code = 0;
 	int uid = -1;
 	int gid = -1;
@@ -531,7 +531,7 @@ void DarlingServer::Call::Uidgid::processCall() {
 	_sendReply(code, uid, gid);
 };
 
-void DarlingServer::Call::SetThreadHandles::processCall() {
+void OsxieServer::Call::SetThreadHandles::processCall() {
 	int code = 0;
 
 	if (auto thread = _thread.lock()) {
@@ -543,7 +543,7 @@ void DarlingServer::Call::SetThreadHandles::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::Vchroot::processCall() {
+void OsxieServer::Call::Vchroot::processCall() {
 	int code = 0;
 
 	// TODO: wrap all `processCall` calls in try-catch like this
@@ -567,7 +567,7 @@ void DarlingServer::Call::Vchroot::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::MldrPath::processCall() {
+void OsxieServer::Call::MldrPath::processCall() {
 	int code = 0;
 	uint64_t fullLength = 0;
 
@@ -592,15 +592,15 @@ void DarlingServer::Call::MldrPath::processCall() {
 	_sendReply(code, fullLength);
 };
 
-void DarlingServer::Call::ThreadGetSpecialReplyPort::processCall() {
+void OsxieServer::Call::ThreadGetSpecialReplyPort::processCall() {
 	_sendReply(0, dtape_thread_get_special_reply_port());
 };
 
-void DarlingServer::Call::MkTimerCreate::processCall() {
+void OsxieServer::Call::MkTimerCreate::processCall() {
 	_sendReply(0, dtape_mk_timer_create());
 };
 
-void DarlingServer::Call::PthreadKill::processCall() {
+void OsxieServer::Call::PthreadKill::processCall() {
 	int code = 0;
 
 	if (auto targetThread = Thread::threadForPort(_body.thread_port)) {
@@ -616,7 +616,7 @@ void DarlingServer::Call::PthreadKill::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::PthreadCanceled::processCall() {
+void OsxieServer::Call::PthreadCanceled::processCall() {
 	int code = 0;
 
 	callLog.warning() << "TODO: " << __PRETTY_FUNCTION__ << callLog.endLog;
@@ -625,7 +625,7 @@ void DarlingServer::Call::PthreadCanceled::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::PthreadMarkcancel::processCall() {
+void OsxieServer::Call::PthreadMarkcancel::processCall() {
 	int code = 0;
 
 	if (auto targetThread = Thread::threadForPort(_body.thread_port)) {
@@ -638,7 +638,7 @@ void DarlingServer::Call::PthreadMarkcancel::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::KqchanMachPortOpen::processCall() {
+void OsxieServer::Call::KqchanMachPortOpen::processCall() {
 	int code = 0;
 	int socket = -1;
 
@@ -666,7 +666,7 @@ void DarlingServer::Call::KqchanMachPortOpen::processCall() {
 	_sendReply(code, socket);
 };
 
-void DarlingServer::Call::KqchanProcOpen::processCall() {
+void OsxieServer::Call::KqchanProcOpen::processCall() {
 	int code = 0;
 	int socket = -1;
 
@@ -694,7 +694,7 @@ void DarlingServer::Call::KqchanProcOpen::processCall() {
 	_sendReply(code, socket);
 };
 
-void DarlingServer::Call::ForkWaitForChild::processCall() {
+void OsxieServer::Call::ForkWaitForChild::processCall() {
 	int code = 0;
 
 	if (auto thread = _thread.lock()) {
@@ -710,7 +710,7 @@ void DarlingServer::Call::ForkWaitForChild::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::Sigprocess::processCall() {
+void OsxieServer::Call::Sigprocess::processCall() {
 	int code = 0;
 	int newBSDSignal = 0;
 
@@ -728,7 +728,7 @@ void DarlingServer::Call::Sigprocess::processCall() {
 	_sendReply(code, newBSDSignal);
 };
 
-void DarlingServer::Call::TaskIs64Bit::processCall() {
+void OsxieServer::Call::TaskIs64Bit::processCall() {
 	int code = 0;
 	bool is64Bit = false;
 
@@ -742,13 +742,13 @@ void DarlingServer::Call::TaskIs64Bit::processCall() {
 	_sendReply(code, is64Bit);
 };
 
-void DarlingServer::Call::InterruptEnter::processCall() {
+void OsxieServer::Call::InterruptEnter::processCall() {
 	Thread::_handleInterruptEnterForCurrentThread();
 
 	_sendReply(0);
 };
 
-void DarlingServer::Call::InterruptExit::processCall() {
+void OsxieServer::Call::InterruptExit::processCall() {
 	auto thread = _thread.lock();
 
 	dtape_thread_sigexc_exit(thread->_dtapeThread);
@@ -770,7 +770,7 @@ void DarlingServer::Call::InterruptExit::processCall() {
 	}
 };
 
-void DarlingServer::Call::ConsoleOpen::processCall() {
+void OsxieServer::Call::ConsoleOpen::processCall() {
 	static Log consoleLog("console");
 
 	int code = 0;
@@ -844,7 +844,7 @@ void DarlingServer::Call::ConsoleOpen::processCall() {
 	_sendReply(code, sockets[1]);
 };
 
-void DarlingServer::Call::SetDyldInfo::processCall() {
+void OsxieServer::Call::SetDyldInfo::processCall() {
 	int code = 0;
 
 	if (auto thread = _thread.lock()) {
@@ -860,7 +860,7 @@ void DarlingServer::Call::SetDyldInfo::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::StopAfterExec::processCall() {
+void OsxieServer::Call::StopAfterExec::processCall() {
 	int code = 0;
 
 	if (auto thread = _thread.lock()) {
@@ -876,7 +876,7 @@ void DarlingServer::Call::StopAfterExec::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::SetTracer::processCall() {
+void OsxieServer::Call::SetTracer::processCall() {
 	int code = 0;
 	std::shared_ptr<Process> targetProcess = nullptr;
 	std::shared_ptr<Process> tracerProcess = nullptr;
@@ -919,7 +919,7 @@ void DarlingServer::Call::SetTracer::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::TidForThread::processCall() {
+void OsxieServer::Call::TidForThread::processCall() {
 	int code = 0;
 	int32_t tid = 0;
 
@@ -933,7 +933,7 @@ void DarlingServer::Call::TidForThread::processCall() {
 	_sendReply(code, tid);
 };
 
-void DarlingServer::Call::PtraceSigexc::processCall() {
+void OsxieServer::Call::PtraceSigexc::processCall() {
 	int code = 0;
 
 	if (auto maybeProcess = processRegistry().lookupEntryByNSID(_body.target)) {
@@ -949,7 +949,7 @@ void DarlingServer::Call::PtraceSigexc::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::PtraceThupdate::processCall() {
+void OsxieServer::Call::PtraceThupdate::processCall() {
 	int code = 0;
 
 	if (auto maybeThread = threadRegistry().lookupEntryByNSID(_body.target)) {
@@ -964,7 +964,7 @@ void DarlingServer::Call::PtraceThupdate::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::ThreadSuspended::processCall() {
+void OsxieServer::Call::ThreadSuspended::processCall() {
 	int code = 0;
 
 	if (auto thread = _thread.lock()) {
@@ -976,7 +976,7 @@ void DarlingServer::Call::ThreadSuspended::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::S2CPerform::processCall() {
+void OsxieServer::Call::S2CPerform::processCall() {
 	int code = 0;
 
 	if (auto thread = _thread.lock()) {
@@ -989,7 +989,7 @@ void DarlingServer::Call::S2CPerform::processCall() {
 	_sendReply(code);
 };
 
-void DarlingServer::Call::SetExecutablePath::processCall() {
+void OsxieServer::Call::SetExecutablePath::processCall() {
 	int code = 0;
 
 	if (auto thread = _thread.lock()) {
@@ -1011,7 +1011,7 @@ void DarlingServer::Call::SetExecutablePath::processCall() {
 	_sendReply(code);
 }
 
-void DarlingServer::Call::GetExecutablePath::processCall() {
+void OsxieServer::Call::GetExecutablePath::processCall() {
 	int code = 0;
 	uint64_t fullLength;
 
@@ -1040,7 +1040,7 @@ void DarlingServer::Call::GetExecutablePath::processCall() {
 	_sendReply(code, fullLength);
 }
 
-void DarlingServer::Call::Groups::processCall() {
+void OsxieServer::Call::Groups::processCall() {
 	int code = 0;
 	std::vector<uint32_t> oldGroups;
 
@@ -1075,7 +1075,7 @@ void DarlingServer::Call::Groups::processCall() {
 	_sendReply(code, oldGroups.size());
 };
 
-void DarlingServer::Call::DebugListProcesses::processCall() {
+void OsxieServer::Call::DebugListProcesses::processCall() {
 	int code = 0;
 	auto processes = processRegistry().copyEntries();
 	int pipes[2] = {-1, -1};
@@ -1095,7 +1095,7 @@ void DarlingServer::Call::DebugListProcesses::processCall() {
 	_sendReply(code, processes.size(), pipes[0]);
 };
 
-void DarlingServer::Call::DebugListPorts::processCall() {
+void OsxieServer::Call::DebugListPorts::processCall() {
 	int code = 0;
 	uint64_t portCount = 0;
 	int pipes[2] = {-1, -1};
@@ -1126,7 +1126,7 @@ void DarlingServer::Call::DebugListPorts::processCall() {
 	_sendReply(code, portCount, pipes[0]);
 };
 
-void DarlingServer::Call::DebugListMembers::processCall() {
+void OsxieServer::Call::DebugListMembers::processCall() {
 	int code = 0;
 	uint64_t portCount = 0;
 	int pipes[2] = {-1, -1};
@@ -1157,7 +1157,7 @@ void DarlingServer::Call::DebugListMembers::processCall() {
 	_sendReply(code, portCount, pipes[0]);
 };
 
-void DarlingServer::Call::DebugListMessages::processCall() {
+void OsxieServer::Call::DebugListMessages::processCall() {
 	int code = 0;
 	uint64_t portCount = 0;
 	int pipes[2] = {-1, -1};

@@ -268,7 +268,7 @@ void spawnLaunchd(const char* prefix)
 
 	setenv("__mldr_DYLD_ROOT_PATH", LIBEXEC_PATH, 1);
 	setenv("__mldr_sockpath", tmp.c_str(), 1);
-	execl(DarlingServer::Config::defaultMldrPath.data(), "mldr!" LIBEXEC_PATH "/usr/libexec/osxie/vchroot", "vchroot", prefix, initPath, NULL);
+	execl(OsxieServer::Config::defaultMldrPath.data(), "mldr!" LIBEXEC_PATH "/usr/libexec/osxie/vchroot", "vchroot", prefix, initPath, NULL);
 
 	fprintf(stderr, "Failed to exec launchd: %s\n", strerror(errno));
 	abort();
@@ -745,7 +745,7 @@ int main(int argc, char** argv) {
 #endif
 
 	// create the server
-	auto server = new DarlingServer::Server(prefix);
+	auto server = new OsxieServer::Server(prefix);
 
 	// tell the child to go ahead; the socket has been created
 	write(childWaitFDs[1], ".", 1);

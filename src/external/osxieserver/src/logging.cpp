@@ -26,13 +26,13 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-#define DEFAULT_LOG_CUTOFF DarlingServer::Log::Type::Error
+#define DEFAULT_LOG_CUTOFF OsxieServer::Log::Type::Error
 
 static const char* alwaysLoggedCategories[] = {
 	//"kprintf",
 };
 
-DarlingServer::Log::Log(std::string category):
+OsxieServer::Log::Log(std::string category):
 	_category(category)
 {
 	for (size_t i = 0; i < sizeof(alwaysLoggedCategories) / sizeof(*alwaysLoggedCategories); ++i) {
@@ -43,16 +43,16 @@ DarlingServer::Log::Log(std::string category):
 	}
 };
 
-DarlingServer::Log::Stream::Stream(Type type, const Log& log):
+OsxieServer::Log::Stream::Stream(Type type, const Log& log):
 	_type(type),
 	_log(log)
 	{};
 
-DarlingServer::Log::Stream::~Stream() {
+OsxieServer::Log::Stream::~Stream() {
 	*this << endLog;
 };
 
-DarlingServer::Log::Stream& DarlingServer::Log::Stream::operator<<(EndLog value) {
+OsxieServer::Log::Stream& OsxieServer::Log::Stream::operator<<(EndLog value) {
 	auto str = _buffer.str();
 	if (!str.empty()) {
 		_log._log(_type, str);
@@ -62,28 +62,28 @@ DarlingServer::Log::Stream& DarlingServer::Log::Stream::operator<<(EndLog value)
 	return *this;
 };
 
-DarlingServer::Log::Stream& DarlingServer::Log::Stream::operator<<(const Loggable& loggable) {
+OsxieServer::Log::Stream& OsxieServer::Log::Stream::operator<<(const Loggable& loggable) {
 	loggable.logToStream(*this);
 	return *this;
 };
 
-DarlingServer::Log::Stream DarlingServer::Log::debug() const {
+OsxieServer::Log::Stream OsxieServer::Log::debug() const {
 	return Stream(Type::Debug, *this);
 };
 
-DarlingServer::Log::Stream DarlingServer::Log::info() const {
+OsxieServer::Log::Stream OsxieServer::Log::info() const {
 	return Stream(Type::Info, *this);
 };
 
-DarlingServer::Log::Stream DarlingServer::Log::warning() const {
+OsxieServer::Log::Stream OsxieServer::Log::warning() const {
 	return Stream(Type::Warning, *this);
 };
 
-DarlingServer::Log::Stream DarlingServer::Log::error() const {
+OsxieServer::Log::Stream OsxieServer::Log::error() const {
 	return Stream(Type::Error, *this);
 };
 
-std::string DarlingServer::Log::_typeToString(Type type) {
+std::string OsxieServer::Log::_typeToString(Type type) {
 	switch (type) {
 		case Type::Debug:
 			return "Debug";
@@ -98,7 +98,7 @@ std::string DarlingServer::Log::_typeToString(Type type) {
 	}
 };
 
-void DarlingServer::Log::_log(Type type, std::string message) const {
+void OsxieServer::Log::_log(Type type, std::string message) const {
 	// NOTE: we use POSIX file APIs because we want to append each message to the log file atomically,
 	//       and as far as i can tell, C++ fstreams provide no such guarantee (that they won't write in chunks).
 	static int logFile = []() {

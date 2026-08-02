@@ -32,7 +32,7 @@
 
 #include <osxieserver/config.hpp>
 
-namespace DarlingServer {
+namespace OsxieServer {
 	template<class WorkItem>
 	class WorkQueue {
 	private:

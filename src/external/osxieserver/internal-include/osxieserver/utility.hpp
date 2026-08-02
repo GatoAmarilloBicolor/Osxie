@@ -1,7 +1,7 @@
 #ifndef _OSXIESERVER_UTILITY_HPP_
 #define _OSXIESERVER_UTILITY_HPP_
 
-namespace DarlingServer {
+namespace OsxieServer {
 	/**
 	 * A RAII wrapper for POSIX file descriptors.
 	 */

@@ -29,7 +29,7 @@
 #include <optional>
 #include <functional>
 
-namespace DarlingServer {
+namespace OsxieServer {
 	class Address {
 	private:
 		struct sockaddr_un _address;

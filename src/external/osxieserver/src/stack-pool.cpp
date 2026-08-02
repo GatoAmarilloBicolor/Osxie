@@ -28,15 +28,15 @@
 	#include <sanitizer/asan_interface.h>
 #endif
 
-bool DarlingServer::StackPool::Stack::isValid() const {
+bool OsxieServer::StackPool::Stack::isValid() const {
 	return base != nullptr && size != 0;
 };
 
-DarlingServer::StackPool::Stack::operator bool() const {
+OsxieServer::StackPool::Stack::operator bool() const {
 	return isValid();
 };
 
-DarlingServer::StackPool::StackPool(size_t idleStackCount, size_t stackSize, bool useGuardPages):
+OsxieServer::StackPool::StackPool(size_t idleStackCount, size_t stackSize, bool useGuardPages):
 	_idleStackCount(idleStackCount),
 	_stackSize(stackSize),
 	_useGuardPages(useGuardPages)
@@ -46,7 +46,7 @@ DarlingServer::StackPool::StackPool(size_t idleStackCount, size_t stackSize, boo
 	}
 };
 
-void* DarlingServer::StackPool::_allocate(size_t stackSize, bool useGuardPages) {
+void* OsxieServer::StackPool::_allocate(size_t stackSize, bool useGuardPages) {
 	void* stack = NULL;
 	size_t pageSize = sysconf(_SC_PAGESIZE);
 
@@ -69,7 +69,7 @@ void* DarlingServer::StackPool::_allocate(size_t stackSize, bool useGuardPages) 
 	return stack;
 };
 
-void DarlingServer::StackPool::_free(void* stack, size_t stackSize, bool useGuardPages) {
+void OsxieServer::StackPool::_free(void* stack, size_t stackSize, bool useGuardPages) {
 	size_t pageSize = sysconf(_SC_PAGESIZE);
 
 	if (useGuardPages) {
@@ -83,7 +83,7 @@ void DarlingServer::StackPool::_free(void* stack, size_t stackSize, bool useGuar
 	}
 };
 
-void DarlingServer::StackPool::allocate(Stack& stack) {
+void OsxieServer::StackPool::allocate(Stack& stack) {
 	std::scoped_lock lock(_mutex);
 
 	if (_stacks.size() > 0) {
@@ -102,7 +102,7 @@ void DarlingServer::StackPool::allocate(Stack& stack) {
 	}
 };
 
-void DarlingServer::StackPool::free(Stack& stack) {
+void OsxieServer::StackPool::free(Stack& stack) {
 	std::scoped_lock lock(_mutex);
 
 	// for now, we only support a single standard stack size and guard page usage

@@ -53,7 +53,7 @@
 #define USE_THREAD_GUARD_PAGES 1
 #define IDLE_THREAD_STACK_COUNT 8
 
-static thread_local std::shared_ptr<DarlingServer::Thread> currentThreadVar = nullptr;
+static thread_local std::shared_ptr<OsxieServer::Thread> currentThreadVar = nullptr;
 static thread_local bool returningToThreadTop = false;
 static thread_local ucontext_t backToThreadTopContext;
 static thread_local libsimple_lock_t* unlockMeWhenSuspending = nullptr;
@@ -75,11 +75,11 @@ static thread_local uint64_t interruptDisableCount = 0;
 	static thread_local size_t asanOldStackSize = 0;
 #endif
 
-static DarlingServer::Log threadLog("thread");
+static OsxieServer::Log threadLog("thread");
 
-DarlingServer::StackPool DarlingServer::Thread::stackPool(IDLE_THREAD_STACK_COUNT, THREAD_STACK_SIZE, USE_THREAD_GUARD_PAGES);
+OsxieServer::StackPool OsxieServer::Thread::stackPool(IDLE_THREAD_STACK_COUNT, THREAD_STACK_SIZE, USE_THREAD_GUARD_PAGES);
 
-DarlingServer::Thread::Thread(std::shared_ptr<Process> process, NSID nsid, void* stackHint):
+OsxieServer::Thread::Thread(std::shared_ptr<Process> process, NSID nsid, void* stackHint):
 	_nstid(nsid),
 	_process(process)
 {
@@ -185,7 +185,7 @@ DarlingServer::Thread::Thread(std::shared_ptr<Process> process, NSID nsid, void*
 	threadLog.info() << "New thread created with ID " << _tid << " and NSID " << _nstid << " for process with ID " << (process ? process->id() : -1) << " and NSID " << (process ? process->nsid() : -1);
 };
 
-DarlingServer::Thread::Thread(KernelThreadConstructorTag tag):
+OsxieServer::Thread::Thread(KernelThreadConstructorTag tag):
 	_tid(-1),
 	_process(Process::kernelProcess())
 {
@@ -202,12 +202,12 @@ DarlingServer::Thread::Thread(KernelThreadConstructorTag tag):
 	_dtapeThread = dtape_thread_create(Process::kernelProcess()->_dtapeTask, _nstid, this);
 };
 
-void DarlingServer::Thread::registerWithProcess() {
+void OsxieServer::Thread::registerWithProcess() {
 	std::unique_lock lock(_process->_rwlock);
 	_process->_threads[_nstid] = shared_from_this();
 };
 
-DarlingServer::Thread::~Thread() noexcept(false) {
+OsxieServer::Thread::~Thread() noexcept(false) {
 	threadLog.info() << *this << ": thread being destroyed" << threadLog.endLog;
 
 	if (_stack.isValid()) {
@@ -239,32 +239,32 @@ DarlingServer::Thread::~Thread() noexcept(false) {
 	}
 };
 
-DarlingServer::Thread::ID DarlingServer::Thread::id() const {
+OsxieServer::Thread::ID OsxieServer::Thread::id() const {
 	return _tid;
 };
 
-DarlingServer::Thread::NSID DarlingServer::Thread::nsid() const {
+OsxieServer::Thread::NSID OsxieServer::Thread::nsid() const {
 	return _nstid;
 };
 
-DarlingServer::EternalID DarlingServer::Thread::eternalID() const {
+OsxieServer::EternalID OsxieServer::Thread::eternalID() const {
 	return _eid;
 };
 
-void DarlingServer::Thread::_setEternalID(EternalID eid) {
+void OsxieServer::Thread::_setEternalID(EternalID eid) {
 	_eid = eid;
 };
 
-std::shared_ptr<DarlingServer::Process> DarlingServer::Thread::process() const {
+std::shared_ptr<OsxieServer::Process> OsxieServer::Thread::process() const {
 	return _process;
 };
 
-std::shared_ptr<DarlingServer::Call> DarlingServer::Thread::pendingCall() const {
+std::shared_ptr<OsxieServer::Call> OsxieServer::Thread::pendingCall() const {
 	std::shared_lock lock(_rwlock);
 	return _pendingCall;
 };
 
-void DarlingServer::Thread::setPendingCall(std::shared_ptr<Call> newPendingCall) {
+void OsxieServer::Thread::setPendingCall(std::shared_ptr<Call> newPendingCall) {
 	std::unique_lock lock(_rwlock);
 	if (newPendingCall && _pendingCall) {
 		if (newPendingCall->number() == Call::Number::InterruptEnter) {
@@ -280,44 +280,44 @@ void DarlingServer::Thread::setPendingCall(std::shared_ptr<Call> newPendingCall)
 	_pendingCall = newPendingCall;
 };
 
-std::shared_ptr<DarlingServer::Call> DarlingServer::Thread::activeCall() const {
+std::shared_ptr<OsxieServer::Call> OsxieServer::Thread::activeCall() const {
 	std::shared_lock lock(_rwlock);
 	return _activeCall;
 };
 
-void DarlingServer::Thread::makePendingCallActive() {
+void OsxieServer::Thread::makePendingCallActive() {
 	std::unique_lock lock(_rwlock);
 	_activeCall = _pendingCall;
 	_pendingCall = nullptr;
 };
 
-void DarlingServer::Thread::_deactivateCallLocked(std::shared_ptr<Call> expectedCall) {
+void OsxieServer::Thread::_deactivateCallLocked(std::shared_ptr<Call> expectedCall) {
 	if ((_interruptedForSignal ? _interrupts.top().interruptedCall : _activeCall).get() != expectedCall.get()) {
 		throw std::runtime_error("Upon deactivating the active call found active/interrupted call != expected call");
 	}
 	(_interruptedForSignal ? _interrupts.top().interruptedCall : _activeCall) = nullptr;
 };
 
-void DarlingServer::Thread::deactivateCall(std::shared_ptr<Call> expectedCall) {
+void OsxieServer::Thread::deactivateCall(std::shared_ptr<Call> expectedCall) {
 	std::unique_lock lock(_rwlock);
 	_deactivateCallLocked(expectedCall);
 };
 
-DarlingServer::Address DarlingServer::Thread::address() const {
+OsxieServer::Address OsxieServer::Thread::address() const {
 	std::shared_lock lock(_rwlock);
 	return _address;
 };
 
-void DarlingServer::Thread::setAddress(Address address) {
+void OsxieServer::Thread::setAddress(Address address) {
 	std::unique_lock lock(_rwlock);
 	_address = address;
 };
 
-void DarlingServer::Thread::setThreadHandles(uintptr_t pthreadHandle, uintptr_t dispatchQueueAddress) {
+void OsxieServer::Thread::setThreadHandles(uintptr_t pthreadHandle, uintptr_t dispatchQueueAddress) {
 	dtape_thread_set_handles(_dtapeThread, pthreadHandle, dispatchQueueAddress);
 };
 
-bool DarlingServer::Thread::waitingForReply() const {
+bool OsxieServer::Thread::waitingForReply() const {
 	std::shared_lock lock(_rwlock);
 	return !!_activeCall;
 };
@@ -332,10 +332,10 @@ bool DarlingServer::Thread::waitingForReply() const {
  * Using actual threads for each managed thread would be much simpler and far less hacky, but far more resource-intensive.
  */
 
-static const auto microthreadLog = DarlingServer::Log("microthread");
+static const auto microthreadLog = OsxieServer::Log("microthread");
 
 // this runs in the context of the microthread (i.e. with the microthread's stack active)
-void DarlingServer::Thread::microthreadWorker() {
+void OsxieServer::Thread::microthreadWorker() {
 #if DSERVER_ASAN
 	__sanitizer_finish_switch_fiber(asanOldFakeStack, &asanOldStackBottom, &asanOldStackSize);
 	asanOldFakeStack = nullptr;
@@ -362,7 +362,7 @@ void DarlingServer::Thread::microthreadWorker() {
 	__builtin_unreachable();
 };
 
-void DarlingServer::Thread::microthreadContinuation() {
+void OsxieServer::Thread::microthreadContinuation() {
 #if DSERVER_ASAN
 	__sanitizer_finish_switch_fiber(asanOldFakeStack, &asanOldStackBottom, &asanOldStackSize);
 	asanOldFakeStack = nullptr;
@@ -392,7 +392,7 @@ void DarlingServer::Thread::microthreadContinuation() {
 	__builtin_unreachable();
 };
 
-void DarlingServer::Thread::doWork() {
+void OsxieServer::Thread::doWork() {
 	// NOTE: this method MUST NOT use any local variables that require destructors.
 	//       this method is actually major UB because the compiler is free to do whatever it likes with the stack,
 	//       but we know what reasonable compilers (i.e. GCC and Clang) do with it and we're specifically targeting Clang, so it's okay for us.
@@ -587,7 +587,7 @@ doneWorking:
 	return;
 };
 
-void DarlingServer::Thread::suspend(std::function<void()> continuationCallback, libsimple_lock_t* unlockMe) {
+void OsxieServer::Thread::suspend(std::function<void()> continuationCallback, libsimple_lock_t* unlockMe) {
 	if (this != currentThreadVar.get()) {
 		throw std::runtime_error("Attempt to suspend thread other than current thread");
 	}
@@ -638,7 +638,7 @@ void DarlingServer::Thread::suspend(std::function<void()> continuationCallback, 
 	}
 };
 
-void DarlingServer::Thread::resume() {
+void OsxieServer::Thread::resume() {
 	{
 		std::shared_lock lock(_rwlock);
 		if (!_suspended) {
@@ -650,7 +650,7 @@ void DarlingServer::Thread::resume() {
 	Server::sharedInstance().scheduleThread(shared_from_this());
 };
 
-void DarlingServer::Thread::terminate() {
+void OsxieServer::Thread::terminate() {
 	if (_process) {
 		if (_process.get() != Process::kernelProcess().get()) {
 			throw std::runtime_error("terminate() called on non-kernel thread");
@@ -682,23 +682,23 @@ void DarlingServer::Thread::terminate() {
 	}
 };
 
-std::shared_ptr<DarlingServer::Thread> DarlingServer::Thread::currentThread() {
+std::shared_ptr<OsxieServer::Thread> OsxieServer::Thread::currentThread() {
 	return currentThreadVar;
 };
 
-void DarlingServer::Thread::setupKernelThread(std::function<void()> startupCallback) {
+void OsxieServer::Thread::setupKernelThread(std::function<void()> startupCallback) {
 	std::unique_lock lock(_rwlock);
 	_continuationCallback = startupCallback;
 	_suspended = true;
 	getcontext(&_resumeContext);
 };
 
-void DarlingServer::Thread::startKernelThread(std::function<void()> startupCallback) {
+void OsxieServer::Thread::startKernelThread(std::function<void()> startupCallback) {
 	setupKernelThread(startupCallback);
 	resume();
 };
 
-void DarlingServer::Thread::impersonate(std::shared_ptr<Thread> thread) {
+void OsxieServer::Thread::impersonate(std::shared_ptr<Thread> thread) {
 	std::shared_ptr<Thread> oldThread;
 
 	if (thread) {
@@ -729,22 +729,22 @@ void DarlingServer::Thread::impersonate(std::shared_ptr<Thread> thread) {
 	}
 };
 
-std::shared_ptr<DarlingServer::Thread> DarlingServer::Thread::impersonatingThread() const {
+std::shared_ptr<OsxieServer::Thread> OsxieServer::Thread::impersonatingThread() const {
 	std::shared_lock lock(_rwlock);
 	return _impersonating;
 };
 
-void DarlingServer::Thread::interruptDisable() {
+void OsxieServer::Thread::interruptDisable() {
 	++interruptDisableCount;
 };
 
-void DarlingServer::Thread::interruptEnable() {
+void OsxieServer::Thread::interruptEnable() {
 	if (interruptDisableCount-- == 0) {
 		throw std::runtime_error("interruptEnable() called when already enabled");
 	}
 };
 
-void DarlingServer::Thread::syscallReturn(int resultCode) {
+void OsxieServer::Thread::syscallReturn(int resultCode) {
 	if (!currentThreadVar) {
 		throw std::runtime_error("syscallReturn() called with no current thread");
 	}
@@ -790,11 +790,11 @@ static std::queue<std::function<void()>> kernelAsyncRunnerQueue;
 static libsimple_lock_t kernelAsyncRunnerQueueLock;
 static dtape_semaphore_t* kernelAsyncRunnerQueueSempahore = nullptr;
 static uint64_t kernelAsyncRunnersAvailable = 0;
-static std::vector<std::shared_ptr<DarlingServer::Thread>> permanentKernelAsyncRunners;
+static std::vector<std::shared_ptr<OsxieServer::Thread>> permanentKernelAsyncRunners;
 
 #define MAX_PERMANENT_KERNEL_RUNNERS 10
 
-static void kernelAsyncRunnerThreadWorker(bool permanent, std::shared_ptr<DarlingServer::Thread> self) {
+static void kernelAsyncRunnerThreadWorker(bool permanent, std::shared_ptr<OsxieServer::Thread> self) {
 	do {
 		// we're going to wait for work; we're available now.
 		libsimple_lock_lock(&kernelAsyncRunnerQueueLock);
@@ -842,11 +842,11 @@ static void kernelAsyncRunnerThreadWorker(bool permanent, std::shared_ptr<Darlin
 	} while (permanent);
 
 	self = nullptr;
-	DarlingServer::Thread::currentThread()->terminate();
+	OsxieServer::Thread::currentThread()->terminate();
 	__builtin_unreachable();
 };
 
-void DarlingServer::Thread::kernelAsync(std::function<void()> fn) {
+void OsxieServer::Thread::kernelAsync(std::function<void()> fn) {
 	static bool inited = []() {
 		kernelAsyncRunnerQueueSempahore = dtape_semaphore_create(Process::kernelProcess()->_dtapeTask, 0);
 		return true;
@@ -871,7 +871,7 @@ void DarlingServer::Thread::kernelAsync(std::function<void()> fn) {
 	dtape_semaphore_up(kernelAsyncRunnerQueueSempahore);
 };
 
-void DarlingServer::Thread::kernelSync(std::function<void()> fn) {
+void OsxieServer::Thread::kernelSync(std::function<void()> fn) {
 	std::mutex mutex;
 	std::condition_variable condvar;
 	bool done = false;
@@ -896,7 +896,7 @@ void DarlingServer::Thread::kernelSync(std::function<void()> fn) {
 	}
 };
 
-std::shared_ptr<DarlingServer::Thread> DarlingServer::Thread::threadForPort(uint32_t thread_port) {
+std::shared_ptr<OsxieServer::Thread> OsxieServer::Thread::threadForPort(uint32_t thread_port) {
 	// prevent the target thread from dying by taking the global thread registry lock
 	auto registryLock = threadRegistry().scopedLock();
 
@@ -913,26 +913,26 @@ std::shared_ptr<DarlingServer::Thread> DarlingServer::Thread::threadForPort(uint
 	return thread->shared_from_this();
 };
 
-void DarlingServer::Thread::loadStateFromUser(uint64_t threadState, uint64_t floatState) {
+void OsxieServer::Thread::loadStateFromUser(uint64_t threadState, uint64_t floatState) {
 	int ret = dtape_thread_load_state_from_user(_dtapeThread, threadState, floatState);
 	if (ret != 0) {
 		throw std::system_error(-ret, std::generic_category());
 	}
 };
 
-void DarlingServer::Thread::saveStateToUser(uint64_t threadState, uint64_t floatState) {
+void OsxieServer::Thread::saveStateToUser(uint64_t threadState, uint64_t floatState) {
 	int ret = dtape_thread_save_state_to_user(_dtapeThread, threadState, floatState);
 	if (ret != 0) {
 		throw std::system_error(-ret, std::generic_category());
 	}
 };
 
-int DarlingServer::Thread::pendingSignal() const {
+int OsxieServer::Thread::pendingSignal() const {
 	std::shared_lock lock(_rwlock);
 	return (_interrupts.empty()) ? 0 : _interrupts.top().signal;
 };
 
-int DarlingServer::Thread::setPendingSignal(int signal) {
+int OsxieServer::Thread::setPendingSignal(int signal) {
 	std::unique_lock lock(_rwlock);
 	int pendingSignal;
 	if (_interrupts.empty()) {
@@ -944,7 +944,7 @@ int DarlingServer::Thread::setPendingSignal(int signal) {
 	return pendingSignal;
 };
 
-void DarlingServer::Thread::processSignal(int bsdSignalNumber, int linuxSignalNumber, int code, uintptr_t signalAddress, uintptr_t threadStateAddress, uintptr_t floatStateAddress) {
+void OsxieServer::Thread::processSignal(int bsdSignalNumber, int linuxSignalNumber, int code, uintptr_t signalAddress, uintptr_t threadStateAddress, uintptr_t floatStateAddress) {
 	loadStateFromUser(threadStateAddress, floatStateAddress);
 
 	{
@@ -968,7 +968,7 @@ void DarlingServer::Thread::processSignal(int bsdSignalNumber, int linuxSignalNu
 	saveStateToUser(threadStateAddress, floatStateAddress);
 };
 
-void DarlingServer::Thread::handleSignal(int signal) {
+void OsxieServer::Thread::handleSignal(int signal) {
 	std::unique_lock lock(_rwlock);
 	if (_processingSignal) {
 		_interrupts.top().signal = signal;
@@ -977,7 +977,7 @@ void DarlingServer::Thread::handleSignal(int signal) {
 	}
 };
 
-void DarlingServer::Thread::setPendingCallOverride(bool pendingCallOverride) {
+void OsxieServer::Thread::setPendingCallOverride(bool pendingCallOverride) {
 	std::unique_lock lock(_rwlock);
 	_pendingCallOverride = pendingCallOverride;
 };
@@ -1005,9 +1005,9 @@ void DarlingServer::Thread::setPendingCallOverride(bool pendingCallOverride) {
  * with thread trying to perform a server call).
  */
 
-static DarlingServer::Log s2cLog("s2c");
+static OsxieServer::Log s2cLog("s2c");
 
-std::optional<DarlingServer::Message> DarlingServer::Thread::_s2cPerform(Message&& call, dserver_s2c_msgnum_t expectedReplyNumber, size_t expectedReplySize) {
+std::optional<OsxieServer::Message> OsxieServer::Thread::_s2cPerform(Message&& call, dserver_s2c_msgnum_t expectedReplyNumber, size_t expectedReplySize) {
 	std::optional<Message> reply = std::nullopt;
 	bool usingInterrupt = false;
 
@@ -1115,7 +1115,7 @@ std::optional<DarlingServer::Message> DarlingServer::Thread::_s2cPerform(Message
 	return std::move(*reply);
 };
 
-uintptr_t DarlingServer::Thread::_mmap(uintptr_t address, size_t length, int protection, int flags, int fd, off_t offset, int& outErrno) {
+uintptr_t OsxieServer::Thread::_mmap(uintptr_t address, size_t length, int protection, int flags, int fd, off_t offset, int& outErrno) {
 	// XXX: not sure if we want to force all allocations in 32-bit processes to be in the 32-bit address space.
 	//      for now, we leave it up to the caller.
 #if 0
@@ -1169,7 +1169,7 @@ uintptr_t DarlingServer::Thread::_mmap(uintptr_t address, size_t length, int pro
 	return reply->address;
 };
 
-int DarlingServer::Thread::_munmap(uintptr_t address, size_t length, int& outErrno) {
+int OsxieServer::Thread::_munmap(uintptr_t address, size_t length, int& outErrno) {
 	Message callMessage(sizeof(dserver_s2c_call_munmap_t), 0);
 	auto call = reinterpret_cast<dserver_s2c_call_munmap_t*>(callMessage.data().data());
 
@@ -1196,7 +1196,7 @@ int DarlingServer::Thread::_munmap(uintptr_t address, size_t length, int& outErr
 	return reply->return_value;
 };
 
-int DarlingServer::Thread::_mprotect(uintptr_t address, size_t length, int protection, int& outErrno) {
+int OsxieServer::Thread::_mprotect(uintptr_t address, size_t length, int protection, int& outErrno) {
 	Message callMessage(sizeof(dserver_s2c_call_mprotect_t), 0);
 	auto call = reinterpret_cast<dserver_s2c_call_mprotect_t*>(callMessage.data().data());
 
@@ -1224,7 +1224,7 @@ int DarlingServer::Thread::_mprotect(uintptr_t address, size_t length, int prote
 	return reply->return_value;
 };
 
-int DarlingServer::Thread::_msync(uintptr_t address, size_t size, int sync_flags, int& outErrno) {
+int OsxieServer::Thread::_msync(uintptr_t address, size_t size, int sync_flags, int& outErrno) {
 	Message callMessage(sizeof(dserver_s2c_call_msync_t), 0);
 	auto call = reinterpret_cast<dserver_s2c_call_msync_t*>(callMessage.data().data());
 
@@ -1252,7 +1252,7 @@ int DarlingServer::Thread::_msync(uintptr_t address, size_t size, int sync_flags
 	return reply->return_value;
 };
 
-uintptr_t DarlingServer::Thread::allocatePages(size_t pageCount, int protection, uintptr_t addressHint, bool fixed, bool overwrite) {
+uintptr_t OsxieServer::Thread::allocatePages(size_t pageCount, int protection, uintptr_t addressHint, bool fixed, bool overwrite) {
 	int err = 0;
 	int flags = MAP_PRIVATE | MAP_ANONYMOUS;
 	if (fixed && overwrite) {
@@ -1267,14 +1267,14 @@ uintptr_t DarlingServer::Thread::allocatePages(size_t pageCount, int protection,
 	return result;
 };
 
-void DarlingServer::Thread::freePages(uintptr_t address, size_t pageCount) {
+void OsxieServer::Thread::freePages(uintptr_t address, size_t pageCount) {
 	int err = 0;
 	if (_munmap(address, pageCount * sysconf(_SC_PAGESIZE), err) < 0) {
 		throw std::system_error(err, std::generic_category(), "S2C munmap call failed");
 	}
 };
 
-uintptr_t DarlingServer::Thread::mapFile(int fd, size_t pageCount, int protection, uintptr_t addressHint, size_t pageOffset, bool fixed, bool overwrite) {
+uintptr_t OsxieServer::Thread::mapFile(int fd, size_t pageCount, int protection, uintptr_t addressHint, size_t pageOffset, bool fixed, bool overwrite) {
 	int err = 0;
 	int flags = MAP_SHARED;
 	if (fixed && overwrite) {
@@ -1289,35 +1289,35 @@ uintptr_t DarlingServer::Thread::mapFile(int fd, size_t pageCount, int protectio
 	return result;
 };
 
-void DarlingServer::Thread::changeProtection(uintptr_t address, size_t pageCount, int protection) {
+void OsxieServer::Thread::changeProtection(uintptr_t address, size_t pageCount, int protection) {
 	int err = 0;
 	if (_mprotect(address, pageCount * sysconf(_SC_PAGESIZE), protection, err) < 0) {
 		throw std::system_error(err, std::generic_category(), "S2C mprotect call failed");
 	}
 };
 
-void DarlingServer::Thread::syncMemory(uintptr_t address, size_t size, int sync_flags) {
+void OsxieServer::Thread::syncMemory(uintptr_t address, size_t size, int sync_flags) {
 	int err = 0;
 	if (_msync(address, size, sync_flags, err) < 0) {
 		throw std::system_error(err, std::generic_category(), "S2C msync call failed");
 	}
 };
 
-void DarlingServer::Thread::waitUntilRunning() {
+void OsxieServer::Thread::waitUntilRunning() {
 	std::shared_lock lock(_rwlock);
 	_runningCondvar.wait(lock, [&]() {
 		return _running;
 	});
 };
 
-void DarlingServer::Thread::waitUntilNotRunning() {
+void OsxieServer::Thread::waitUntilNotRunning() {
 	std::shared_lock lock(_rwlock);
 	_runningCondvar.wait(lock, [&]() {
 		return !_running;
 	});
 };
 
-void DarlingServer::Thread::_deferLocked(bool wait, std::unique_lock<std::shared_mutex>& lock) {
+void OsxieServer::Thread::_deferLocked(bool wait, std::unique_lock<std::shared_mutex>& lock) {
 	if (_deferralState == DeferralState::NotDeferred) {
 		_deferralState = DeferralState::DeferredNotPending;
 	}
@@ -1329,12 +1329,12 @@ void DarlingServer::Thread::_deferLocked(bool wait, std::unique_lock<std::shared
 	}
 };
 
-void DarlingServer::Thread::defer(bool wait) {
+void OsxieServer::Thread::defer(bool wait) {
 	std::unique_lock lock(_rwlock);
 	_deferLocked(wait, lock);
 };
 
-void DarlingServer::Thread::_undeferLocked(std::unique_lock<std::shared_mutex>& lock) {
+void OsxieServer::Thread::_undeferLocked(std::unique_lock<std::shared_mutex>& lock) {
 	DeferralState previousDeferralState;
 
 	previousDeferralState = _deferralState;
@@ -1345,20 +1345,20 @@ void DarlingServer::Thread::_undeferLocked(std::unique_lock<std::shared_mutex>& 
 	}
 };
 
-void DarlingServer::Thread::undefer() {
+void OsxieServer::Thread::undefer() {
 	std::unique_lock lock(_rwlock);
 	_undeferLocked(lock);
 };
 
-uint32_t* DarlingServer::Thread::bsdReturnValuePointer() {
+uint32_t* OsxieServer::Thread::bsdReturnValuePointer() {
 	return &_bsdReturnValue;
 };
 
-void DarlingServer::Thread::logToStream(Log::Stream& stream) const {
+void OsxieServer::Thread::logToStream(Log::Stream& stream) const {
 	stream << "[T:" << _tid << "(" << _nstid << ")]";
 };
 
-void DarlingServer::Thread::pushCallReply(std::shared_ptr<Call> expectedCall, Message&& reply) {
+void OsxieServer::Thread::pushCallReply(std::shared_ptr<Call> expectedCall, Message&& reply) {
 	std::unique_lock lock(_rwlock);
 
 	if (expectedCall) {
@@ -1378,7 +1378,7 @@ void DarlingServer::Thread::pushCallReply(std::shared_ptr<Call> expectedCall, Me
 	}
 };
 
-DarlingServer::Thread::RunState DarlingServer::Thread::getRunState() const {
+OsxieServer::Thread::RunState OsxieServer::Thread::getRunState() const {
 	auto process = this->process();
 	if (!process || isDead()) {
 		return RunState::Dead;
@@ -1413,7 +1413,7 @@ DarlingServer::Thread::RunState DarlingServer::Thread::getRunState() const {
 	}
 };
 
-void DarlingServer::Thread::waitWhileUserSuspended(uintptr_t threadStateAddress, uintptr_t floatStateAddress) {
+void OsxieServer::Thread::waitWhileUserSuspended(uintptr_t threadStateAddress, uintptr_t floatStateAddress) {
 	loadStateFromUser(threadStateAddress, floatStateAddress);
 	dtape_thread_wait_while_user_suspended(_dtapeThread);
 	try {
@@ -1425,7 +1425,7 @@ void DarlingServer::Thread::waitWhileUserSuspended(uintptr_t threadStateAddress,
 	}
 };
 
-void DarlingServer::Thread::sendSignal(int signal) const {
+void OsxieServer::Thread::sendSignal(int signal) const {
 	if (isDead()) {
 		return;
 	}
@@ -1439,7 +1439,7 @@ void DarlingServer::Thread::sendSignal(int signal) const {
 	}
 };
 
-void DarlingServer::Thread::jumpToResume(void* stack, size_t stackSize) {
+void OsxieServer::Thread::jumpToResume(void* stack, size_t stackSize) {
 #if DSERVER_ASAN
 	__sanitizer_start_switch_fiber(&asanOldFakeStack, stack, stackSize);
 #endif
@@ -1447,7 +1447,7 @@ void DarlingServer::Thread::jumpToResume(void* stack, size_t stackSize) {
 	__builtin_unreachable();
 };
 
-void DarlingServer::Thread::notifyDead() {
+void OsxieServer::Thread::notifyDead() {
 	bool canRelease = false;
 
 	{
@@ -1481,17 +1481,17 @@ void DarlingServer::Thread::notifyDead() {
 	threadRegistry().unregisterEntry(shared_from_this());
 };
 
-bool DarlingServer::Thread::isDead() const {
+bool OsxieServer::Thread::isDead() const {
 	std::shared_lock lock(_rwlock);
 	return _dead;
 };
 
-void DarlingServer::Thread::_dispose() {
+void OsxieServer::Thread::_dispose() {
 	threadLog.debug() << *this << ": dispose thread context" << threadLog.endLog;
 	_selfReference = nullptr;
 };
 
-void DarlingServer::Thread::_scheduleRelease() {
+void OsxieServer::Thread::_scheduleRelease() {
 	// schedule the duct-taped thread to be released
 	// dtape_thread_release needs a microthread context, so we call it within a kernel microthread
 	threadLog.debug() << *this << ": scheduling release" << threadLog.endLog;
@@ -1519,7 +1519,7 @@ void DarlingServer::Thread::_scheduleRelease() {
 
 static thread_local std::function<void()> interruptedContinuation = nullptr;
 
-void DarlingServer::Thread::_handleInterruptEnterForCurrentThread() {
+void OsxieServer::Thread::_handleInterruptEnterForCurrentThread() {
 	// FIXME: this currently does not work properly if the thread was suspended waiting for a lock
 
 	{

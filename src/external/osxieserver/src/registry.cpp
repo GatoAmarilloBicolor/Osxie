@@ -19,12 +19,12 @@
 
 #include <osxieserver/registry.hpp>
 
-DarlingServer::Registry<DarlingServer::Process>& DarlingServer::processRegistry() {
+OsxieServer::Registry<OsxieServer::Process>& OsxieServer::processRegistry() {
 	static Registry<Process> registry;
 	return registry;
 };
 
-DarlingServer::Registry<DarlingServer::Thread>& DarlingServer::threadRegistry() {
+OsxieServer::Registry<OsxieServer::Thread>& OsxieServer::threadRegistry() {
 	static Registry<Thread> registry;
 	return registry;
 };

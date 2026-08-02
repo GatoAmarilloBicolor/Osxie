@@ -37,7 +37,7 @@
 
 struct DTapeHooks;
 
-namespace DarlingServer {
+namespace OsxieServer {
 	class Thread;
 	class Server;
 	class Call;

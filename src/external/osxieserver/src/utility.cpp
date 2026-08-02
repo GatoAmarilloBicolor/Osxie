@@ -1,27 +1,27 @@
 #include <osxieserver/utility.hpp>
 #include <unistd.h>
 
-DarlingServer::FD::FD():
+OsxieServer::FD::FD():
 	_fd(-1)
 	{};
 
-DarlingServer::FD::FD(int fd):
+OsxieServer::FD::FD(int fd):
 	_fd(fd)
 	{};
 
-DarlingServer::FD::~FD() {
+OsxieServer::FD::~FD() {
 	if (_fd != -1) {
 		close(_fd);
 	}
 };
 
-DarlingServer::FD::FD(FD&& other):
+OsxieServer::FD::FD(FD&& other):
 	_fd(other._fd)
 {
 	other._fd = -1;
 };
 
-DarlingServer::FD& DarlingServer::FD::operator=(FD&& other) {
+OsxieServer::FD& OsxieServer::FD::operator=(FD&& other) {
 	if (_fd != -1) {
 		close(_fd);
 	}
@@ -30,16 +30,16 @@ DarlingServer::FD& DarlingServer::FD::operator=(FD&& other) {
 	return *this;
 };
 
-int DarlingServer::FD::fd() const {
+int OsxieServer::FD::fd() const {
 	return _fd;
 };
 
-int DarlingServer::FD::extract() {
+int OsxieServer::FD::extract() {
 	auto fd = _fd;
 	_fd = -1;
 	return fd;
 };
 
-DarlingServer::FD::operator bool() {
+OsxieServer::FD::operator bool() {
 	return _fd != -1;
 };

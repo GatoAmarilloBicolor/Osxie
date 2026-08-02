@@ -25,7 +25,7 @@
 #include <vector>
 #include <mutex>
 
-namespace DarlingServer {
+namespace OsxieServer {
 	class StackPool {
 	public:
 		struct Stack {

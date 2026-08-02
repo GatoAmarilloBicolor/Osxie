@@ -25,34 +25,34 @@
 #include <mutex>
 #include <system_error>
 
-DarlingServer::Address::Address() {
+OsxieServer::Address::Address() {
 	_address.sun_family = AF_UNIX;
 	memset(_address.sun_path, 0, sizeof(_address.sun_path));
 	_size = sizeof(_address);
 };
 
-DarlingServer::Address::Address(const struct sockaddr_un& rawAddress, size_t addressLength) {
+OsxieServer::Address::Address(const struct sockaddr_un& rawAddress, size_t addressLength) {
 	_address = rawAddress;
 	_size = addressLength;
 };
 
-struct sockaddr_un& DarlingServer::Address::raw() {
+struct sockaddr_un& OsxieServer::Address::raw() {
 	return _address;
 };
 
-const struct sockaddr_un& DarlingServer::Address::raw() const {
+const struct sockaddr_un& OsxieServer::Address::raw() const {
 	return _address;
 };
 
-size_t DarlingServer::Address::rawSize() const {
+size_t OsxieServer::Address::rawSize() const {
 	return _size;
 };
 
-void DarlingServer::Address::setRawSize(size_t newRawSize) {
+void OsxieServer::Address::setRawSize(size_t newRawSize) {
 	_size = newRawSize;
 };
 
-DarlingServer::Message::Message(size_t bufferSpace, size_t descriptorSpace, std::function<void()> sendNotificationCallback):
+OsxieServer::Message::Message(size_t bufferSpace, size_t descriptorSpace, std::function<void()> sendNotificationCallback):
 	_sendNotificationCallback(sendNotificationCallback)
 {
 	size_t controlLen = CMSG_SPACE(sizeof(struct ucred)) + (descriptorSpace > 0 ? CMSG_SPACE(sizeof(int) * descriptorSpace) : 0);
@@ -97,7 +97,7 @@ DarlingServer::Message::Message(size_t bufferSpace, size_t descriptorSpace, std:
 	_dataDescriptor.iov_len = _buffer.size();
 };
 
-void DarlingServer::Message::_initWithOther(Message&& other) {
+void OsxieServer::Message::_initWithOther(Message&& other) {
 	_sendNotificationCallback = std::move(other._sendNotificationCallback);
 	other._sendNotificationCallback = nullptr;
 
@@ -115,7 +115,7 @@ void DarlingServer::Message::_initWithOther(Message&& other) {
 	_dataDescriptor.iov_len = _buffer.size();
 };
 
-void DarlingServer::Message::_cleanupSelf() {
+void OsxieServer::Message::_cleanupSelf() {
 	if (_controlHeader) {
 		auto fdHeader = _descriptorHeader();
 		if (fdHeader) {
@@ -132,11 +132,11 @@ void DarlingServer::Message::_cleanupSelf() {
 	}
 };
 
-struct cmsghdr* DarlingServer::Message::_credentialsHeader() {
+struct cmsghdr* OsxieServer::Message::_credentialsHeader() {
 	return const_cast<struct cmsghdr*>(const_cast<const Message*>(this)->_credentialsHeader());
 };
 
-const struct cmsghdr* DarlingServer::Message::_credentialsHeader() const {
+const struct cmsghdr* OsxieServer::Message::_credentialsHeader() const {
 	const struct cmsghdr* hdr = CMSG_FIRSTHDR(&_header);
 
 	while (hdr) {
@@ -150,11 +150,11 @@ const struct cmsghdr* DarlingServer::Message::_credentialsHeader() const {
 	return nullptr;
 };
 
-struct cmsghdr* DarlingServer::Message::_descriptorHeader() {
+struct cmsghdr* OsxieServer::Message::_descriptorHeader() {
 	return const_cast<struct cmsghdr*>(const_cast<const Message*>(this)->_descriptorHeader());
 };
 
-const struct cmsghdr* DarlingServer::Message::_descriptorHeader() const {
+const struct cmsghdr* OsxieServer::Message::_descriptorHeader() const {
 	const struct cmsghdr* hdr = CMSG_FIRSTHDR(&_header);
 
 	while (hdr) {
@@ -168,7 +168,7 @@ const struct cmsghdr* DarlingServer::Message::_descriptorHeader() const {
 	return nullptr;
 };
 
-size_t DarlingServer::Message::_descriptorSpace() const {
+size_t OsxieServer::Message::_descriptorSpace() const {
 	auto hdr = _descriptorHeader();
 
 	if (!hdr) {
@@ -178,46 +178,46 @@ size_t DarlingServer::Message::_descriptorSpace() const {
 	return (hdr->cmsg_len - (reinterpret_cast<uintptr_t>(CMSG_DATA(hdr)) - reinterpret_cast<uintptr_t>(hdr))) / sizeof(int);
 };
 
-DarlingServer::Message::~Message() {
+OsxieServer::Message::~Message() {
 	_cleanupSelf();
 };
 
-DarlingServer::Message::Message(Message&& other) {
+OsxieServer::Message::Message(Message&& other) {
 	_initWithOther(std::move(other));
 };
 
-DarlingServer::Message& DarlingServer::Message::operator=(Message&& other) {
+OsxieServer::Message& OsxieServer::Message::operator=(Message&& other) {
 	_cleanupSelf();
 	_initWithOther(std::move(other));
 	return *this;
 };
 
-struct msghdr& DarlingServer::Message::rawHeader() {
+struct msghdr& OsxieServer::Message::rawHeader() {
 	return _header;
 };
 
-const struct msghdr& DarlingServer::Message::rawHeader() const {
+const struct msghdr& OsxieServer::Message::rawHeader() const {
 	return _header;
 };
 
-std::vector<uint8_t>& DarlingServer::Message::data() {
+std::vector<uint8_t>& OsxieServer::Message::data() {
 	return _buffer;
 };
 
-const std::vector<uint8_t>& DarlingServer::Message::data() const {
+const std::vector<uint8_t>& OsxieServer::Message::data() const {
 	return _buffer;
 };
 
-DarlingServer::Address DarlingServer::Message::address() const {
+OsxieServer::Address OsxieServer::Message::address() const {
 	return _socketAddress;
 };
 
-void DarlingServer::Message::setAddress(Address address) {
+void OsxieServer::Message::setAddress(Address address) {
 	_socketAddress = address;
 	_header.msg_namelen = _socketAddress.rawSize();
 };
 
-std::vector<int> DarlingServer::Message::descriptors() const {
+std::vector<int> OsxieServer::Message::descriptors() const {
 	std::vector<int> descriptors;
 	auto fdHeader = _descriptorHeader();
 
@@ -234,7 +234,7 @@ std::vector<int> DarlingServer::Message::descriptors() const {
 	return descriptors;
 };
 
-void DarlingServer::Message::pushDescriptor(int descriptor) {
+void OsxieServer::Message::pushDescriptor(int descriptor) {
 	if (auto fdHeader = _descriptorHeader()) {
 		for (size_t i = 0; i < _descriptorSpace(); ++i) {
 			int fd = -1;
@@ -253,7 +253,7 @@ void DarlingServer::Message::pushDescriptor(int descriptor) {
 	memcpy(CMSG_DATA(_descriptorHeader()) + (sizeof(int) * oldSpace), &descriptor, sizeof(int));
 };
 
-int DarlingServer::Message::extractDescriptor(int descriptor) {
+int OsxieServer::Message::extractDescriptor(int descriptor) {
 	if (auto fdHeader = _descriptorHeader()) {
 		for (size_t i = 0; i < _descriptorSpace(); ++i) {
 			int fd = -1;
@@ -271,7 +271,7 @@ int DarlingServer::Message::extractDescriptor(int descriptor) {
 	return -1;
 };
 
-int DarlingServer::Message::extractDescriptorAtIndex(size_t index) {
+int OsxieServer::Message::extractDescriptorAtIndex(size_t index) {
 	if (auto fdHeader = _descriptorHeader()) {
 		for (size_t i = 0, presentIndex = 0; i < _descriptorSpace(); ++i) {
 			int fd = -1;
@@ -293,12 +293,12 @@ int DarlingServer::Message::extractDescriptorAtIndex(size_t index) {
 	return -1;
 };
 
-void DarlingServer::Message::replaceDescriptors(const std::vector<int>& newDescriptors) {
+void OsxieServer::Message::replaceDescriptors(const std::vector<int>& newDescriptors) {
 	_ensureDescriptorHeader(newDescriptors.size());
 	memcpy(CMSG_DATA(_descriptorHeader()), newDescriptors.data(), sizeof(int) * newDescriptors.size());
 };
 
-bool DarlingServer::Message::copyCredentialsOut(struct ucred& outputCredentials) const {
+bool OsxieServer::Message::copyCredentialsOut(struct ucred& outputCredentials) const {
 	auto credHeader = _credentialsHeader();
 
 	if (credHeader) {
@@ -309,12 +309,12 @@ bool DarlingServer::Message::copyCredentialsOut(struct ucred& outputCredentials)
 	}
 };
 
-void DarlingServer::Message::copyCredentialsIn(const struct ucred& inputCredentials) {
+void OsxieServer::Message::copyCredentialsIn(const struct ucred& inputCredentials) {
 	_ensureCredentialsHeader();
 	memcpy(CMSG_DATA(_credentialsHeader()), &inputCredentials, sizeof(inputCredentials));
 };
 
-void DarlingServer::Message::_ensureCredentialsHeader() {
+void OsxieServer::Message::_ensureCredentialsHeader() {
 	if (_credentialsHeader()) {
 		return;
 	}
@@ -355,7 +355,7 @@ void DarlingServer::Message::_ensureCredentialsHeader() {
 	memcpy(CMSG_DATA(credHeader), &creds, sizeof(struct ucred));
 };
 
-void DarlingServer::Message::_ensureDescriptorHeader(size_t newSpace) {
+void OsxieServer::Message::_ensureDescriptorHeader(size_t newSpace) {
 	if (_descriptorSpace() == newSpace) {
 		return;
 	}
@@ -406,7 +406,7 @@ void DarlingServer::Message::_ensureDescriptorHeader(size_t newSpace) {
 	}
 };
 
-pid_t DarlingServer::Message::pid() const {
+pid_t OsxieServer::Message::pid() const {
 	struct ucred creds;
 
 	if (copyCredentialsOut(creds)) {
@@ -416,7 +416,7 @@ pid_t DarlingServer::Message::pid() const {
 	}
 };
 
-void DarlingServer::Message::setPID(pid_t pid) {
+void OsxieServer::Message::setPID(pid_t pid) {
 	_ensureCredentialsHeader();
 	struct ucred creds;
 	copyCredentialsOut(creds);
@@ -424,7 +424,7 @@ void DarlingServer::Message::setPID(pid_t pid) {
 	copyCredentialsIn(creds);
 };
 
-uid_t DarlingServer::Message::uid() const {
+uid_t OsxieServer::Message::uid() const {
 	struct ucred creds;
 
 	if (copyCredentialsOut(creds)) {
@@ -434,7 +434,7 @@ uid_t DarlingServer::Message::uid() const {
 	}
 };
 
-void DarlingServer::Message::setUID(uid_t uid) {
+void OsxieServer::Message::setUID(uid_t uid) {
 	_ensureCredentialsHeader();
 	struct ucred creds;
 	copyCredentialsOut(creds);
@@ -442,7 +442,7 @@ void DarlingServer::Message::setUID(uid_t uid) {
 	copyCredentialsIn(creds);
 };
 
-gid_t DarlingServer::Message::gid() const {
+gid_t OsxieServer::Message::gid() const {
 	struct ucred creds;
 
 	if (copyCredentialsOut(creds)) {
@@ -452,7 +452,7 @@ gid_t DarlingServer::Message::gid() const {
 	}
 };
 
-void DarlingServer::Message::setGID(gid_t gid) {
+void OsxieServer::Message::setGID(gid_t gid) {
 	_ensureCredentialsHeader();
 	struct ucred creds;
 	copyCredentialsOut(creds);
@@ -460,11 +460,11 @@ void DarlingServer::Message::setGID(gid_t gid) {
 	copyCredentialsIn(creds);
 };
 
-std::function<void()> DarlingServer::Message::sendNotificationCallback() const {
+std::function<void()> OsxieServer::Message::sendNotificationCallback() const {
 	return _sendNotificationCallback;
 };
 
-void DarlingServer::Message::setSendNotificationCallback(std::function<void()> sendNotificationCallback) {
+void OsxieServer::Message::setSendNotificationCallback(std::function<void()> sendNotificationCallback) {
 	_sendNotificationCallback = sendNotificationCallback;
 };
 
@@ -472,7 +472,7 @@ void DarlingServer::Message::setSendNotificationCallback(std::function<void()> s
 // message queue
 //
 
-void DarlingServer::MessageQueue::push(Message&& message) {
+void OsxieServer::MessageQueue::push(Message&& message) {
 	std::unique_lock lock(_lock);
 	_messages.push_back(std::move(message));
 
@@ -485,7 +485,7 @@ void DarlingServer::MessageQueue::push(Message&& message) {
 	}
 };
 
-std::optional<DarlingServer::Message> DarlingServer::MessageQueue::pop() {
+std::optional<OsxieServer::Message> OsxieServer::MessageQueue::pop() {
 	std::scoped_lock lock(_lock);
 	if (_messages.size() > 0) {
 		Message message = std::move(_messages.front());
@@ -496,7 +496,7 @@ std::optional<DarlingServer::Message> DarlingServer::MessageQueue::pop() {
 	}
 };
 
-bool DarlingServer::MessageQueue::sendMany(int socket) {
+bool OsxieServer::MessageQueue::sendMany(int socket) {
 	bool canSendMore = true;
 	std::scoped_lock lock(_lock);
 	struct mmsghdr mmsgs[16];
@@ -560,7 +560,7 @@ bool DarlingServer::MessageQueue::sendMany(int socket) {
 	return canSendMore;
 };
 
-bool DarlingServer::MessageQueue::receiveMany(int socket) {
+bool OsxieServer::MessageQueue::receiveMany(int socket) {
 	bool canReadMore = true;
 	std::unique_lock lock(_lock);
 	struct mmsghdr mmsgs[16];
@@ -606,12 +606,12 @@ bool DarlingServer::MessageQueue::receiveMany(int socket) {
 	return canReadMore;
 };
 
-void DarlingServer::MessageQueue::setMessageArrivalNotificationCallback(std::function<void()> messageArrivalNotificationCallback) {
+void OsxieServer::MessageQueue::setMessageArrivalNotificationCallback(std::function<void()> messageArrivalNotificationCallback) {
 	std::unique_lock lock(_lock);
 	_messageArrivalNotificationCallback = messageArrivalNotificationCallback;
 };
 
-bool DarlingServer::MessageQueue::empty() const {
+bool OsxieServer::MessageQueue::empty() const {
 	std::unique_lock lock(_lock);
 	return _messages.empty();
 };

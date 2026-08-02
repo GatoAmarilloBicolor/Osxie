@@ -29,9 +29,9 @@
 
 #include <sys/mman.h>
 
-static DarlingServer::Log processLog("process");
+static OsxieServer::Log processLog("process");
 
-DarlingServer::Process::Process(ID id, NSID nsid, Architecture architecture, int pipe):
+OsxieServer::Process::Process(ID id, NSID nsid, Architecture architecture, int pipe):
 	_pid(id),
 	_nspid(nsid),
 	_architecture(architecture)
@@ -89,7 +89,7 @@ DarlingServer::Process::Process(ID id, NSID nsid, Architecture architecture, int
 	processLog.info() << "New process created with ID " << _pid << " and NSID " << _nspid;
 };
 
-DarlingServer::Process::Process(KernelProcessConstructorTag tag):
+OsxieServer::Process::Process(KernelProcessConstructorTag tag):
 	_pid(-1),
 	_nspid(0)
 {
@@ -107,28 +107,28 @@ DarlingServer::Process::Process(KernelProcessConstructorTag tag):
 	_dtapeTask = dtape_task_create(nullptr, _nspid, this, static_cast<dserver_rpc_architecture_t>(_architecture));
 };
 
-DarlingServer::Process::~Process() {
+OsxieServer::Process::~Process() {
 	processLog.info() << *this << ": process being destroyed" << processLog.endLog;
 };
 
-DarlingServer::Process::ID DarlingServer::Process::id() const {
+OsxieServer::Process::ID OsxieServer::Process::id() const {
 	return _pid;
 };
 
-DarlingServer::Process::NSID DarlingServer::Process::nsid() const {
+OsxieServer::Process::NSID OsxieServer::Process::nsid() const {
 	return _nspid;
 };
 
-DarlingServer::EternalID DarlingServer::Process::eternalID() const {
+OsxieServer::EternalID OsxieServer::Process::eternalID() const {
 	return _eid;
 };
 
-void DarlingServer::Process::_setEternalID(EternalID eid) {
+void OsxieServer::Process::_setEternalID(EternalID eid) {
 	_eid = eid;
 };
 
-std::vector<std::shared_ptr<DarlingServer::Thread>> DarlingServer::Process::threads() const {
-	std::vector<std::shared_ptr<DarlingServer::Thread>> result;
+std::vector<std::shared_ptr<OsxieServer::Thread>> OsxieServer::Process::threads() const {
+	std::vector<std::shared_ptr<OsxieServer::Thread>> result;
 	std::shared_lock lock(_rwlock);
 
 	for (auto& [nsid, maybeThread]: _threads) {
@@ -140,12 +140,12 @@ std::vector<std::shared_ptr<DarlingServer::Thread>> DarlingServer::Process::thre
 	return result;
 };
 
-std::string DarlingServer::Process::vchrootPath() const {
+std::string OsxieServer::Process::vchrootPath() const {
 	std::shared_lock lock(_rwlock);
 	return _cachedVchrootPath;
 };
 
-void DarlingServer::Process::setVchrootDirectory(std::shared_ptr<FD> directoryDescriptor) {
+void OsxieServer::Process::setVchrootDirectory(std::shared_ptr<FD> directoryDescriptor) {
 	std::unique_lock lock(_rwlock);
 	_vchrootDescriptor = directoryDescriptor;
 
@@ -164,7 +164,7 @@ void DarlingServer::Process::setVchrootDirectory(std::shared_ptr<FD> directoryDe
 	delete[] tmp;
 };
 
-std::shared_ptr<DarlingServer::Process> DarlingServer::Process::currentProcess() {
+std::shared_ptr<OsxieServer::Process> OsxieServer::Process::currentProcess() {
 	auto thread = Thread::currentThread();
 	if (!thread) {
 		return nullptr;
@@ -173,11 +173,11 @@ std::shared_ptr<DarlingServer::Process> DarlingServer::Process::currentProcess()
 	return thread->process();
 };
 
-std::shared_ptr<DarlingServer::Process> DarlingServer::Process::parentProcess() const {
+std::shared_ptr<OsxieServer::Process> OsxieServer::Process::parentProcess() const {
 	return _parentProcess.lock();
 };
 
-std::shared_ptr<DarlingServer::Process> DarlingServer::Process::kernelProcess() {
+std::shared_ptr<OsxieServer::Process> OsxieServer::Process::kernelProcess() {
 	static std::shared_ptr<Process> process = [&]() {
 		auto proc = std::make_shared<Process>(KernelProcessConstructorTag());
 		processRegistry().registerEntry(proc, true);
@@ -186,21 +186,21 @@ std::shared_ptr<DarlingServer::Process> DarlingServer::Process::kernelProcess() 
 	return process;
 };
 
-bool DarlingServer::Process::startSuspended() const {
+bool OsxieServer::Process::startSuspended() const {
 	std::shared_lock lock(_rwlock);
 	return _startSuspended;
 };
 
-void DarlingServer::Process::setStartSuspended(bool startSuspended) {
+void OsxieServer::Process::setStartSuspended(bool startSuspended) {
 	std::unique_lock lock(_rwlock);
 	_startSuspended = startSuspended;
 };
 
-bool DarlingServer::Process::_readOrWriteMemory(bool isWrite, uintptr_t remoteAddress, void* localBuffer, size_t length, int* errorCode) const {
+bool OsxieServer::Process::_readOrWriteMemory(bool isWrite, uintptr_t remoteAddress, void* localBuffer, size_t length, int* errorCode) const {
 	struct iovec local;
 	struct iovec remote;
 	const auto func = isWrite ? process_vm_writev : process_vm_readv;
-	static DarlingServer::Log processMemoryAccessLog("procmem");
+	static OsxieServer::Log processMemoryAccessLog("procmem");
 
 	if (isDead()) {
 		processMemoryAccessLog.error()
@@ -269,16 +269,16 @@ bool DarlingServer::Process::_readOrWriteMemory(bool isWrite, uintptr_t remoteAd
 	}
 };
 
-bool DarlingServer::Process::readMemory(uintptr_t remoteAddress, void* localBuffer, size_t length, int* errorCode) const {
+bool OsxieServer::Process::readMemory(uintptr_t remoteAddress, void* localBuffer, size_t length, int* errorCode) const {
 	return _readOrWriteMemory(false, remoteAddress, localBuffer, length, errorCode);
 };
 
-bool DarlingServer::Process::writeMemory(uintptr_t remoteAddress, const void* localBuffer, size_t length, int* errorCode) const {
+bool OsxieServer::Process::writeMemory(uintptr_t remoteAddress, const void* localBuffer, size_t length, int* errorCode) const {
 	// the const_cast is safe; when writing to a process' memory, localBuffer is not modified
 	return _readOrWriteMemory(true, remoteAddress, const_cast<void*>(localBuffer), length, errorCode);
 };
 
-void DarlingServer::Process::notifyCheckin(Architecture architecture) {
+void OsxieServer::Process::notifyCheckin(Architecture architecture) {
 	std::unique_lock lock(_rwlock);
 
 	bool didExec = _pendingReplacement;
@@ -375,7 +375,7 @@ void DarlingServer::Process::notifyCheckin(Architecture architecture) {
 	}
 };
 
-void DarlingServer::Process::setPendingReplacement() {
+void OsxieServer::Process::setPendingReplacement() {
 	std::unique_lock lock(_rwlock);
 
 	processLog.info() << "Process " << id() << " (" << nsid() << ") is now pending replacement" << processLog.endLog;
@@ -383,35 +383,35 @@ void DarlingServer::Process::setPendingReplacement() {
 	_pendingReplacement = true;
 };
 
-void DarlingServer::Process::registerKqchan(std::shared_ptr<Kqchan> kqchan) {
+void OsxieServer::Process::registerKqchan(std::shared_ptr<Kqchan> kqchan) {
 	std::unique_lock lock(_rwlock);
 
 	_kqchannels[kqchan->_idForProcess()] = kqchan;
 };
 
-void DarlingServer::Process::unregisterKqchan(std::shared_ptr<Kqchan> kqchan) {
+void OsxieServer::Process::unregisterKqchan(std::shared_ptr<Kqchan> kqchan) {
 	std::unique_lock lock(_rwlock);
 
 	_kqchannels.erase(kqchan->_idForProcess());
 };
 
-void DarlingServer::Process::waitForChildAfterFork() {
+void OsxieServer::Process::waitForChildAfterFork() {
 	// this function is always called within a microthread
 	dtape_semaphore_down_simple(_dtapeForkWaitSemaphore);
 };
 
-void DarlingServer::Process::registerListeningKqchan(std::shared_ptr<Kqchan::Process> kqchan) {
+void OsxieServer::Process::registerListeningKqchan(std::shared_ptr<Kqchan::Process> kqchan) {
 	std::unique_lock lock(_rwlock);
 	uintptr_t id = static_cast<std::shared_ptr<Kqchan>>(kqchan)->_idForProcess();
 	_listeningKqchannels[id] = kqchan;
 };
 
-void DarlingServer::Process::unregisterListeningKqchan(uintptr_t kqchanID) {
+void OsxieServer::Process::unregisterListeningKqchan(uintptr_t kqchanID) {
 	std::unique_lock lock(_rwlock);
 	_listeningKqchannels.erase(kqchanID);
 };
 
-void DarlingServer::Process::_notifyListeningKqchannels(uint32_t event, int64_t data) {
+void OsxieServer::Process::_notifyListeningKqchannels(uint32_t event, int64_t data) {
 	decltype(_listeningKqchannels) listeningKqchannels;
 
 	// we do NOT want to be holding our rwlock when we notify the kqchannels; that can lead to deadlocks
@@ -431,19 +431,19 @@ void DarlingServer::Process::_notifyListeningKqchannels(uint32_t event, int64_t 
 	}
 };
 
-bool DarlingServer::Process::is64Bit() const {
+bool OsxieServer::Process::is64Bit() const {
 	return _architecture == Architecture::x86_64 || _architecture == Architecture::ARM64;
 };
 
-DarlingServer::Process::Architecture DarlingServer::Process::architecture() const {
+OsxieServer::Process::Architecture OsxieServer::Process::architecture() const {
 	return _architecture;
 };
 
-void DarlingServer::Process::logToStream(Log::Stream& stream) const {
+void OsxieServer::Process::logToStream(Log::Stream& stream) const {
 	stream << "[P:" << _pid << "(" << _nspid << ")]";
 };
 
-DarlingServer::Process::MemoryInfo DarlingServer::Process::memoryInfo() const {
+OsxieServer::Process::MemoryInfo OsxieServer::Process::memoryInfo() const {
 	if (isDead()) {
 		throw std::system_error(ESRCH, std::generic_category(), "dead process; can't call memoryInfo");
 	}
@@ -467,7 +467,7 @@ DarlingServer::Process::MemoryInfo DarlingServer::Process::memoryInfo() const {
 
 static const std::regex memoryRegionEntryRegex("([0-9a-fA-F]+)\\-([0-9a-fA-F]+)\\s+((?:r|w|x|p|s|\\-)+)\\s+([0-9a-fA-F]+)");
 
-DarlingServer::Process::MemoryRegionInfo DarlingServer::Process::memoryRegionInfo(uintptr_t address) const {
+OsxieServer::Process::MemoryRegionInfo OsxieServer::Process::memoryRegionInfo(uintptr_t address) const {
 	if (isDead()) {
 		throw std::system_error(ESRCH, std::generic_category(), "dead process; can't call memoryRegionInfo");
 	}
@@ -522,23 +522,23 @@ DarlingServer::Process::MemoryRegionInfo DarlingServer::Process::memoryRegionInf
 
 #if DSERVER_EXTENDED_DEBUG
 
-void DarlingServer::Process::_registerName(uint32_t name, uintptr_t pointer) {
+void OsxieServer::Process::_registerName(uint32_t name, uintptr_t pointer) {
 	std::unique_lock lock(_rwlock);
 	_registeredNames[name] = pointer;
 };
 
-void DarlingServer::Process::_unregisterName(uint32_t name) {
+void OsxieServer::Process::_unregisterName(uint32_t name) {
 	std::unique_lock lock(_rwlock);
 	_registeredNames.erase(name);
 };
 
-void DarlingServer::Process::_addPortSetMember(dtape_port_set_id_t portSetID, dtape_port_id_t portID) {
+void OsxieServer::Process::_addPortSetMember(dtape_port_set_id_t portSetID, dtape_port_id_t portID) {
 	std::unique_lock lock(_rwlock);
 	auto& members = _portSetMembers[portSetID];
 	members.insert(portID);
 };
 
-void DarlingServer::Process::_removePortSetMember(dtape_port_set_id_t portSetID, dtape_port_id_t portID) {
+void OsxieServer::Process::_removePortSetMember(dtape_port_set_id_t portSetID, dtape_port_id_t portID) {
 	std::unique_lock lock(_rwlock);
 	if (_portSetMembers.find(portSetID) != _portSetMembers.end()) {
 		auto& members = _portSetMembers[portSetID];
@@ -549,19 +549,19 @@ void DarlingServer::Process::_removePortSetMember(dtape_port_set_id_t portSetID,
 	}
 };
 
-void DarlingServer::Process::_clearPortSet(dtape_port_set_id_t portSetID) {
+void OsxieServer::Process::_clearPortSet(dtape_port_set_id_t portSetID) {
 	std::unique_lock lock(_rwlock);
 	_portSetMembers.erase(portSetID);
 };
 
 #endif
 
-std::shared_ptr<DarlingServer::Process> DarlingServer::Process::tracerProcess() const {
+std::shared_ptr<OsxieServer::Process> OsxieServer::Process::tracerProcess() const {
 	std::shared_lock lock(_rwlock);
 	return _tracerProcess.lock();
 };
 
-bool DarlingServer::Process::setTracerProcess(std::shared_ptr<Process> tracerProcess) {
+bool OsxieServer::Process::setTracerProcess(std::shared_ptr<Process> tracerProcess) {
 	std::unique_lock lock(_rwlock);
 	if (!_tracerProcess.expired()) {
 		return false;
@@ -570,7 +570,7 @@ bool DarlingServer::Process::setTracerProcess(std::shared_ptr<Process> tracerPro
 	return true;
 };
 
-std::shared_ptr<DarlingServer::Thread> DarlingServer::Process::_pickS2CThread(void) const {
+std::shared_ptr<OsxieServer::Thread> OsxieServer::Process::_pickS2CThread(void) const {
 	if (isDead()) {
 		return nullptr;
 	}
@@ -597,17 +597,17 @@ std::shared_ptr<DarlingServer::Thread> DarlingServer::Process::_pickS2CThread(vo
 	return thread;
 };
 
-std::string DarlingServer::Process::executablePath() const {
+std::string OsxieServer::Process::executablePath() const {
 	std::shared_lock lock(_rwlock);
 	return _executablePath;
 };
 
-void DarlingServer::Process::setExecutablePath(std::string path) {
+void OsxieServer::Process::setExecutablePath(std::string path) {
 	std::unique_lock lock(_rwlock);
 	_executablePath = std::move(path);
 };
 
-uintptr_t DarlingServer::Process::allocatePages(size_t pageCount, int protection, uintptr_t addressHint, bool fixed, bool overwrite) {
+uintptr_t OsxieServer::Process::allocatePages(size_t pageCount, int protection, uintptr_t addressHint, bool fixed, bool overwrite) {
 	auto thread = _pickS2CThread();
 
 	if (!thread) {
@@ -617,7 +617,7 @@ uintptr_t DarlingServer::Process::allocatePages(size_t pageCount, int protection
 	return thread->allocatePages(pageCount, protection, addressHint, fixed, overwrite);
 };
 
-void DarlingServer::Process::freePages(uintptr_t address, size_t pageCount) {
+void OsxieServer::Process::freePages(uintptr_t address, size_t pageCount) {
 	auto thread = _pickS2CThread();
 
 	if (!thread) {
@@ -627,7 +627,7 @@ void DarlingServer::Process::freePages(uintptr_t address, size_t pageCount) {
 	return thread->freePages(address, pageCount);
 };
 
-uintptr_t DarlingServer::Process::mapFile(int fd, size_t pageCount, int protection, uintptr_t addressHint, size_t pageOffset, bool fixed, bool overwrite) {
+uintptr_t OsxieServer::Process::mapFile(int fd, size_t pageCount, int protection, uintptr_t addressHint, size_t pageOffset, bool fixed, bool overwrite) {
 	auto thread = _pickS2CThread();
 
 	if (!thread) {
@@ -637,7 +637,7 @@ uintptr_t DarlingServer::Process::mapFile(int fd, size_t pageCount, int protecti
 	return thread->mapFile(fd, pageCount, protection, addressHint, pageOffset, fixed, overwrite);
 };
 
-void DarlingServer::Process::changeProtection(uintptr_t address, size_t pageCount, int protection) {
+void OsxieServer::Process::changeProtection(uintptr_t address, size_t pageCount, int protection) {
 	auto thread = _pickS2CThread();
 
 	if (!thread) {
@@ -647,7 +647,7 @@ void DarlingServer::Process::changeProtection(uintptr_t address, size_t pageCoun
 	return thread->changeProtection(address, pageCount, protection);
 };
 
-void DarlingServer::Process::syncMemory(uintptr_t address, size_t size, int sync_flags) {
+void OsxieServer::Process::syncMemory(uintptr_t address, size_t size, int sync_flags) {
 	auto thread = _pickS2CThread();
 
 	if (!thread) {
@@ -659,7 +659,7 @@ void DarlingServer::Process::syncMemory(uintptr_t address, size_t size, int sync
 
 static const std::regex memoryRegionEntryAddressRegex("([0-9a-fA-F]+)\\-([0-9a-fA-F]+)");
 
-uintptr_t DarlingServer::Process::getNextRegion(uintptr_t address) const {
+uintptr_t OsxieServer::Process::getNextRegion(uintptr_t address) const {
 	if (isDead()) {
 		throw std::system_error(ESRCH, std::generic_category(), "dead process; can't call getNextRegion");
 	}
@@ -690,7 +690,7 @@ uintptr_t DarlingServer::Process::getNextRegion(uintptr_t address) const {
 	return 0;
 };
 
-void DarlingServer::Process::notifyDead() {
+void OsxieServer::Process::notifyDead() {
 	decltype(_threads) threads;
 	{
 		std::unique_lock lock(_rwlock);
@@ -738,21 +738,21 @@ void DarlingServer::Process::notifyDead() {
 	processRegistry().unregisterEntry(shared_from_this());
 };
 
-void DarlingServer::Process::_dispose() {
+void OsxieServer::Process::_dispose() {
 	_selfReference = nullptr;
 };
 
-bool DarlingServer::Process::isDead() const {
+bool OsxieServer::Process::isDead() const {
 	std::shared_lock lock(_rwlock);
 	return _dead;
 };
 
-std::vector<uint32_t> DarlingServer::Process::groups() const {
+std::vector<uint32_t> OsxieServer::Process::groups() const {
 	std::shared_lock lock(_rwlock);
 	return _groups;
 };
 
-void DarlingServer::Process::setGroups(const std::vector<uint32_t>& groups) {
+void OsxieServer::Process::setGroups(const std::vector<uint32_t>& groups) {
 	std::unique_lock lock(_rwlock);
 	_groups = groups;
 };

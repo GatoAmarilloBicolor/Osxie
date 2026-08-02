@@ -56,7 +56,7 @@
 	#include <sanitizer/lsan_interface.h>
 #endif
 
-// TODO: most of the code here was ported over from startup/darling.c; we should C++-ify it.
+// TODO: most of the code here was ported over from startup/osxie.c; we should C++-ify it.
 
 void fixPermissionsRecursive(const char* path, uid_t originalUID, gid_t originalGID)
 {
@@ -232,7 +232,7 @@ static void wipeDir(const char* dirpath)
 	closedir(dir);
 }
 
-void darlingPreInit(const char* prefix)
+void osxiePreInit(const char* prefix)
 {
 	// TODO: Run /usr/libexec/makewhatis
 	const char* dirs[] = {
@@ -676,7 +676,7 @@ int main(int argc, char** argv) {
 
 	// temporarily drop privileges and do some prefix work
 	temp_drop_privileges(originalUID, originalGID);
-	darlingPreInit(prefix);
+	osxiePreInit(prefix);
 	regain_privileges();
 
 	// Tell the parent we're ready

@@ -73,7 +73,7 @@ static char* get_prefix_path(uid_t original_uid) {
 	return default_prefix_path(original_uid);
 };
 
-// borrowed from `src/startup/darling.c`
+// borrowed from `src/startup/osxie.c`
 static void joinNamespace(pid_t pid, int type, const char* typeName)
 {
 	int fdNS;
@@ -99,7 +99,7 @@ static void joinNamespace(pid_t pid, int type, const char* typeName)
 	close(fdNS);
 }
 
-// borrowed from `src/startup/darling.c`, with the UID/GID check removed
+// borrowed from `src/startup/osxie.c`, with the UID/GID check removed
 static pid_t getInitProcess(const char* prefix)
 {
 	const char pidFile[] = "/.init.pid";

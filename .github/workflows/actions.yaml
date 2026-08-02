@@ -68,7 +68,7 @@ jobs:
       uses: actions/checkout@v4
       with:
         submodules: recursive
-        path: source/darling
+        path: source/osxie
 
     - name: Compress source
       run: |
@@ -77,7 +77,7 @@ jobs:
             --file archive/osixie-source.tar.xz \
             --exclude=.git --exclude=.gitmodules --exclude=.gitignore \
             --directory=source \
-            darling
+            osxie
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4.1.0

@@ -564,16 +564,12 @@ void OsxieServer::Server::start() {
 
 		struct epoll_event events[16];
 		
-		// Apply 5-second timeout to prevent network syscall blocking from freezing osxieserver
+		// Apply a timeout so a blocking network syscall in the emulation layer
+		// cannot freeze osxieserver's event loop unnoticed.
 		const auto start = std::chrono::steady_clock::now();
-		
-		int ret = 0;
-		while (true) {
-			ret = epoll_wait(_epollFD, events, 16, 5000);
-			if (ret < 0) {
-				break; // EINTR handled above, timeout or error exits loop
-			}
 
+		int ret = epoll_wait(_epollFD, events, 16, 5000);
+		if (ret >= 0) {
 			for (size_t i = 0; i < ret; ++i) {
 				struct epoll_event* event = &events[i];
 
@@ -635,73 +631,10 @@ void OsxieServer::Server::start() {
 				}
 			}
 
-			break; // Exit loop after one full iteration through all events
-		}
-
-		if (std::chrono::steady_clock::now() - start > std::chrono::seconds(5)) {
-			// Timeout exceeded, log warning for debugging network-blocking issues
-			std::cerr << "[osxieserver] Network syscall timeout detected - possible blocking syscall\n";
-		}
-
-
-		for (size_t i = 0; i < ret; ++i) {
-			struct epoll_event* event = &events[i];
-
-			if (event->data.ptr == this) {
-				if (event->events & EPOLLIN) {
-					_canRead = true;
-				}
-
-				if (event->events & EPOLLOUT) {
-					_canWrite = true;
-				}
-			} else if (event->data.ptr == &_wakeupFD) {
-				// we allow the loop to go back to the top and try to send some messages
-				// (if _canWrite is true, the eventfd will be reset; otherwise, there's no point in resetting it)
-			} else if (event->data.ptr == &_timerFD) {
-				std::unique_lock lock(_timerLock);
-				uint64_t expirations = 0;
-
-				if (read(_timerFD, &expirations, sizeof(expirations)) < 0) {
-					if (errno == EAGAIN) {
-						// spurious event?
-						continue;
-					}
-
-					throw std::system_error(errno, std::generic_category(), "Failed to read from timerfd");
-				}
-
-				if (expirations < 1) {
-					// spurious expiration?
-					continue;
-				}
-
-				// we're done handling the timerfd;
-				// we don't need to lock anymore (and the following call might need to arm the timer again)
-				lock.unlock();
-
-				// dtape_timer_fired() calls duct-taped functions that may need to wait (briefly), so it needs to be called in a microthread
-				Thread::kernelAsync(dtape_timer_fired);
-			} else {
-				Monitor* monitor = static_cast<Monitor*>(event->data.ptr);
-				std::shared_ptr<Monitor> aliveMonitor = nullptr;
-
-				// check whether the monitor is still valid
-				_monitorsLock.lock();
-				for (const auto& mon: _monitors) {
-					if (mon.get() == monitor) {
-						aliveMonitor = mon;
-						break;
-					}
-				}
-				_monitorsLock.unlock();
-
-				// if the monitor died/was removed, ignore the event
-				if (!aliveMonitor) {
-					continue;
-				}
-
-				aliveMonitor->_callback(aliveMonitor, static_cast<Monitor::Event>(event->events & (EPOLLIN | EPOLLOUT | EPOLLERR | EPOLLHUP | EPOLLRDHUP)));
+			if (ret > 0 && std::chrono::steady_clock::now() - start > std::chrono::seconds(5)) {
+				// A monitor callback blocked for more than 5s, most likely a
+				// network syscall performed synchronously by the emulation layer.
+				std::cerr << "[osxieserver] Network syscall timeout detected - possible blocking syscall\n";
 			}
 		}
 

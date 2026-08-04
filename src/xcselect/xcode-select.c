@@ -76,7 +76,7 @@ int main(int argc, const char** argv)
 			}
 			else
 			{
-				int status = system("/usr/libexec/osixie/clt_install.py");
+				int status = system("/usr/libexec/osxie/clt_install.py");
 				return WEXITSTATUS(status);
 			}
 		}

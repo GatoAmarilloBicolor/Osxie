@@ -15,12 +15,23 @@
 # Logs: /tmp/opencode/build-retry.log  (per-attempt "=== ATTEMPT N ... ===")
 
 set -u
-BUILD_DIR="${BUILD_DIR:-build-all}"
+BUILD_DIR="${BUILD_DIR:-build_new}"
 LOG="${BUILD_LOG:-/tmp/opencode/build-retry.log}"
 MAX_ATTEMPTS="${MAX_ATTEMPTS:-40}"
 INSTALL=1
 OSXIFY_PUSH=0
 JOBS="auto"
+
+# Canonical tree is Ninja (build_new per AGENTS.md); fall back to make for
+# Makefile-based trees.
+if [ -f "$BUILD_DIR/build.ninja" ]; then
+  BUILDER="ninja"
+elif [ -f "$BUILD_DIR/Makefile" ]; then
+  BUILDER="make"
+else
+  echo "== ERROR: no build.ninja nor Makefile in $BUILD_DIR ==" | tee -a "$LOG"
+  exit 2
+fi
 
 for a in "$@"; do
   case "$a" in
@@ -49,19 +60,38 @@ echo "== available mem: ${AVAIL}Gi -> jobs=$JOBS (ulimit -v 6Gi cap) ==" >> "$LO
 # the cap dies with a make error and is simply retried.
 ulimit -v 6291456 2>/dev/null
 
+# clang's Darwin driver spawns lipo/ld/ar/ranlib by name for fat-object compile
+# steps and links; they are built under cctools-port and must be on PATH.
+CCTOOLS_BIN="$BUILD_DIR/src/external/cctools-port/cctools"
+export PATH="$CCTOOLS_BIN/misc:$CCTOOLS_BIN/ar:$CCTOOLS_BIN/ld64/src:$CCTOOLS_BIN/libstuff:$PATH"
+
 attempt=0
+ATT=$(mktemp /tmp/opencode/build-attempt.XXXXXX.log)
 while :; do
   attempt=$((attempt + 1))
   [ "$attempt" -gt "$MAX_ATTEMPTS" ] && { echo "EXHAUSTED $MAX_ATTEMPTS attempts" >> "$LOG"; exit 2; }
   echo "=== ATTEMPT $attempt $(date) (jobs=$JOBS) ===" >> "$LOG"
-  make -C "$BUILD_DIR" -j"$JOBS" >> "$LOG" 2>&1
+  : > "$ATT"
+  # Wait out any concurrent ninja from another agent in the same tree — two
+  # ninjas in one tree corrupt each other (missing .o.d dirs, posix_spawn
+  # ENOENT in clang's lipo sub-steps).
+  while pgrep -x ninja >/dev/null 2>&1; do
+    echo "  waiting for another ninja to finish..." >> "$ATT"
+    sleep 30
+  done
+  if [ "$BUILDER" = "ninja" ]; then
+    ninja -C "$BUILD_DIR" -j"$JOBS" >> "$ATT" 2>&1
+  else
+    make -C "$BUILD_DIR" -j"$JOBS" >> "$ATT" 2>&1
+  fi
   rc=$?
+  cat "$ATT" >> "$LOG"
   echo "=== attempt $attempt rc=$rc ===" >> "$LOG"
   [ "$rc" -eq 0 ] && break
 
-  # OOM heuristics: GNU make prints "Terminado"/"Killed" for signal-killed jobs,
-  # clang++ aborts on bad_alloc. Otherwise it's a real error -> stop for fixing.
-  if grep -qE "Terminado|Killed|bad_alloc|MemorySanitizer|out of memory" "$LOG"; then
+  # OOM heuristics on THIS attempt only (greping the cumulative log would
+  # misfire on stale "Terminado" lines and hide real link/compile errors).
+  if grep -qE "Terminado|Killed|bad_alloc|MemorySanitizer|out of memory|posix_spawn failed|errno=12|can't map file" "$ATT"; then
     # TCP slow-start ladder: 6 -> 4 -> 2 -> 1 after each OOM.
     JOBS=$((JOBS > 4 ? JOBS/2 : (JOBS == 4 ? 2 : (JOBS == 2 ? 1 : 1))))
     echo "OOM-killed; jobs->$JOBS, retrying" >> "$LOG"
@@ -69,19 +99,29 @@ while :; do
     continue
   fi
   echo "NON-OOM FAILURE (rc=$rc) at attempt $attempt — last error:" >> "$LOG"
-  grep -E "error:|fatal error|Error [0-9]|undefined reference|Undefined symbols" "$LOG" | tail -3 >> "$LOG"
+  grep -E "error:|fatal error|Error [0-9]|undefined reference|Undefined symbols|clang.*error" "$ATT" | tail -3 >> "$LOG"
   exit 3
 done
+rm -f "$ATT"
 
 echo "BUILD SUCCEEDED ($attempt attempts, $(date))" >> "$LOG"
 
 install() {
+  ABS_DIR="$(cd "$BUILD_DIR" && pwd)"
   if sudo -n true 2>/dev/null; then
     echo "installing via sudo..." | tee -a "$LOG"
-    sudo make -C "$BUILD_DIR" install >> "$LOG" 2>&1 || exit 4
+    if [ "$BUILDER" = "ninja" ]; then
+      sudo ninja -C "$ABS_DIR" install >> "$LOG" 2>&1 || exit 4
+    else
+      sudo make -C "$ABS_DIR" install >> "$LOG" 2>&1 || exit 4
+    fi
   else
     echo "sudo needs a password — installing via pkexec" | tee -a "$LOG"
-    pkexec make -C "$BUILD_DIR" install >> "$LOG" 2>&1 || exit 4
+    if [ "$BUILDER" = "ninja" ]; then
+      pkexec ninja -C "$ABS_DIR" install >> "$LOG" 2>&1 || exit 4
+    else
+      pkexec make -C "$ABS_DIR" install >> "$LOG" 2>&1 || exit 4
+    fi
   fi
   echo "INSTALL SUCCEEDED" >> "$LOG"
 }

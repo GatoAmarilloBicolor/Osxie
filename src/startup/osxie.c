@@ -47,20 +47,14 @@ void alarm_handler(int sig)
 #include "osxie.h"
 #include "osxie-config.h"
 
-// Between Linux 4.9 and 4.11, a strange bug has been introduced
-// which prevents connecting to Unix sockets if the socket was
-// created in a different mount namespace or under overlayfs
-// (dunno which one is really responsible for this).
-#define USE_LINUX_4_11_HACK 1
-
 char *prefix;
 uid_t g_originalUid, g_originalGid;
 bool g_fixPermissions = false;
 char g_workingDirectory[4096];
+pid_t pidInit;
 
 int main(int argc, char ** argv)
 {
-	pid_t pidInit;
 
 	if (argc <= 1)
 	{
@@ -183,7 +177,9 @@ int main(int argc, char ** argv)
 		setupWorkdir();
 		pidInit = spawnInitProcess();
 		
-		// Wait until shellspawn starts
+		// Wait until shellspawn starts (check the container's view of the
+		// socket, since that is the one we connect to)
+		snprintf(socketPath, sizeof(socketPath), "/proc/%d/root%s"  SHELLSPAWN_SOCKPATH, pidInit, prefix);
 		for (int i = 0; i < 15; i++)
 		{
 			if (access(socketPath, F_OK) == 0)
@@ -191,10 +187,6 @@ int main(int argc, char ** argv)
 			sleep(1);
 		}
 	}
-
-#if USE_LINUX_4_11_HACK
-	joinNamespace(pidInit, CLONE_NEWNS, "mnt");
-#endif
 
 	seteuid(g_originalUid);
 
@@ -240,31 +232,6 @@ int main(int argc, char ** argv)
 	}
 
 	return 0;
-}
-
-void joinNamespace(pid_t pid, int type, const char* typeName)
-{
-	int fdNS;
-	char pathNS[4096];
-	
-	snprintf(pathNS, sizeof(pathNS), "/proc/%d/ns/%s", pid, typeName);
-
-	fdNS = open(pathNS, O_RDONLY);
-
-	if (fdNS < 0)
-	{
-		fprintf(stderr, "Cannot open %s namespace file: %s\n", typeName, strerror(errno));
-		exit(1);
-	}
-
-	// Calling setns() with a PID namespace doesn't move our process into it,
-	// but our child process will be spawned inside the namespace
-	if (setns(fdNS, type) != 0)
-	{
-		fprintf(stderr, "Cannot join %s namespace: %s\n", typeName, strerror(errno));
-		exit(1);
-	}
-	close(fdNS);
 }
 
 static void pushShellspawnCommandData(int sockfd, shellspawn_cmd_type_t type, const void* data, size_t data_length)
@@ -558,16 +525,16 @@ int connectToShellspawn(void)
 	struct sockaddr_un addr;
 	int sockfd;
 
-	// Connect to the shellspawn daemon in the container
+	// Connect to the shellspawn daemon in the container.
+	// shellspawn binds the socket inside the container's mount namespace,
+	// where the prefix is covered by an overlayfs mount. Overlayfs exposes
+	// a different inode for that socket than the plain file visible in the
+	// host namespace, so connecting to the plain prefix path reaches a
+	// stale socket with no listener (ECONNREFUSED). Resolving through
+	// /proc/<init-pid>/root uses the container's mount namespace and
+	// reaches the actual listening socket.
 	addr.sun_family = AF_UNIX;
-#if USE_LINUX_4_11_HACK
-	addr.sun_path[0] = '\0';
-	
-	strcpy(addr.sun_path, prefix);
-	strcat(addr.sun_path, SHELLSPAWN_SOCKPATH);
-#else
-	snprintf(addr.sun_path, sizeof(addr.sun_path), "%s"  SHELLSPAWN_SOCKPATH, prefix);
-#endif
+	snprintf(addr.sun_path, sizeof(addr.sun_path), "/proc/%d/root%s"  SHELLSPAWN_SOCKPATH, pidInit, prefix);
 
 	sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
 	if (sockfd == -1)
@@ -576,7 +543,18 @@ int connectToShellspawn(void)
 		exit(1);
 	}
 
-	if (connect(sockfd, (struct sockaddr*) &addr, sizeof(addr)) == -1)
+	// Resolving /proc/<init-pid>/root applies a ptrace access check that
+	// compares the caller's real uid against the container processes'. The
+	// real uid is 0 here (we setuid(0) in main), but by this point the
+	// effective uid is g_originalUid (seteuid in main), which has no
+	// CAP_SYS_PTRACE, so the magic link resolves to EACCES. Raise the
+	// effective uid back to 0 for the duration of the connect (allowed, as
+	// the real and saved uids are 0).
+	seteuid(0);
+	int connectResult = connect(sockfd, (struct sockaddr*) &addr, sizeof(addr));
+	seteuid(g_originalUid);
+
+	if (connectResult == -1)
 	{
 		fprintf(stderr, "Error connecting to shellspawn in the container (%s): %s\n", addr.sun_path, strerror(errno));
 		exit(1);

@@ -566,10 +566,14 @@ void OsxieServer::Server::start() {
 		
 		// Apply a timeout so a blocking network syscall in the emulation layer
 		// cannot freeze osxieserver's event loop unnoticed.
-		const auto start = std::chrono::steady_clock::now();
-
 		int ret = epoll_wait(_epollFD, events, 16, 5000);
 		if (ret >= 0) {
+			// Measure only the time spent processing events. The 5s epoll_wait
+			// timeout itself fires on every idle iteration (and again when a
+			// dtape timer armed by a daemon's sleep/poll lands at the boundary),
+			// so including it here would produce constant false positives.
+			const auto start = std::chrono::steady_clock::now();
+
 			for (size_t i = 0; i < ret; ++i) {
 				struct epoll_event* event = &events[i];
 

@@ -577,11 +577,33 @@ kern_return_t task_register_dyld_shared_cache_image_info(task_t task, dyld_kerne
 };
 
 kern_return_t task_restartable_ranges_register(task_t task, task_restartable_range_t* ranges, mach_msg_type_number_t count) {
-	dtape_stub_unsafe();
+	if (ranges == NULL || count == 0) {
+		return KERN_INVALID_ARGUMENT;
+	}
+
+	for (mach_msg_type_number_t i = 0; i < count; i++) {
+		uint64_t end;
+
+		if (ranges[i].length > TASK_RESTARTABLE_OFFSET_MAX ||
+		    ranges[i].recovery_offs > TASK_RESTARTABLE_OFFSET_MAX) {
+			return KERN_INVALID_ARGUMENT;
+		}
+		if (ranges[i].flags) {
+			return KERN_INVALID_ARGUMENT;
+		}
+		if (__builtin_add_overflow(ranges[i].location, ranges[i].length, &end)) {
+			return KERN_INVALID_ARGUMENT;
+		}
+	}
+
+	// The guest runs on real host threads, so there is no need to reset PCs
+	// when a thread is preempted inside a restartable region. Accept the
+	// registration as a no-op so dyld/libSystem can boot up.
+	return KERN_SUCCESS;
 };
 
 kern_return_t task_restartable_ranges_synchronize(task_t task) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t task_set_exc_guard_behavior(task_t task, task_exc_guard_behavior_t behavior) {

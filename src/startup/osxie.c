@@ -178,13 +178,33 @@ int main(int argc, char ** argv)
 		pidInit = spawnInitProcess();
 		
 		// Wait until shellspawn starts (check the container's view of the
-		// socket, since that is the one we connect to)
+		// socket, since that is the one we connect to). Also watch out for
+		// the init process dying while we wait, which would mean the
+		// container failed to boot.
 		snprintf(socketPath, sizeof(socketPath), "/proc/%d/root%s"  SHELLSPAWN_SOCKPATH, pidInit, prefix);
-		for (int i = 0; i < 15; i++)
+		for (int i = 0; i < 30; i++)
 		{
 			if (access(socketPath, F_OK) == 0)
 				break;
+
+			if (kill(pidInit, 0) == -1)
+			{
+				fprintf(stderr, "The container init process (PID %d) died while the container was starting.\n", pidInit);
+				fprintf(stderr, "See %s/private/var/log/dserver.log for details.\n", prefix);
+				exit(1);
+			}
+
+			if (i == 5)
+				fprintf(stderr, "Waiting for the container to start...\n");
+
 			sleep(1);
+		}
+
+		if (access(socketPath, F_OK) != 0)
+		{
+			fprintf(stderr, "Timed out waiting for shellspawn in the container (%s).\n", socketPath);
+			fprintf(stderr, "See %s/private/var/log/dserver.log for details.\n", prefix);
+			exit(1);
 		}
 	}
 
@@ -413,7 +433,20 @@ static void shellLoop(int sockfd, int master)
 			int exitStatus;
 			
 			if (read(sockfd, &exitStatus, sizeof(int)) == sizeof(int))
+			{
+				if (exitStatus < 0)
+				{
+					// Negative exit statuses are errors reported by
+					// shellspawn (the errno, negated). Show them like a
+					// shell would.
+					int err = -exitStatus;
+					if (err == 0)
+						err = EIO;
+					fprintf(stderr, "osxie: cannot execute: %s\n", strerror(err));
+					exit(err == ENOENT ? 127 : 126);
+				}
 				exit(exitStatus);
+			}
 			else
 				exit(1);
 		}
@@ -551,7 +584,43 @@ int connectToShellspawn(void)
 	// effective uid back to 0 for the duration of the connect (allowed, as
 	// the real and saved uids are 0).
 	seteuid(0);
-	int connectResult = connect(sockfd, (struct sockaddr*) &addr, sizeof(addr));
+
+	// The socket file may exist while shellspawn is still binding or
+	// while launchd is restarting it, so retry a few times and bail out
+	// with a clear message if the container init dies in the meantime.
+	// A failed connect() leaves an AF_UNIX stream socket in an undefined
+	// state, so recreate it on every attempt.
+	int connectResult = -1;
+	for (int attempt = 0; attempt < 5; attempt++)
+	{
+		if (attempt > 0)
+		{
+			close(sockfd);
+			sockfd = socket(AF_UNIX, SOCK_STREAM, 0);
+			if (sockfd == -1)
+			{
+				fprintf(stderr, "Error creating a unix domain socket: %s\n", strerror(errno));
+				seteuid(g_originalUid);
+				exit(1);
+			}
+		}
+
+		if (kill(pidInit, 0) == -1)
+		{
+			fprintf(stderr, "The container init process (PID %d) died while connecting to shellspawn.\n", pidInit);
+			seteuid(g_originalUid);
+			exit(1);
+		}
+
+		connectResult = connect(sockfd, (struct sockaddr*) &addr, sizeof(addr));
+		if (connectResult == 0)
+			break;
+
+		if (errno != ECONNREFUSED && errno != ENOENT && errno != EAGAIN)
+			break;
+
+		sleep(1);
+	}
 	seteuid(g_originalUid);
 
 	if (connectResult == -1)

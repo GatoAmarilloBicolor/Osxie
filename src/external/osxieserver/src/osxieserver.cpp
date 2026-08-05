@@ -714,6 +714,15 @@ int main(int argc, char** argv) {
 		perma_drop_privileges(originalUID, originalGID);
 		prctl(PR_SET_DUMPABLE, 1, 0, 0, 0);
 
+		// put the guest init in its own session/process group.
+		// in Darwin, launchd is the session leader; without this,
+		// the guest shares osxieserver's process group, so a kill(0, ...)
+		// from inside the guest would signal the server too.
+		if (setsid() == -1) {
+			fprintf(stderr, "Failed to set new session: %s\n", strerror(errno));
+			exit(1);
+		}
+
 		// decrease the FD limit back to the default
 		if (setrlimit(RLIMIT_NOFILE, &default_limit) != 0) {
 			fprintf(stderr, "Warning: failed to decrease FD limit back down for launchd: %s\n", strerror(errno));

@@ -54,6 +54,10 @@ int main(int argc, const char** argv)
 	// in order to read the exit status of the shell process,
 	// we have to allow it to become a zombie, therefore we need to
 	// restore the sigaction of SIGCHLD of the child shellspawn
+	//
+	// Ignore SIGPIPE so that writes to a client that disconnected
+	// (e.g. the container was torn down) don't kill the daemon.
+	signal(SIGPIPE, SIG_IGN);
 	setupSigchild();
 	setupSocket();
 	listenForConnections();
@@ -105,7 +109,15 @@ void listenForConnections(void)
 	{
 		sock = accept(g_serverSocket, (struct sockaddr*) &addr, &len);
 		if (sock == -1)
+		{
+			// A signal interrupting accept() must not take down the
+			// daemon (launchd would restart it, but the clients would
+			// see a brief window without a listener).
+			if (errno == EINTR)
+				continue;
+			if (DBG) perror("accept");
 			break;
+		}
 
 		if (fork() == 0)
 		{
@@ -397,14 +409,21 @@ void spawnShell(int fd)
 	for (int i = 0; i < 3; i++)
 	{
 		if (shellfd[i] != -1)
-			close(shellfd[0]);
+			close(shellfd[i]);
 	}
 
 	// Reap the child
 	int wstatus;
 	if (waitpid(shell_pid, &wstatus, 0) != shell_pid)
 		perror("waitpid");
-	wstatus = WEXITSTATUS(wstatus);
+
+	// Follow the shell convention: a process killed by signal N reports
+	// an exit status of 128+N, so the client can distinguish a signal
+	// death from a clean exit with status 0.
+	if (WIFSIGNALED(wstatus))
+		wstatus = 128 + WTERMSIG(wstatus);
+	else
+		wstatus = WEXITSTATUS(wstatus);
 	
 	// Report exit code back to the client
 	write(fd, &wstatus, sizeof(int));
@@ -417,10 +436,16 @@ void spawnShell(int fd)
 err:
 	if (DBG) fprintf(stderr, "Error spawning shell: %s\n", strerror(errno));
 
+	// Report the failure to the client as a negative errno value, so it
+	// can show a meaningful error instead of a silent exit. 0 means an
+	// unspecified failure.
+	int error_status = errno ? -errno : -EIO;
+	write(fd, &error_status, sizeof(error_status));
+
 	for (int i = 0; i < 3; i++)
 	{
 		if (shellfd[i] != -1)
-			close(shellfd[0]);
+			close(shellfd[i]);
 	}
 
 	if (shell_pid != -1)

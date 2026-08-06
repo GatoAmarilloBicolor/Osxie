@@ -427,7 +427,7 @@ if (COMPONENT_python)
 	set(CMAKE_INSTALL_DEFAULT_COMPONENT_NAME "python")
 
 	add_subdirectory(external/python_modules)
-	add_subdirectory(external/python/2.7/Python-2.7.16)
+	add_subdirectory(external/python/3.10/Python-3.10.12)
 endif()
 
 if (COMPONENT_cli OR COMPONENT_python)

@@ -168,9 +168,72 @@ Key mechanics (details in `.opencode/plans/build-completion.md`):
 - Osxified submodules to fork/push when green (rest of `git submodule status` is
   build junk): `OpenLDAP`, `python`, `JavaScriptCore`, `Heimdal`, `security`
   (`git add -u` + commit `osxify: replace DARLING guards/refs with OSXIE`, branch
-  `osxie`, `gh repo fork`, push) — see `.opencode/plans/build-completion.md`.---
+  `osxie`, `gh repo fork`, push) — see `.opencode/plans/build-completion.md`.
+
+## Fast dev-loop for framework changes — `scripts/relink_dylibs.sh`
+
+When iterating on a high-level Cocoa framework (AppKit/Foundation/CoreFoundation
+for NIB/UI debugging, etc.), **do NOT** run `build_complete.sh` every time: its
+`pkexec ninja install` rewrites the whole `/usr/local/libexec` tree and would
+re-touch the **setuid-root `shellspawn`**, which is risky and slow. Instead use
+this QoL helper — it builds just the named dylib targets and copies them straight
+into the runtime prefix `~/.osxie`, with **no setuid/sudo/pkexec every**:
+
+```bash
+./scripts/relink_dylibs.sh                 # rebuild+copy AppKit & Foundation (default)
+./scripts/relink_dylibs.sh AppKit          # just one
+./scripts/relink_dylibs.sh --restart-server# also restart osxieserver
+```
+
+- Never touches shellspawn or the setuid install step.
+- **Since 2026-08-08, relinking `AppKit` also rebuilds+copies the X11 backend**
+  (`X11_backend` → `AppKit.framework/.../Resources/Backends/X11.backend/Contents/MacOS/X11`),
+  because the window/tray machinery lives there.
+- **Only ONE runtime prefix matters**: verified via `/proc/<app>/maps` that the
+  running app loads frameworks exclusively from
+  `$OSXIE_PREFIX/System/Library/Frameworks/...`. The tree at
+  `$OSXIE_PREFIX/libexec/osxie/System/...` is a stale full install the app NEVER
+  consults — the script does NOT copy there.
+- `BUILD_DIR` and `OSXIE_PREFIX` env vars override the build tree (default
+  `build_new`) and runtime prefix (default `~/.osxie`). The runtime prefix
+  (`~/.osxie`) is the one the running `osxieserver` maps, NOT
+  `/usr/local/libexec/osxie` (which the user only reads for SDK headers).
+- `--restart-server` kills the running `osxieserver` for `~/.osxie` so the next
+  `./install/bin/osxie <app>` launch maps the freshly copied dylibs.
+- Then run the app setuid launcher manually (interactive session required):
+  `cd install/bin && ./osxie /Applications/cpuinfo.app/Contents/MacOS/cpuinfo`.
 ## Progress: July 31 → August 1, 2026
 - Rebuilt with flow configuration (repo-root -S .)
 - Verified osxie and system_kernel.dylib linking
+
+## Issue 23: NIBArchive `NSPlaceholderNumber` freed by `_decodeObjectAtIndex:` (cpuinfo SIGEXC)
+- **File**: `src/external/cocotron/AppKit/nib.subproj/GSNibArchiveKeyedUnarchiver.m` (nested repo, NOT a submodule pointer)
+- **Problem**: `_decodeObjectAtIndex:` did `object = [class allocWithZone:]` (returns the shared singleton placeholder, e.g. `NSPlaceholderNumber` from `+[NSValue allocWithZone:]`, see `src/external/foundation/src/NSValue.m:27-51`), then `[object release]` whenever `initWithCoder:`/`awakeAfterUsingCoder:`/`didDecodeObject:` returned a different object. The NEXT `[NSNumber alloc]` returned that freed block with a garbage isa → SIGEXC in `initWithUnsignedInteger:`/`initWithUnsignedLong:`/`initWithUnsignedChar:` depending on allocator.
+- **Fix**: Probe for the shared placeholder right after alloc (`id probe = [class allocWithZone: _objectZone]; sharedPlaceholder = (probe == object); if (!sharedPlaceholder) [probe release];`), and guard all three `[object release]` sites with `if (!sharedPlaceholder)`.
+- **Status**: UNCOMMITTED (`M nib.subproj/GSNibArchiveKeyedUnarchiver.m` in the AppKit nested repo; prior commit `09f54aba`).
+
+## Progress: August 7, 2026 — Milestone "visible window" VERIFIED
+- **cpuinfo** (menu-bar app, no own window) runs to a stable run loop: `NSIBObjectData initWithCoder: done objects=27 conns=26`, all 26 `establishConnections` done, `NSApp run: finishLaunching returned`, repeated `NSStatusItem button: cache hit` — **0 SIGEXC**. Objects 168–179 are the 12 NSNumbers decoded *before* the NSMutableSet (idx=5) that used to crash.
+- **TestWindow.app** (has a window) verified with live X11 evidence: `MapNotify` / `VisibilityNotify` / `FocusIn` → window mapped and focused; `EnterNotify`/`LeaveNotify`; clean close via `ClientMessage: WM_DELETE_WINDOW` → `UnmapNotify`.
+- **Known AppKit gap**: `+[NSTextField labelWithString:]` → `unrecognized selector` (not implemented anywhere in AppKit) — non-fatal; window still mapped.
+- Launching a GUI app for X11 verification: `setsid bash -c 'script -qc "./osxie <path-to-binary>" /tmp/opencode/run_testwindow.log > /tmp/opencode/run_testwindow_outer.log 2>&1' &` then grep the outer log for `MapNotify`.
+
+## Issue 24: System tray icon destroyed by KWin/xembedsniproxy (cpuinfo) — FIXED
+- **Scope**: `src/external/cocotron/AppKit` (nested repo): `NSApplication.m`, `NSStatusItem.m`, `NSWindow.m`, `X11.backend/X11Window.h/.m`, `X11.backend/X11Display.m`, plus trace cleanup in `NSButtonCell.m`, `NSImage.m`, `NSCachedImageRep.m`.
+- **Diagnosis**: A bare-X11 test window (`/tmp/opencode/tray_test.c`, 22×22 override-redirect + `_XEMBED_INFO` + dock request) embeds fine and lives 8+ s under the sniproxy slot — the XEmbed path itself was never the problem. The tray was killed by the app itself: `NSApplicationMain` (`NSApplication.m:1703`) called `makeKeyAndOrderFront:` on **every** window in `[NSApp windows]`, including the embedded tray → `XRaiseWindow` + orderFront → KWin de-embeds and destroys the tray ~570 ms later. `isMiniaturized` on windows with `_window=0` also emitted `BadWindow` (req 20/12/3).
+- **Fix**:
+  1. `NSApplication.m`: the "bring windows to front" loop skips windows whose `[win level] == NSStatusWindowLevel`.
+  2. `X11Window.m`: new `_embedded` flag; `dockInSystemTray` sets `_embedded=YES; _mapped=YES` after reparent; `ensureMapped` no-ops when embedded; guards `if (_window==0)`/`if (_embedded)` in `hideWindow`, `placeAboveWindow`, `placeBelowWindow`, `makeKey`, `miniaturize`, `deminiaturize`, `isMiniaturized`, `setTitle`, `setFrame`, `setStyleMaskInternal`, `syncDelegateProperties`.
+  3. `X11Display.m`: `DestroyNotify` now, besides `[window invalidate]`, enqueues `platformWindowWillClose:` on the delegate (same pattern as `ClientMessage WM_DELETE_WINDOW`) → `close:` → `NSWindowWillCloseNotification` → `NSStatusItem _trayWindowWillClose:` → automatic re-dock to a fresh tray window.
+  4. **Over-release crash**: `_releaseWhenClosed=YES` by default (`NSWindow.m:337`) + `close:` autorelease + performSelector retain + `_trayWindowWillClose:` doing `release` → triple release (SIGEXC `addr=0x18`, `sel=retainCount`). `_trayWindowWillClose:` no longer releases — it only clears `_trayWindow`.
+- **Verified** (run P, after trace cleanup): slot `0xa0004f` (32×32) with child `0x1800002` 22×22 embedding stable; content 368 white + gray px; **0 SIGEXC, 0 DestroyNotify, 0 BadWindow**; app alive after 25 s (4 processes). External `XDestroyWindow` → automatic re-dock to a new tray window with 0 crashes.
+- **Trace cleanup**: per-frame traces removed (`NSButtonCell drawInterior`, `NSCachedImageRep drawInRect`, `NSWindow flushWindow`, `NSStatusItem button:`/`setTitle:`, `NSApp run: got event`, `NSImage` 62×24 TIFF dumps); remaining traces gated behind env vars (`OSXIE_TRACE_WINDOW_LIFE`, `OSXIE_TRACE_FLUSH`, `OSXIE_TRACE_BACKTRACE`).
+- **Issue 24b — instrumentation gated (clean logs)**:
+  - `X11Display.m`: new `eventsTraceEnabled()` helper (env `OSXIE_TRACE_EVENTS`); all per-event `NSLog`s gated (EnterNotify, FocusIn, MapNotify, ReparentNotify, ClientMessage:WM_DELETE_WINDOW, Unknown event, etc.). `handleError:` now silently drops `BadWindow` (benign destroy-race noise — all other paths guard `_window==0`).
+  - `NSApplication.m`: 28 startup traces gated behind `OSXIE_TRACE_APP`.
+  - `AppKit/nib.subproj/*` (NSIBObjectData, NSNib, NSCustomObject, NSNibBindingConnector, GSNibArchiveKeyedUnarchiver): 37 `fprintf` + 6 `NSLog` traces gated behind `OSXIE_TRACE_NIB` (Issue-23 NIB-decode traces; the fixes themselves are untouched).
+  - Foundation (separate repo `src/external/foundation`): `NSNumber.m` `numberWithUnsignedChar:` trace gated behind `OSXIE_TRACE_NUMBER`; `NSNotificationCenter.m` delivering/delivered traces gated behind `OSXIE_TRACE_NOTIFICATION`.
+  - **Result**: idle cpuinfo run produces a clean log — 0 lines in the app log; only one-shot legit messages remain in the outer log (`Bootstrapping the container`, `Failed to create /Users for shader cache`, `FreeType font face is not scalable`, `error opening!: 14` / `Could not create database queue for path /private/var/db/launchservices.db`).
+- **Status**: UNCOMMITTED in the `cocotron` nested repo (together with the prior Issue-23 NIB/connector work).
 ---
 ## Build: CORE COMPLETE, READY FOR INSTALL

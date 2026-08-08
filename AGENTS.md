@@ -169,6 +169,14 @@ Key mechanics (details in `.opencode/plans/build-completion.md`):
   build junk): `OpenLDAP`, `python`, `JavaScriptCore`, `Heimdal`, `security`
   (`git add -u` + commit `osxify: replace DARLING guards/refs with OSXIE`, branch
   `osxie`, `gh repo fork`, push) — see `.opencode/plans/build-completion.md`.
+- **Forks ALL first-level submodules (2026-08-08)**: created `GatoAmarilloBicolor/osxie-*`
+  forks for all 96 first-level submodules whose osxify HEAD was not published
+  (`gh repo fork <upstream> --fork-name <target>`; special names: `cctools-port`,
+  `lzfse`, `openjdk` keep plain name; 4 `libressl-*` dirs share the
+  `osxie-libressl` fork, one branch per dir). Each submodule's gitlink HEAD is
+  pushed to a branch named after its directory (`refs/heads/<dir>`), so the parent
+  clones reproducibly. `swift` needs `-c core.hooksPath=/dev/null` on push (its
+  `.lfsconfig` points to the auth-only `git-lfs.darlinghq.org`).
 
 ## Fast dev-loop for framework changes — `scripts/relink_dylibs.sh`
 

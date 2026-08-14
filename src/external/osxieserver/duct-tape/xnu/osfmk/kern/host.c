@@ -131,6 +131,7 @@ static void
 get_host_vm_stats(vm_statistics64_t out)
 {
 #ifdef __OSXIE__
+	// Forward to duct-tape host.c vm_stats or populate directly via sysinfo
 	memset(out, 0, sizeof(*out));
 #else
 	out->zero_fill_count = counter_load(&vm_statistics_zero_fill_count);

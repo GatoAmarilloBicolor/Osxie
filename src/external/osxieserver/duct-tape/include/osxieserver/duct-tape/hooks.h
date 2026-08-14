@@ -63,6 +63,7 @@ typedef bool (*dtape_hook_task_change_protection_f)(void* task_context, uintptr_
 typedef bool (*dtape_hook_task_sync_memory_f)(void* task_context, uintptr_t address, size_t size, int sync_flags);
 typedef void (*dtape_hook_task_context_dispose_f)(void* task_context);
 typedef dtape_eternal_id_t (*dtape_hook_task_eternal_id_f)(void* thread_context);
+typedef void (*dtape_hook_task_for_each_f)(void (*callback)(dtape_task_t* task, void* user_data), void* user_data);
 
 #if DSERVER_EXTENDED_DEBUG
 	typedef void (*dtape_hook_task_register_name_f)(void* task_context, uint32_t name, uintptr_t pointer);
@@ -114,6 +115,7 @@ typedef struct dtape_hooks {
 	dtape_hook_task_sync_memory_f task_sync_memory;
 	dtape_hook_task_context_dispose_f task_context_dispose;
 	dtape_hook_task_eternal_id_f task_eternal_id;
+	dtape_hook_task_for_each_f task_for_each;
 
 #if DSERVER_EXTENDED_DEBUG
 	dtape_hook_task_register_name_f task_register_name;

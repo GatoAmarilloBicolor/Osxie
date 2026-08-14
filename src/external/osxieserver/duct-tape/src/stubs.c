@@ -56,8 +56,16 @@ void dtape_stub_log(const char* function_name, int safety, const char* subsectio
 #endif
 		kind_info = "";
 	} else if (safety < 0) {
+		// Unsafe stubs return KERN_FAILURE to the caller instead of aborting
+		// (see stubs.h).  Aborting on the first unimplemented call would kill
+		// the shared osxieserver and, with it, every guest process's dserver
+		// RPC connection.  DTAPE_FATAL_STUBS=1 restores the fatal behavior.
 		log_level = dtape_log_level_error;
+#if DTAPE_FATAL_STUBS
 		do_abort = true;
+#else
+		do_abort = false;
+#endif
 		kind_info = " (unsafe)";
 	} else {
 		if (!log_safe_stubs) {

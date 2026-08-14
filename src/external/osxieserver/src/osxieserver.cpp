@@ -678,10 +678,12 @@ int main(int argc, char** argv) {
 	temp_drop_privileges(originalUID, originalGID);
 	osxiePreInit(prefix);
 	regain_privileges();
+	if (getenv("OSXIE_TRACE_SERVER")) fprintf(stderr, "OSXIE_DBG server main: preInit done, pipefd=%d\n", pipefd);
 
 	// Tell the parent we're ready
 	write(pipefd, ".", 1);
 	close(pipefd);
+	if (getenv("OSXIE_TRACE_SERVER")) fprintf(stderr, "OSXIE_DBG server main: ready byte written\n");
 
 	if (pipe(childWaitFDs) != 0) {
 		std::cerr << "Failed to create child waiting pipe: " << strerror(errno) << std::endl;
@@ -755,6 +757,7 @@ int main(int argc, char** argv) {
 
 	// create the server
 	auto server = new OsxieServer::Server(prefix);
+	if (getenv("OSXIE_TRACE_SERVER")) fprintf(stderr, "OSXIE_DBG server main: Server constructed\n");
 
 	// tell the child to go ahead; the socket has been created
 	write(childWaitFDs[1], ".", 1);

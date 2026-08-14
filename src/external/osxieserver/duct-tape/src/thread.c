@@ -1292,8 +1292,67 @@ kern_return_t thread_info(thread_t xthread, thread_flavor_t flavor, thread_info_
 			return KERN_SUCCESS;
 		};
 
+		case THREAD_EXTENDED_INFO: {
+			if (*thread_info_count < THREAD_EXTENDED_INFO_COUNT) {
+				return KERN_INVALID_ARGUMENT;
+			}
+			*thread_info_count = THREAD_EXTENDED_INFO_COUNT;
+
+			thread_extended_info_t info = (thread_extended_info_t) thread_info_out;
+			dtape_thread_state_t thread_state = -1;
+
+			thread_lock(xthread);
+
+			// TODO: fill in these values properly
+			info->pth_user_time = 0;
+			info->pth_system_time = 0;
+			info->pth_cpu_usage = 0;
+			info->pth_policy = 0;
+			info->pth_flags = 0;
+			info->pth_sleep_time = 0;
+			info->pth_curpri = 0;
+			info->pth_priority = 0;
+			info->pth_maxpriority = 0;
+			memset(info->pth_name, 0, MAXTHREADNAMESIZE);
+
+			thread_unlock(xthread);
+
+			dtape_mutex_lock(&thread->suspension_mutex);
+			if (thread->waiting_suspended) {
+				thread_state = dtape_thread_state_stopped;
+			}
+			dtape_mutex_unlock(&thread->suspension_mutex);
+
+			if (thread_state == -1) {
+				thread_state = dtape_hooks->thread_get_state(thread->context);
+			}
+
+			switch (thread_state) {
+				case dtape_thread_state_dead:
+					info->pth_run_state = 0;
+					break;
+				case dtape_thread_state_running:
+					info->pth_run_state = TH_STATE_RUNNING;
+					break;
+				case dtape_thread_state_stopped:
+					info->pth_run_state = TH_STATE_STOPPED;
+					break;
+				case dtape_thread_state_interruptible:
+					info->pth_run_state = TH_STATE_WAITING;
+					break;
+				case dtape_thread_state_uninterruptible:
+					info->pth_run_state = TH_STATE_UNINTERRUPTIBLE;
+					break;
+				default:
+					info->pth_run_state = TH_STATE_HALTED;
+			}
+
+			return KERN_SUCCESS;
+		};
+
 		default:
-			dtape_stub_unsafe("Unimplemented flavor");
+			dtape_log(dtape_log_level_warning, "thread_info: unimplemented flavor %d", flavor);
+			return KERN_FAILURE;
 	}
 };
 

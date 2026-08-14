@@ -2,6 +2,7 @@
 
 #include <kern/host.h>
 #include <mach_debug/mach_debug.h>
+#include <osxieserver/duct-tape/processor.h>
 
 #include <libsimple/lock.h>
 
@@ -206,23 +207,76 @@ kern_return_t host_virtual_physical_table_info(host_t host, hash_info_bucket_arr
 
 kern_return_t host_statistics(host_t host, host_flavor_t flavor, host_info_t info, mach_msg_type_number_t* count) {
 	switch (flavor) {
-		// we can get away with not implementing it
+		case HOST_LOAD_INFO: {
+			host_load_info_t load_info = (host_load_info_t)info;
+
+			if (*count < HOST_LOAD_INFO_COUNT) {
+				return KERN_FAILURE;
+			}
+
+			static struct sysinfo cached_sysinfo;
+			if (sysinfo(&cached_sysinfo) == 0) {
+				// Linux /proc/loadavg values are scaled by 1<<16 (SI_LOAD_SHIFT);
+				// Mach LOAD_SCALE is 1000 in this tree.
+				for (unsigned int i = 0; i < 3; i++) {
+					load_info->avenrun[i] = (integer_t)((cached_sysinfo.loads[i] * 1000) >> 16);
+					load_info->mach_factor[i] = load_info->avenrun[i];
+				}
+			} else {
+				memset(load_info, 0, sizeof(*load_info));
+			}
+
+			*count = HOST_LOAD_INFO_COUNT;
+			return KERN_SUCCESS;
+		}
+
 		case HOST_VM_INFO: {
 			vm_statistics_t stat32 = (vm_statistics_t)info;
+			static struct sysinfo cached_sysinfo;
 
 			if (*count < HOST_VM_INFO_REV0_COUNT) {
 				return KERN_FAILURE;
 			}
 
-			dtape_stub_safe("HOST_VM_INFO");
-			memset(stat32, 0, (*count) * sizeof(integer_t));
+			if (sysinfo(&cached_sysinfo) == 0) {
+				uint64_t page_size = 4096;
+				uint64_t total_pages = (cached_sysinfo.totalram * cached_sysinfo.mem_unit) / page_size;
+				uint64_t free_pages = (cached_sysinfo.freeram * cached_sysinfo.mem_unit) / page_size;
+				uint64_t buffer_pages = (cached_sysinfo.bufferram * cached_sysinfo.mem_unit) / page_size;
+
+				memset(stat32, 0, (*count) * sizeof(integer_t));
+				stat32->free_count = free_pages;
+				stat32->active_count = total_pages > free_pages ? (total_pages - free_pages) / 2 : 0;
+				stat32->inactive_count = total_pages > free_pages ? (total_pages - free_pages) / 2 : 0;
+				stat32->wire_count = buffer_pages;
+			} else {
+				memset(stat32, 0, (*count) * sizeof(integer_t));
+			}
 
 			return KERN_SUCCESS;
 		}
 
-		case HOST_CPU_LOAD_INFO:
-			dtape_stub_safe("HOST_CPU_LOAD_INFO");
-			return KERN_INVALID_ARGUMENT;
+		case HOST_CPU_LOAD_INFO: {
+			host_cpu_load_info_t cpu_info = (host_cpu_load_info_t)info;
+			uint64_t ticks[4];
+
+			if (*count < HOST_CPU_LOAD_INFO_COUNT) {
+				return KERN_FAILURE;
+			}
+
+			// real aggregate CPU ticks from /proc/stat
+			if (dtape_read_proc_stat_ticks(-1, ticks) != 0) {
+				memset(cpu_info, 0, sizeof(*cpu_info));
+			} else {
+				cpu_info->cpu_ticks[CPU_STATE_USER] = (integer_t)ticks[CPU_STATE_USER];
+				cpu_info->cpu_ticks[CPU_STATE_SYSTEM] = (integer_t)ticks[CPU_STATE_SYSTEM];
+				cpu_info->cpu_ticks[CPU_STATE_IDLE] = (integer_t)ticks[CPU_STATE_IDLE];
+				cpu_info->cpu_ticks[CPU_STATE_NICE] = (integer_t)ticks[CPU_STATE_NICE];
+			}
+			*count = HOST_CPU_LOAD_INFO_COUNT;
+
+			return KERN_SUCCESS;
+		}
 
 		default:
 			dtape_stub_unsafe();
@@ -231,13 +285,28 @@ kern_return_t host_statistics(host_t host, host_flavor_t flavor, host_info_t inf
 
 kern_return_t vm_stats(void* info, unsigned int* count) {
 	vm_statistics64_t stat = (vm_statistics64_t)info;
+	static struct sysinfo cached_sysinfo;
 
 	if (*count < HOST_VM_INFO64_COUNT)
 		return (KERN_FAILURE);
 
+	if (sysinfo(&cached_sysinfo) < 0) {
+		memset(stat, 0, sizeof(*stat));
+		*count = HOST_VM_INFO64_COUNT;
+		return KERN_SUCCESS;
+	}
+
 	memset(stat, 0, sizeof(*stat));
 
-	dtape_stub("TODO: actually fill in the values with something useful");
+	uint64_t page_size = 4096;
+	uint64_t total_pages = (cached_sysinfo.totalram * cached_sysinfo.mem_unit) / page_size;
+	uint64_t free_pages = (cached_sysinfo.freeram * cached_sysinfo.mem_unit) / page_size;
+	uint64_t buffer_pages = (cached_sysinfo.bufferram * cached_sysinfo.mem_unit) / page_size;
+
+	stat->free_count = free_pages;
+	stat->active_count = total_pages > free_pages ? (total_pages - free_pages) / 2 : 0;
+	stat->inactive_count = total_pages > free_pages ? (total_pages - free_pages) / 2 : 0;
+	stat->wire_count = buffer_pages;
 
 	*count = HOST_VM_INFO64_COUNT;
 

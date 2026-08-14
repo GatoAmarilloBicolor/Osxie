@@ -14,6 +14,11 @@
 #include <kern/sync_sema.h>
 #include <kern/ux_handler.h>
 
+// manual libc declarations (see processor.c for why stdio.h cannot be included)
+typedef struct _IO_FILE FILE;
+extern FILE* stderr;
+int fprintf(FILE* stream, const char* format, ...);
+
 struct task_id_token {
 	struct proc_ident ident;
 	ipc_port_t        port;
@@ -41,11 +46,14 @@ void dtape_mk_timer_init(void);
 void dtape_init(const dtape_hooks_t* hooks) {
 	dtape_hooks = hooks;
 
+	dtape_log_debug("dtape_init: start");
 	dtape_log_debug("dtape_processor_init");
 	dtape_processor_init();
+	dtape_log_debug("dtape_init: processor_init done");
 
 	dtape_log_debug("dtape_memory_init");
 	dtape_memory_init();
+	dtape_log_debug("dtape_init: memory_init done");
 
 	ipc_space_zone = zone_create("ipc spaces", sizeof(struct ipc_space), ZC_NOENCRYPT);
 	ipc_kmsg_zone = zone_create("ipc kmsgs", IKM_SAVED_KMSG_SIZE, ZC_CACHING | ZC_ZFREE_CLEARMEM);

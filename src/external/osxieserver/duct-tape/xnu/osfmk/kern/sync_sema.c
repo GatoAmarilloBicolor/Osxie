@@ -60,6 +60,18 @@
 
 #include <libkern/OSAtomic.h>
 
+#include <osxieserver/duct-tape/log.h>
+#include <stdlib.h>
+
+/* OSXIE_TRACE_SEMA=1: trace mach semaphore wait/signal counting (debug aid) */
+static int sema_trace_enabled(void) {
+	static int enabled = -1;
+	if (enabled < 0) {
+		enabled = (getenv("OSXIE_TRACE_SEMA") != NULL);
+	}
+	return enabled;
+}
+
 static unsigned int semaphore_event;
 #define SEMAPHORE_EVENT CAST_EVENT64_T(&semaphore_event)
 
@@ -393,6 +405,10 @@ semaphore_signal_internal(
 			kr = KERN_SUCCESS;
 			semaphore_unlock(semaphore);
 		}
+		if (sema_trace_enabled()) {
+			dtape_log_debug("SEMA S ALL sem=%p old_count=%d kr=%d tid=%llu",
+			    semaphore, old_count, kr, thread_tid(current_thread()));
+		}
 		splx(spl_level);
 		return kr;
 	}
@@ -408,6 +424,10 @@ semaphore_signal_internal(
 			WAITQ_KEEP_LOCKED,
 			wq_option);
 		if (kr == KERN_SUCCESS) {
+			if (sema_trace_enabled()) {
+				dtape_log_debug("SEMA S sem=%p WOKE tid=%llu",
+				    semaphore, thread_tid(current_thread()));
+			}
 			semaphore_unlock(semaphore);
 			splx(spl_level);
 			return KERN_SUCCESS;
@@ -420,6 +440,10 @@ semaphore_signal_internal(
 		semaphore->count++;
 	}
 
+	if (sema_trace_enabled()) {
+		dtape_log_debug("SEMA S sem=%p count=%d PREPOST tid=%llu",
+		    semaphore, semaphore->count, thread_tid(current_thread()));
+	}
 	semaphore_unlock(semaphore);
 	splx(spl_level);
 	return KERN_NOT_WAITING;
@@ -711,6 +735,12 @@ semaphore_wait_internal(
 
 		semaphore_signal_options |= SEMAPHORE_THREAD_HANDOFF;
 	}
+	if (sema_trace_enabled()) {
+		dtape_log_debug("SEMA W sem=%p count=%d kr=%d tid=%llu%s",
+		    wait_semaphore, wait_semaphore->count, kr,
+		    thread_tid(current_thread()),
+		    (kr == KERN_ALREADY_WAITING) ? " BLOCK" : "");
+	}
 	semaphore_unlock(wait_semaphore);
 	splx(spl_level);
 
@@ -769,6 +799,10 @@ semaphore_wait_internal(
 		self->handoff_thread = THREAD_NULL;
 		handoff_option = THREAD_HANDOFF_SETRUN_NEEDED;
 	}
+	if (sema_trace_enabled()) {
+		dtape_log_debug("SEMA W sem=%p tid=%llu waiting result start wr=%d",
+		    wait_semaphore, thread_tid(current_thread()), self->wait_result);
+	}
 	/*
 	 * Now, we can block.  If the caller supplied a continuation
 	 * pointer of his own for after the block, block with the
@@ -785,6 +819,12 @@ semaphore_wait_internal(
 		    NULL, handoff_option);
 	} else {
 		wait_result = thread_handoff_deallocate(handoff_thread, handoff_option);
+	}
+
+	if (sema_trace_enabled()) {
+		dtape_log_debug("SEMA W sem=%p tid=%llu UNBLOCKED result=%d conv=%d",
+		    wait_semaphore, thread_tid(current_thread()), wait_result,
+		    semaphore_convert_wait_result(wait_result));
 	}
 
 	assert(self->handoff_thread == THREAD_NULL);

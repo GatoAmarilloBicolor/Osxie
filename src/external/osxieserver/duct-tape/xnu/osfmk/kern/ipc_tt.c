@@ -222,7 +222,7 @@ ipc_task_init(
 			task->exc_actions[i].privileged = FALSE;
 		}/* for */
 
-		kr = host_get_host_port(host_priv_self(), &port);
+		kr = host_get_host_priv_port(host_priv_self(), &port);
 		assert(kr == KERN_SUCCESS);
 		task->itk_host = port;
 

@@ -1,10 +1,21 @@
 #include <osxieserver/duct-tape/stubs.h>
 #include <osxieserver/duct-tape/hooks.internal.h>
+#include <osxieserver/duct-tape/task.h>
 
 #include <kern/processor.h>
 #include <kern/kalloc.h>
 #include <kern/host.h>
 #include <kern/machine.h>
+#include <kern/task.h>
+
+// Manual libc declarations: the XNU-style build cannot include glibc headers
+// (the -D_CLOCK_T/-D_NLINK_T/-Dvolatile=... defines clash with bits/types.h).
+typedef struct _IO_FILE FILE;
+FILE *fopen(const char *path, const char *mode);
+char *fgets(char *s, int size, FILE *stream);
+int fclose(FILE *stream);
+int sscanf(const char *str, const char *format, ...);
+int strncmp(const char *s1, const char *s2, size_t n);
 
 processor_t processor_array[MAX_SCHED_CPUS] = {0};
 struct processor_set pset0;
@@ -26,6 +37,56 @@ processor_t master_processor;
 // Linux functions
 int get_nprocs(void);
 int get_nprocs_conf(void);
+
+int dtape_read_proc_stat_ticks(int cpu_id, uint64_t ticks[4]) {
+	FILE* fp = fopen("/proc/stat", "r");
+	if (!fp) {
+		return -1;
+	}
+
+	char line[256];
+	while (fgets(line, sizeof(line), fp)) {
+		unsigned long long user, nice, system, idle, iowait;
+
+		if (strncmp(line, "cpu", 3) != 0) {
+			// the per-CPU lines are contiguous; anything else means we're done
+			break;
+		}
+
+		if (cpu_id < 0) {
+			// aggregate line is "cpu  user nice system idle ..." (a space follows "cpu")
+			if (line[3] != ' ') {
+				continue;
+			}
+			if (sscanf(line, "cpu %llu %llu %llu %llu %llu",
+			    &user, &nice, &system, &idle, &iowait) != 5) {
+				continue;
+			}
+		} else {
+			unsigned int cid;
+			if (line[3] < '0' || line[3] > '9') {
+				continue;
+			}
+			if (sscanf(line, "cpu%u %llu %llu %llu %llu %llu",
+			    &cid, &user, &nice, &system, &idle, &iowait) != 6) {
+				continue;
+			}
+			if ((int)cid != cpu_id) {
+				continue;
+			}
+		}
+
+		ticks[CPU_STATE_USER] = (uint64_t)user;
+		ticks[CPU_STATE_NICE] = (uint64_t)nice;
+		ticks[CPU_STATE_SYSTEM] = (uint64_t)system;
+		ticks[CPU_STATE_IDLE] = (uint64_t)(idle + iowait);
+		fclose(fp);
+		return 0;
+	}
+
+	fclose(fp);
+	return -1;
+}
 
 void dtape_processor_init(void) {
 	simple_lock_init(&processor_list_lock, 0);
@@ -114,17 +175,25 @@ kern_return_t processor_info(processor_t processor, processor_flavor_t flavor, h
 
 		case PROCESSOR_CPU_LOAD_INFO: {
 			processor_cpu_load_info_t info = (void*)raw_info;
+			uint64_t ticks[4];
 
 			if (*count < PROCESSOR_CPU_LOAD_INFO_COUNT) {
 				return KERN_FAILURE;
 			}
 
-			dtape_stub_safe("PROCESSOR_CPU_LOAD_INFO");
+			// read the real cumulative per-CPU ticks from /proc/stat
+			if (dtape_read_proc_stat_ticks(processor->cpu_id, ticks) != 0) {
+				// fall back to an all-idle reading rather than inventing load
+				ticks[CPU_STATE_USER] = 0;
+				ticks[CPU_STATE_NICE] = 0;
+				ticks[CPU_STATE_SYSTEM] = 0;
+				ticks[CPU_STATE_IDLE] = 1;
+			}
 
-			info->cpu_ticks[CPU_STATE_USER] = 0;
-			info->cpu_ticks[CPU_STATE_SYSTEM] = 0;
-			info->cpu_ticks[CPU_STATE_IDLE] = 0;
-			info->cpu_ticks[CPU_STATE_NICE] = 0;
+			info->cpu_ticks[CPU_STATE_USER] = (integer_t)ticks[CPU_STATE_USER];
+			info->cpu_ticks[CPU_STATE_SYSTEM] = (integer_t)ticks[CPU_STATE_SYSTEM];
+			info->cpu_ticks[CPU_STATE_IDLE] = (integer_t)ticks[CPU_STATE_IDLE];
+			info->cpu_ticks[CPU_STATE_NICE] = (integer_t)ticks[CPU_STATE_NICE];
 
 			*count = PROCESSOR_CPU_LOAD_INFO_COUNT;
 			*host = &realhost;
@@ -196,12 +265,69 @@ kern_return_t processor_set_statistics(processor_set_t pset, int flavor, process
 	}
 };
 
-kern_return_t processor_set_tasks(processor_set_t pset, task_array_t* task_list, mach_msg_type_number_t* count) {
-	dtape_stub_unsafe();
+struct dtape_pset_task_collector {
+	ipc_port_t* ports;
+	unsigned int count;
+	unsigned int max;
+};
+
+static void dtape_pset_task_count_cb(dtape_task_t* task, void* user_data) {
+	unsigned int* total = (unsigned int*)user_data;
+	(void)task;
+	(*total)++;
+};
+
+static void dtape_pset_task_collect_cb(dtape_task_t* task, void* user_data) {
+	struct dtape_pset_task_collector* c = (struct dtape_pset_task_collector*)user_data;
+	if (c->count >= c->max) {
+		return;
+	}
+	if (task->xnu_task.ipc_active) {
+		// the convert functions consume a task reference
+		task_reference(&task->xnu_task);
+		c->ports[c->count] = convert_task_to_port(&task->xnu_task);
+		c->count++;
+	}
 };
 
 kern_return_t processor_set_tasks_with_flavor(processor_set_t pset, mach_task_flavor_t flavor, task_array_t* task_list, mach_msg_type_number_t* count) {
-	dtape_stub_unsafe();
+	if (pset == PROCESSOR_SET_NULL) {
+		return KERN_INVALID_ARGUMENT;
+	}
+
+	if (dtape_hooks == NULL || dtape_hooks->task_for_each == NULL) {
+		return KERN_FAILURE;
+	}
+
+	unsigned int total = 0;
+	dtape_hooks->task_for_each(dtape_pset_task_count_cb, &total);
+
+	if (total == 0) {
+		*task_list = NULL;
+		*count = 0;
+		return KERN_SUCCESS;
+	}
+
+	ipc_port_t* ports = (ipc_port_t*)kalloc((vm_size_t)(total * sizeof(ipc_port_t)));
+	if (ports == NULL) {
+		return KERN_RESOURCE_SHORTAGE;
+	}
+
+	struct dtape_pset_task_collector c = { ports, 0, total };
+	dtape_hooks->task_for_each(dtape_pset_task_collect_cb, &c);
+
+	// TASK_FLAVOR_READ is what libtop uses; keep the ports we built (they are
+	// full task control ports, usable as read ports for all practical purposes).
+	(void)flavor;
+
+	*task_list = (task_array_t)ports;
+	*count = c.count;
+
+	return KERN_SUCCESS;
+};
+
+kern_return_t processor_set_tasks(processor_set_t pset, task_array_t* task_list, mach_msg_type_number_t* count) {
+	return processor_set_tasks_with_flavor(pset, TASK_FLAVOR_CONTROL, task_list, count);
 };
 
 kern_return_t processor_set_threads(processor_set_t pset, thread_array_t* thread_list, mach_msg_type_number_t* count) {

@@ -271,6 +271,17 @@ struct DTapeHooks {
 		return process->_dtapeTask;
 	};
 
+	static void dtape_hook_task_for_each(void (*callback)(dtape_task_t* task, void* user_data), void* user_data) {
+		auto entries = OsxieServer::processRegistry().copyEntries();
+		for (const auto& entry: entries) {
+			// skip the emulated kernel task (pid -1); it is not a real guest process
+			if (entry->id() == -1) {
+				continue;
+			}
+			callback(entry->_dtapeTask, user_data);
+		}
+	};
+
 	static void dtape_hook_task_get_memory_info(void* task_context, dtape_memory_info_t* memory_info) {
 		auto info = static_cast<OsxieServer::Process*>(task_context)->memoryInfo();
 		memory_info->virtual_size = info.virtualSize;
@@ -418,6 +429,7 @@ struct DTapeHooks {
 		.task_write_memory = dtape_hook_task_write_memory,
 		.task_lookup = dtape_hook_task_lookup,
 		.task_lookup_eternal = dtape_hook_task_lookup_eternal,
+		.task_for_each = dtape_hook_task_for_each,
 		.task_get_memory_info = dtape_hook_task_get_memory_info,
 		.task_get_memory_region_info = dtape_hook_task_get_memory_region_info,
 		.task_allocate_pages = dtape_hook_task_allocate_pages,
@@ -523,15 +535,19 @@ OsxieServer::Server::~Server() {
 };
 
 void OsxieServer::Server::start() {
+	if (getenv("OSXIE_TRACE_SERVER")) fprintf(stderr, "OSXIE_DBG start: before dtape_init\n");
 	Thread::interruptDisable();
 	dtape_init(&DTapeHooks::dtape_hooks);
 	Thread::interruptEnable();
+	if (getenv("OSXIE_TRACE_SERVER")) fprintf(stderr, "OSXIE_DBG start: after dtape_init\n");
 
 	// force the kernel process to be created now
 	Process::kernelProcess();
+	if (getenv("OSXIE_TRACE_SERVER")) fprintf(stderr, "OSXIE_DBG start: after kernelProcess\n");
 
 	// perform dtape initialization that requires a microthread context
 	Thread::kernelSync(dtape_init_in_thread);
+	if (getenv("OSXIE_TRACE_SERVER")) fprintf(stderr, "OSXIE_DBG start: after kernelSync, entering event loop\n");
 
 	while (true) {
 		if (_canRead) {

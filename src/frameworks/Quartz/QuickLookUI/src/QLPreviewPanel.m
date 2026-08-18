@@ -15,9 +15,77 @@
 
  You should have received a copy of the GNU General Public License
  along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ */
 
 #import <QuickLookUI/QLPreviewPanel.h>
 
 @implementation QLPreviewPanel
+
++ (BOOL)sharedPreviewPanelExists
+{
+    return NO;
+}
+
++ (QLPreviewPanel *)sharedPreviewPanel
+{
+    return nil;
+}
+
+- (BOOL)sharedPreviewPanelExists
+{
+    return NO;
+}
+
+- (QLPreviewPanel *)sharedPreviewPanel
+{
+    return nil;
+}
+
+- (void)makeKeyAndOrderFront:(id)sender
+{
+}
+
+- (void)orderOut:(id)sender
+{
+}
+
+- (void)setDataSource:(id)dataSource
+{
+}
+
+- (void)setDelegate:(id)delegate
+{
+}
+
+- (void)updateController
+{
+}
+
+- (void)reloadData
+{
+}
+
+- (BOOL)respondsToSelector:(SEL)aSelector
+{
+    if (aSelector == @selector(sharedPreviewPanelExists) ||
+        aSelector == @selector(sharedPreviewPanel) ||
+        aSelector == @selector(makeKeyAndOrderFront:) ||
+        aSelector == @selector(orderOut:) ||
+        aSelector == @selector(setDataSource:) ||
+        aSelector == @selector(setDelegate:) ||
+        aSelector == @selector(updateController) ||
+        aSelector == @selector(reloadData))
+        return YES;
+    return [super respondsToSelector:aSelector];
+}
+
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
+{
+    return [NSMethodSignature signatureWithObjCTypes:"v@:"];
+}
+
+- (void)forwardInvocation:(NSInvocation *)anInvocation
+{
+}
+
 @end

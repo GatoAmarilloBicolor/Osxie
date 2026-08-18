@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.13)
 
-SET(CMAKE_SYSTEM_NAME Linux)
+if(CMAKE_SYSTEM_NAME STREQUAL "Haiku")
+	set(CMAKE_SYSTEM_NAME Haiku)
+else()
+	set(CMAKE_SYSTEM_NAME Linux)
+endif()
 SET(CMAKE_SYSTEM_PROCESSOR "x86-64")
 
 # This allows setting the compiler with -DCMAKE_C_COMPILER when configuring.
@@ -241,6 +245,14 @@ InstallSymlink(/Volumes/SystemRoot/etc/localtime ${CMAKE_INSTALL_PREFIX}/libexec
 InstallSymlink(/Volumes/SystemRoot/usr/share/zoneinfo ${CMAKE_INSTALL_PREFIX}/libexec/osxie/usr/share/zoneinfo)
 
 install(DIRECTORY DESTINATION libexec/osxie/Library/Preferences)
+
+install(PROGRAMS scripts/setup_desktop_integration.py DESTINATION bin RENAME osxie-setup-integration)
+install(PROGRAMS scripts/osxie_welcome.py DESTINATION bin RENAME osxie-welcome)
+install(PROGRAMS scripts/clt_install.py DESTINATION libexec/osxie RENAME clt_install.py)
+if(NOT DEBIAN_PACKAGING)
+	install(CODE "execute_process(COMMAND python3 ${OSXIE_TOP_DIRECTORY}/scripts/setup_desktop_integration.py)")
+	install(CODE "execute_process(COMMAND python3 ${OSXIE_TOP_DIRECTORY}/scripts/osxie_welcome.py)")
+endif(NOT DEBIAN_PACKAGING)
 
 if(NOT DEBIAN_PACKAGING)
 	install(CODE "execute_process(COMMAND bash ${OSXIE_TOP_DIRECTORY}/tools/shutdown-user.sh)")

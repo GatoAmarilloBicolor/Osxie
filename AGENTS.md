@@ -312,3 +312,29 @@ into the runtime prefix `~/.osxie`, with **no setuid/sudo/pkexec every**:
 - **Crashloop validation**: `/tmp/opencode/batchtest.sh 12 25` (CPU-Info JVM, `-XX:ParallelGCThreads=1`, `OSXIE_TRACE_SEMA=1`): **0 crashes in 12 runs** (was ~1-in-2 before), 0 `hs_err_pid*.log`, no `call #60 ... result code 49` in any run log.
 - **Build/deploy**: `ninja -C build_new osxieserver` → `pkill -9 -x osxieserver` (NOT `pkill -f osxieserver` — matches the shell's own cmdline and kills it) → `cp build_new/src/external/osxieserver/osxieserver install/bin/osxieserver` (can't `cp` over a running executable, ETXTBSY). `strings ... | grep -c timer_call_cancel` = 2 on the deployed binary.
 - **Status**: FIXED + validated. UNCOMMITTED (working-tree change in `src/external/osxieserver/duct-tape/src/thread.c`, repo-root git). Note: a residual OLD-server lost-wakeup race was observed once (signal failed to wake an early-blocked timedwait) — not reproduced on the fixed build across 5 stale-timer + 12 JVM runs; monitor if JVM crashes ever recur.
+
+## Issue 31: Indium/Vulkan/Metal 13 GB RAM leak + 88 threads + 98% CPU spin — FIXED
+- **Files**: `CMakeLists.txt` (build_new CMakeCache `ENABLE_METAL`), `src/external/metal/CMakeLists.txt`
+- **Problem**: With `ENABLE_METAL=AUTO` (default), CMake detected Vulkan+LLVM on the host and enabled `DARLING_METAL_ENABLED=1` for the Metal/MetalKit framework. This caused:
+  1. **13 GB RSS** (growing ~350 MB/s) from Mesa/llvmpipe Vulkan driver allocating huge memory pools per buffer/texture with no VMA suballocator (each object gets its own `vkAllocateMemory` call; `buffer.cpp:83`, `texture.cpp:371`).
+  2. **88 threads** from llvmpipe (30 `traceq0` + 24 `gdrv0` + 24 `gl0`) — software GPU thread pools per core.
+  3. **98.7% CPU** on a single thread (`wchan=0`, userspace spin inside llvmpipe Vulkan pipeline) while 87 other threads slept on `futex_wait`.
+  4. `MTLCreateSystemDefaultDevice()` → `ensureDevices()` (`dispatch_once`) → creates ONE `MTLDeviceInternal` with an `Indium::Device` → `Indium::createSystemDefaultDevice()` → Vulkan instance + device + llvmpipe driver init → spawns all 88 threads at creation time.
+  - **iTerm2 is a terminal emulator** — it links Metal.framework/MetalKit.framework for `PTYSession` metal color-space support but never actually renders via Metal. The entire Vulkan stack was allocated and spinning for nothing.
+- **Fix**: Set `ENABLE_METAL=OFF` in `CMakeCache.txt`. Rebuild with `ninja -C build_new Metal MetalKit` + copy to `~/.osxie/System/Library/Frameworks/Metal.framework/Versions/A/Metal` and `MetalKit.framework/Versions/A/MetalKit`. With `DARLING_METAL_ENABLED=0`, `MTLCreateSystemDefaultDevice()` returns `nil`, MTKView uses no-op stubs, no Vulkan/Indium/Mesa initialization occurs.
+- **Verified 2026-08-17**: RSS **185 MB stable** (was 13+ GB), **0% CPU spin** (was 98.7%), **87 threads all sleeping** (were 1 spinning + 87 sleeping). Memory growth: 0 MB/s.
+- **Note**: The 87 sleeping threads are Mesa/llvmpipe **OpenGL** threads (separate from Metal/Vulkan), spawned by CoreGraphics/Onyx2D for software rendering. They're harmless but could be reduced with `LP_NUM_THREADS=1` or `GALLIUM_NTHREADS=1` env vars at runtime.
+- **Metal re-enablement path**: Fix Indium's `buffer.cpp` and `texture.cpp` to use VulkanMemoryAllocator (VMA) for suballocation instead of per-object `vkAllocateMemory`. Fix `pollEvents` to ensure llvmpipe pipeline threads block properly. Then set `ENABLE_METAL=ON`.
+
+## Issue 32: iTerm2 no X11 window — `applicationShouldOpenUntitledFile:` returns NO — ROOT CAUSE IDENTIFIED
+- **Files**: `src/external/cocotron/AppKit/NSApplication.m` (finishLaunching flow)
+- **Problem**: iTerm2 launches, loads NIB (27 objects, 26 connections — 148 `NSNibControlConnector` warnings for nil sources), `finishLaunching` completes successfully (`posting DidFinishLaunching` → `done`), the event loop starts (`NSApp run: finishLaunching returned`), but **zero X11 windows** are ever created. The app sits at 185 MB / 0% CPU / all threads sleeping, with no visible UI.
+- **Root cause**: `applicationShouldOpenUntitledFile:` returns `0` (NO) — iTerm2's delegate decides NOT to open a window because there's no saved session state in the container. In real macOS, iTerm2 restores its last session from `~/Library/Saved Application State/`; in the osxie container this directory doesn't exist, so iTerm2 opens nothing.
+- **Evidence**: `[TRACE] finishLaunching: openUntitled -> 0` in the log. After this, `DidFinishLaunching` is posted (which is where iTerm2's observer would create a session/window), but no window creation occurs.
+- **Fix needed**: Either (a) provide a minimal `Saved Application State` plist that makes iTerm2 think it has a window to restore, or (b) intercept `applicationShouldOpenUntitledFile:` to return `YES`, or (c) provide the session data that iTerm2's `applicationDidFinishLaunching:` notification observer expects.
+- **Status**: ROOT CAUSE IDENTIFIED, fix pending.
+
+## Issue 33: 87 Mesa/llvmpipe OpenGL threads (sleeping, benign) — OPTIMIZATION
+- **Problem**: Even with Metal disabled, CoreGraphics/Onyx2D creates OpenGL contexts for software rendering, spawning ~87 threads in groups of 3 (`traceq0`/`gdrv0`/`gl0`) from llvmpipe. All sleep on `futex_wait` but consume ~8 MB stack each (~700 MB virtual, ~185 MB RSS).
+- **Fix**: Set `GALLIUM_NTHREADS=1` or `LP_NUM_THREADS=1` in the container environment to limit llvmpipe to 1 worker thread per pipe. Can be added to `src/startup/osxie.c` environment setup or via `launchd.plist` environment keys.
+- **Status**: PENDING — low priority, threads are sleeping and not causing issues.

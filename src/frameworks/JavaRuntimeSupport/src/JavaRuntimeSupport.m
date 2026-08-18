@@ -18,7 +18,10 @@
 */
 
 
-#include <JavaRuntimeSupport/JavaRuntimeSupport.h>
+#include <Foundation/Foundation.h>
+#include <CoreFoundation/CoreFoundation.h>
+#include <pthread.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -155,160 +158,138 @@ void* JRSSetDefaultLocalization(void)
     return NULL;
 }
 
-void* JRSUIControlCreate(void)
+typedef CFMutableDictionaryRef JRSUIControlRef;
+
+enum
 {
-    if (verbose) puts("STUB: JRSUIControlCreate called");
-    return NULL;
+    JRSUIPropWidget                    = 0x5100,
+    JRSUIPropState                     = 0x5101,
+    JRSUIPropSize                      = 0x5102,
+    JRSUIPropDirection                 = 0x5103,
+    JRSUIPropOrientation               = 0x5104,
+    JRSUIPropAlignmentVertical         = 0x5105,
+    JRSUIPropAlignmentHorizontal       = 0x5106,
+    JRSUIPropSegmentPosition           = 0x5107,
+    JRSUIPropScrollBarPart             = 0x5108,
+    JRSUIPropVariant                   = 0x5109,
+    JRSUIPropWindowType                = 0x510A,
+    JRSUIPropShowArrows                = 0x510B,
+    JRSUIPropAnimating                 = 0x510C,
+    JRSUIPropPresentationState         = 0x510D,
+    JRSUIPropUserInterfaceLayoutDirection = 0x510E,
+};
+
+static CFMutableDictionaryRef g_jrsuiKeyCache = NULL;
+static pthread_mutex_t g_jrsuiKeyLock = PTHREAD_MUTEX_INITIALIZER;
+
+static CFStringRef JRSUIKeyForConstant(int constant)
+{
+    CFStringRef key = NULL;
+    CFNumberRef box = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &constant);
+
+    pthread_mutex_lock(&g_jrsuiKeyLock);
+    if (g_jrsuiKeyCache == NULL)
+        g_jrsuiKeyCache = CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+
+    key = CFDictionaryGetValue(g_jrsuiKeyCache, box);
+    if (key == NULL)
+    {
+        key = CFStringCreateWithFormat(kCFAllocatorDefault, NULL, CFSTR("k%x"), (unsigned)constant);
+        CFDictionarySetValue(g_jrsuiKeyCache, box, key);
+        CFRelease(key);
+    }
+    pthread_mutex_unlock(&g_jrsuiKeyLock);
+
+    CFRelease(box);
+    return key;
 }
 
-void* JRSUIControlDraw(void)
+static void JRSUIControlSetIntProperty(JRSUIControlRef control, int propertyId, int value)
 {
-    if (verbose) puts("STUB: JRSUIControlDraw called");
-    return NULL;
+    if (control == NULL) return;
+    CFStringRef key = JRSUIKeyForConstant(propertyId);
+    CFNumberRef num = CFNumberCreate(kCFAllocatorDefault, kCFNumberIntType, &value);
+    CFDictionarySetValue(control, key, num);
+    CFRelease(num);
 }
 
-void* JRSUIControlGetHitPart(void)
+CFStringRef JRSUIGetKey(int constant)
 {
-    if (verbose) puts("STUB: JRSUIControlGetHitPart called");
-    return NULL;
-}
-
-void* JRSUIControlGetScrollBarOffsetFor(void)
-{
-    if (verbose) puts("STUB: JRSUIControlGetScrollBarOffsetFor called");
-    return NULL;
-}
-
-void* JRSUIControlGetScrollBarPartBounds(void)
-{
-    if (verbose) puts("STUB: JRSUIControlGetScrollBarPartBounds called");
-    return NULL;
-}
-
-void* JRSUIControlRelease(void)
-{
-    if (verbose) puts("STUB: JRSUIControlRelease called");
-    return NULL;
-}
-
-void* JRSUIControlSetAlignmentHorizontal(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetAlignmentHorizontal called");
-    return NULL;
-}
-
-void* JRSUIControlSetAlignmentVertical(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetAlignmentVertical called");
-    return NULL;
-}
-
-void* JRSUIControlSetAnimating(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetAnimating called");
-    return NULL;
-}
-
-void* JRSUIControlSetDirection(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetDirection called");
-    return NULL;
-}
-
-void* JRSUIControlSetOrientation(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetOrientation called");
-    return NULL;
-}
-
-void* JRSUIControlSetPresentationState(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetPresentationState called");
-    return NULL;
-}
-
-void* JRSUIControlSetScrollBarPart(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetScrollBarPart called");
-    return NULL;
-}
-
-void* JRSUIControlSetSegmentPosition(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetSegmentPosition called");
-    return NULL;
-}
-
-void* JRSUIControlSetShowArrows(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetShowArrows called");
-    return NULL;
-}
-
-void* JRSUIControlSetSize(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetSize called");
-    return NULL;
-}
-
-void* JRSUIControlSetState(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetState called");
-    return NULL;
-}
-
-void* JRSUIControlSetUserInterfaceLayoutDirection(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetUserInterfaceLayoutDirection called");
-    return NULL;
-}
-
-void* JRSUIControlSetValueByKey(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetValueByKey called");
-    return NULL;
-}
-
-void* JRSUIControlSetVariant(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetVariant called");
-    return NULL;
-}
-
-void* JRSUIControlSetWidget(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetWidget called");
-    return NULL;
-}
-
-void* JRSUIControlSetWindowType(void)
-{
-    if (verbose) puts("STUB: JRSUIControlSetWindowType called");
-    return NULL;
-}
-
-void* JRSUIControlShouldScrollToClick(void)
-{
-    if (verbose) puts("STUB: JRSUIControlShouldScrollToClick called");
-    return NULL;
-}
-
-void* JRSUIGetKey(void)
-{
-    if (verbose) puts("STUB: JRSUIGetKey called");
-    return NULL;
+    return JRSUIKeyForConstant(constant);
 }
 
 void* JRSUIRendererCreate(void)
 {
-    if (verbose) puts("STUB: JRSUIRendererCreate called");
+    return (void*)(uintptr_t)0x1;
+}
+
+void* JRSUIRendererRelease(void* renderer)
+{
     return NULL;
 }
 
-void* JRSUIRendererRelease(void)
+void* JRSUIControlCreate(int isFlipped)
 {
-    if (verbose) puts("STUB: JRSUIRendererRelease called");
+    return CFDictionaryCreateMutable(kCFAllocatorDefault, 0, &kCFTypeDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+}
+
+void* JRSUIControlRelease(void* control)
+{
+    if (control) CFRelease((CFMutableDictionaryRef)control);
     return NULL;
+}
+
+void* JRSUIControlSetValueByKey(void* control, CFStringRef key, CFTypeRef value)
+{
+    if (control && key && value)
+        CFDictionarySetValue((CFMutableDictionaryRef)control, key, value);
+    return NULL;
+}
+
+void* JRSUIControlSetWidget(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropWidget, value); return NULL; }
+void* JRSUIControlSetState(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropState, value); return NULL; }
+void* JRSUIControlSetSize(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropSize, value); return NULL; }
+void* JRSUIControlSetDirection(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropDirection, value); return NULL; }
+void* JRSUIControlSetOrientation(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropOrientation, value); return NULL; }
+void* JRSUIControlSetAlignmentVertical(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropAlignmentVertical, value); return NULL; }
+void* JRSUIControlSetAlignmentHorizontal(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropAlignmentHorizontal, value); return NULL; }
+void* JRSUIControlSetSegmentPosition(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropSegmentPosition, value); return NULL; }
+void* JRSUIControlSetScrollBarPart(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropScrollBarPart, value); return NULL; }
+void* JRSUIControlSetVariant(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropVariant, value); return NULL; }
+void* JRSUIControlSetWindowType(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropWindowType, value); return NULL; }
+void* JRSUIControlSetShowArrows(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropShowArrows, value); return NULL; }
+void* JRSUIControlSetAnimating(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropAnimating, value); return NULL; }
+void* JRSUIControlSetPresentationState(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropPresentationState, value); return NULL; }
+void* JRSUIControlSetUserInterfaceLayoutDirection(void* control, int value) { JRSUIControlSetIntProperty(control, JRSUIPropUserInterfaceLayoutDirection, value); return NULL; }
+
+void* JRSUIControlDraw(void* renderer, void* control, void* cgContext)
+{
+    return NULL;
+}
+
+int JRSUIControlGetHitPart(void* renderer, void* control)
+{
+    return 0;
+}
+
+double JRSUIControlGetScrollBarOffsetFor(void* control)
+{
+    return 0.0;
+}
+
+void* JRSUIControlGetScrollBarPartBounds(void* outRect, void* control, int part)
+{
+    if (outRect)
+    {
+        const double zero[4] = { 0.0, 0.0, 0.0, 0.0 };
+        __builtin_memcpy(outRect, zero, sizeof(zero));
+    }
+    return outRect;
+}
+
+int JRSUIControlShouldScrollToClick(void)
+{
+    return 0;
 }
 
 void* do_transfer_port_send_right(void)

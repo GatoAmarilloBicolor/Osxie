@@ -18,8 +18,21 @@
 */
 
 #include <SharedFileList/SharedFileList.h>
+#include <CoreFoundation/CoreFoundation.h>
 
 struct OpaqueLSSharedFileListItemRef {};
 static struct OpaqueLSSharedFileListItemRef _insertItemLast = { };
 
 LSSharedFileListItemRef kLSSharedFileListItemLast = &_insertItemLast;
+
+struct OpaqueLSSharedFileListRef {};
+static struct OpaqueLSSharedFileListRef _dummyList = { };
+
+LSSharedFileListRef LSSharedFileListCreate(CFAllocatorRef allocator, CFStringRef listType, CFStringRef listName) {
+    return &_dummyList;
+}
+
+LSSharedFileListItemRef LSSharedFileListInsertItemURL(LSSharedFileListRef list, LSSharedFileListItemRef insertAfter, CFStringRef displayName, void* iconRef, CFURLRef url, CFDictionaryRef properties, LSSharedFileListRefreshTimestamp refreshTimestamp) {
+    static struct OpaqueLSSharedFileListItemRef _dummyItem = { };
+    return &_dummyItem;
+}

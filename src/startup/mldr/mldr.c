@@ -273,7 +273,7 @@ int main(int argc, char** argv, char** envp)
 		exit(1);
 	}
 
-	__mldr_main_stack_top = (void*)mldr_load_results.stack_top;
+	__mldr_main_stack_top = (void*)mldr_load_results.stack_top_aligned;
 
 	start_thread(&mldr_load_results);
 
@@ -824,12 +824,17 @@ static void setup_space(struct load_results* lr, bool is_64_bit) {
 #else
 	#error Unsupported architecture
 #endif
+	// stack_top may be overwritten with the adjusted RSP by setup_stack*,
+	// so preserve the page-aligned top of the stack region for __osxie_thread_get_stack().
+	lr->stack_top_aligned = lr->stack_top;
 
 	struct rlimit limit;
 	getrlimit(RLIMIT_STACK, &limit);
-	// allocate a few pages 16 pages if it's less than the limit; otherwise, allocate the limit
+	// allocate the full stack limit (8MB by default) so that consumers like the JVM,
+	// which compute the stack bottom as KERN_USRSTACK64 - DFLSSIZ, find their guard
+	// page region inside the mapping; fall back to 16 pages only if the limit is infinite
 	unsigned long size = PAGE_SIZE * 16;
-	if (limit.rlim_cur != RLIM_INFINITY && limit.rlim_cur < size) {
+	if (limit.rlim_cur != RLIM_INFINITY) {
 		size = limit.rlim_cur;
 	}
 

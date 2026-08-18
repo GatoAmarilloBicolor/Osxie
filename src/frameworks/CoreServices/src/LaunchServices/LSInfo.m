@@ -329,3 +329,21 @@ CFStringRef LSCopyDefaultHandlerForURLScheme(CFStringRef inURLScheme)
 	puts("LSCopyDefaultHandlerForURLScheme STUB");
 	return NULL; // (could also return "" I guess)
 }
+
+CFStringRef LSCopyDefaultRoleHandlerForContentType(CFStringRef inContentType, LSRolesMask inRole)
+{
+	puts("LSCopyDefaultRoleHandlerForContentType STUB");
+	return NULL;
+}
+
+OSStatus LSSetDefaultHandlerForURLScheme(CFStringRef inURLScheme, CFStringRef inHandlerBundleID)
+{
+	puts("LSSetDefaultHandlerForURLScheme STUB");
+	return noErr;
+}
+
+OSStatus LSSetDefaultRoleHandlerForContentType(CFStringRef inContentType, LSRolesMask inRole, CFStringRef inHandlerBundleID)
+{
+	puts("LSSetDefaultRoleHandlerForContentType STUB");
+	return noErr;
+}

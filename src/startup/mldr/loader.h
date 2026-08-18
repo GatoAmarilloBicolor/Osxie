@@ -20,6 +20,7 @@ struct load_results {
 	char* root_path;
 	size_t root_path_length;
 	unsigned long stack_top;
+	unsigned long stack_top_aligned;
 	char* socket_path;
 	int kernfd;
 	int lifetime_pipe;

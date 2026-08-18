@@ -64,3 +64,9 @@ void* CVPixelBufferUnlockBaseAddress(void)
 	printf("STUB: %s\n", __PRETTY_FUNCTION__);
 	return NULL;
 }
+
+int CVDisplayLinkGetActualOutputVideoRefreshPeriod(void* link, void* period)
+{
+	printf("STUB: %s\n", __PRETTY_FUNCTION__);
+	return 0;
+}

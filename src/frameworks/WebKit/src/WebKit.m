@@ -7525,3 +7525,30 @@ void* _ZN6WebKit44setCrashReportApplicationSpecificInformationEPK10__CFString(vo
     if (verbose) puts("STUB: _ZN6WebKit44setCrashReportApplicationSpecificInformationEPK10__CFString called");
     return NULL;
 }
+
+// Stub: WebUndefined class (used by The Unarchiver, Audacity)
+@interface WebUndefined : NSObject
++ (WebUndefined *)undefined;
+@end
+
+@implementation WebUndefined
++ (WebUndefined *)undefined {
+    static WebUndefined *undefined = nil;
+    if (!undefined) undefined = [[WebUndefined alloc] init];
+    return undefined;
+}
+- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector {
+    return [NSMethodSignature signatureWithObjCTypes:"v@:"];
+}
+- (void)forwardInvocation:(NSInvocation *)anInvocation {
+    if (verbose) puts("STUB: WebUndefined forwardInvocation");
+}
+@end
+
+// Stub: WebActionNavigationTypeKey (used by Audacity)
+NSString * const WebActionNavigationTypeKey = @"WebActionNavigationTypeKey";
+
+// Stub: WebView progress notification constants (used by The Unarchiver/DevMateKit)
+NSString * const WebViewProgressEstimateChangedNotification = @"WebViewProgressEstimateChangedNotification";
+NSString * const WebViewProgressFinishedNotification = @"WebViewProgressFinishedNotification";
+NSString * const WebViewProgressStartedNotification = @"WebViewProgressStartedNotification";

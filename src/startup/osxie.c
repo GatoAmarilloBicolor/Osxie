@@ -53,6 +53,30 @@ bool g_fixPermissions = false;
 char g_workingDirectory[4096];
 pid_t pidInit;
 
+// Kill the whole container. The launchd process is PID 1 of the container's
+// PID namespace; killing it with SIGKILL makes the kernel reap every other
+// process in that namespace, which is the only reliable way to tear down a
+// container whose children have been reparented or detached.
+void killOsxieContainer(void)
+{
+	if (pidInit <= 0)
+		return;
+
+	pid_t launchd_pid = -1;
+	char path_buf[128];
+	snprintf(path_buf, sizeof(path_buf), "/proc/%d/task/%d/children", pidInit, pidInit);
+	FILE* file = fopen(path_buf, "r");
+	if (file) {
+		if (fscanf(file, "%d", &launchd_pid) != 1)
+			launchd_pid = -1;
+		fclose(file);
+	}
+
+	if (launchd_pid > 0)
+		kill(launchd_pid, SIGKILL);
+	kill(pidInit, SIGKILL);
+}
+
 int main(int argc, char ** argv)
 {
 
@@ -143,25 +167,7 @@ int main(int argc, char ** argv)
 			return 1;
 		}
 
-		// TODO: when we have a working launchd,
-		// this is where we ask it to shut down nicely
-
-		char path_buf[128];
-		FILE* file;
-		pid_t launchd_pid;
-		snprintf(path_buf, sizeof(path_buf), "/proc/%d/task/%d/children", pidInit, pidInit);
-		file = fopen(path_buf, "r");
-		if (!file || fscanf(file, "%d", &launchd_pid) != 1) {
-			fprintf(stderr, "Failed to shutdown Osxie container\n");
-			if (file) {
-				fclose(file);
-			}
-			return 1;
-		}
-		fclose(file);
-
-		kill(launchd_pid, SIGKILL);
-		kill(pidInit, SIGKILL);
+		killOsxieContainer();
 		return 0;
 	}
 
@@ -342,10 +348,20 @@ static void signalHandler(int signo)
 	// 
 	// Hence we translate SIGINT to SIGTERM for user convenience,
 	// because Bash will not terminate on SIGINT.
-	if (pty_master == -1 && signo == SIGINT)
+	bool shouldKillContainer = false;
+	if (pty_master == -1 && signo == SIGINT) {
 		signo = SIGTERM;
+		shouldKillContainer = true;
+	} else if (signo == SIGTERM) {
+		shouldKillContainer = true;
+	}
 
 	pushShellspawnCommandData(_shSockfd, SHELLSPAWN_SIGNAL, &signo, sizeof(signo));
+
+	// Also tear down the whole container so the app and its helper
+	// processes don't linger as orphans/zombies after the user quits.
+	if (shouldKillContainer)
+		killOsxieContainer();
 }
 
 static void shellLoop(int sockfd, int master)

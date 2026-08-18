@@ -15,3 +15,20 @@ const CFStringRef kTISPropertyInputSourceType = CFSTR("TISPropertyInputSourceTyp
 const CFStringRef kTISTypeKeyboardLayout = CFSTR("TISTypeKeyboardLayout");
 
 const float kHIToolboxVersionNumber = 1163.0;
+
+/* Secure event input (password fields). Osxie never enables it; report that
+   secure input is off so apps (e.g. iTerm2) don't defer keystrokes. */
+Boolean IsSecureEventInputEnabled(void)
+{
+	return false;
+}
+
+OSStatus EnableSecureEventInput(void)
+{
+	return noErr;
+}
+
+OSStatus DisableSecureEventInput(void)
+{
+	return noErr;
+}

@@ -21,7 +21,43 @@
 
 #import <Foundation/Foundation.h>
 
+static ODSession *sSharedSession = nil;
+
 @implementation ODSession
+
++ (ODSession *)defaultSession
+{
+    if (sSharedSession == nil)
+        sSharedSession = [[self alloc] init];
+    return sSharedSession;
+}
+
++ (instancetype)sessionWithOptions:(NSDictionary *)inOptions error:(NSError **)outError
+{
+    return [[[self alloc] init] autorelease];
+}
+
+- (instancetype)initWithOptions:(NSDictionary *)inOptions error:(NSError **)outError
+{
+    return [super init];
+}
+
+- (NSArray *)nodeNamesAndReturnError:(NSError **)outError
+{
+    if (outError)
+        *outError = nil;
+    return @[];
+}
+
+- (NSArray *)configurationTemplateNames
+{
+    return @[];
+}
+
+- (NSArray *)mappingTemplateNames
+{
+    return @[];
+}
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
 {

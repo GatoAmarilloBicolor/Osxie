@@ -23,7 +23,15 @@
 #include <CoreFoundation/CoreFoundation.h>
 
 typedef struct OpaqueLSSharedFileListItemRef *LSSharedFileListItemRef;
+typedef struct OpaqueLSSharedFileListRef *LSSharedFileListRef;
 
 extern LSSharedFileListItemRef kLSSharedFileListItemLast;
+
+typedef void *LSSharedFileListRefreshTimestamp;
+
+typedef const void *LSSharedFileListItemResolveAliasStyle;
+
+LSSharedFileListRef LSSharedFileListCreate(CFAllocatorRef allocator, CFStringRef listType, CFStringRef listName);
+LSSharedFileListItemRef LSSharedFileListInsertItemURL(LSSharedFileListRef list, LSSharedFileListItemRef insertAfter, CFStringRef displayName, void* iconRef, CFURLRef url, CFDictionaryRef properties, LSSharedFileListRefreshTimestamp refreshTimestamp);
 
 #endif

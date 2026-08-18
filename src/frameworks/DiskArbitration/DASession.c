@@ -92,6 +92,25 @@ void DASessionSetDispatchQueue(DASessionRef session, dispatch_queue_t queue)
 	
 }
 
+void DARegisterDiskAppearedCallback(DASessionRef session,
+		CFDictionaryRef match, void (*callback)(struct __DADisk*, void*),
+		void* context)
+{
+	
+}
+
+void DARegisterDiskDisappearedCallback(DASessionRef session,
+		CFDictionaryRef match, void (*callback)(struct __DADisk*, void*),
+		void* context)
+{
+	
+}
+
+void DAUnregisterCallback(DASessionRef session, void* callback, void* context)
+{
+	
+}
+
 struct _DAApprovalSession
 {
   CFRuntimeBase _parent;

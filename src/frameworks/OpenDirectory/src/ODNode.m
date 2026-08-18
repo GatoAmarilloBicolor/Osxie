@@ -21,6 +21,34 @@
 
 @implementation ODNode
 
++ (instancetype)nodeWithSession:(ODSession *)inSession type:(ODNodeType)inType error:(NSError **)outError
+{
+    if (outError)
+        *outError = nil;
+    return nil;
+}
+
++ (instancetype)nodeWithSession:(ODSession *)inSession name:(NSString *)inName error:(NSError **)outError
+{
+    if (outError)
+        *outError = nil;
+    return nil;
+}
+
+- (instancetype)initWithSession:(ODSession *)inSession type:(ODNodeType)inType error:(NSError **)outError
+{
+    if (outError)
+        *outError = nil;
+    return nil;
+}
+
+- (instancetype)initWithSession:(ODSession *)inSession name:(NSString *)inName error:(NSError **)outError
+{
+    if (outError)
+        *outError = nil;
+    return nil;
+}
+
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
 {
     return [NSMethodSignature signatureWithObjCTypes: "v@:"];

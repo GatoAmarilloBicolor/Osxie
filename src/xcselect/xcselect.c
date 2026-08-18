@@ -164,6 +164,15 @@ bool xcselect_get_developer_dir_path(char* path, size_t path_len, bool* is_cmd_l
 	if (p)
 		goto have_path;
 
+	char home_path[1024];
+	const char *home = getenv("HOME");
+	if (home) {
+		snprintf(home_path, sizeof(home_path), "%s/.osxie/share/xcode-select/xcode_dir_path", home);
+		p = get_developer_dir_from_file(home_path);
+		if (p)
+			goto have_path;
+	}
+
 	if (dir_exists("/Applications/Xcode.app"))
 	{
 		p = "/Applications/Xcode.app/Contents/Developer";

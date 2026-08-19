@@ -19,6 +19,8 @@
 
 #import <UserNotifications/UNNotificationAttachmentOptions.h>
 
+NSString* const UNNotificationAttachmentOptionsTypeHintKey = @"UNNotificationAttachmentOptionsTypeHintKey";
+
 @implementation UNNotificationAttachmentOptions
 
 - (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector

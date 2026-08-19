@@ -683,6 +683,12 @@ void setupShellspawnEnv(int sockfd)
 		exit(1);
 	}
 
+	{
+		char usersHome[4096];
+		snprintf(usersHome, sizeof(usersHome), "%s/Users/%s", prefix, login);
+		createDir(usersHome);
+	}
+
 	snprintf(buffer2, sizeof(buffer2), "HOME=/Users/%s", login);
 	pushShellspawnCommand(sockfd, SHELLSPAWN_SETENV, buffer2);
 
@@ -1099,6 +1105,7 @@ void setupPrefix()
 	const char* dirs[] = {
 		"/Volumes",
 		"/Applications",
+		"/Users",
 		"/usr",
 		"/usr/local",
 		"/usr/local/share",
@@ -1191,7 +1198,12 @@ void setupPrefix()
 		passwd_entry->pw_name
 	);
 	fclose(file);
-	
+
+	path[plen] = '\0';
+	strcat(path, "/Users/");
+	strcat(path, passwd_entry->pw_name);
+	createDir(path);
+
 	seteuid(0);
 	setegid(0);
 }

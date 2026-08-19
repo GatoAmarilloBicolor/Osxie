@@ -34,4 +34,34 @@ extern CFStringRef const kVTCompressionPropertyKey_ExpectedFrameRate;
 
 extern CFStringRef const kVTVideoEncoderSpecification_RequireHardwareAcceleratedVideoEncoder;
 
+extern CFStringRef const kVTCompressionPropertyKey_ColorPrimaries;
+extern CFStringRef const kVTCompressionPropertyKey_TransferFunction;
+extern CFStringRef const kVTCompressionPropertyKey_GammaLevel;
+extern CFStringRef const kVTCompressionPropertyKey_YCbCrMatrix;
+extern CFStringRef const kVTCompressionPropertyKey_Depth;
+extern CFStringRef const kVTCompressionPropertyKey_MultiPassStorage;
+extern CFStringRef const kVTCompressionPropertyKey_RealTime;
+extern CFStringRef const kVTCompressionPropertyKey_MaxH264SliceBytes;
+extern CFStringRef const kVTCompressionPropertyKey_H264EntropyMode;
+extern CFStringRef const kVTCompressionPropertyKey_AverageBitRate;
+extern CFStringRef const kVTCompressionPropertyKey_Quality;
+extern CFStringRef const kVTCompressionPropertyKey_PixelAspectRatio;
+extern CFStringRef const kVTCompressionPropertyKey_AspectRatio16x9;
+extern CFStringRef const kVTCompressionPropertyKey_Usage;
+extern CFStringRef const kVTCompressionPropertyKey_InputPixelFormat;
+extern CFStringRef const kVTCompressionPropertyKey_MoreFramesAfterEnd;
+extern CFStringRef const kVTCompressionPropertyKey_MoreFramesBeforeStart;
+extern CFStringRef const kVTProfileLevel_H264_Baseline_1_3;
+extern CFStringRef const kVTProfileLevel_H264_Baseline_3_0;
+extern CFStringRef const kVTProfileLevel_H264_Baseline_3_1;
+extern CFStringRef const kVTProfileLevel_H264_Baseline_3_2;
+extern CFStringRef const kVTProfileLevel_H264_Baseline_4_1;
+extern CFStringRef const kVTProfileLevel_H264_High_5_0;
+extern CFStringRef const kVTProfileLevel_H264_Main_3_0;
+extern CFStringRef const kVTProfileLevel_H264_Main_3_1;
+extern CFStringRef const kVTProfileLevel_H264_Main_3_2;
+extern CFStringRef const kVTProfileLevel_H264_Main_4_0;
+extern CFStringRef const kVTProfileLevel_H264_Main_4_1;
+extern CFStringRef const kVTProfileLevel_H264_Main_5_0;
+
 #endif

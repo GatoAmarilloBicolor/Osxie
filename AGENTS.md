@@ -354,3 +354,51 @@ into the runtime prefix `~/.osxie`, with **no setuid/sudo/pkexec every**:
 - **Env-gated traces**: `OSXIE_TRACE_THEME=1` shows all parsed config paths, fopen results, and per-role color resolution.
 - **Deploy note**: `kdeglobals` must be a real copy in `~/.osxie/Users/fenix/.config/`, NOT a symlink (symlinks to host paths break inside the container overlay). For production, `src/startup/osxie.c` should copy `~/.config/kdeglobals` into the overlay at startup.
 - **Status**: FIXED + verified. Traces gated behind `OSXIE_TRACE_THEME`.
+
+## Issue 35: CFNetwork classes missing from Foundation — `-reexport_library` broken — FIXED
+- **Files**: `src/external/foundation/src/CFNetworkBridge.m`, `src/external/foundation/src/NSHTTPCookieStorage.m`, `src/external/foundation/src/NSURLRequest.m` (prior), `src/external/foundation/src/NSURLResponse.m` (prior), `src/external/foundation/src/NSURLSession.m` (prior), `src/external/foundation/src/NSURLConnection.m` (prior), `src/frameworks/CoreServices/src/NSUserActivity_stub.m`
+- **Problem**: cctools-port's ld64 `-reexport_library` is broken — sub-framework symbols don't propagate through umbrella frameworks. Foundation.header re-declares many CFNetwork classes (`NSURLCredential`, `NSURLProtectionSpace`, `NSURLAuthenticationChallenge`, `NSURLCache`, `NSURLProtocol`, `NSHTTPCookieStorage`, `NSUserActivity` in CoreServices, etc.) but the linker symbols only exist in CFNetwork.dylib, not Foundation.dylib. dyld resolves symbols per-framework, so apps linking Foundation get "Symbol not found" for every CFNetwork class.
+- **Root cause confirmed**: Adding `-reexport_library,CFNetwork` to Foundation's link flags produces only ld warnings; the symbol table remains `U` (undefined). This is a cctools-port ld64 re-export limitation — the `-reexport_library` flag only re-exports the library's own exported symbols, not its re-exports.
+- **Fix (2 layers)**:
+  1. **NSURLRequest/NSMutableURLRequest** (`NSURLRequest.m`): Full implementation wrapping CFNetwork's `CFURLRequest*` functions via `extern void *` declarations resolved at runtime. Both classes exported `S` (defined) from Foundation.
+  2. **CFNetworkBridge** (`CFNetworkBridge.m`): Empty `@implementation` stubs for all CFNetwork ObjC classes expected in Foundation: `NSCachedURLResponse`, `NSURLCache`, `NSURLCredential`, `NSURLCredentialStorage`, `NSURLProtectionSpace`, `NSURLAuthenticationChallenge`, `NSURLProtocol`. Duplicate class warnings with CFNetwork are expected and non-fatal (runtime picks first loaded).
+  3. **NSHTTPCookieStorage** (`NSHTTPCookieStorage.m`): Stub with `sharedHTTPCookieStorage` singleton, `cookieAcceptPolicy` defaults to Always.
+  4. **NSURLSession/Configuration/Task** (`NSURLSession.m`): Stub classes — all methods return nil/noop.
+  5. **NSURLResponse/NSHTTPURLResponse** (`NSURLResponse.m`): Full implementation with internal helpers, `statusCode`, `allHeaderFields`, `localizedStringForStatusCode:`.
+  6. **NSURLConnection** (`NSURLConnection.m`): Stub with `sendSynchronousRequest:` returning error.
+  7. **NSUserActivity** in CoreServices (`NSUserActivity_stub.m`): Empty `@implementation` — Electron expects it in CoreServices (not Foundation), and CoreServices re-export also broken. Required adding `objc` to CoreServices' DEPENDENCIES for `_objc_empty_cache`.
+  8. **NSHTTPCookieConstants** (`NSHTTPCookieConstants.m`): All 13 NSHTTPCookie string constants.
+  9. **SwiftBridgeStubs.m fix**: Functions renamed from `_$s...` to `$s...` so Mach-O produces correct `_$s...` (single underscore prefix). Previously double-underscore produced `__$s...` which no consumer expected.
+  10. **SharedFileList inlined**: `src/SharedFileList/constants.c` added directly to CoreServices SOURCES. LSSharedFileListCreate/CopySnapshot/InsertItemURL/ItemRemove/ItemCopyProperty/ItemCopyResolvedURL stubs + kLSSharedFileListItemLast/kLSSharedFileListSessionLoginItems/kLSSharedFileListLoginItemHidden constants.
+  11. **CoreServices `-reexported_symbols_list` removed**: Was empty anyway (reexport broken), just confusing the build.
+- **Deploy**: Foundation and CoreServices deployed via `./scripts/relink_dylibs.sh Foundation --restart-server` and direct `cp` of CoreServices binary.
+- **Verified 2026-08-19**: The Unarchiver passes dyld (was blocked on `NSHTTPCookieStorage`). Obsidian passes NSUserActivity (was blocked, now hits `___NSDictionary0__struct` Swift runtime).
+- **Status**: FIXED. All CFNetwork-origin classes now stub-exported from Foundation.
+
+## Issue 36: App compatibility matrix (post-dyld) — STATUS
+- **Test**: `rm -f ~/.osxie/.init.pid && timeout --kill-after=2 8 install/bin/osxie <binary>`. Exit 137 = alive (killed by timeout). Exit 0 = clean exit. Other = crash.
+- **Results** (2026-08-19):
+| App | dyld | Exit | Notes |
+|-----|------|------|-------|
+| TestWindow | pass | 137 | X11 window visible, dark theme |
+| iTerm2 | pass | 137 | Two windows, dark theme |
+| cpuinfo | pass | 137 | Stable run loop |
+| GIMP | pass | 0 | Clean exit |
+| VLC | pass | 0 | Clean exit |
+| Audacity | pass | 137 | |
+| Inkscape | pass | 137 | |
+| Sublime Text | pass | 137 | |
+| Transmission | pass | 137 | |
+| **The Unarchiver** | **pass** | **137** | **NEW: passes dyld after CFNetworkBridge** |
+| Hex Fiend | pass | 134 | Post-dyld SIGSEGV (Tcl/ObjC bridge) |
+| KeePassXC | pass | 136 | Post-dyld SIGFPE in Mesa GL |
+| MacVim | pass | 139 | Post-dyld SIGSEGV at 0x7FFF00000000 |
+| Stellarium | pass | 139 | Post-dyld SIGSEGV, CFBasicHash |
+| Firefox | pass | 132 | Post-dyld SIGILL (JIT) |
+| **Obsidian** | **fail** | 1 | `___NSDictionary0__struct` — needs Swift runtime |
+| **Sequel Ace** | **fail** | 1 | `std::__1::bad_function_call::~bad_function_call()` — needs libc++ ABI |
+| **CotEditor** | **fail** | 1 | 540 Swift ABI symbols — needs full Swift Foundation |
+| **IINA** | **fail** | 1 | VideoToolbox symbols (requires COMPONENTS=all build) |
+- **Post-dyld crashes** (Hex Fiend, KeePassXC, MacVim, Stellarium, Firefox): All pass dyld loading, then crash during app initialization. Common pattern: Mesa/OpenGL GLX context creation failure ("Failed to create /Users for shader cache"). These are GL rendering infrastructure issues, not missing symbols.
+- **Hard blockers** (Obsidian, Sequel Ace, CotEditor): Need Swift runtime or libc++ ABI symbols that can't be stubbed — require building those libraries.
+- **Status**: IN PROGRESS. 15/19 apps pass dyld. 5 post-dyld crashes need Mesa/GL fix. 3 hard-blocked on Swift/libc++.

@@ -24,6 +24,8 @@ struct OpaqueLSSharedFileListItemRef {};
 static struct OpaqueLSSharedFileListItemRef _insertItemLast = { };
 
 LSSharedFileListItemRef kLSSharedFileListItemLast = &_insertItemLast;
+CFStringRef kLSSharedFileListSessionLoginItems = CFSTR("SessionLoginItems");
+CFStringRef kLSSharedFileListLoginItemHidden = CFSTR("LoginItemHidden");
 
 struct OpaqueLSSharedFileListRef {};
 static struct OpaqueLSSharedFileListRef _dummyList = { };
@@ -32,7 +34,23 @@ LSSharedFileListRef LSSharedFileListCreate(CFAllocatorRef allocator, CFStringRef
     return &_dummyList;
 }
 
+CFArrayRef LSSharedFileListCopySnapshot(LSSharedFileListRef list, LSSharedFileListRefreshTimestamp *timestamp) {
+    if (timestamp) *timestamp = NULL;
+    return CFArrayCreate(NULL, NULL, 0, &kCFTypeArrayCallBacks);
+}
+
 LSSharedFileListItemRef LSSharedFileListInsertItemURL(LSSharedFileListRef list, LSSharedFileListItemRef insertAfter, CFStringRef displayName, void* iconRef, CFURLRef url, CFDictionaryRef properties, LSSharedFileListRefreshTimestamp refreshTimestamp) {
     static struct OpaqueLSSharedFileListItemRef _dummyItem = { };
     return &_dummyItem;
+}
+
+void LSSharedFileListItemRemove(LSSharedFileListItemRef item) {
+}
+
+CFTypeRef LSSharedFileListItemCopyProperty(LSSharedFileListItemRef item, CFStringRef propertyKey) {
+    return NULL;
+}
+
+CFURLRef LSSharedFileListItemCopyResolvedURL(LSSharedFileListItemRef item, LSSharedFileListItemResolveAliasStyle resolveStyle, int flags) {
+    return NULL;
 }

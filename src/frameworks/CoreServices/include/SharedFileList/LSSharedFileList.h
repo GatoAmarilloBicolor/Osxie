@@ -26,12 +26,17 @@ typedef struct OpaqueLSSharedFileListItemRef *LSSharedFileListItemRef;
 typedef struct OpaqueLSSharedFileListRef *LSSharedFileListRef;
 
 extern LSSharedFileListItemRef kLSSharedFileListItemLast;
+extern CFStringRef kLSSharedFileListSessionLoginItems;
+extern CFStringRef kLSSharedFileListLoginItemHidden;
 
 typedef void *LSSharedFileListRefreshTimestamp;
-
 typedef const void *LSSharedFileListItemResolveAliasStyle;
 
 LSSharedFileListRef LSSharedFileListCreate(CFAllocatorRef allocator, CFStringRef listType, CFStringRef listName);
+CFArrayRef LSSharedFileListCopySnapshot(LSSharedFileListRef list, LSSharedFileListRefreshTimestamp *timestamp);
 LSSharedFileListItemRef LSSharedFileListInsertItemURL(LSSharedFileListRef list, LSSharedFileListItemRef insertAfter, CFStringRef displayName, void* iconRef, CFURLRef url, CFDictionaryRef properties, LSSharedFileListRefreshTimestamp refreshTimestamp);
+void LSSharedFileListItemRemove(LSSharedFileListItemRef item);
+CFTypeRef LSSharedFileListItemCopyProperty(LSSharedFileListItemRef item, CFStringRef propertyKey);
+CFURLRef LSSharedFileListItemCopyResolvedURL(LSSharedFileListItemRef item, LSSharedFileListItemResolveAliasStyle resolveStyle, int flags);
 
 #endif

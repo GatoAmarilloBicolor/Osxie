@@ -326,15 +326,31 @@ into the runtime prefix `~/.osxie`, with **no setuid/sudo/pkexec every**:
 - **Note**: The 87 sleeping threads are Mesa/llvmpipe **OpenGL** threads (separate from Metal/Vulkan), spawned by CoreGraphics/Onyx2D for software rendering. They're harmless but could be reduced with `LP_NUM_THREADS=1` or `GALLIUM_NTHREADS=1` env vars at runtime.
 - **Metal re-enablement path**: Fix Indium's `buffer.cpp` and `texture.cpp` to use VulkanMemoryAllocator (VMA) for suballocation instead of per-object `vkAllocateMemory`. Fix `pollEvents` to ensure llvmpipe pipeline threads block properly. Then set `ENABLE_METAL=ON`.
 
-## Issue 32: iTerm2 no X11 window — `applicationShouldOpenUntitledFile:` returns NO — ROOT CAUSE IDENTIFIED
+## Issue 32: iTerm2 no X11 window — `applicationShouldOpenUntitledFile:` returns NO — FIXED
 - **Files**: `src/external/cocotron/AppKit/NSApplication.m` (finishLaunching flow)
 - **Problem**: iTerm2 launches, loads NIB (27 objects, 26 connections — 148 `NSNibControlConnector` warnings for nil sources), `finishLaunching` completes successfully (`posting DidFinishLaunching` → `done`), the event loop starts (`NSApp run: finishLaunching returned`), but **zero X11 windows** are ever created. The app sits at 185 MB / 0% CPU / all threads sleeping, with no visible UI.
 - **Root cause**: `applicationShouldOpenUntitledFile:` returns `0` (NO) — iTerm2's delegate decides NOT to open a window because there's no saved session state in the container. In real macOS, iTerm2 restores its last session from `~/Library/Saved Application State/`; in the osxie container this directory doesn't exist, so iTerm2 opens nothing.
 - **Evidence**: `[TRACE] finishLaunching: openUntitled -> 0` in the log. After this, `DidFinishLaunching` is posted (which is where iTerm2's observer would create a session/window), but no window creation occurs.
-- **Fix needed**: Either (a) provide a minimal `Saved Application State` plist that makes iTerm2 think it has a window to restore, or (b) intercept `applicationShouldOpenUntitledFile:` to return `YES`, or (c) provide the session data that iTerm2's `applicationDidFinishLaunching:` notification observer expects.
-- **Status**: ROOT CAUSE IDENTIFIED, fix pending.
+- **Fix**: After `DidFinishLaunching` is posted, if `[_windows count] == 0` and a `NSWindowController` can be obtained (via `[NSApp mainWindow]`'s delegate or `NSApp delegate`), force `[controller newDocument: self]`. Added at `NSApplication.m:662`: checks `[[NSApp windows] count] == 0` and forces a new document. Trace: `[TRACE] finishLaunching: no windows after launch, forcing newDocument`.
+- **Verified 2026-08-18**: iTerm2 launches → NIB loads (148 connector warnings) → `finishLaunching` → `forced newDocument done` → two X11 windows created (WID=18874408 400x424, WID=18874406 503x136). Dark theme colors applied correctly.
+- **Status**: FIXED + verified.
 
 ## Issue 33: 87 Mesa/llvmpipe OpenGL threads (sleeping, benign) — OPTIMIZATION
 - **Problem**: Even with Metal disabled, CoreGraphics/Onyx2D creates OpenGL contexts for software rendering, spawning ~87 threads in groups of 3 (`traceq0`/`gdrv0`/`gl0`) from llvmpipe. All sleep on `futex_wait` but consume ~8 MB stack each (~700 MB virtual, ~185 MB RSS).
 - **Fix**: Set `GALLIUM_NTHREADS=1` or `LP_NUM_THREADS=1` in the container environment to limit llvmpipe to 1 worker thread per pipe. Can be added to `src/startup/osxie.c` environment setup or via `launchd.plist` environment keys.
 - **Status**: PENDING — low priority, threads are sleeping and not causing issues.
+
+## Issue 34: X11Theme dark/light theme inheritance from host KDE/GNOME — FIXED
+- **Files**: `src/external/cocotron/AppKit/X11.backend/X11Theme.m` (theme reader) + `~/.osxie/Users/<user>/.config/kdeglobals` (overlay copy)
+- **Problem**: macOS-style windows rendered with light gray (237,237,237) backgrounds instead of inheriting the host's dark/light theme. User requested: "también debería heredar los colores del theme".
+- **Root causes (3 bugs)**:
+  1. **Config path mismatch**: `X11Theme.m` reads `$HOME/.config/kdeglobals`, but osxie sets `HOME=/Users/<user>` (macOS-style path). The real KDE config lives at `/home/<user>/.config/kdeglobals` on the host. Inside the container overlay, the path `/Users/<user>/.config/kdeglobals` didn't exist. Fix: added `/home/<user>/...` and `/Volumes/SystemRoot/home/<user>/...` to `_configCandidates()` (also increased max from 3 to 5), AND created a direct copy `~/.osxie/Users/fenix/.config/kdeglobals` (symlinks break inside the overlay since `/home/<user>/` doesn't exist inside the container).
+  2. **INI section brackets mismatch**: `_sectionForRole()` returned `[Colors:Window]` (with square brackets), but the INI parser stripped brackets → cache stored `Colors:Window/BackgroundNormal`. Lookup for `[Colors:Window]/BackgroundNormal` never matched. Fix: removed brackets from `_sectionForRole()` returns.
+  3. **Cache too small**: `_themeCache[32]` overflowed — kdeglobals has 166 key=value entries (6+ sections × many keys + ColorEffects). Entries parsed first (ColorEffects, inactive) filled the cache before Colors:Window/View/Selection were reached. Fix: increased to `_themeCache[256]`.
+- **Verified 2026-08-18** (TestWindow + iTerm2):
+  - **TestWindow**: Title=(24,27,40), Menu=(28,32,48), Content=(30,34,51) — matching KDE `EmeraldDark` theme values.
+  - **iTerm2**: Two windows rendered dark — Title=(34,36,44), Menu=(34,35,43), Content=(28,31,34), Bottom=(11,11,11).
+  - All values match KDE kdeglobals: `[Colors:Window] BackgroundNormal=24,27,40`, `[Colors:Button] BackgroundNormal=30,34,51`, `[Colors:View] BackgroundNormal=22,25,37`.
+- **Env-gated traces**: `OSXIE_TRACE_THEME=1` shows all parsed config paths, fopen results, and per-role color resolution.
+- **Deploy note**: `kdeglobals` must be a real copy in `~/.osxie/Users/fenix/.config/`, NOT a symlink (symlinks to host paths break inside the container overlay). For production, `src/startup/osxie.c` should copy `~/.config/kdeglobals` into the overlay at startup.
+- **Status**: FIXED + verified. Traces gated behind `OSXIE_TRACE_THEME`.

@@ -666,6 +666,8 @@ void setupShellspawnEnv(int sockfd)
 		"/sbin:"
 		"/usr/local/bin");
 	pushShellspawnCommand(sockfd, SHELLSPAWN_SETENV, "TMPDIR=/private/tmp");
+	pushShellspawnCommand(sockfd, SHELLSPAWN_SETENV, "LP_NUM_THREADS=1");
+	pushShellspawnCommand(sockfd, SHELLSPAWN_SETENV, "GALLIUM_NTHREADS=1");
 
 	const char* login = NULL;
 	struct passwd* pw = getpwuid(geteuid());

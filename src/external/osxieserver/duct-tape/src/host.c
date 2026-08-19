@@ -149,14 +149,38 @@ kern_return_t host_info(host_t host, host_flavor_t flavor, host_info_t info, mac
 			return KERN_SUCCESS;
 		};
 
-		case HOST_SCHED_INFO:
-			dtape_stub_unsafe("HOST_SCHED_INFO");
-		case HOST_RESOURCE_SIZES:
-			dtape_stub_unsafe("HOST_RESOURCE_SIZES");
-		case HOST_CAN_HAS_DEBUGGER:
-			dtape_stub_unsafe("HOST_CAN_HAS_DEBUGGER");
-		case HOST_VM_PURGABLE:
-			dtape_stub_unsafe("HOST_VM_PURGABLE");
+		case HOST_SCHED_INFO: {
+			host_sched_info_t sched_info = (host_sched_info_t)info;
+			if (*count < HOST_SCHED_INFO_COUNT) {
+				return KERN_FAILURE;
+			}
+			sched_info->min_timeout = 1;
+			sched_info->min_quantum = 1;
+			*count = HOST_SCHED_INFO_COUNT;
+			return KERN_SUCCESS;
+		}
+		case HOST_RESOURCE_SIZES: {
+			*count = 0;
+			return KERN_SUCCESS;
+		}
+		case HOST_CAN_HAS_DEBUGGER: {
+			int *can_debug = (int *)info;
+			if (*count < 1) {
+				return KERN_FAILURE;
+			}
+			*can_debug = 0;
+			*count = 1;
+			return KERN_SUCCESS;
+		}
+		case HOST_VM_PURGABLE: {
+			host_purgable_info_t purg_info = (host_purgable_info_t)info;
+			if (*count < HOST_VM_PURGABLE_COUNT) {
+				return KERN_FAILURE;
+			}
+			memset(purg_info, 0, sizeof(*purg_info));
+			*count = HOST_VM_PURGABLE_COUNT;
+			return KERN_SUCCESS;
+		}
 
 		case HOST_MACH_MSG_TRAP:
 		case HOST_SEMAPHORE_TRAPS:
@@ -169,11 +193,15 @@ kern_return_t host_info(host_t host, host_flavor_t flavor, host_info_t info, mac
 };
 
 kern_return_t host_default_memory_manager(host_priv_t host_priv, memory_object_default_t* default_manager, memory_object_cluster_size_t cluster_size) {
-	dtape_stub_unsafe();
+	*default_manager = MEMORY_OBJECT_DEFAULT_NULL;
+	return KERN_SUCCESS;
 };
 
 kern_return_t host_get_boot_info(host_priv_t host_priv, kernel_boot_info_t boot_info) {
-	dtape_stub_unsafe();
+	memset(boot_info, 0, KERNEL_BOOT_INFO_MAX);
+	const char *msg = "osxie";
+	memcpy(boot_info, msg, sizeof("osxie"));
+	return KERN_SUCCESS;
 };
 
 kern_return_t host_get_UNDServer(host_priv_t host_priv, UNDServerRef* serverp) {

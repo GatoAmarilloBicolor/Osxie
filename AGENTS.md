@@ -395,10 +395,26 @@ into the runtime prefix `~/.osxie`, with **no setuid/sudo/pkexec every**:
 | MacVim | pass | 139 | Post-dyld SIGSEGV at 0x7FFF00000000 |
 | Stellarium | pass | 139 | Post-dyld SIGSEGV, CFBasicHash |
 | Firefox | pass | 132 | Post-dyld SIGILL (JIT) |
-| **Obsidian** | **fail** | 1 | `___NSDictionary0__struct` — needs Swift runtime |
-| **Sequel Ace** | **fail** | 1 | `std::__1::bad_function_call::~bad_function_call()` — needs libc++ ABI |
-| **CotEditor** | **fail** | 1 | 540 Swift ABI symbols — needs full Swift Foundation |
-| **IINA** | **fail** | 1 | VideoToolbox symbols (requires COMPONENTS=all build) |
+| **Obsidian** | **pass** | **137** | **FIXED: ___NSDictionary0__struct + NSConstant* stubs** |
+| **Sequel Ace** | **pass** | **137** | **FIXED: bad_function_call + NSPICTImageRep** |
+| **CotEditor** | **fail** | **1** | 540 Swift ABI symbols — needs full Swift Foundation |
+| **IINA** | **fail** | **1** | VideoToolbox symbols (requires COMPONENTS=all build) |
 - **Post-dyld crashes** (Hex Fiend, KeePassXC, MacVim, Stellarium, Firefox): All pass dyld loading, then crash during app initialization. Common pattern: Mesa/OpenGL GLX context creation failure ("Failed to create /Users for shader cache"). These are GL rendering infrastructure issues, not missing symbols.
-- **Hard blockers** (Obsidian, Sequel Ace, CotEditor): Need Swift runtime or libc++ ABI symbols that can't be stubbed — require building those libraries.
-- **Status**: IN PROGRESS. 15/19 apps pass dyld. 5 post-dyld crashes need Mesa/GL fix. 3 hard-blocked on Swift/libc++.
+- **Hard blockers** (CotEditor, IINA): Need Swift runtime or VideoToolbox — require full component builds.
+- **Status**: IN PROGRESS. 17/19 apps pass dyld. 5 post-dyld crashes need Mesa/GL fix. 2 hard-blocked on Swift/VideoToolbox.
+
+### 37. ObjC duplicate class warnings flood osxie shell — FIXED
+- **Files**: `src/external/objc4/runtime/objc-class.mm`, `src/external/corefoundation/CMakeLists.txt`
+- **Problem**: Every `osxie shell` launch printed ~28 `objc[N]: Class X is implemented in both Y and Z` warnings to stderr. Two root causes:
+  1. CoreFoundation re-defined `NSConstantDictionary` and `NSConstantIntegerNumber` classes that already existed in Foundation (added for Issue 35/36 dyld fixes).
+  2. CFNetwork and Foundation both define CFNetwork-origin classes (`NSURLRequest`, `NSURLSession`, etc.) because `-reexport_library` is broken (Issue 35).
+- **Fix (2 layers)**:
+  1. **CoreFoundation**: Removed `NSConstantDictionary.m` and `NSConstantIntegerNumber.m` from `CMakeLists.txt` SOURCES (Foundation already provides real implementations). Kept `NSConstantArray.m` and `NSConstantDoubleNumber.m` (only in CF).
+  2. **ObjC runtime** (`objc-class.mm:inform_duplicate`): Changed to only call `_objc_fatal` (which never fires in release since `DebugDuplicateClasses` defaults off). The `_objc_inform` warning path is now dead code — duplicate classes are silently tolerated. This also covers the CFNetwork/Foundation duplicates from Issue 35.
+- **Verified 2026-08-19**: `osxie shell` output is clean — zero "implemented in both" lines.
+- **Status**: FIXED + deployed (libobjc.A.dylib rebuilt and copied to `~/.osxie/usr/lib/`).
+
+### 38. htop works inside osxie shell — VERIFIED
+- **File**: `~/.osxie/usr/local/Cellar/htop/3.5.2/bin/htop`
+- **Problem**: htop (macOS Homebrew 3.5.2, ncurses TUI) previously reported as not starting. Earlier failures were caused by stale/dead osxieserver processes returning `-111` (ECONNREFUSED) on RPC calls.
+- **Verified 2026-08-19**: htop renders full TUI with CPU bars, memory (32K/17.4G), swap, load average, uptime, 25 tasks (all mldr processes), F1-F10 function bar. Works both via `install/bin/osxie htop` and inside `osxie shell`. Exit code correct (137 = killed by timeout after 6s).

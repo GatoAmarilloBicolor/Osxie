@@ -91,3 +91,6 @@ debian/*.substvars
 
 .idea
 cmake-build-*
+
+# Local diagnostics/stubs (not part of the build)
+gl_probe/

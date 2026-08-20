@@ -467,3 +467,18 @@ into the runtime prefix `~/.osxie`, with **no setuid/sudo/pkexec every**:
 - Repo root `master` in sync with `origin/master` (0 ahead/0 behind). Note a
   concurrent session also pushed `1627ce6e5` (OpenGL NULL-surface guard +
   CGLChoosePixelFormat off-by-one) which is already present locally and remote.
+
+### 41. osxieserver runtime sync (2026-08-20) — FIXED
+- The system launcher `/usr/local/bin/osxie` execs `/usr/local/bin/osxieserver`
+  → `osxieserver.real`, which was a **stale 2026-08-13 build** missing the
+  Issue 28 fix (`dtape_hook_task_for_each`=0, while `install/bin/osxieserver`
+  and `~/.osxie/bin/osxieserver` had it). This was a real contributor to CPU-Info
+  GangWorker instability.
+- **Fix**: synced `/usr/local/bin/osxieserver.real` with
+  `install/bin/osxieserver` via `pkexec cp` with absolute paths (interactive
+  polkit agent authorized). Now all three copies are byte-identical
+  (md5 `e493091c`), each with Issue 28 (`dtape_hook_task_for_each`=4) + Issue 30
+  (`timer_call_cancel`=2).
+- **Note**: pkexec needed absolute paths (`install/bin/osxieserver` relative was
+  not found because pkexec changes cwd). The dev launcher `install/bin/osxie`
+  already pointed to the new `install/bin/osxieserver`.

@@ -177,6 +177,8 @@ CGL_EXPORT void CGLDestroyWindow(CGLWindowRef window) {
 CGL_EXPORT CGLError CGLContextMakeCurrentAndAttachToWindow(CGLContextObj context, CGLWindowRef window) {
     if (!context)
         return kCGLBadContext;
+    if (!window)
+        return kCGLBadWindow;
     context->egl_surface = (EGLSurface) window;
     return CGLSetCurrentContext(context);
 }
@@ -204,6 +206,8 @@ CGLError CGLSetCurrentContext(CGLContextObj context) {
 
     if (context != NULL) {
         EGLSurface surface = context->egl_surface;
+        if (surface == EGL_NO_SURFACE)
+            return kCGLBadWindow;
         eglMakeCurrent(display, surface, surface, context->egl_context);
     } else {
         eglMakeCurrent(display, EGL_NO_SURFACE, EGL_NO_SURFACE, EGL_NO_CONTEXT);
@@ -221,10 +225,11 @@ CGLError CGLChoosePixelFormat(
     int count = attributes_count(attrs);
 
     format->retain_count = 1;
-    format->attributes = malloc(sizeof(CGLPixelFormatAttribute) * count);
+    format->attributes = malloc(sizeof(CGLPixelFormatAttribute) * (count + 1));
     for (int i = 0; i < count; i++) {
         format->attributes[i] = attrs[i];
     }
+    format->attributes[count] = 0;
 
     *result = format;
     *number_of_screens = 1;

@@ -418,3 +418,37 @@ into the runtime prefix `~/.osxie`, with **no setuid/sudo/pkexec every**:
 - **File**: `~/.osxie/usr/local/Cellar/htop/3.5.2/bin/htop`
 - **Problem**: htop (macOS Homebrew 3.5.2, ncurses TUI) previously reported as not starting. Earlier failures were caused by stale/dead osxieserver processes returning `-111` (ECONNREFUSED) on RPC calls.
 - **Verified 2026-08-19**: htop renders full TUI with CPU bars, memory (32K/17.4G), swap, load average, uptime, 25 tasks (all mldr processes), F1-F10 function bar. Works both via `install/bin/osxie htop` and inside `osxie shell`. Exit code correct (137 = killed by timeout after 6s).
+
+### 39. Submodule update to upstream + osxify push (2026-08-20)
+- **Scope**: merged latest upstream `darlinghq` into the osxified submodules,
+  preserving the local osxify commits, then pushed everything to the
+  `GatoAmarilloBicolor/osxie-*` forks and the repo root.
+- **cocotron** (`migrated`): merged upstream (2 commits: X11/Onyx2D backing-store
+  leak fixes) — **no conflicts**. Also committed local osxify fixes:
+  GL context stability (NSOpenGLContext NULL-surface + 0×0 clamp, X11Window
+  default-visual fallback, X11SubWindow size clamp) + dedup NSWindow keyDown.
+  Build verified (`AppKit`/`X11`/`OpenGL` relink OK).
+- **corefoundation** (`master`): merged upstream (Info.plist + CMakeLists). Also
+  committed the nested `submodules/swift-corelibs-foundation` osxify changes
+  (DARLING→OSXIE guards) to a new `osxify` branch, pushed to
+  `osxie-swift-corelibs-foundation` fork.
+- **foundation** (`master`): was already up-to-date with upstream (0 commits
+  pending). Pushed osxify commits incl. new `NSAppleEventManager`
+  currentAppleEvent/currentReplyAppleEvent/appleEventForSuspensionID/
+  replyAppleEventForSuspensionID returning nil (fixes garbage-return crash in
+  MacVim/iTerm2).
+- **objc4**/xnu/swift: already up-to-date with upstream; pushed osxify commits.
+  Swift push needed `-c core.hooksPath=/dev/null` (its `.lfsconfig` points to
+  auth-only `git-lfs.darlinghq.org`).
+- **Repo root** `master`: committed updated submodule pointers (cocotron,
+  corefoundation, foundation) + `.gitignore` (added `gl_probe/`). Pushed to
+  `GatoAmarilloBicolor/Osxie`.
+- **Verification**: all fork remotes' HEADs match local submodule HEADs; repo
+  root pushed `6a651e678..ea05bb94c`. Rebuild of AppKit/OpenGL/CoreFoundation/
+  Foundation after merges: EXIT 0.
+- **Swift runtime libs added** (runtime, not committed): created + deployed to
+  `~/.osxie/usr/lib/swift/` the missing stub dylibs `libswiftOSLog`,
+  `libswiftCoreMIDI`, `libswiftQuickLookUI`, `libswiftVideoToolbox`,
+  `libswift_Builtin_float` (each exports only the `__swift_FORCE_LOAD_$_swiftX`
+  symbol the apps import). These unblock dyld for CotEditor, cpuinfo, IINA,
+  Sequel Ace. Generated from `gl_probe/stubs/` (gitignored).

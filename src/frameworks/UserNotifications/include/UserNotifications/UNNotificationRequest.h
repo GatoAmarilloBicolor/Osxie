@@ -19,6 +19,15 @@
 
 #include <Foundation/Foundation.h>
 
-@interface UNNotificationRequest : NSObject
+@class UNNotificationContent;
 
+@interface UNNotificationRequest : NSObject {
+    NSString *_identifier;
+    UNNotificationContent *_content;
+}
+@property(copy, readonly) NSString *identifier;
+@property(copy, readonly) UNNotificationContent *content;
++ (instancetype)requestWithIdentifier:(NSString *)identifier
+                              content:(UNNotificationContent *)content
+                              trigger:(id)trigger;
 @end

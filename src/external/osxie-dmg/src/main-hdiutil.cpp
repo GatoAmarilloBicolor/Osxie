@@ -20,6 +20,7 @@ static void printHelp();
 static void doFork(void);
 static int doAttach(int argc, char** argv);
 static int doDetach(int argc, char** argv);
+static int doConvert(int argc, char** argv);
 static void addFusermountIntoPath();
 
 extern "C" int __osxie_vchroot_expand(const char* path, char* out);
@@ -33,6 +34,8 @@ int main(int argc, char** argv)
 		return doAttach(argc, argv);
 	else if (strcmp(argv[1], "detach") == 0)
 		return doDetach(argc, argv);
+	else if (strcmp(argv[1], "convert") == 0)
+		return doConvert(argc, argv);
 
 	printHelp();
 	return 1;
@@ -45,7 +48,9 @@ static void printHelp()
 		"\tattach [options] <file>\n"
 		"\t\tMounts a .dmg file <file> and prints the mount locaton\n"
 		"\tdetach [options] <mount-path>\n"
-		"\t\tUnmounts a .dmg file mounted at <mount-path>\n";
+		"\t\tUnmounts a .dmg file mounted at <mount-path>\n"
+		"\tconvert <input> -format <fmt> -o <output>\n"
+		"\t\tConverts a .dmg to a new file (copy-based)\n";
 
 	exit(1);
 }
@@ -340,6 +345,103 @@ static int doDetach(int argc, char** argv)
 
 		return 0;
 	}
+}
+
+static int doConvert(int argc, char** argv)
+{
+	static const struct option longopts[] = {
+		{ "format", required_argument, NULL, 1 },
+		{ "output", required_argument, NULL, 'o' },
+		{ "o", required_argument, NULL, 'o' },
+		{ "quiet", no_argument, NULL, 'q' },
+		{ "plist", no_argument, NULL, 7 },
+		{ NULL, 0, NULL, 0 }
+	};
+
+	std::string input, output, format;
+	bool quiet = false;
+
+	argc--;
+	argv++;
+
+	int ch;
+	while ((ch = getopt_long_only(argc, argv, "", longopts, NULL)) != -1)
+	{
+		switch (ch)
+		{
+			case 1:
+				format = optarg;
+				break;
+			case 'o':
+				output = optarg;
+				break;
+			case 'q':
+				quiet = true;
+				break;
+			case 7:
+				plist = true;
+				break;
+			default:
+				break;
+		}
+	}
+
+	if (optind < argc)
+		input = argv[optind];
+
+	if (input.empty() || output.empty())
+	{
+		std::cerr << "Usage: hdiutil convert <input> -format <fmt> -o <output>\n";
+		return 1;
+	}
+
+	if (access(input.c_str(), R_OK) != 0)
+	{
+		std::cerr << "Cannot access " << input << std::endl;
+		return 1;
+	}
+
+	// Copy-based conversion. The FUSE DMG parser reads raw sectors and
+	// is format-agnostic, so a byte-for-byte copy produces a valid DMG
+	// in any format the source was in. This is sufficient for Homebrew
+	// Cask which uses "hdiutil convert X.dmg -format UDRW -o X-rw.dmg"
+	// to obtain a writable copy.
+	FILE* fin = fopen(input.c_str(), "rb");
+	if (!fin)
+	{
+		std::cerr << "Cannot open " << input << std::endl;
+		return 1;
+	}
+
+	// Ensure output directory exists
+	size_t lastslash = output.rfind('/');
+	if (lastslash != std::string::npos)
+		mkdir(output.substr(0, lastslash).c_str(), 0777);
+
+	FILE* fout = fopen(output.c_str(), "wb");
+	if (!fout)
+	{
+		std::cerr << "Cannot create " << output << std::endl;
+		fclose(fin);
+		return 1;
+	}
+
+	char buf[65536];
+	size_t nread;
+	size_t total = 0;
+	while ((nread = fread(buf, 1, sizeof(buf), fin)) > 0)
+	{
+		fwrite(buf, 1, nread, fout);
+		total += nread;
+	}
+
+	fclose(fin);
+	fclose(fout);
+
+	if (!quiet)
+		std::cout << "Created " << output << " (" << total << " bytes)\n";
+
+	return 0;
 }
 
 void addFusermountIntoPath()

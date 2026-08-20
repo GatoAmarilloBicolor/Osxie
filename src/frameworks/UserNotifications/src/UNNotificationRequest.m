@@ -21,14 +21,17 @@
 
 @implementation UNNotificationRequest
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
-{
-    return [NSMethodSignature signatureWithObjCTypes: "v@:"];
-}
+@synthesize identifier = _identifier;
+@synthesize content = _content;
 
-- (void)forwardInvocation:(NSInvocation *)anInvocation
++ (instancetype)requestWithIdentifier:(NSString *)identifier
+                              content:(UNNotificationContent *)content
+                              trigger:(id)trigger
 {
-    NSLog(@"Stub called: %@ in %@", NSStringFromSelector([anInvocation selector]), [self class]);
+    UNNotificationRequest *req = [[UNNotificationRequest alloc] init];
+    req->_identifier = [identifier copy];
+    req->_content = [content copy];
+    return req;
 }
 
 @end

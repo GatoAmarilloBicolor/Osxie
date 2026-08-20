@@ -120,6 +120,8 @@
 
 #include <linux/version.h>
 #include <linux/kernel_stat.h>
+#include <linux/vmstat.h>
+#include <linux/swap.h>
 #undef avenrun
 #include <linux/sched/loadavg.h>
 
@@ -971,7 +973,28 @@ host_statistics64(host_t host, host_flavor_t flavor, host_info64_t info, mach_ms
 			stat->wire_count = global_zone_page_state(NR_ZONE_UNEVICTABLE);
 			stat->internal_page_count = global_zone_page_state(NR_ZONE_ACTIVE_ANON);
 			stat->external_page_count = global_zone_page_state(NR_ZONE_ACTIVE_FILE);
-			// stat->speculative_count = nr_blockdev_pages(); // not exported
+
+			/*
+			 * Fill swap in/out counters from Linux vm_event counters.
+			 * PSWPIN and PSWPOUT are at known offsets in the vm_event_item enum:
+			 * PGPGIN=0, PGPGOUT=1, PSWPIN=2, PSWPOUT=3.
+			 */
+			{
+				unsigned long vm_events[NR_VM_EVENT_ITEMS];
+				memset(vm_events, 0, sizeof(vm_events));
+				all_vm_events(vm_events);
+				stat->swapins = (natural_t)vm_events[PSWPIN];
+				stat->swapouts = (natural_t)vm_events[PSWPOUT];
+			}
+
+			/*
+			 * These fields have no Linux equivalent:
+			 * compressions/decompressions (XNU memory compressor, not ported)
+			 * purgeable_count/purges (VM各区AGEABLE subsystem, not ported)
+			 * speculative_count (XNU speculative paging, not ported)
+			 * They remain zero from the memset above — this is intentional.
+			 */
+
 			*count = HOST_VM_INFO64_COUNT;
 			return KERN_SUCCESS;
 		}

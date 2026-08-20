@@ -17,18 +17,11 @@
  along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#import <UserNotifications/UNUserNotificationCenter.h>
 #import <UserNotifications/UNNotificationSettings.h>
 
 @implementation UNNotificationSettings
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
-{
-    return [NSMethodSignature signatureWithObjCTypes: "v@:"];
-}
-
-- (void)forwardInvocation:(NSInvocation *)anInvocation
-{
-    NSLog(@"Stub called: %@ in %@", NSStringFromSelector([anInvocation selector]), [self class]);
-}
+@synthesize authorizationStatus = _authorizationStatus;
 
 @end

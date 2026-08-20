@@ -2,8 +2,15 @@
 
 if [ "$(whoami)" != "root" ]
 then
-	echo "$0 must be run as root, invoking sudo"
-	exec sudo su -c "$0" "$@"
+	echo "$0 must be run as root, attempting privilege escalation..."
+	if command -v pkexec >/dev/null 2>&1; then
+		exec pkexec "$0" "$@"
+	elif command -v sudo >/dev/null 2>&1; then
+		exec sudo su -c "$0" "$@"
+	else
+		echo "Error: need root. Install polkit (pkexec) or sudo."
+		exit 1
+	fi
 fi
 
 echo "Seeing if Osxie is currently running"

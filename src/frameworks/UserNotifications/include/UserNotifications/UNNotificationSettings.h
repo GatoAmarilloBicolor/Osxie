@@ -19,6 +19,8 @@
 
 #include <Foundation/Foundation.h>
 
-@interface UNNotificationSettings : NSObject
-
+@interface UNNotificationSettings : NSObject {
+    long _authorizationStatus;
+}
+@property(readonly) long authorizationStatus;
 @end

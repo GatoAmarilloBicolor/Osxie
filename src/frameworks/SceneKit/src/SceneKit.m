@@ -19,14 +19,10 @@
 
 
 #include <SceneKit/SceneKit.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <osxie_stub_log.h>
 
-static int verbose = 0;
-__attribute__((constructor))
-static void initme(void) {
-    verbose = getenv("STUB_VERBOSE") != NULL;
-}
+OSXIE_STUB_INIT
+
 
 
 void* const SCNAnimationCommitOnCompletion = (void*)0;
@@ -265,242 +261,242 @@ void* const kSCNAuthoringOverlayLayerIndex = (void*)0;
 void* const kSCNAuthoringOverlayLayerMask = (void*)0;
 
 void *C3DGetFileDecryptionCallbacks(void) {
-    if (verbose) puts("STUB: C3DGetFileDecryptionCallbacks called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *C3DIOCreateCStringFromCFString(void) {
-    if (verbose) puts("STUB: C3DIOCreateCStringFromCFString called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *C3DIOCreateOptionsForRealtimeViewer(void) {
-    if (verbose) puts("STUB: C3DIOCreateOptionsForRealtimeViewer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *C3DImageGetAttribute(void) {
-    if (verbose) puts("STUB: C3DImageGetAttribute called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *C3DImageGetURL(void) {
-    if (verbose) puts("STUB: C3DImageGetURL called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *C3DImageSetAttribute(void) {
-    if (verbose) puts("STUB: C3DImageSetAttribute called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *C3DSetFileDecryptionCallbacks(void) {
-    if (verbose) puts("STUB: C3DSetFileDecryptionCallbacks called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNDeleteMetalShaderCache(void) {
-    if (verbose) puts("STUB: SCNDeleteMetalShaderCache called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNExportJavaScriptModule(void) {
-    if (verbose) puts("STUB: SCNExportJavaScriptModule called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNGetExternalTextureSource(void) {
-    if (verbose) puts("STUB: SCNGetExternalTextureSource called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNGetPerformanceStatistics(void) {
-    if (verbose) puts("STUB: SCNGetPerformanceStatistics called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNGetResourceBundle(void) {
-    if (verbose) puts("STUB: SCNGetResourceBundle called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNGetShaderCollectionOutputURL(void) {
-    if (verbose) puts("STUB: SCNGetShaderCollectionOutputURL called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNHasSpecialResourceBundle(void) {
-    if (verbose) puts("STUB: SCNHasSpecialResourceBundle called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNMatrix4EqualToMatrix4(void) {
-    if (verbose) puts("STUB: SCNMatrix4EqualToMatrix4 called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNMatrix4FromGLKMatrix4(void) {
-    if (verbose) puts("STUB: SCNMatrix4FromGLKMatrix4 called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNMatrix4Invert(void) {
-    if (verbose) puts("STUB: SCNMatrix4Invert called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNMatrix4IsIdentity(void) {
-    if (verbose) puts("STUB: SCNMatrix4IsIdentity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNMatrix4MakeRotation(void) {
-    if (verbose) puts("STUB: SCNMatrix4MakeRotation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNMatrix4Mult(void) {
-    if (verbose) puts("STUB: SCNMatrix4Mult called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNMatrix4Rotate(void) {
-    if (verbose) puts("STUB: SCNMatrix4Rotate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNMatrix4Scale(void) {
-    if (verbose) puts("STUB: SCNMatrix4Scale called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNMatrix4ToGLKMatrix4(void) {
-    if (verbose) puts("STUB: SCNMatrix4ToGLKMatrix4 called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNNodeGetBoundingSphere(void) {
-    if (verbose) puts("STUB: SCNNodeGetBoundingSphere called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNNodesToMDLAsset(void) {
-    if (verbose) puts("STUB: SCNNodesToMDLAsset called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNResolveImageContents(void) {
-    if (verbose) puts("STUB: SCNResolveImageContents called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNSetExternalTextureSource(void) {
-    if (verbose) puts("STUB: SCNSetExternalTextureSource called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNSetPerformanceStatisticsEnabled(void) {
-    if (verbose) puts("STUB: SCNSetPerformanceStatisticsEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNSetResourceBundle(void) {
-    if (verbose) puts("STUB: SCNSetResourceBundle called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNSetShaderCollectionEnabled(void) {
-    if (verbose) puts("STUB: SCNSetShaderCollectionEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNTextureContentWithGLInfo(void) {
-    if (verbose) puts("STUB: SCNTextureContentWithGLInfo called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNVector3EqualToVector3(void) {
-    if (verbose) puts("STUB: SCNVector3EqualToVector3 called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNVector4EqualToVector4(void) {
-    if (verbose) puts("STUB: SCNVector4EqualToVector4 called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *SCNWriteMTLTextureToFile(void) {
-    if (verbose) puts("STUB: SCNWriteMTLTextureToFile called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *_SCNGetCollectedShadersForPid(void) {
-    if (verbose) puts("STUB: _SCNGetCollectedShadersForPid called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *_SCNGetPerformanceStatisticsForPid(void) {
-    if (verbose) puts("STUB: _SCNGetPerformanceStatisticsForPid called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *_SCNSetLinearRenderingEnabled(void) {
-    if (verbose) puts("STUB: _SCNSetLinearRenderingEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *_SCNSetShaderCacheURL(void) {
-    if (verbose) puts("STUB: _SCNSetShaderCacheURL called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *_SCNSetShouldPostShadableCompilationNotifications(void) {
-    if (verbose) puts("STUB: _SCNSetShouldPostShadableCompilationNotifications called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *_SCNShadableConvertShaderToMetalIfNeeded(void) {
-    if (verbose) puts("STUB: _SCNShadableConvertShaderToMetalIfNeeded called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *_SCNStartCollectingPerformanceStatisticsForPid(void) {
-    if (verbose) puts("STUB: _SCNStartCollectingPerformanceStatisticsForPid called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *_SCNStopCollectingPerformanceStatisticsForPid(void) {
-    if (verbose) puts("STUB: _SCNStopCollectingPerformanceStatisticsForPid called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *scn_frustum_classify_aabb(void) {
-    if (verbose) puts("STUB: scn_frustum_classify_aabb called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *scn_matrix_compute_normal(void) {
-    if (verbose) puts("STUB: scn_matrix_compute_normal called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *scn_matrix_fast_invert(void) {
-    if (verbose) puts("STUB: scn_matrix_fast_invert called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *scn_plane_intersect_3_planes(void) {
-    if (verbose) puts("STUB: scn_plane_intersect_3_planes called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *scn_triangle_barycentric_coordinates(void) {
-    if (verbose) puts("STUB: scn_triangle_barycentric_coordinates called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void *scn_triangle_point_distance_squared(void) {
-    if (verbose) puts("STUB: scn_triangle_point_distance_squared called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 

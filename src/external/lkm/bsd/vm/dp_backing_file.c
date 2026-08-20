@@ -75,6 +75,12 @@
 
 #include <pexpert/pexpert.h>
 
+#ifdef __OSXIE__
+#include <linux/version.h>
+#include <linux/swap.h>
+#include <linux/mmzone.h>
+#endif
+
 
 /*
  *	Routine:	macx_backing_store_recovery
@@ -206,10 +212,31 @@ macx_swapinfo(
 		*pagesize_p = (vm_size_t)PAGE_SIZE_64;
 		*encrypted_p = TRUE;
 	} else {
+#ifdef __OSXIE__
+		/*
+		 * On Osxie, XNU's own swap subsystem is not active, but the Linux
+		 * host may have real swap configured. Report it here so that
+		 * tools like htop/top show accurate swap usage via sysctl vm.swapusage.
+		 */
+		long free_pages = get_nr_swap_pages();
+		long total_pages = total_swap_pages;
+		if (total_pages > 0) {
+			*total_p = (memory_object_size_t)total_pages * PAGE_SIZE_64;
+			*avail_p = (memory_object_size_t)(free_pages > 0 ? free_pages : 0) * PAGE_SIZE_64;
+			*pagesize_p = (vm_size_t)PAGE_SIZE_64;
+			*encrypted_p = FALSE;
+		} else {
+			*total_p = 0;
+			*avail_p = 0;
+			*pagesize_p = 0;
+			*encrypted_p = FALSE;
+		}
+#else
 		*total_p = 0;
 		*avail_p = 0;
 		*pagesize_p = 0;
 		*encrypted_p = FALSE;
+#endif
 	}
 	return 0;
 }

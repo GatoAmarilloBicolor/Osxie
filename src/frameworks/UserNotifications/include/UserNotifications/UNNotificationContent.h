@@ -19,6 +19,14 @@
 
 #include <Foundation/Foundation.h>
 
-@interface UNNotificationContent : NSObject
-
+@interface UNNotificationContent : NSObject {
+    NSString *_title;
+    NSString *_subtitle;
+    NSString *_body;
+    NSDictionary *_userInfo;
+}
+@property(copy) NSString *title;
+@property(copy) NSString *subtitle;
+@property(copy) NSString *body;
+@property(copy) NSDictionary *userInfo;
 @end

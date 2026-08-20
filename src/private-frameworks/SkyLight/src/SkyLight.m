@@ -19,8624 +19,8620 @@
 
 
 #include <SkyLight/SkyLight.h>
-#include <stdlib.h>
-#include <stdio.h>
+#include <osxie_stub_log.h>
+
+OSXIE_STUB_INIT
 
 const CFStringRef kSLSGestureScrollTrackpadDevicesKey = CFSTR("kSLSGestureScrollTrackpadDevicesKey");
 
-static int verbose = 0;
 
-__attribute__((constructor))
-static void initme(void) {
-    verbose = getenv("STUB_VERBOSE") != NULL;
-}
 
 void* SLAcquireDisplayFadeReservation(void)
 {
-    if (verbose) puts("STUB: SLAcquireDisplayFadeReservation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLAssociateMouseAndMouseCursorPosition(void)
 {
-    if (verbose) puts("STUB: SLAssociateMouseAndMouseCursorPosition called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLBeginDisplayConfiguration(void)
 {
-    if (verbose) puts("STUB: SLBeginDisplayConfiguration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLCFDictionaryGetBoolean(void)
 {
-    if (verbose) puts("STUB: SLCFDictionaryGetBoolean called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLCFDictionaryGetFloat(void)
 {
-    if (verbose) puts("STUB: SLCFDictionaryGetFloat called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLCFDictionaryGetInteger(void)
 {
-    if (verbose) puts("STUB: SLCFDictionaryGetInteger called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLCFDictionaryGetNumber(void)
 {
-    if (verbose) puts("STUB: SLCFDictionaryGetNumber called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLCFDictionaryGetRect(void)
 {
-    if (verbose) puts("STUB: SLCFDictionaryGetRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLCFDictionaryGetSize(void)
 {
-    if (verbose) puts("STUB: SLCFDictionaryGetSize called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLCancelDisplayConfiguration(void)
 {
-    if (verbose) puts("STUB: SLCancelDisplayConfiguration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLCaptureAllDisplays(void)
 {
-    if (verbose) puts("STUB: SLCaptureAllDisplays called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLCaptureAllDisplaysWithOptions(void)
 {
-    if (verbose) puts("STUB: SLCaptureAllDisplaysWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLCompleteDisplayConfiguration(void)
 {
-    if (verbose) puts("STUB: SLCompleteDisplayConfiguration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLConfigureDisplayFadeEffect(void)
 {
-    if (verbose) puts("STUB: SLConfigureDisplayFadeEffect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLConfigureDisplayMirrorOfDisplay(void)
 {
-    if (verbose) puts("STUB: SLConfigureDisplayMirrorOfDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLConfigureDisplayMode(void)
 {
-    if (verbose) puts("STUB: SLConfigureDisplayMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLConfigureDisplayOrigin(void)
 {
-    if (verbose) puts("STUB: SLConfigureDisplayOrigin called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLConfigureDisplayStereoOperation(void)
 {
-    if (verbose) puts("STUB: SLConfigureDisplayStereoOperation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLConfigureDisplayWithDisplayMode(void)
 {
-    if (verbose) puts("STUB: SLConfigureDisplayWithDisplayMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLContextCopyDisplayCaptureContentsToRect(void)
 {
-    if (verbose) puts("STUB: SLContextCopyDisplayCaptureContentsToRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLContextCopyWindowCaptureContentsToRect(void)
 {
-    if (verbose) puts("STUB: SLContextCopyWindowCaptureContentsToRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLContextCopyWindowContentsToRect(void)
 {
-    if (verbose) puts("STUB: SLContextCopyWindowContentsToRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLCursorIsDrawnInFramebuffer(void)
 {
-    if (verbose) puts("STUB: SLCursorIsDrawnInFramebuffer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLCursorIsVisible(void)
 {
-    if (verbose) puts("STUB: SLCursorIsVisible called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDirectDisplayCopyCurrentMetalDevice(void)
 {
-    if (verbose) puts("STUB: SLDirectDisplayCopyCurrentMetalDevice called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayAddressForPosition(void)
 {
-    if (verbose) puts("STUB: SLDisplayAddressForPosition called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayAvailableModes(void)
 {
-    if (verbose) puts("STUB: SLDisplayAvailableModes called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayBaseAddress(void)
 {
-    if (verbose) puts("STUB: SLDisplayBaseAddress called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayBeamPosition(void)
 {
-    if (verbose) puts("STUB: SLDisplayBeamPosition called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayBestModeForParameters(void)
 {
-    if (verbose) puts("STUB: SLDisplayBestModeForParameters called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayBestModeForParametersAndRefreshRate(void)
 {
-    if (verbose) puts("STUB: SLDisplayBestModeForParametersAndRefreshRate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayBestModeForParametersAndRefreshRateWithProperty(void)
 {
-    if (verbose) puts("STUB: SLDisplayBestModeForParametersAndRefreshRateWithProperty called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayBitsPerPixel(void)
 {
-    if (verbose) puts("STUB: SLDisplayBitsPerPixel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayBitsPerSample(void)
 {
-    if (verbose) puts("STUB: SLDisplayBitsPerSample called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayBounds(void)
 {
-    if (verbose) puts("STUB: SLDisplayBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayBytesPerRow(void)
 {
-    if (verbose) puts("STUB: SLDisplayBytesPerRow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayCanSetPalette(void)
 {
-    if (verbose) puts("STUB: SLDisplayCanSetPalette called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayCapture(void)
 {
-    if (verbose) puts("STUB: SLDisplayCapture called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayCaptureWithOptions(void)
 {
-    if (verbose) puts("STUB: SLDisplayCaptureWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayCopyAllDisplayModes(void)
 {
-    if (verbose) puts("STUB: SLDisplayCopyAllDisplayModes called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayCopyColorSpace(void)
 {
-    if (verbose) puts("STUB: SLDisplayCopyColorSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayCopyDisplayMode(void)
 {
-    if (verbose) puts("STUB: SLDisplayCopyDisplayMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayCreateImage(void)
 {
-    if (verbose) puts("STUB: SLDisplayCreateImage called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayCreateImageForRect(void)
 {
-    if (verbose) puts("STUB: SLDisplayCreateImageForRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayCurrentMode(void)
 {
-    if (verbose) puts("STUB: SLDisplayCurrentMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayDefaultVisualBell(void)
 {
-    if (verbose) puts("STUB: SLDisplayDefaultVisualBell called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayDoesNotDim(void)
 {
-    if (verbose) puts("STUB: SLDisplayDoesNotDim called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayFade(void)
 {
-    if (verbose) puts("STUB: SLDisplayFade called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayFadeOperationInProgress(void)
 {
-    if (verbose) puts("STUB: SLDisplayFadeOperationInProgress called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayForceToGray(void)
 {
-    if (verbose) puts("STUB: SLDisplayForceToGray called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayGammaTableCapacity(void)
 {
-    if (verbose) puts("STUB: SLDisplayGammaTableCapacity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayGetDrawingContext(void)
 {
-    if (verbose) puts("STUB: SLDisplayGetDrawingContext called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayHideCursor(void)
 {
-    if (verbose) puts("STUB: SLDisplayHideCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayIDToOpenGLDisplayMask(void)
 {
-    if (verbose) puts("STUB: SLDisplayIDToOpenGLDisplayMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayIOServicePort(void)
 {
-    if (verbose) puts("STUB: SLDisplayIOServicePort called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayIsActive(void)
 {
-    if (verbose) puts("STUB: SLDisplayIsActive called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayIsAlwaysInMirrorSet(void)
 {
-    if (verbose) puts("STUB: SLDisplayIsAlwaysInMirrorSet called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayIsAsleep(void)
 {
-    if (verbose) puts("STUB: SLDisplayIsAsleep called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayIsBuiltin(void)
 {
-    if (verbose) puts("STUB: SLDisplayIsBuiltin called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayIsCaptured(void)
 {
-    if (verbose) puts("STUB: SLDisplayIsCaptured called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayIsInHWMirrorSet(void)
 {
-    if (verbose) puts("STUB: SLDisplayIsInHWMirrorSet called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayIsInMirrorSet(void)
 {
-    if (verbose) puts("STUB: SLDisplayIsInMirrorSet called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayIsMain(void)
 {
-    if (verbose) puts("STUB: SLDisplayIsMain called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayIsOnline(void)
 {
-    if (verbose) puts("STUB: SLDisplayIsOnline called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayIsStereo(void)
 {
-    if (verbose) puts("STUB: SLDisplayIsStereo called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayMirrorsDisplay(void)
 {
-    if (verbose) puts("STUB: SLDisplayMirrorsDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeCopyPixelEncoding(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeCopyPixelEncoding called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeCreate(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeGetHeight(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeGetHeight called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeGetIODisplayModeID(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeGetIODisplayModeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeGetIOFlags(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeGetIOFlags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeGetPixelDensity(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeGetPixelDensity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeGetPixelHeight(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeGetPixelHeight called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeGetPixelWidth(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeGetPixelWidth called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeGetPixelsHigh(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeGetPixelsHigh called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeGetPixelsWide(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeGetPixelsWide called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeGetRefreshRate(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeGetRefreshRate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeGetResolution(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeGetResolution called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeGetWidth(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeGetWidth called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeIsUsableForDesktopGUI(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeIsUsableForDesktopGUI called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeRelease(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeRelease called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModeRetain(void)
 {
-    if (verbose) puts("STUB: SLDisplayModeRetain called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayModelNumber(void)
 {
-    if (verbose) puts("STUB: SLDisplayModelNumber called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayMoveCursorToPoint(void)
 {
-    if (verbose) puts("STUB: SLDisplayMoveCursorToPoint called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayPixelsHigh(void)
 {
-    if (verbose) puts("STUB: SLDisplayPixelsHigh called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayPixelsWide(void)
 {
-    if (verbose) puts("STUB: SLDisplayPixelsWide called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayPrimaryDisplay(void)
 {
-    if (verbose) puts("STUB: SLDisplayPrimaryDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayRegisterReconfigurationCallback(void)
 {
-    if (verbose) puts("STUB: SLDisplayRegisterReconfigurationCallback called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayRelease(void)
 {
-    if (verbose) puts("STUB: SLDisplayRelease called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayRemoveReconfigurationCallback(void)
 {
-    if (verbose) puts("STUB: SLDisplayRemoveReconfigurationCallback called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayRestoreColorSyncSettings(void)
 {
-    if (verbose) puts("STUB: SLDisplayRestoreColorSyncSettings called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayRotation(void)
 {
-    if (verbose) puts("STUB: SLDisplayRotation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplaySamplesPerPixel(void)
 {
-    if (verbose) puts("STUB: SLDisplaySamplesPerPixel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayScreenSize(void)
 {
-    if (verbose) puts("STUB: SLDisplayScreenSize called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplaySerialNumber(void)
 {
-    if (verbose) puts("STUB: SLDisplaySerialNumber called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplaySetDisplayMode(void)
 {
-    if (verbose) puts("STUB: SLDisplaySetDisplayMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplaySetInvertedPolarity(void)
 {
-    if (verbose) puts("STUB: SLDisplaySetInvertedPolarity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplaySetPalette(void)
 {
-    if (verbose) puts("STUB: SLDisplaySetPalette called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplaySetStereoOperation(void)
 {
-    if (verbose) puts("STUB: SLDisplaySetStereoOperation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayShowCursor(void)
 {
-    if (verbose) puts("STUB: SLDisplayShowCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayStreamCreate(void)
 {
-    if (verbose) puts("STUB: SLDisplayStreamCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayStreamCreateWithDispatchQueue(void)
 {
-    if (verbose) puts("STUB: SLDisplayStreamCreateWithDispatchQueue called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayStreamGetRunLoopSource(void)
 {
-    if (verbose) puts("STUB: SLDisplayStreamGetRunLoopSource called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayStreamGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLDisplayStreamGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayStreamStart(void)
 {
-    if (verbose) puts("STUB: SLDisplayStreamStart called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayStreamStop(void)
 {
-    if (verbose) puts("STUB: SLDisplayStreamStop called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayStreamUpdateCreateMergedUpdate(void)
 {
-    if (verbose) puts("STUB: SLDisplayStreamUpdateCreateMergedUpdate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayStreamUpdateGetDropCount(void)
 {
-    if (verbose) puts("STUB: SLDisplayStreamUpdateGetDropCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayStreamUpdateGetMovedRectsDelta(void)
 {
-    if (verbose) puts("STUB: SLDisplayStreamUpdateGetMovedRectsDelta called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayStreamUpdateGetRects(void)
 {
-    if (verbose) puts("STUB: SLDisplayStreamUpdateGetRects called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayStreamUpdateGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLDisplayStreamUpdateGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplaySwitchToMode(void)
 {
-    if (verbose) puts("STUB: SLDisplaySwitchToMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayUnitNumber(void)
 {
-    if (verbose) puts("STUB: SLDisplayUnitNumber called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayUsesForceToGray(void)
 {
-    if (verbose) puts("STUB: SLDisplayUsesForceToGray called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayUsesInvertedPolarity(void)
 {
-    if (verbose) puts("STUB: SLDisplayUsesInvertedPolarity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayUsesOpenGLAcceleration(void)
 {
-    if (verbose) puts("STUB: SLDisplayUsesOpenGLAcceleration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayVendorNumber(void)
 {
-    if (verbose) puts("STUB: SLDisplayVendorNumber called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayVisualBell(void)
 {
-    if (verbose) puts("STUB: SLDisplayVisualBell called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLDisplayWaitForBeamPositionOutsideLines(void)
 {
-    if (verbose) puts("STUB: SLDisplayWaitForBeamPositionOutsideLines called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEnableEventStateCombining(void)
 {
-    if (verbose) puts("STUB: SLEnableEventStateCombining called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCopyIOHIDEvent(void)
 {
-    if (verbose) puts("STUB: SLEventCopyIOHIDEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCopyNextEvent(void)
 {
-    if (verbose) puts("STUB: SLEventCopyNextEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCreate(void)
 {
-    if (verbose) puts("STUB: SLEventCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCreateCopy(void)
 {
-    if (verbose) puts("STUB: SLEventCreateCopy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCreateData(void)
 {
-    if (verbose) puts("STUB: SLEventCreateData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCreateFromData(void)
 {
-    if (verbose) puts("STUB: SLEventCreateFromData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCreateKeyboardEvent(void)
 {
-    if (verbose) puts("STUB: SLEventCreateKeyboardEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCreateMouseEvent(void)
 {
-    if (verbose) puts("STUB: SLEventCreateMouseEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCreateNextEvent(void)
 {
-    if (verbose) puts("STUB: SLEventCreateNextEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCreateScrollWheelEvent(void)
 {
-    if (verbose) puts("STUB: SLEventCreateScrollWheelEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCreateScrollWheelEvent2(void)
 {
-    if (verbose) puts("STUB: SLEventCreateScrollWheelEvent2 called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCreateSourceFromEvent(void)
 {
-    if (verbose) puts("STUB: SLEventCreateSourceFromEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventCreateWithEventRecord(void)
 {
-    if (verbose) puts("STUB: SLEventCreateWithEventRecord called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventGetDoubleValueField(void)
 {
-    if (verbose) puts("STUB: SLEventGetDoubleValueField called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventGetEventRecord(void)
 {
-    if (verbose) puts("STUB: SLEventGetEventRecord called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventGetFlags(void)
 {
-    if (verbose) puts("STUB: SLEventGetFlags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventGetIntegerValueField(void)
 {
-    if (verbose) puts("STUB: SLEventGetIntegerValueField called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventGetLocation(void)
 {
-    if (verbose) puts("STUB: SLEventGetLocation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventGetTimestamp(void)
 {
-    if (verbose) puts("STUB: SLEventGetTimestamp called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventGetType(void)
 {
-    if (verbose) puts("STUB: SLEventGetType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLEventGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventGetUnflippedLocation(void)
 {
-    if (verbose) puts("STUB: SLEventGetUnflippedLocation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventGetUnflippedWindowLocation(void)
 {
-    if (verbose) puts("STUB: SLEventGetUnflippedWindowLocation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventGetWindowLocation(void)
 {
-    if (verbose) puts("STUB: SLEventGetWindowLocation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventKeyboardGetUnicodeString(void)
 {
-    if (verbose) puts("STUB: SLEventKeyboardGetUnicodeString called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventKeyboardSetUnicodeString(void)
 {
-    if (verbose) puts("STUB: SLEventKeyboardSetUnicodeString called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventPost(void)
 {
-    if (verbose) puts("STUB: SLEventPost called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventPostEventToPSN(void)
 {
-    if (verbose) puts("STUB: SLEventPostEventToPSN called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventPostToPSN(void)
 {
-    if (verbose) puts("STUB: SLEventPostToPSN called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventPostToPid(void)
 {
-    if (verbose) puts("STUB: SLEventPostToPid called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventRecordPointer(void)
 {
-    if (verbose) puts("STUB: SLEventRecordPointer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSetDoubleValueField(void)
 {
-    if (verbose) puts("STUB: SLEventSetDoubleValueField called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSetFlags(void)
 {
-    if (verbose) puts("STUB: SLEventSetFlags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSetIOHIDEvent(void)
 {
-    if (verbose) puts("STUB: SLEventSetIOHIDEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSetIntegerValueField(void)
 {
-    if (verbose) puts("STUB: SLEventSetIntegerValueField called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSetLocation(void)
 {
-    if (verbose) puts("STUB: SLEventSetLocation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSetSource(void)
 {
-    if (verbose) puts("STUB: SLEventSetSource called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSetTimestamp(void)
 {
-    if (verbose) puts("STUB: SLEventSetTimestamp called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSetType(void)
 {
-    if (verbose) puts("STUB: SLEventSetType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSetWindowLocation(void)
 {
-    if (verbose) puts("STUB: SLEventSetWindowLocation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceButtonState(void)
 {
-    if (verbose) puts("STUB: SLEventSourceButtonState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceCounterForEventType(void)
 {
-    if (verbose) puts("STUB: SLEventSourceCounterForEventType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceCreate(void)
 {
-    if (verbose) puts("STUB: SLEventSourceCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceFlagsState(void)
 {
-    if (verbose) puts("STUB: SLEventSourceFlagsState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceGetKeyboardType(void)
 {
-    if (verbose) puts("STUB: SLEventSourceGetKeyboardType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceGetLocalEventsFilterDuringSuppressionState(void)
 {
-    if (verbose) puts("STUB: SLEventSourceGetLocalEventsFilterDuringSuppressionState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceGetLocalEventsSuppressionInterval(void)
 {
-    if (verbose) puts("STUB: SLEventSourceGetLocalEventsSuppressionInterval called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceGetPixelsPerLine(void)
 {
-    if (verbose) puts("STUB: SLEventSourceGetPixelsPerLine called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceGetSourceStateID(void)
 {
-    if (verbose) puts("STUB: SLEventSourceGetSourceStateID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLEventSourceGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceGetUserData(void)
 {
-    if (verbose) puts("STUB: SLEventSourceGetUserData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceKeyState(void)
 {
-    if (verbose) puts("STUB: SLEventSourceKeyState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceSecondsSinceLastEventType(void)
 {
-    if (verbose) puts("STUB: SLEventSourceSecondsSinceLastEventType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceSetKeyboardType(void)
 {
-    if (verbose) puts("STUB: SLEventSourceSetKeyboardType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceSetLocalEventsFilterDuringSuppressionState(void)
 {
-    if (verbose) puts("STUB: SLEventSourceSetLocalEventsFilterDuringSuppressionState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceSetLocalEventsSuppressionInterval(void)
 {
-    if (verbose) puts("STUB: SLEventSourceSetLocalEventsSuppressionInterval called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceSetPixelsPerLine(void)
 {
-    if (verbose) puts("STUB: SLEventSourceSetPixelsPerLine called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventSourceSetUserData(void)
 {
-    if (verbose) puts("STUB: SLEventSourceSetUserData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventTapCreate(void)
 {
-    if (verbose) puts("STUB: SLEventTapCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventTapCreateForPSN(void)
 {
-    if (verbose) puts("STUB: SLEventTapCreateForPSN called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventTapCreateForPid(void)
 {
-    if (verbose) puts("STUB: SLEventTapCreateForPid called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventTapEnable(void)
 {
-    if (verbose) puts("STUB: SLEventTapEnable called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventTapIDEnable(void)
 {
-    if (verbose) puts("STUB: SLEventTapIDEnable called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventTapIDIsEnabled(void)
 {
-    if (verbose) puts("STUB: SLEventTapIDIsEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventTapIsEnabled(void)
 {
-    if (verbose) puts("STUB: SLEventTapIsEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLEventTapPostEvent(void)
 {
-    if (verbose) puts("STUB: SLEventTapPostEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLGetActiveDisplayList(void)
 {
-    if (verbose) puts("STUB: SLGetActiveDisplayList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLGetDisplayTransferByFormula(void)
 {
-    if (verbose) puts("STUB: SLGetDisplayTransferByFormula called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLGetDisplayTransferByTable(void)
 {
-    if (verbose) puts("STUB: SLGetDisplayTransferByTable called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLGetDisplaysWithOpenGLDisplayMask(void)
 {
-    if (verbose) puts("STUB: SLGetDisplaysWithOpenGLDisplayMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLGetDisplaysWithPoint(void)
 {
-    if (verbose) puts("STUB: SLGetDisplaysWithPoint called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLGetDisplaysWithRect(void)
 {
-    if (verbose) puts("STUB: SLGetDisplaysWithRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLGetEventTapList(void)
 {
-    if (verbose) puts("STUB: SLGetEventTapList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLGetLastMouseDelta(void)
 {
-    if (verbose) puts("STUB: SLGetLastMouseDelta called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLGetOnlineDisplayList(void)
 {
-    if (verbose) puts("STUB: SLGetOnlineDisplayList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLInhibitLocalEvents(void)
 {
-    if (verbose) puts("STUB: SLInhibitLocalEvents called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLMainDisplayID(void)
 {
-    if (verbose) puts("STUB: SLMainDisplayID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLOpenGLDisplayMaskToDisplayID(void)
 {
-    if (verbose) puts("STUB: SLOpenGLDisplayMaskToDisplayID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSBringNextToFront(void)
 {
-    if (verbose) puts("STUB: SLPSBringNextToFront called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSCompleteServiceReq(void)
 {
-    if (verbose) puts("STUB: SLPSCompleteServiceReq called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSCompleteServiceReqOnConnection(void)
 {
-    if (verbose) puts("STUB: SLPSCompleteServiceReqOnConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSDequeueServiceReq(void)
 {
-    if (verbose) puts("STUB: SLPSDequeueServiceReq called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSDequeueServiceReqOnConnection(void)
 {
-    if (verbose) puts("STUB: SLPSDequeueServiceReqOnConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSEnableForegroundOperation(void)
 {
-    if (verbose) puts("STUB: SLPSEnableForegroundOperation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSEqualProcess(void)
 {
-    if (verbose) puts("STUB: SLPSEqualProcess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSExitSpecialKeyMode(void)
 {
-    if (verbose) puts("STUB: SLPSExitSpecialKeyMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSFindProcessByDisplayName(void)
 {
-    if (verbose) puts("STUB: SLPSFindProcessByDisplayName called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSFindProcessByPID(void)
 {
-    if (verbose) puts("STUB: SLPSFindProcessByPID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSGetCurrentProcess(void)
 {
-    if (verbose) puts("STUB: SLPSGetCurrentProcess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSGetFrontProcess(void)
 {
-    if (verbose) puts("STUB: SLPSGetFrontProcess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSGetKeyBinding(void)
 {
-    if (verbose) puts("STUB: SLPSGetKeyBinding called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSGetKeyFocusProcess(void)
 {
-    if (verbose) puts("STUB: SLPSGetKeyFocusProcess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSGetNextProcess(void)
 {
-    if (verbose) puts("STUB: SLPSGetNextProcess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSGetNextToFrontProcess(void)
 {
-    if (verbose) puts("STUB: SLPSGetNextToFrontProcess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSGetProcessInfo(void)
 {
-    if (verbose) puts("STUB: SLPSGetProcessInfo called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSGetTypingFocusProcess(void)
 {
-    if (verbose) puts("STUB: SLPSGetTypingFocusProcess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSGetWindowOwner(void)
 {
-    if (verbose) puts("STUB: SLPSGetWindowOwner called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSGetWindowPresenter(void)
 {
-    if (verbose) puts("STUB: SLPSGetWindowPresenter called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSMarkChildWindow(void)
 {
-    if (verbose) puts("STUB: SLPSMarkChildWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSModifyConnectionNotifications(void)
 {
-    if (verbose) puts("STUB: SLPSModifyConnectionNotifications called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSOverrideKeyRegistration(void)
 {
-    if (verbose) puts("STUB: SLPSOverrideKeyRegistration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSPBGetProcessInfo(void)
 {
-    if (verbose) puts("STUB: SLPSPBGetProcessInfo called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSPostEventRecordTo(void)
 {
-    if (verbose) puts("STUB: SLPSPostEventRecordTo called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSPostHideMostReq(void)
 {
-    if (verbose) puts("STUB: SLPSPostHideMostReq called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSPostHideReq(void)
 {
-    if (verbose) puts("STUB: SLPSPostHideReq called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSPostShowReq(void)
 {
-    if (verbose) puts("STUB: SLPSPostShowReq called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSProcessInformationCopyDictionary(void)
 {
-    if (verbose) puts("STUB: SLPSProcessInformationCopyDictionary called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSRegisterForKey(void)
 {
-    if (verbose) puts("STUB: SLPSRegisterForKey called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSRegisterForKeyOnConnection(void)
 {
-    if (verbose) puts("STUB: SLPSRegisterForKeyOnConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSRegisterWithServer(void)
 {
-    if (verbose) puts("STUB: SLPSRegisterWithServer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSReleaseKeyFocus(void)
 {
-    if (verbose) puts("STUB: SLPSReleaseKeyFocus called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSReleaseKeyFocusOnConnection(void)
 {
-    if (verbose) puts("STUB: SLPSReleaseKeyFocusOnConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSReleaseKeyFocusWithID(void)
 {
-    if (verbose) puts("STUB: SLPSReleaseKeyFocusWithID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSSetDefaultBootstrapPort(void)
 {
-    if (verbose) puts("STUB: SLPSSetDefaultBootstrapPort called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSSetFrontProcess(void)
 {
-    if (verbose) puts("STUB: SLPSSetFrontProcess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSSetFrontProcessWithOptions(void)
 {
-    if (verbose) puts("STUB: SLPSSetFrontProcessWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSSetMainApplicationConnection(void)
 {
-    if (verbose) puts("STUB: SLPSSetMainApplicationConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSSetNotifications(void)
 {
-    if (verbose) puts("STUB: SLPSSetNotifications called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSSetProcessName(void)
 {
-    if (verbose) puts("STUB: SLPSSetProcessName called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSSetProcessToBringForwardAtNextApplicationExit(void)
 {
-    if (verbose) puts("STUB: SLPSSetProcessToBringForwardAtNextApplicationExit called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSStealKeyFocus(void)
 {
-    if (verbose) puts("STUB: SLPSStealKeyFocus called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSStealKeyFocusOnConnection(void)
 {
-    if (verbose) puts("STUB: SLPSStealKeyFocusOnConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSStealKeyFocusReturningID(void)
 {
-    if (verbose) puts("STUB: SLPSStealKeyFocusReturningID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPSUnoverrideKeyRegistration(void)
 {
-    if (verbose) puts("STUB: SLPSUnoverrideKeyRegistration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteCreateCopy(void)
 {
-    if (verbose) puts("STUB: SLPaletteCreateCopy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteCreateDefaultColorPalette(void)
 {
-    if (verbose) puts("STUB: SLPaletteCreateDefaultColorPalette called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteCreateFromPaletteBlendedWithColor(void)
 {
-    if (verbose) puts("STUB: SLPaletteCreateFromPaletteBlendedWithColor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteCreateWithByteSamples(void)
 {
-    if (verbose) puts("STUB: SLPaletteCreateWithByteSamples called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteCreateWithCapacity(void)
 {
-    if (verbose) puts("STUB: SLPaletteCreateWithCapacity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteCreateWithDisplay(void)
 {
-    if (verbose) puts("STUB: SLPaletteCreateWithDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteCreateWithSamples(void)
 {
-    if (verbose) puts("STUB: SLPaletteCreateWithSamples called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteGetColorAtIndex(void)
 {
-    if (verbose) puts("STUB: SLPaletteGetColorAtIndex called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteGetIndexForColor(void)
 {
-    if (verbose) puts("STUB: SLPaletteGetIndexForColor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteGetNumberOfSamples(void)
 {
-    if (verbose) puts("STUB: SLPaletteGetNumberOfSamples called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteIsEqualToPalette(void)
 {
-    if (verbose) puts("STUB: SLPaletteIsEqualToPalette called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteRelease(void)
 {
-    if (verbose) puts("STUB: SLPaletteRelease called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPaletteSetColorAtIndex(void)
 {
-    if (verbose) puts("STUB: SLPaletteSetColorAtIndex called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessCreate(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessCreateImageFromRect(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessCreateImageFromRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessCreateWithWindow(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessCreateWithWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessGetAlphaBitsPerComponent(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessGetAlphaBitsPerComponent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessGetAlphaBitsPerPixel(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessGetAlphaBitsPerPixel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessGetAlphaData(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessGetAlphaData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessGetBitmapInfo(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessGetBitmapInfo called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessGetBitsPerComponent(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessGetBitsPerComponent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessGetBitsPerPixel(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessGetBitsPerPixel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessGetColorSpace(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessGetColorSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessGetData(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessGetData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessGetHeight(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessGetHeight called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessGetTransform(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessGetTransform called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessGetWidth(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessGetWidth called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessLock(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessLock called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessRect(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessRelease(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessRelease called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessTransformRect(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessTransformRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPixelAccessUnlock(void)
 {
-    if (verbose) puts("STUB: SLPixelAccessUnlock called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPostKeyboardEvent(void)
 {
-    if (verbose) puts("STUB: SLPostKeyboardEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPostMouseEvent(void)
 {
-    if (verbose) puts("STUB: SLPostMouseEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPostScrollWheelEvent(void)
 {
-    if (verbose) puts("STUB: SLPostScrollWheelEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPreflightListenEventAccess(void)
 {
-    if (verbose) puts("STUB: SLPreflightListenEventAccess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPreflightPostEventAccess(void)
 {
-    if (verbose) puts("STUB: SLPreflightPostEventAccess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLPreflightScreenCaptureAccess(void)
 {
-    if (verbose) puts("STUB: SLPreflightScreenCaptureAccess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLRegisterScreenRefreshCallback(void)
 {
-    if (verbose) puts("STUB: SLRegisterScreenRefreshCallback called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLReleaseAllDisplays(void)
 {
-    if (verbose) puts("STUB: SLReleaseAllDisplays called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLReleaseDisplayFadeReservation(void)
 {
-    if (verbose) puts("STUB: SLReleaseDisplayFadeReservation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLReleaseScreenRefreshRects(void)
 {
-    if (verbose) puts("STUB: SLReleaseScreenRefreshRects called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLRequestListenEventAccess(void)
 {
-    if (verbose) puts("STUB: SLRequestListenEventAccess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLRequestPostEventAccess(void)
 {
-    if (verbose) puts("STUB: SLRequestPostEventAccess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLRequestScreenCaptureAccess(void)
 {
-    if (verbose) puts("STUB: SLRequestScreenCaptureAccess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLRestorePermanentDisplayConfiguration(void)
 {
-    if (verbose) puts("STUB: SLRestorePermanentDisplayConfiguration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAAHSetAppearanceTheme(void)
 {
-    if (verbose) puts("STUB: SLSAAHSetAppearanceTheme called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAcceleratorForDisplayAlias(void)
 {
-    if (verbose) puts("STUB: SLSAcceleratorForDisplayAlias called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAcceleratorForDisplayNumber(void)
 {
-    if (verbose) puts("STUB: SLSAcceleratorForDisplayNumber called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAccessWindowBackingStore(void)
 {
-    if (verbose) puts("STUB: SLSAccessWindowBackingStore called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSActuateDeviceWithPattern(void)
 {
-    if (verbose) puts("STUB: SLSActuateDeviceWithPattern called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddActivationRegion(void)
 {
-    if (verbose) puts("STUB: SLSAddActivationRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddButtonRegionInWindow(void)
 {
-    if (verbose) puts("STUB: SLSAddButtonRegionInWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddDragRegion(void)
 {
-    if (verbose) puts("STUB: SLSAddDragRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddDragRegionInWindow(void)
 {
-    if (verbose) puts("STUB: SLSAddDragRegionInWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddStructuralRegion(void)
 {
-    if (verbose) puts("STUB: SLSAddStructuralRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddSurface(void)
 {
-    if (verbose) puts("STUB: SLSAddSurface called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddTrackingArea(void)
 {
-    if (verbose) puts("STUB: SLSAddTrackingArea called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddTrackingAreas(void)
 {
-    if (verbose) puts("STUB: SLSAddTrackingAreas called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddTrackingRect(void)
 {
-    if (verbose) puts("STUB: SLSAddTrackingRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddTrackingRegion(void)
 {
-    if (verbose) puts("STUB: SLSAddTrackingRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddWindowFilter(void)
 {
-    if (verbose) puts("STUB: SLSAddWindowFilter called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddWindowToWindowMovementGroup(void)
 {
-    if (verbose) puts("STUB: SLSAddWindowToWindowMovementGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddWindowToWindowOrderingGroup(void)
 {
-    if (verbose) puts("STUB: SLSAddWindowToWindowOrderingGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAddWindowsToSpaces(void)
 {
-    if (verbose) puts("STUB: SLSAddWindowsToSpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAdjustSystemStatusBarWindows(void)
 {
-    if (verbose) puts("STUB: SLSAdjustSystemStatusBarWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAreEventsCaptured(void)
 {
-    if (verbose) puts("STUB: SLSAreEventsCaptured called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAreEventsCapturedReturningMask(void)
 {
-    if (verbose) puts("STUB: SLSAreEventsCapturedReturningMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSAssociateMouseAndMouseCursorPosition(void)
 {
-    if (verbose) puts("STUB: SLSAssociateMouseAndMouseCursorPosition called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSBeginDisplayConfiguration(void)
 {
-    if (verbose) puts("STUB: SLSBeginDisplayConfiguration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSBindSurface(void)
 {
-    if (verbose) puts("STUB: SLSBindSurface called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSBlockWindowOrdering(void)
 {
-    if (verbose) puts("STUB: SLSBlockWindowOrdering called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSBluishYellow(void)
 {
-    if (verbose) puts("STUB: SLSBluishYellow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSBoundsEqualToBounds(void)
 {
-    if (verbose) puts("STUB: SLSBoundsEqualToBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSBoundsIntersection(void)
 {
-    if (verbose) puts("STUB: SLSBoundsIntersection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSBoundsUnion(void)
 {
-    if (verbose) puts("STUB: SLSBoundsUnion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSBringAirDisplayOffline(void)
 {
-    if (verbose) puts("STUB: SLSBringAirDisplayOffline called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSBringAirDisplayOnline(void)
 {
-    if (verbose) puts("STUB: SLSBringAirDisplayOnline called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCanCoalesceEvents(void)
 {
-    if (verbose) puts("STUB: SLSCanCoalesceEvents called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCancelDisplayConfiguration(void)
 {
-    if (verbose) puts("STUB: SLSCancelDisplayConfiguration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCaptureDisplay(void)
 {
-    if (verbose) puts("STUB: SLSCaptureDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCaptureWindowsContentsToRect(void)
 {
-    if (verbose) puts("STUB: SLSCaptureWindowsContentsToRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCaptureWindowsContentsToRectWithOptions(void)
 {
-    if (verbose) puts("STUB: SLSCaptureWindowsContentsToRectWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSClearActivationRegion(void)
 {
-    if (verbose) puts("STUB: SLSClearActivationRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSClearButtonRegionInWindow(void)
 {
-    if (verbose) puts("STUB: SLSClearButtonRegionInWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSClearDragRegion(void)
 {
-    if (verbose) puts("STUB: SLSClearDragRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSClearEvent(void)
 {
-    if (verbose) puts("STUB: SLSClearEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSClearEventOfLength(void)
 {
-    if (verbose) puts("STUB: SLSClearEventOfLength called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSClearWindowListTags(void)
 {
-    if (verbose) puts("STUB: SLSClearWindowListTags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSClearWindowMovementGroup(void)
 {
-    if (verbose) puts("STUB: SLSClearWindowMovementGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSClearWindowOrderingGroup(void)
 {
-    if (verbose) puts("STUB: SLSClearWindowOrderingGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSClearWindowTags(void)
 {
-    if (verbose) puts("STUB: SLSClearWindowTags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCoalesceEvents(void)
 {
-    if (verbose) puts("STUB: SLSCoalesceEvents called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCoalesceEventsInMask(void)
 {
-    if (verbose) puts("STUB: SLSCoalesceEventsInMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCompleteDisplayConfiguration(void)
 {
-    if (verbose) puts("STUB: SLSCompleteDisplayConfiguration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCompleteDisplayConfigurationWithOption(void)
 {
-    if (verbose) puts("STUB: SLSCompleteDisplayConfigurationWithOption called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCompleteWindowRightsGrant(void)
 {
-    if (verbose) puts("STUB: SLSCompleteWindowRightsGrant called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConfigureDisplayEnabled(void)
 {
-    if (verbose) puts("STUB: SLSConfigureDisplayEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConfigureDisplayFadeEffect(void)
 {
-    if (verbose) puts("STUB: SLSConfigureDisplayFadeEffect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConfigureDisplayMirrorOfDisplay(void)
 {
-    if (verbose) puts("STUB: SLSConfigureDisplayMirrorOfDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConfigureDisplayMirrored(void)
 {
-    if (verbose) puts("STUB: SLSConfigureDisplayMirrored called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConfigureDisplayMode(void)
 {
-    if (verbose) puts("STUB: SLSConfigureDisplayMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConfigureDisplayOrigin(void)
 {
-    if (verbose) puts("STUB: SLSConfigureDisplayOrigin called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConfigureDisplayResolution(void)
 {
-    if (verbose) puts("STUB: SLSConfigureDisplayResolution called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConfigureDisplayStereoOperation(void)
 {
-    if (verbose) puts("STUB: SLSConfigureDisplayStereoOperation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConnectionDispatchNotificationsToMainQueueIfNotMainThread(void)
 {
-    if (verbose) puts("STUB: SLSConnectionDispatchNotificationsToMainQueueIfNotMainThread called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConnectionGetHeldWindowRights(void)
 {
-    if (verbose) puts("STUB: SLSConnectionGetHeldWindowRights called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConnectionGetPID(void)
 {
-    if (verbose) puts("STUB: SLSConnectionGetPID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConnectionGetPIDAndVersion(void)
 {
-    if (verbose) puts("STUB: SLSConnectionGetPIDAndVersion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConnectionRelinquishWindowRights(void)
 {
-    if (verbose) puts("STUB: SLSConnectionRelinquishWindowRights called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSConnectionSetSpinning(void)
 {
-    if (verbose) puts("STUB: SLSConnectionSetSpinning called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyActiveMenuBarDisplayIdentifier(void)
 {
-    if (verbose) puts("STUB: SLSCopyActiveMenuBarDisplayIdentifier called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyAllSessionPropertiesTemporaryBridge(void)
 {
-    if (verbose) puts("STUB: SLSCopyAllSessionPropertiesTemporaryBridge called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyAssociatedWindows(void)
 {
-    if (verbose) puts("STUB: SLSCopyAssociatedWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyAvailableHMDList(void)
 {
-    if (verbose) puts("STUB: SLSCopyAvailableHMDList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyBestManagedDisplayForPoint(void)
 {
-    if (verbose) puts("STUB: SLSCopyBestManagedDisplayForPoint called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyBestManagedDisplayForRect(void)
 {
-    if (verbose) puts("STUB: SLSCopyBestManagedDisplayForRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyConnectionProperty(void)
 {
-    if (verbose) puts("STUB: SLSCopyConnectionProperty called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyCoordinatedDistributedNotificationContinuationBlock(void)
 {
-    if (verbose) puts("STUB: SLSCopyCoordinatedDistributedNotificationContinuationBlock called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyCurrentSessionDictionary(void)
 {
-    if (verbose) puts("STUB: SLSCopyCurrentSessionDictionary called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyDevicesDictionary(void)
 {
-    if (verbose) puts("STUB: SLSCopyDevicesDictionary called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyDisplayColorSpace(void)
 {
-    if (verbose) puts("STUB: SLSCopyDisplayColorSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyDisplayInfoDictionary(void)
 {
-    if (verbose) puts("STUB: SLSCopyDisplayInfoDictionary called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyDisplayModePixelEncoding(void)
 {
-    if (verbose) puts("STUB: SLSCopyDisplayModePixelEncoding called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyDisplayRegion(void)
 {
-    if (verbose) puts("STUB: SLSCopyDisplayRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyDisplayUUID(void)
 {
-    if (verbose) puts("STUB: SLSCopyDisplayUUID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyManagedDisplayForSpace(void)
 {
-    if (verbose) puts("STUB: SLSCopyManagedDisplayForSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyManagedDisplayForWindow(void)
 {
-    if (verbose) puts("STUB: SLSCopyManagedDisplayForWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyManagedDisplaySpaces(void)
 {
-    if (verbose) puts("STUB: SLSCopyManagedDisplaySpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyManagedDisplays(void)
 {
-    if (verbose) puts("STUB: SLSCopyManagedDisplays called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyPackagesPersistenceDictionary(void)
 {
-    if (verbose) puts("STUB: SLSCopyPackagesPersistenceDictionary called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyRegisteredCursorImages(void)
 {
-    if (verbose) puts("STUB: SLSCopyRegisteredCursorImages called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopySessionList(void)
 {
-    if (verbose) puts("STUB: SLSCopySessionList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopySessionPropertiesTemporaryBridge(void)
 {
-    if (verbose) puts("STUB: SLSCopySessionPropertiesTemporaryBridge called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopySpaces(void)
 {
-    if (verbose) puts("STUB: SLSCopySpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopySpacesForWindows(void)
 {
-    if (verbose) puts("STUB: SLSCopySpacesForWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopySpecifiedWindowShape(void)
 {
-    if (verbose) puts("STUB: SLSCopySpecifiedWindowShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopySurfaceColorSpace(void)
 {
-    if (verbose) puts("STUB: SLSCopySurfaceColorSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyWindowAlphaShape(void)
 {
-    if (verbose) puts("STUB: SLSCopyWindowAlphaShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyWindowClipShape(void)
 {
-    if (verbose) puts("STUB: SLSCopyWindowClipShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyWindowColorSpace(void)
 {
-    if (verbose) puts("STUB: SLSCopyWindowColorSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyWindowGroup(void)
 {
-    if (verbose) puts("STUB: SLSCopyWindowGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyWindowProperty(void)
 {
-    if (verbose) puts("STUB: SLSCopyWindowProperty called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyWindowRoutingRecordsForScreenLocation(void)
 {
-    if (verbose) puts("STUB: SLSCopyWindowRoutingRecordsForScreenLocation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyWindowShape(void)
 {
-    if (verbose) puts("STUB: SLSCopyWindowShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyWindowsWithOptionsAndTags(void)
 {
-    if (verbose) puts("STUB: SLSCopyWindowsWithOptionsAndTags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCopyWindowsWithOptionsAndTagsAndSpaceOptions(void)
 {
-    if (verbose) puts("STUB: SLSCopyWindowsWithOptionsAndTagsAndSpaceOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCosmeticShieldCursor(void)
 {
-    if (verbose) puts("STUB: SLSCosmeticShieldCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateCinematicBootWindowArray(void)
 {
-    if (verbose) puts("STUB: SLSCreateCinematicBootWindowArray called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateDefaultMetalDevice(void)
 {
-    if (verbose) puts("STUB: SLSCreateDefaultMetalDevice called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateGenieWindowAnimation(void)
 {
-    if (verbose) puts("STUB: SLSCreateGenieWindowAnimation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateKeyboardEvent(void)
 {
-    if (verbose) puts("STUB: SLSCreateKeyboardEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateKeyboardEventOfLength(void)
 {
-    if (verbose) puts("STUB: SLSCreateKeyboardEventOfLength called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateLayerContext(void)
 {
-    if (verbose) puts("STUB: SLSCreateLayerContext called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateLoginSession(void)
 {
-    if (verbose) puts("STUB: SLSCreateLoginSession called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateLoginSessionWithDataAndVisibility(void)
 {
-    if (verbose) puts("STUB: SLSCreateLoginSessionWithDataAndVisibility called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateMetalSheetWindowAnimationWithParent(void)
 {
-    if (verbose) puts("STUB: SLSCreateMetalSheetWindowAnimationWithParent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateMetalSheetWindowAnimationWithParentAndShift(void)
 {
-    if (verbose) puts("STUB: SLSCreateMetalSheetWindowAnimationWithParentAndShift called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateRegisteredCursorImage(void)
 {
-    if (verbose) puts("STUB: SLSCreateRegisteredCursorImage called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateSession(void)
 {
-    if (verbose) puts("STUB: SLSCreateSession called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateSessionTemporaryBridge(void)
 {
-    if (verbose) puts("STUB: SLSCreateSessionTemporaryBridge called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateSessionWithDataAndOptions(void)
 {
-    if (verbose) puts("STUB: SLSCreateSessionWithDataAndOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateSessionWithDataAndVisibility(void)
 {
-    if (verbose) puts("STUB: SLSCreateSessionWithDataAndVisibility called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateShadowCacheDebugInfo(void)
 {
-    if (verbose) puts("STUB: SLSCreateShadowCacheDebugInfo called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateShadowGroup(void)
 {
-    if (verbose) puts("STUB: SLSCreateShadowGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateSheetWindowAnimation(void)
 {
-    if (verbose) puts("STUB: SLSCreateSheetWindowAnimation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateSheetWindowAnimationWithParent(void)
 {
-    if (verbose) puts("STUB: SLSCreateSheetWindowAnimationWithParent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCreateWindowDebugInfo(void)
 {
-    if (verbose) puts("STUB: SLSCreateWindowDebugInfo called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCurrentCursorSeed(void)
 {
-    if (verbose) puts("STUB: SLSCurrentCursorSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCurrentEventFlags(void)
 {
-    if (verbose) puts("STUB: SLSCurrentEventFlags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCurrentEventMask(void)
 {
-    if (verbose) puts("STUB: SLSCurrentEventMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCurrentEventTimestamp(void)
 {
-    if (verbose) puts("STUB: SLSCurrentEventTimestamp called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCurrentInputPointerPosition(void)
 {
-    if (verbose) puts("STUB: SLSCurrentInputPointerPosition called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCurrentKeyboardEventSeed(void)
 {
-    if (verbose) puts("STUB: SLSCurrentKeyboardEventSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCurrentRealTime(void)
 {
-    if (verbose) puts("STUB: SLSCurrentRealTime called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCursorNameForSystemCursor(void)
 {
-    if (verbose) puts("STUB: SLSCursorNameForSystemCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSCycleWindows(void)
 {
-    if (verbose) puts("STUB: SLSCycleWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDFRAgentRegister(void)
 {
-    if (verbose) puts("STUB: SLSDFRAgentRegister called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDFRCopyProperties(void)
 {
-    if (verbose) puts("STUB: SLSDFRCopyProperties called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDFRDisplayStreamCreate(void)
 {
-    if (verbose) puts("STUB: SLSDFRDisplayStreamCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDFRSetDimmingStep(void)
 {
-    if (verbose) puts("STUB: SLSDFRSetDimmingStep called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDFRSetPreferences(void)
 {
-    if (verbose) puts("STUB: SLSDFRSetPreferences called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeactivateCurrContext(void)
 {
-    if (verbose) puts("STUB: SLSDeactivateCurrContext called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDefaultConnectionForThread(void)
 {
-    if (verbose) puts("STUB: SLSDefaultConnectionForThread called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDefaultKeyboardID(void)
 {
-    if (verbose) puts("STUB: SLSDefaultKeyboardID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeferWindowMoveEvents(void)
 {
-    if (verbose) puts("STUB: SLSDeferWindowMoveEvents called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeferredUpdates(void)
 {
-    if (verbose) puts("STUB: SLSDeferredUpdates called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDetectDisplays(void)
 {
-    if (verbose) puts("STUB: SLSDetectDisplays called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeviceCopyColorSpace(void)
 {
-    if (verbose) puts("STUB: SLSDeviceCopyColorSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeviceCreate(void)
 {
-    if (verbose) puts("STUB: SLSDeviceCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeviceDestroy(void)
 {
-    if (verbose) puts("STUB: SLSDeviceDestroy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeviceFinish(void)
 {
-    if (verbose) puts("STUB: SLSDeviceFinish called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeviceGetGeometry(void)
 {
-    if (verbose) puts("STUB: SLSDeviceGetGeometry called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeviceGetProfile(void)
 {
-    if (verbose) puts("STUB: SLSDeviceGetProfile called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeviceGetResolution(void)
 {
-    if (verbose) puts("STUB: SLSDeviceGetResolution called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeviceInvalidate(void)
 {
-    if (verbose) puts("STUB: SLSDeviceInvalidate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeviceLock(void)
 {
-    if (verbose) puts("STUB: SLSDeviceLock called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeviceScroll(void)
 {
-    if (verbose) puts("STUB: SLSDeviceScroll called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeviceSynchronize(void)
 {
-    if (verbose) puts("STUB: SLSDeviceSynchronize called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDeviceUnlock(void)
 {
-    if (verbose) puts("STUB: SLSDeviceUnlock called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisableCursorObscure(void)
 {
-    if (verbose) puts("STUB: SLSDisableCursorObscure called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisableDisableUpdate(void)
 {
-    if (verbose) puts("STUB: SLSDisableDisableUpdate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisableUpdate(void)
 {
-    if (verbose) puts("STUB: SLSDisableUpdate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisableUpdateToken(void)
 {
-    if (verbose) puts("STUB: SLSDisableUpdateToken called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayChangedSeed(void)
 {
-    if (verbose) puts("STUB: SLSDisplayChangedSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayConfigurationOrigin(void)
 {
-    if (verbose) puts("STUB: SLSDisplayConfigurationOrigin called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayCopyCurrentMetalDevice(void)
 {
-    if (verbose) puts("STUB: SLSDisplayCopyCurrentMetalDevice called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayGetRefreshTiming(void)
 {
-    if (verbose) puts("STUB: SLSDisplayGetRefreshTiming called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayLoadUserPreferences(void)
 {
-    if (verbose) puts("STUB: SLSDisplayLoadUserPreferences called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayMappingChangedSeed(void)
 {
-    if (verbose) puts("STUB: SLSDisplayMappingChangedSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayMuxAcquired(void)
 {
-    if (verbose) puts("STUB: SLSDisplayMuxAcquired called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayMuxReleased(void)
 {
-    if (verbose) puts("STUB: SLSDisplayMuxReleased called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayRegisterReconfigurationCallbackWithUUID(void)
 {
-    if (verbose) puts("STUB: SLSDisplayRegisterReconfigurationCallbackWithUUID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayStatusQuery(void)
 {
-    if (verbose) puts("STUB: SLSDisplayStatusQuery called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayStreamCreateCustom(void)
 {
-    if (verbose) puts("STUB: SLSDisplayStreamCreateCustom called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayStreamSidecarTouchBar(void)
 {
-    if (verbose) puts("STUB: SLSDisplayStreamSidecarTouchBar called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplayStreamUpdateCreate(void)
 {
-    if (verbose) puts("STUB: SLSDisplayStreamUpdateCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDisplaySystemStateSeed(void)
 {
-    if (verbose) puts("STUB: SLSDisplaySystemStateSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDoDeferredOrdering(void)
 {
-    if (verbose) puts("STUB: SLSDoDeferredOrdering called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSDragWindowRelativeToMouse(void)
 {
-    if (verbose) puts("STUB: SLSDragWindowRelativeToMouse called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEnableAmbientDisplay(void)
 {
-    if (verbose) puts("STUB: SLSEnableAmbientDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEnableDeferredUpdateNotifications(void)
 {
-    if (verbose) puts("STUB: SLSEnableDeferredUpdateNotifications called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEnableHDR(void)
 {
-    if (verbose) puts("STUB: SLSEnableHDR called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEnsureSpaceSwitchToActiveProcess(void)
 {
-    if (verbose) puts("STUB: SLSEnsureSpaceSwitchToActiveProcess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventAppUnresponsiveStatus(void)
 {
-    if (verbose) puts("STUB: SLSEventAppUnresponsiveStatus called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventCounter(void)
 {
-    if (verbose) puts("STUB: SLSEventCounter called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventFlagForVirtualKeyCode(void)
 {
-    if (verbose) puts("STUB: SLSEventFlagForVirtualKeyCode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventIsAppUnresponsive(void)
 {
-    if (verbose) puts("STUB: SLSEventIsAppUnresponsive called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventPostEventToPSN(void)
 {
-    if (verbose) puts("STUB: SLSEventPostEventToPSN called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordGetContextID(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordGetContextID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordGetContextOrigin(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordGetContextOrigin called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordGetDFRTouchTimestamp(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordGetDFRTouchTimestamp called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordGetStagePressure(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordGetStagePressure called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordGetTransitionProgress(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordGetTransitionProgress called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordGetUnacceleratedPointerMoveX(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordGetUnacceleratedPointerMoveX called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordGetUnacceleratedPointerMoveY(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordGetUnacceleratedPointerMoveY called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordGetUnmodifiedTimestamp(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordGetUnmodifiedTimestamp called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordLength(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordLength called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordSetContextID(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordSetContextID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordSetContextOrigin(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordSetContextOrigin called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordSetDFRTouchTimestamp(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordSetDFRTouchTimestamp called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordSetUnacceleratedPointerMoveX(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordSetUnacceleratedPointerMoveX called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordSetUnacceleratedPointerMoveY(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordSetUnacceleratedPointerMoveY called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordSetUnmodifiedTimestamp(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordSetUnmodifiedTimestamp called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventRecordTimeFromRealTimeStamp(void)
 {
-    if (verbose) puts("STUB: SLSEventRecordTimeFromRealTimeStamp called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventSetAppIsUnresponsiveNotificationTimeout(void)
 {
-    if (verbose) puts("STUB: SLSEventSetAppIsUnresponsiveNotificationTimeout called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSEventTapCreate(void)
 {
-    if (verbose) puts("STUB: SLSEventTapCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSExtractEventRecordsFromMessage(void)
 {
-    if (verbose) puts("STUB: SLSExtractEventRecordsFromMessage called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSFindSessionAuditSessionID(void)
 {
-    if (verbose) puts("STUB: SLSFindSessionAuditSessionID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSFindWindow(void)
 {
-    if (verbose) puts("STUB: SLSFindWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSFindWindowAndOwner(void)
 {
-    if (verbose) puts("STUB: SLSFindWindowAndOwner called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSFindWindowByGeometry(void)
 {
-    if (verbose) puts("STUB: SLSFindWindowByGeometry called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSFlushSurface(void)
 {
-    if (verbose) puts("STUB: SLSFlushSurface called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSFlushSurfaceWithOptions(void)
 {
-    if (verbose) puts("STUB: SLSFlushSurfaceWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSFlushSurfaceWithOptionsAndIndex(void)
 {
-    if (verbose) puts("STUB: SLSFlushSurfaceWithOptionsAndIndex called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSFlushWindow(void)
 {
-    if (verbose) puts("STUB: SLSFlushWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSFlushWindowContentRegion(void)
 {
-    if (verbose) puts("STUB: SLSFlushWindowContentRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSForceShowCursor(void)
 {
-    if (verbose) puts("STUB: SLSForceShowCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSForceWaitCursorActive(void)
 {
-    if (verbose) puts("STUB: SLSForceWaitCursorActive called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGLCompositorSettings(void)
 {
-    if (verbose) puts("STUB: SLSGLCompositorSettings called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGeometrySeed(void)
 {
-    if (verbose) puts("STUB: SLSGeometrySeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetActivationRegionLegacy(void)
 {
-    if (verbose) puts("STUB: SLSGetActivationRegionLegacy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetActiveDisplayList(void)
 {
-    if (verbose) puts("STUB: SLSGetActiveDisplayList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetActiveMenuBarDrawingStyle(void)
 {
-    if (verbose) puts("STUB: SLSGetActiveMenuBarDrawingStyle called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetActiveSpace(void)
 {
-    if (verbose) puts("STUB: SLSGetActiveSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetAppearanceThemeLegacy(void)
 {
-    if (verbose) puts("STUB: SLSGetAppearanceThemeLegacy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetAppearanceThemeSwitchesAutomatically(void)
 {
-    if (verbose) puts("STUB: SLSGetAppearanceThemeSwitchesAutomatically called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetBackgroundEventMask(void)
 {
-    if (verbose) puts("STUB: SLSGetBackgroundEventMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetButtonRegionLegacy(void)
 {
-    if (verbose) puts("STUB: SLSGetButtonRegionLegacy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetCAMetalDevice(void)
 {
-    if (verbose) puts("STUB: SLSGetCAMetalDevice called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetCatenatedWindowTransform(void)
 {
-    if (verbose) puts("STUB: SLSGetCatenatedWindowTransform called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetCoalesceEventsMask(void)
 {
-    if (verbose) puts("STUB: SLSGetCoalesceEventsMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetConnectionIDForPSN(void)
 {
-    if (verbose) puts("STUB: SLSGetConnectionIDForPSN called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetConnectionPSN(void)
 {
-    if (verbose) puts("STUB: SLSGetConnectionPSN called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetCurrentCursorLocation(void)
 {
-    if (verbose) puts("STUB: SLSGetCurrentCursorLocation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetCurrentDisplayMode(void)
 {
-    if (verbose) puts("STUB: SLSGetCurrentDisplayMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetCurrentMouseButtonState(void)
 {
-    if (verbose) puts("STUB: SLSGetCurrentMouseButtonState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetCursorData(void)
 {
-    if (verbose) puts("STUB: SLSGetCursorData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetCursorDataSize(void)
 {
-    if (verbose) puts("STUB: SLSGetCursorDataSize called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetCursorScale(void)
 {
-    if (verbose) puts("STUB: SLSGetCursorScale called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDebugOptions(void)
 {
-    if (verbose) puts("STUB: SLSGetDebugOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDenyWindowServerConnections(void)
 {
-    if (verbose) puts("STUB: SLSGetDenyWindowServerConnections called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayAddress(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayAddress called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayAliasList(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayAliasList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayBaseAddress(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayBaseAddress called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayBounds(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayBrightness(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayBrightness called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayDepth(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayDepth called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayForUUID(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayForUUID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayHardwareBounds(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayHardwareBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayList(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayMaxOpenGLSurfaceSize(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayMaxOpenGLSurfaceSize called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayMaximumHDRValue(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayMaximumHDRValue called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayModeDescription(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayModeDescription called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayModeDescriptionOfLength(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayModeDescriptionOfLength called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayModeDescriptionsOfLength(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayModeDescriptionsOfLength called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayOpenGLDisplayAliasMask(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayOpenGLDisplayAliasMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayOpenGLDisplayMask(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayOpenGLDisplayMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayPixelEncodingOfLength(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayPixelEncodingOfLength called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayPixelFormat(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayPixelFormat called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayReconfigureTimeWhenWindowsLastMoved(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayReconfigureTimeWhenWindowsLastMoved called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayRowBytes(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayRowBytes called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayTransfer(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayTransfer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayTransferByFormula(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayTransferByFormula called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplayTransferByTable(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplayTransferByTable called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplaysWithOpenGLDisplayMask(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplaysWithOpenGLDisplayMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplaysWithPoint(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplaysWithPoint called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplaysWithRect(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplaysWithRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDisplaysWithUUID(void)
 {
-    if (verbose) puts("STUB: SLSGetDisplaysWithUUID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDockRectWithOrientation(void)
 {
-    if (verbose) puts("STUB: SLSGetDockRectWithOrientation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDockRectWithReason(void)
 {
-    if (verbose) puts("STUB: SLSGetDockRectWithReason called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetDragRegionLegacy(void)
 {
-    if (verbose) puts("STUB: SLSGetDragRegionLegacy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetEligiblePerAppDisplayList(void)
 {
-    if (verbose) puts("STUB: SLSGetEligiblePerAppDisplayList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetEventPort(void)
 {
-    if (verbose) puts("STUB: SLSGetEventPort called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetEventTapList(void)
 {
-    if (verbose) puts("STUB: SLSGetEventTapList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetEventTapTimeout(void)
 {
-    if (verbose) puts("STUB: SLSGetEventTapTimeout called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetGestureEventSubmask(void)
 {
-    if (verbose) puts("STUB: SLSGetGestureEventSubmask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetGlobalCursorData(void)
 {
-    if (verbose) puts("STUB: SLSGetGlobalCursorData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetGlobalCursorDataSize(void)
 {
-    if (verbose) puts("STUB: SLSGetGlobalCursorDataSize called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetGlobalHotKeyOperatingMode(void)
 {
-    if (verbose) puts("STUB: SLSGetGlobalHotKeyOperatingMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetHIDEventRecord(void)
 {
-    if (verbose) puts("STUB: SLSGetHIDEventRecord called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetHotButton(void)
 {
-    if (verbose) puts("STUB: SLSGetHotButton called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetHotKey(void)
 {
-    if (verbose) puts("STUB: SLSGetHotKey called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetHotKeyRepresentation(void)
 {
-    if (verbose) puts("STUB: SLSGetHotKeyRepresentation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetHotKeyType(void)
 {
-    if (verbose) puts("STUB: SLSGetHotKeyType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetHotModifier(void)
 {
-    if (verbose) puts("STUB: SLSGetHotModifier called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetInkingState(void)
 {
-    if (verbose) puts("STUB: SLSGetInkingState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetKeys(void)
 {
-    if (verbose) puts("STUB: SLSGetKeys called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetLoginName(void)
 {
-    if (verbose) puts("STUB: SLSGetLoginName called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetMagicZoomState(void)
 {
-    if (verbose) puts("STUB: SLSGetMagicZoomState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetMagicZoomWindowID(void)
 {
-    if (verbose) puts("STUB: SLSGetMagicZoomWindowID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetMenuBar(void)
 {
-    if (verbose) puts("STUB: SLSGetMenuBar called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetMenuBarAutohideEnabled(void)
 {
-    if (verbose) puts("STUB: SLSGetMenuBarAutohideEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetMenuBarDrawingStyle(void)
 {
-    if (verbose) puts("STUB: SLSGetMenuBarDrawingStyle called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetMenuBarUsesRTLLayoutOnDisplayLegacy(void)
 {
-    if (verbose) puts("STUB: SLSGetMenuBarUsesRTLLayoutOnDisplayLegacy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetMenuBarVisibilityOverrideOnDisplay(void)
 {
-    if (verbose) puts("STUB: SLSGetMenuBarVisibilityOverrideOnDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetNextEventRecord(void)
 {
-    if (verbose) puts("STUB: SLSGetNextEventRecord called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetNextEventRecordFromMessage(void)
 {
-    if (verbose) puts("STUB: SLSGetNextEventRecordFromMessage called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetNumberOfDisplayModes(void)
 {
-    if (verbose) puts("STUB: SLSGetNumberOfDisplayModes called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetNumberOfDisplays(void)
 {
-    if (verbose) puts("STUB: SLSGetNumberOfDisplays called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetOnScreenWindowCount(void)
 {
-    if (verbose) puts("STUB: SLSGetOnScreenWindowCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetOnScreenWindowList(void)
 {
-    if (verbose) puts("STUB: SLSGetOnScreenWindowList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetOnlineDisplayList(void)
 {
-    if (verbose) puts("STUB: SLSGetOnlineDisplayList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetOnscreenWindowBounds(void)
 {
-    if (verbose) puts("STUB: SLSGetOnscreenWindowBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetParentWindowList(void)
 {
-    if (verbose) puts("STUB: SLSGetParentWindowList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetPerformanceData(void)
 {
-    if (verbose) puts("STUB: SLSGetPerformanceData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetPerformanceTotalUpdateCount(void)
 {
-    if (verbose) puts("STUB: SLSGetPerformanceTotalUpdateCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetPerformanceTotalUpdateHistogram(void)
 {
-    if (verbose) puts("STUB: SLSGetPerformanceTotalUpdateHistogram called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetPerformanceUpdateCountPerDisplay(void)
 {
-    if (verbose) puts("STUB: SLSGetPerformanceUpdateCountPerDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetPotentiallyActiveDisplayList(void)
 {
-    if (verbose) puts("STUB: SLSGetPotentiallyActiveDisplayList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetProcessMenuBarWindowList(void)
 {
-    if (verbose) puts("STUB: SLSGetProcessMenuBarWindowList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetProcessValidity(void)
 {
-    if (verbose) puts("STUB: SLSGetProcessValidity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetRealtimeDisplayInfoShmem(void)
 {
-    if (verbose) puts("STUB: SLSGetRealtimeDisplayInfoShmem called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetRegisteredCursorData(void)
 {
-    if (verbose) puts("STUB: SLSGetRegisteredCursorData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetRegisteredCursorData2(void)
 {
-    if (verbose) puts("STUB: SLSGetRegisteredCursorData2 called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetRegisteredCursorDataSize(void)
 {
-    if (verbose) puts("STUB: SLSGetRegisteredCursorDataSize called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetRevealedMenuBarBounds(void)
 {
-    if (verbose) puts("STUB: SLSGetRevealedMenuBarBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetScreenRectForWindow(void)
 {
-    if (verbose) puts("STUB: SLSGetScreenRectForWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSharedWindow(void)
 {
-    if (verbose) puts("STUB: SLSGetSharedWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSizeOfDisplayTransfer(void)
 {
-    if (verbose) puts("STUB: SLSGetSizeOfDisplayTransfer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSpaceManagementMode(void)
 {
-    if (verbose) puts("STUB: SLSGetSpaceManagementMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSpaceMenuBarReveal(void)
 {
-    if (verbose) puts("STUB: SLSGetSpaceMenuBarReveal called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSpacePermittedResizeDirections(void)
 {
-    if (verbose) puts("STUB: SLSGetSpacePermittedResizeDirections called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSpecialCommandRegionLegacy(void)
 {
-    if (verbose) puts("STUB: SLSGetSpecialCommandRegionLegacy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSurfaceBinding(void)
 {
-    if (verbose) puts("STUB: SLSGetSurfaceBinding called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSurfaceBounds(void)
 {
-    if (verbose) puts("STUB: SLSGetSurfaceBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSurfaceCount(void)
 {
-    if (verbose) puts("STUB: SLSGetSurfaceCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSurfaceFrontBufferID(void)
 {
-    if (verbose) puts("STUB: SLSGetSurfaceFrontBufferID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSurfaceList(void)
 {
-    if (verbose) puts("STUB: SLSGetSurfaceList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSurfaceOpacity(void)
 {
-    if (verbose) puts("STUB: SLSGetSurfaceOpacity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSurfaceResolution(void)
 {
-    if (verbose) puts("STUB: SLSGetSurfaceResolution called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSymbolicHotKeyButtonValue(void)
 {
-    if (verbose) puts("STUB: SLSGetSymbolicHotKeyButtonValue called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSymbolicHotKeyRepresentation(void)
 {
-    if (verbose) puts("STUB: SLSGetSymbolicHotKeyRepresentation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSymbolicHotKeyRepresentationList(void)
 {
-    if (verbose) puts("STUB: SLSGetSymbolicHotKeyRepresentationList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSymbolicHotKeyValue(void)
 {
-    if (verbose) puts("STUB: SLSGetSymbolicHotKeyValue called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSymbolicHotKeyValuesAndStates(void)
 {
-    if (verbose) puts("STUB: SLSGetSymbolicHotKeyValuesAndStates called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSymbolicHotModifierValue(void)
 {
-    if (verbose) puts("STUB: SLSGetSymbolicHotModifierValue called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSystemBackgroundWindow(void)
 {
-    if (verbose) puts("STUB: SLSGetSystemBackgroundWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSystemDefinedCursorData(void)
 {
-    if (verbose) puts("STUB: SLSGetSystemDefinedCursorData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSystemDefinedCursorDataSize(void)
 {
-    if (verbose) puts("STUB: SLSGetSystemDefinedCursorDataSize called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSystemUIHasRTLDirectionLegacy(void)
 {
-    if (verbose) puts("STUB: SLSGetSystemUIHasRTLDirectionLegacy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetSystemWindow(void)
 {
-    if (verbose) puts("STUB: SLSGetSystemWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetTileSpaceDividerDirections(void)
 {
-    if (verbose) puts("STUB: SLSGetTileSpaceDividerDirections called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetUnflippedEventLocation(void)
 {
-    if (verbose) puts("STUB: SLSGetUnflippedEventLocation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetUnflippedWindowEventLocation(void)
 {
-    if (verbose) puts("STUB: SLSGetUnflippedWindowEventLocation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetUpdateClientPipe(void)
 {
-    if (verbose) puts("STUB: SLSGetUpdateClientPipe called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowAccelerationCapability(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowAccelerationCapability called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowAlpha(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowAutofill(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowAutofill called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowBounds(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowCount(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowDepth(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowDepth called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowEventMask(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowEventMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowEventReceiver(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowEventReceiver called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowFlushSeed(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowFlushSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowFrameBounds(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowFrameBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowGeometry(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowGeometry called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowLayerContext(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowLayerContext called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowLevel(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowList(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowListWithTags(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowListWithTags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowMouseLocation(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowMouseLocation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowOpacity(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowOpacity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowOwner(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowOwner called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowPresenter(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowPresenter called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowResizeState(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowResizeState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowResolution(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowResolution called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowShadowAndRimParameters(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowShadowAndRimParameters called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowSharingState(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowSharingState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowSize(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowSize called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowSubLevel(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowSubLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowTags(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowTags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowTransform(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowTransform called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowTransformAtPlacement(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowTransformAtPlacement called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowType(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowWorkspace(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowWorkspace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWindowWorkspaceIgnoringVisibility(void)
 {
-    if (verbose) puts("STUB: SLSGetWindowWorkspaceIgnoringVisibility called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWorkspace(void)
 {
-    if (verbose) puts("STUB: SLSGetWorkspace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWorkspaceWindowCountWithOptionsAndTags(void)
 {
-    if (verbose) puts("STUB: SLSGetWorkspaceWindowCountWithOptionsAndTags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWorkspaceWindowGroup(void)
 {
-    if (verbose) puts("STUB: SLSGetWorkspaceWindowGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetWorkspaceWindowListWithOptionsAndTags(void)
 {
-    if (verbose) puts("STUB: SLSGetWorkspaceWindowListWithOptionsAndTags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetZoomDisplay(void)
 {
-    if (verbose) puts("STUB: SLSGetZoomDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGetZoomParameters(void)
 {
-    if (verbose) puts("STUB: SLSGetZoomParameters called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSGrantWindowRightsReservingWithTimeoutAndToken(void)
 {
-    if (verbose) puts("STUB: SLSGrantWindowRightsReservingWithTimeoutAndToken called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHIDEventRecordReplay(void)
 {
-    if (verbose) puts("STUB: SLSHIDEventRecordReplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDAcquire(void)
 {
-    if (verbose) puts("STUB: SLSHMDAcquire called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDAddNotificationHandler(void)
 {
-    if (verbose) puts("STUB: SLSHMDAddNotificationHandler called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDConfigureDisplayQueue(void)
 {
-    if (verbose) puts("STUB: SLSHMDConfigureDisplayQueue called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDCopyAudioSelector(void)
 {
-    if (verbose) puts("STUB: SLSHMDCopyAudioSelector called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDCopyCapabilities(void)
 {
-    if (verbose) puts("STUB: SLSHMDCopyCapabilities called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDCopyDisplayInfoDictionary(void)
 {
-    if (verbose) puts("STUB: SLSHMDCopyDisplayInfoDictionary called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDCopyDisplayQueueConfiguration(void)
 {
-    if (verbose) puts("STUB: SLSHMDCopyDisplayQueueConfiguration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDCopyMetalDevice(void)
 {
-    if (verbose) puts("STUB: SLSHMDCopyMetalDevice called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDDrawableGetIOSurface(void)
 {
-    if (verbose) puts("STUB: SLSHMDDrawableGetIOSurface called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDDrawablePresentWithTime(void)
 {
-    if (verbose) puts("STUB: SLSHMDDrawablePresentWithTime called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDGetAcceleratorPort(void)
 {
-    if (verbose) puts("STUB: SLSHMDGetAcceleratorPort called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDGetDrawable(void)
 {
-    if (verbose) puts("STUB: SLSHMDGetDrawable called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDGetRefreshTiming(void)
 {
-    if (verbose) puts("STUB: SLSHMDGetRefreshTiming called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDGetTotalUpdateCount(void)
 {
-    if (verbose) puts("STUB: SLSHMDGetTotalUpdateCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDIsAvailable(void)
 {
-    if (verbose) puts("STUB: SLSHMDIsAvailable called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDIsAwake(void)
 {
-    if (verbose) puts("STUB: SLSHMDIsAwake called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDRelinquish(void)
 {
-    if (verbose) puts("STUB: SLSHMDRelinquish called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHMDRemoveNotificationHandler(void)
 {
-    if (verbose) puts("STUB: SLSHMDRemoveNotificationHandler called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHWCaptureDesktop(void)
 {
-    if (verbose) puts("STUB: SLSHWCaptureDesktop called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHWCaptureDisplayIntoIOSurface(void)
 {
-    if (verbose) puts("STUB: SLSHWCaptureDisplayIntoIOSurface called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHWCaptureDisplayIntoIOSurfaceWithOptions(void)
 {
-    if (verbose) puts("STUB: SLSHWCaptureDisplayIntoIOSurfaceWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHWCaptureProcessWindowsInSpaceIncludeDesktop(void)
 {
-    if (verbose) puts("STUB: SLSHWCaptureProcessWindowsInSpaceIncludeDesktop called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHWCaptureSpace(void)
 {
-    if (verbose) puts("STUB: SLSHWCaptureSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHWCaptureStreamCreateWithWindow(void)
 {
-    if (verbose) puts("STUB: SLSHWCaptureStreamCreateWithWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHWCaptureWindowList(void)
 {
-    if (verbose) puts("STUB: SLSHWCaptureWindowList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHWCaptureWindowListInRect(void)
 {
-    if (verbose) puts("STUB: SLSHWCaptureWindowListInRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHardwareCursorActive(void)
 {
-    if (verbose) puts("STUB: SLSHardwareCursorActive called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHideCursor(void)
 {
-    if (verbose) puts("STUB: SLSHideCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSHideSpaces(void)
 {
-    if (verbose) puts("STUB: SLSHideSpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInhibitLocalEvents(void)
 {
-    if (verbose) puts("STUB: SLSInhibitLocalEvents called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInitCursor(void)
 {
-    if (verbose) puts("STUB: SLSInitCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInitialEnableOfDisplayUpdates(void)
 {
-    if (verbose) puts("STUB: SLSInitialEnableOfDisplayUpdates called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInitialize(void)
 {
-    if (verbose) puts("STUB: SLSInitialize called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInitializeGamma(void)
 {
-    if (verbose) puts("STUB: SLSInitializeGamma called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInputButtonState(void)
 {
-    if (verbose) puts("STUB: SLSInputButtonState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInputKeyState(void)
 {
-    if (verbose) puts("STUB: SLSInputKeyState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInputModifierKeyState(void)
 {
-    if (verbose) puts("STUB: SLSInputModifierKeyState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInstallRemoteContextNotificationHandler(void)
 {
-    if (verbose) puts("STUB: SLSInstallRemoteContextNotificationHandler called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInterruptMenuBarReveal(void)
 {
-    if (verbose) puts("STUB: SLSInterruptMenuBarReveal called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInvalidateGroupedWindowShadow(void)
 {
-    if (verbose) puts("STUB: SLSInvalidateGroupedWindowShadow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInvalidateWindowShadow(void)
 {
-    if (verbose) puts("STUB: SLSInvalidateWindowShadow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSInvokeTransition(void)
 {
-    if (verbose) puts("STUB: SLSInvokeTransition called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsAccessibilityDisplay(void)
 {
-    if (verbose) puts("STUB: SLSIsAccessibilityDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsAmbientDisplayEnabled(void)
 {
-    if (verbose) puts("STUB: SLSIsAmbientDisplayEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsDisplayChangedSeedValid(void)
 {
-    if (verbose) puts("STUB: SLSIsDisplayChangedSeedValid called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsHDREnabled(void)
 {
-    if (verbose) puts("STUB: SLSIsHDREnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsHDRSupported(void)
 {
-    if (verbose) puts("STUB: SLSIsHDRSupported called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsHotKeyEnabled(void)
 {
-    if (verbose) puts("STUB: SLSIsHotKeyEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsMenuBarVisibleOnSpace(void)
 {
-    if (verbose) puts("STUB: SLSIsMenuBarVisibleOnSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsScreenWatcherPresent(void)
 {
-    if (verbose) puts("STUB: SLSIsScreenWatcherPresent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsSecureEventInputSet(void)
 {
-    if (verbose) puts("STUB: SLSIsSecureEventInputSet called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsSymbolicHotKeyEnabled(void)
 {
-    if (verbose) puts("STUB: SLSIsSymbolicHotKeyEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsSymbolicHotKeyEnabledForConnection(void)
 {
-    if (verbose) puts("STUB: SLSIsSymbolicHotKeyEnabledForConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsZoomDisplay(void)
 {
-    if (verbose) puts("STUB: SLSIsZoomDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSIsZoomed(void)
 {
-    if (verbose) puts("STUB: SLSIsZoomed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSKeyEventUpdateCharacterTranslation(void)
 {
-    if (verbose) puts("STUB: SLSKeyEventUpdateCharacterTranslation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSKitVersion(void)
 {
-    if (verbose) puts("STUB: SLSKitVersion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSLockWindowBackingStore(void)
 {
-    if (verbose) puts("STUB: SLSLockWindowBackingStore called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSLockWindowBits(void)
 {
-    if (verbose) puts("STUB: SLSLockWindowBits called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSLockWindowRectBits(void)
 {
-    if (verbose) puts("STUB: SLSLockWindowRectBits called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSLockWindowVisibleRegion(void)
 {
-    if (verbose) puts("STUB: SLSLockWindowVisibleRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMachineSupportsLowPowerVideo(void)
 {
-    if (verbose) puts("STUB: SLSMachineSupportsLowPowerVideo called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMainConnectionID(void)
 {
-    if (verbose) puts("STUB: SLSMainConnectionID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMainDisplayBoundsIgnoringCapture(void)
 {
-    if (verbose) puts("STUB: SLSMainDisplayBoundsIgnoringCapture called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMainDisplayID(void)
 {
-    if (verbose) puts("STUB: SLSMainDisplayID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplayCurrentSpaceAllowsWindow(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplayCurrentSpaceAllowsWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplayGetCurrentSpace(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplayGetCurrentSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplayIsAnimating(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplayIsAnimating called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplayIteratorAdvance(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplayIteratorAdvance called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplayIteratorCopyManagedSpaces(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplayIteratorCopyManagedSpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplayIteratorCopyRoleWindows(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplayIteratorCopyRoleWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplayIteratorGetAttributes(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplayIteratorGetAttributes called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplayIteratorGetBounds(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplayIteratorGetBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplayIteratorGetCount(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplayIteratorGetCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplayIteratorGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplayIteratorGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplayIteratorGetUUIDBytes(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplayIteratorGetUUIDBytes called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplaySetCurrentSpace(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplaySetCurrentSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplaySetIsAnimating(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplaySetIsAnimating called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplaySetRoleWindow(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplaySetRoleWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplaysCopyRoleWindows(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplaysCopyRoleWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSManagedDisplaysGetRoleWindows(void)
 {
-    if (verbose) puts("STUB: SLSManagedDisplaysGetRoleWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMenuBarExists(void)
 {
-    if (verbose) puts("STUB: SLSMenuBarExists called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMenuBarHideShowRecordGetAnimationDuration(void)
 {
-    if (verbose) puts("STUB: SLSMenuBarHideShowRecordGetAnimationDuration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMenuBarHideShowRecordGetAnimationStartTime(void)
 {
-    if (verbose) puts("STUB: SLSMenuBarHideShowRecordGetAnimationStartTime called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMenuBarHideShowRecordGetSpaceID(void)
 {
-    if (verbose) puts("STUB: SLSMenuBarHideShowRecordGetSpaceID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMoveManagedSpaceToDisplayIndex(void)
 {
-    if (verbose) puts("STUB: SLSMoveManagedSpaceToDisplayIndex called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMoveSessionToConsoleTemporaryBridge(void)
 {
-    if (verbose) puts("STUB: SLSMoveSessionToConsoleTemporaryBridge called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMoveSurface(void)
 {
-    if (verbose) puts("STUB: SLSMoveSurface called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMoveTrackingArea(void)
 {
-    if (verbose) puts("STUB: SLSMoveTrackingArea called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMoveWindow(void)
 {
-    if (verbose) puts("STUB: SLSMoveWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMoveWindowList(void)
 {
-    if (verbose) puts("STUB: SLSMoveWindowList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMoveWindowListOnMatchingDisplayChangedSeed(void)
 {
-    if (verbose) puts("STUB: SLSMoveWindowListOnMatchingDisplayChangedSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMoveWindowOnMatchingDisplayChangedSeed(void)
 {
-    if (verbose) puts("STUB: SLSMoveWindowOnMatchingDisplayChangedSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMoveWindowWithGroup(void)
 {
-    if (verbose) puts("STUB: SLSMoveWindowWithGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMoveWindowsToManagedSpace(void)
 {
-    if (verbose) puts("STUB: SLSMoveWindowsToManagedSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMoveWorkspaceWindowList(void)
 {
-    if (verbose) puts("STUB: SLSMoveWorkspaceWindowList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSMoveWorkspaceWindowListWithOptions(void)
 {
-    if (verbose) puts("STUB: SLSMoveWorkspaceWindowListWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSNewCIFilter(void)
 {
-    if (verbose) puts("STUB: SLSNewCIFilter called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSNewCIFilterByName(void)
 {
-    if (verbose) puts("STUB: SLSNewCIFilterByName called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSNewConnection(void)
 {
-    if (verbose) puts("STUB: SLSNewConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSNewTransition(void)
 {
-    if (verbose) puts("STUB: SLSNewTransition called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSNewWindow(void)
 {
-    if (verbose) puts("STUB: SLSNewWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSNewWindowWithOpaqueShape(void)
 {
-    if (verbose) puts("STUB: SLSNewWindowWithOpaqueShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSObscureCursor(void)
 {
-    if (verbose) puts("STUB: SLSObscureCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSOrderFrontConditionally(void)
 {
-    if (verbose) puts("STUB: SLSOrderFrontConditionally called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSOrderPanelIfActive(void)
 {
-    if (verbose) puts("STUB: SLSOrderPanelIfActive called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSOrderSurface(void)
 {
-    if (verbose) puts("STUB: SLSOrderSurface called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSOrderWindow(void)
 {
-    if (verbose) puts("STUB: SLSOrderWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSOrderWindowList(void)
 {
-    if (verbose) puts("STUB: SLSOrderWindowList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSOrderWindowListWithGroups(void)
 {
-    if (verbose) puts("STUB: SLSOrderWindowListWithGroups called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSOrderWindowListWithOperation(void)
 {
-    if (verbose) puts("STUB: SLSOrderWindowListWithOperation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSOrderWindowWithGroup(void)
 {
-    if (verbose) puts("STUB: SLSOrderWindowWithGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSOverrideAppSleepNotifications(void)
 {
-    if (verbose) puts("STUB: SLSOverrideAppSleepNotifications called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesAddWindowToDraggingSpace(void)
 {
-    if (verbose) puts("STUB: SLSPackagesAddWindowToDraggingSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesAssignDraggedWindowToDestinationSpace(void)
 {
-    if (verbose) puts("STUB: SLSPackagesAssignDraggedWindowToDestinationSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesCopyWorkspaceIdentifierForWorkspace(void)
 {
-    if (verbose) puts("STUB: SLSPackagesCopyWorkspaceIdentifierForWorkspace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesDisableFindCursor(void)
 {
-    if (verbose) puts("STUB: SLSPackagesDisableFindCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesDragWindowRelativeToMouse(void)
 {
-    if (verbose) puts("STUB: SLSPackagesDragWindowRelativeToMouse called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesEnableConnectionOcclusionNotifications(void)
 {
-    if (verbose) puts("STUB: SLSPackagesEnableConnectionOcclusionNotifications called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesEnableConnectionWindowModificationNotifications(void)
 {
-    if (verbose) puts("STUB: SLSPackagesEnableConnectionWindowModificationNotifications called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesEnableWindowOcclusionNotifications(void)
 {
-    if (verbose) puts("STUB: SLSPackagesEnableWindowOcclusionNotifications called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesFindCursorIsDisabled(void)
 {
-    if (verbose) puts("STUB: SLSPackagesFindCursorIsDisabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesGetWindowConstraints(void)
 {
-    if (verbose) puts("STUB: SLSPackagesGetWindowConstraints called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesGetWorkspaceForWorkspaceIdentifier(void)
 {
-    if (verbose) puts("STUB: SLSPackagesGetWorkspaceForWorkspaceIdentifier called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesInitializeSessionPreferences(void)
 {
-    if (verbose) puts("STUB: SLSPackagesInitializeSessionPreferences called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesRemoveWindowDragTransform(void)
 {
-    if (verbose) puts("STUB: SLSPackagesRemoveWindowDragTransform called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesRemoveWindowFromDraggingSpace(void)
 {
-    if (verbose) puts("STUB: SLSPackagesRemoveWindowFromDraggingSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesSetFindCursorPrefs(void)
 {
-    if (verbose) puts("STUB: SLSPackagesSetFindCursorPrefs called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesSetWindowConstraints(void)
 {
-    if (verbose) puts("STUB: SLSPackagesSetWindowConstraints called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPackagesSetWindowDragTransform(void)
 {
-    if (verbose) puts("STUB: SLSPackagesSetWindowDragTransform called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPersistenceAnnounceAllAppsReady(void)
 {
-    if (verbose) puts("STUB: SLSPersistenceAnnounceAllAppsReady called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPersistenceRegisterAsReady(void)
 {
-    if (verbose) puts("STUB: SLSPersistenceRegisterAsReady called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPersistenceSaveSpaceConfiguration(void)
 {
-    if (verbose) puts("STUB: SLSPersistenceSaveSpaceConfiguration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPersistenceWillLaunchASNsWithCompletionHandler(void)
 {
-    if (verbose) puts("STUB: SLSPersistenceWillLaunchASNsWithCompletionHandler called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPersistenceWillTerminateSession(void)
 {
-    if (verbose) puts("STUB: SLSPersistenceWillTerminateSession called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPostBroadcastNotification(void)
 {
-    if (verbose) puts("STUB: SLSPostBroadcastNotification called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPostCoordinatedDistributedNotification(void)
 {
-    if (verbose) puts("STUB: SLSPostCoordinatedDistributedNotification called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPostEvent(void)
 {
-    if (verbose) puts("STUB: SLSPostEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPostEventRecord(void)
 {
-    if (verbose) puts("STUB: SLSPostEventRecord called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPostKeyboardEvent(void)
 {
-    if (verbose) puts("STUB: SLSPostKeyboardEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPostMouseEvent(void)
 {
-    if (verbose) puts("STUB: SLSPostMouseEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPostMouseEvents(void)
 {
-    if (verbose) puts("STUB: SLSPostMouseEvents called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPostNotificationToConnection(void)
 {
-    if (verbose) puts("STUB: SLSPostNotificationToConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPreflightListenEventAccess(void)
 {
-    if (verbose) puts("STUB: SLSPreflightListenEventAccess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPreflightPostEventAccess(void)
 {
-    if (verbose) puts("STUB: SLSPreflightPostEventAccess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSPreflightScreenCaptureAccess(void)
 {
-    if (verbose) puts("STUB: SLSPreflightScreenCaptureAccess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSProcessAssignToAllSpaces(void)
 {
-    if (verbose) puts("STUB: SLSProcessAssignToAllSpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSProcessAssignToSpace(void)
 {
-    if (verbose) puts("STUB: SLSProcessAssignToSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRealTimeStampFromEventRecordTime(void)
 {
-    if (verbose) puts("STUB: SLSRealTimeStampFromEventRecordTime called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReassociateWindowsSpacesByGeometry(void)
 {
-    if (verbose) puts("STUB: SLSReassociateWindowsSpacesByGeometry called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReenableCursorObscure(void)
 {
-    if (verbose) puts("STUB: SLSReenableCursorObscure called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReenableDisableUpdate(void)
 {
-    if (verbose) puts("STUB: SLSReenableDisableUpdate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReenableUpdate(void)
 {
-    if (verbose) puts("STUB: SLSReenableUpdate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReenableUpdateToken(void)
 {
-    if (verbose) puts("STUB: SLSReenableUpdateToken called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReenableUpdateTokenWithSeed(void)
 {
-    if (verbose) puts("STUB: SLSReenableUpdateTokenWithSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRegisterColorSpaceFromICCData(void)
 {
-    if (verbose) puts("STUB: SLSRegisterColorSpaceFromICCData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRegisterConnectionNotifyProc(void)
 {
-    if (verbose) puts("STUB: SLSRegisterConnectionNotifyProc called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRegisterCursorWithData(void)
 {
-    if (verbose) puts("STUB: SLSRegisterCursorWithData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRegisterCursorWithImage(void)
 {
-    if (verbose) puts("STUB: SLSRegisterCursorWithImage called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRegisterCursorWithImages(void)
 {
-    if (verbose) puts("STUB: SLSRegisterCursorWithImages called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRegisterNotifyProc(void)
 {
-    if (verbose) puts("STUB: SLSRegisterNotifyProc called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRegisterUpdateInformationHandler(void)
 {
-    if (verbose) puts("STUB: SLSRegisterUpdateInformationHandler called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReleaseCIFilter(void)
 {
-    if (verbose) puts("STUB: SLSReleaseCIFilter called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReleaseConnection(void)
 {
-    if (verbose) puts("STUB: SLSReleaseConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReleaseSession(void)
 {
-    if (verbose) puts("STUB: SLSReleaseSession called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReleaseSessionTemporaryBridge(void)
 {
-    if (verbose) puts("STUB: SLSReleaseSessionTemporaryBridge called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReleaseTransition(void)
 {
-    if (verbose) puts("STUB: SLSReleaseTransition called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReleaseWindow(void)
 {
-    if (verbose) puts("STUB: SLSReleaseWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReleaseWindowAnimation(void)
 {
-    if (verbose) puts("STUB: SLSReleaseWindowAnimation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReleaseWindowList(void)
 {
-    if (verbose) puts("STUB: SLSReleaseWindowList called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoteContextAddNativeSpaceTrackingRegion(void)
 {
-    if (verbose) puts("STUB: SLSRemoteContextAddNativeSpaceTrackingRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoteContextAddStructuralRegion(void)
 {
-    if (verbose) puts("STUB: SLSRemoteContextAddStructuralRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoteContextAddTrackingRegion(void)
 {
-    if (verbose) puts("STUB: SLSRemoteContextAddTrackingRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveAllSurfaces(void)
 {
-    if (verbose) puts("STUB: SLSRemoveAllSurfaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveAllTrackingAreas(void)
 {
-    if (verbose) puts("STUB: SLSRemoveAllTrackingAreas called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveConnectionNotifyProc(void)
 {
-    if (verbose) puts("STUB: SLSRemoveConnectionNotifyProc called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveDragSubregionForCommandModifier(void)
 {
-    if (verbose) puts("STUB: SLSRemoveDragSubregionForCommandModifier called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveDragSubregionInWindow(void)
 {
-    if (verbose) puts("STUB: SLSRemoveDragSubregionInWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveFromOrderingGroup(void)
 {
-    if (verbose) puts("STUB: SLSRemoveFromOrderingGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveHotKey(void)
 {
-    if (verbose) puts("STUB: SLSRemoveHotKey called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveNotifyProc(void)
 {
-    if (verbose) puts("STUB: SLSRemoveNotifyProc called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveRegisteredCursor(void)
 {
-    if (verbose) puts("STUB: SLSRemoveRegisteredCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveRemoteContextNotificationHandler(void)
 {
-    if (verbose) puts("STUB: SLSRemoveRemoteContextNotificationHandler called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveStructuralRegion(void)
 {
-    if (verbose) puts("STUB: SLSRemoveStructuralRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveSurface(void)
 {
-    if (verbose) puts("STUB: SLSRemoveSurface called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveTrackingArea(void)
 {
-    if (verbose) puts("STUB: SLSRemoveTrackingArea called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveTrackingAreas(void)
 {
-    if (verbose) puts("STUB: SLSRemoveTrackingAreas called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveWindowFilter(void)
 {
-    if (verbose) puts("STUB: SLSRemoveWindowFilter called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveWindowFromWindowMovementGroup(void)
 {
-    if (verbose) puts("STUB: SLSRemoveWindowFromWindowMovementGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRemoveWindowsFromSpaces(void)
 {
-    if (verbose) puts("STUB: SLSRemoveWindowsFromSpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSReorderWindows(void)
 {
-    if (verbose) puts("STUB: SLSReorderWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRequestListenEventAccess(void)
 {
-    if (verbose) puts("STUB: SLSRequestListenEventAccess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRequestNotificationsForWindows(void)
 {
-    if (verbose) puts("STUB: SLSRequestNotificationsForWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRequestPostEventAccess(void)
 {
-    if (verbose) puts("STUB: SLSRequestPostEventAccess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRequestScreenCaptureAccess(void)
 {
-    if (verbose) puts("STUB: SLSRequestScreenCaptureAccess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSResetMenuBarSystemOverrideAlphas(void)
 {
-    if (verbose) puts("STUB: SLSResetMenuBarSystemOverrideAlphas called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSResetWindows(void)
 {
-    if (verbose) puts("STUB: SLSResetWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRestorePackagesManagementPersistenceData(void)
 {
-    if (verbose) puts("STUB: SLSRestorePackagesManagementPersistenceData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRevealCursor(void)
 {
-    if (verbose) puts("STUB: SLSRevealCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSRunningOnInstallerDisk(void)
 {
-    if (verbose) puts("STUB: SLSRunningOnInstallerDisk called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSaveConfiguration(void)
 {
-    if (verbose) puts("STUB: SLSSaveConfiguration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSavePerUserConfigurationData(void)
 {
-    if (verbose) puts("STUB: SLSSavePerUserConfigurationData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSScreenTimeSuppressWindows(void)
 {
-    if (verbose) puts("STUB: SLSScreenTimeSuppressWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSecondsSinceLastInputEvent(void)
 {
-    if (verbose) puts("STUB: SLSSecondsSinceLastInputEvent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSecondsSinceMostRecentEventInMask(void)
 {
-    if (verbose) puts("STUB: SLSSecondsSinceMostRecentEventInMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSServerHasValidConnections(void)
 {
-    if (verbose) puts("STUB: SLSServerHasValidConnections called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSServerIsConnected(void)
 {
-    if (verbose) puts("STUB: SLSServerIsConnected called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSServerMightHaveAcceleration(void)
 {
-    if (verbose) puts("STUB: SLSServerMightHaveAcceleration called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSServerOperationState(void)
 {
-    if (verbose) puts("STUB: SLSServerOperationState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSServerPort(void)
 {
-    if (verbose) puts("STUB: SLSServerPort called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSServiceForDisplayAlias(void)
 {
-    if (verbose) puts("STUB: SLSServiceForDisplayAlias called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSServiceForDisplayNumber(void)
 {
-    if (verbose) puts("STUB: SLSServiceForDisplayNumber called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionCopyAllSessionProperties(void)
 {
-    if (verbose) puts("STUB: SLSSessionCopyAllSessionProperties called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionCopyCurrentSessionProperties(void)
 {
-    if (verbose) puts("STUB: SLSSessionCopyCurrentSessionProperties called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionCopyCurrentSessionReadOnceData(void)
 {
-    if (verbose) puts("STUB: SLSSessionCopyCurrentSessionReadOnceData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionCreateLoginSessionID(void)
 {
-    if (verbose) puts("STUB: SLSSessionCreateLoginSessionID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionCreateSessionIDWithOptions(void)
 {
-    if (verbose) puts("STUB: SLSSessionCreateSessionIDWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionFullScreenAppPid(void)
 {
-    if (verbose) puts("STUB: SLSSessionFullScreenAppPid called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionHasExcludeShapes(void)
 {
-    if (verbose) puts("STUB: SLSSessionHasExcludeShapes called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionIDGetFullScreenAppPid(void)
 {
-    if (verbose) puts("STUB: SLSSessionIDGetFullScreenAppPid called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionIDSetScreenLockWindowID(void)
 {
-    if (verbose) puts("STUB: SLSSessionIDSetScreenLockWindowID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionIDSetSleepWindowID(void)
 {
-    if (verbose) puts("STUB: SLSSessionIDSetSleepWindowID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionReleaseSessionID(void)
 {
-    if (verbose) puts("STUB: SLSSessionReleaseSessionID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionSetApplicationBindingsForWorkspaces(void)
 {
-    if (verbose) puts("STUB: SLSSessionSetApplicationBindingsForWorkspaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionSetCurrentSessionProperties(void)
 {
-    if (verbose) puts("STUB: SLSSessionSetCurrentSessionProperties called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionSetCurrentSessionWorkspaceApplicationBindings(void)
 {
-    if (verbose) puts("STUB: SLSSessionSetCurrentSessionWorkspaceApplicationBindings called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionSetCurrentSessionWorkspaceLaunchPath(void)
 {
-    if (verbose) puts("STUB: SLSSessionSetCurrentSessionWorkspaceLaunchPath called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionSetCurrentSessionWorkspaceNotificationConnectionID(void)
 {
-    if (verbose) puts("STUB: SLSSessionSetCurrentSessionWorkspaceNotificationConnectionID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionSetCurrentSessionWorkspacePreferences(void)
 {
-    if (verbose) puts("STUB: SLSSessionSetCurrentSessionWorkspacePreferences called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionSetNotificationConnectionForWorkspaces(void)
 {
-    if (verbose) puts("STUB: SLSSessionSetNotificationConnectionForWorkspaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionSetPreferencesForWorkspaces(void)
 {
-    if (verbose) puts("STUB: SLSSessionSetPreferencesForWorkspaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionSwitchToAuditSessionID(void)
 {
-    if (verbose) puts("STUB: SLSSessionSwitchToAuditSessionID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionSwitchToAuditSessionIDWithOptions(void)
 {
-    if (verbose) puts("STUB: SLSSessionSwitchToAuditSessionIDWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSessionSwitchToSessionID(void)
 {
-    if (verbose) puts("STUB: SLSSessionSwitchToSessionID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetAccessibilityAdjustments(void)
 {
-    if (verbose) puts("STUB: SLSSetAccessibilityAdjustments called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetActiveMenuBarDisplayIdentifier(void)
 {
-    if (verbose) puts("STUB: SLSSetActiveMenuBarDisplayIdentifier called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetAppearanceThemeLegacy(void)
 {
-    if (verbose) puts("STUB: SLSSetAppearanceThemeLegacy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetAppearanceThemeNotifying(void)
 {
-    if (verbose) puts("STUB: SLSSetAppearanceThemeNotifying called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetAppearanceThemeSwitchesAutomatically(void)
 {
-    if (verbose) puts("STUB: SLSSetAppearanceThemeSwitchesAutomatically called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetAvoidsActivation(void)
 {
-    if (verbose) puts("STUB: SLSSetAvoidsActivation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetBackgroundEventMask(void)
 {
-    if (verbose) puts("STUB: SLSSetBackgroundEventMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetBackgroundEventMaskAndShape(void)
 {
-    if (verbose) puts("STUB: SLSSetBackgroundEventMaskAndShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetCIFilterValues(void)
 {
-    if (verbose) puts("STUB: SLSSetCIFilterValues called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetCIFilterValuesFromDictionary(void)
 {
-    if (verbose) puts("STUB: SLSSetCIFilterValuesFromDictionary called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetChameleonOverrideColor(void)
 {
-    if (verbose) puts("STUB: SLSSetChameleonOverrideColor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetConnectionProperty(void)
 {
-    if (verbose) puts("STUB: SLSSetConnectionProperty called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetCursorDragLock(void)
 {
-    if (verbose) puts("STUB: SLSSetCursorDragLock called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetCursorFromData(void)
 {
-    if (verbose) puts("STUB: SLSSetCursorFromData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetCursorFromPremultipliedDataWithSeed(void)
 {
-    if (verbose) puts("STUB: SLSSetCursorFromPremultipliedDataWithSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetCursorRegionLock(void)
 {
-    if (verbose) puts("STUB: SLSSetCursorRegionLock called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetCursorScale(void)
 {
-    if (verbose) puts("STUB: SLSSetCursorScale called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDebugOptions(void)
 {
-    if (verbose) puts("STUB: SLSSetDebugOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDebugOptionsData(void)
 {
-    if (verbose) puts("STUB: SLSSetDebugOptionsData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDebugOptionsPSN(void)
 {
-    if (verbose) puts("STUB: SLSSetDebugOptionsPSN called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDebugOptionsWithDataObtainingPort(void)
 {
-    if (verbose) puts("STUB: SLSSetDebugOptionsWithDataObtainingPort called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDebugOptionsWithDataObtainingResult(void)
 {
-    if (verbose) puts("STUB: SLSSetDebugOptionsWithDataObtainingResult called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDefaultSpace(void)
 {
-    if (verbose) puts("STUB: SLSSetDefaultSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDeferActivation(void)
 {
-    if (verbose) puts("STUB: SLSSetDeferActivation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDeferOrdering(void)
 {
-    if (verbose) puts("STUB: SLSSetDeferOrdering called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDeferredUpdateNotificationPort(void)
 {
-    if (verbose) puts("STUB: SLSSetDeferredUpdateNotificationPort called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDenyWindowServerConnections(void)
 {
-    if (verbose) puts("STUB: SLSSetDenyWindowServerConnections called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDictionaryForCurrentSession(void)
 {
-    if (verbose) puts("STUB: SLSSetDictionaryForCurrentSession called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayAcceleratorBoost(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayAcceleratorBoost called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayBrightness(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayBrightness called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayColorSpace(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayColorSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayColorSpaceAndTransfer(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayColorSpaceAndTransfer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayContrast(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayContrast called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayIntention(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayIntention called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayIntentionWiper(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayIntentionWiper called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayOption(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayOption called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayRotation(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayRotation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayTransfer(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayTransfer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayTransferByFormula(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayTransferByFormula called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayTransferByFormulaWithOption(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayTransferByFormulaWithOption called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayTransferByTable(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayTransferByTable called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDisplayTransferByTableWithOption(void)
 {
-    if (verbose) puts("STUB: SLSSetDisplayTransferByTableWithOption called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDockCursorOverride(void)
 {
-    if (verbose) puts("STUB: SLSSetDockCursorOverride called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDockRectWithOrientation(void)
 {
-    if (verbose) puts("STUB: SLSSetDockRectWithOrientation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetDockRectWithReason(void)
 {
-    if (verbose) puts("STUB: SLSSetDockRectWithReason called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetEventCapture(void)
 {
-    if (verbose) puts("STUB: SLSSetEventCapture called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetEventCaptureWindowAndMask(void)
 {
-    if (verbose) puts("STUB: SLSSetEventCaptureWindowAndMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetEventMask(void)
 {
-    if (verbose) puts("STUB: SLSSetEventMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetEventTapOption(void)
 {
-    if (verbose) puts("STUB: SLSSetEventTapOption called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetEventTapTimeout(void)
 {
-    if (verbose) puts("STUB: SLSSetEventTapTimeout called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetFrontWindow(void)
 {
-    if (verbose) puts("STUB: SLSSetFrontWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetGestureEventSubmask(void)
 {
-    if (verbose) puts("STUB: SLSSetGestureEventSubmask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetGlobalForceConfig(void)
 {
-    if (verbose) puts("STUB: SLSSetGlobalForceConfig called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetGlobalHotKeyOperatingMode(void)
 {
-    if (verbose) puts("STUB: SLSSetGlobalHotKeyOperatingMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetHideOnDeact(void)
 {
-    if (verbose) puts("STUB: SLSSetHideOnDeact called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetHotButtonWithExclusion(void)
 {
-    if (verbose) puts("STUB: SLSSetHotButtonWithExclusion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetHotKey(void)
 {
-    if (verbose) puts("STUB: SLSSetHotKey called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetHotKeyEnabled(void)
 {
-    if (verbose) puts("STUB: SLSSetHotKeyEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetHotKeyRepresentation(void)
 {
-    if (verbose) puts("STUB: SLSSetHotKeyRepresentation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetHotKeyRepresentationWithOptions(void)
 {
-    if (verbose) puts("STUB: SLSSetHotKeyRepresentationWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetHotKeyType(void)
 {
-    if (verbose) puts("STUB: SLSSetHotKeyType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetHotKeyWithExclusion(void)
 {
-    if (verbose) puts("STUB: SLSSetHotKeyWithExclusion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetHotKeyWithOptions(void)
 {
-    if (verbose) puts("STUB: SLSSetHotKeyWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetHotModifierWithExclusion(void)
 {
-    if (verbose) puts("STUB: SLSSetHotModifierWithExclusion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetHotModifierWithOptions(void)
 {
-    if (verbose) puts("STUB: SLSSetHotModifierWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetIOHIDEventSystemClientProperty(void)
 {
-    if (verbose) puts("STUB: SLSSetIOHIDEventSystemClientProperty called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetIgnoreAsFrontWindow(void)
 {
-    if (verbose) puts("STUB: SLSSetIgnoreAsFrontWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetIgnoresCycle(void)
 {
-    if (verbose) puts("STUB: SLSSetIgnoresCycle called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetIgnoresOption(void)
 {
-    if (verbose) puts("STUB: SLSSetIgnoresOption called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetInkingState(void)
 {
-    if (verbose) puts("STUB: SLSSetInkingState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetKeyTranslationTableFromPtr(void)
 {
-    if (verbose) puts("STUB: SLSSetKeyTranslationTableFromPtr called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetKitVersion(void)
 {
-    if (verbose) puts("STUB: SLSSetKitVersion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetLocalEventsSuppressionInterval(void)
 {
-    if (verbose) puts("STUB: SLSSetLocalEventsSuppressionInterval called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetLoginName(void)
 {
-    if (verbose) puts("STUB: SLSSetLoginName called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetLoginwindowConnection(void)
 {
-    if (verbose) puts("STUB: SLSSetLoginwindowConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMagicMirrorProperties(void)
 {
-    if (verbose) puts("STUB: SLSSetMagicMirrorProperties called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMagicZoom(void)
 {
-    if (verbose) puts("STUB: SLSSetMagicZoom called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMenuBar(void)
 {
-    if (verbose) puts("STUB: SLSSetMenuBar called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMenuBarAutohideEnabled(void)
 {
-    if (verbose) puts("STUB: SLSSetMenuBarAutohideEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMenuBarBounds(void)
 {
-    if (verbose) puts("STUB: SLSSetMenuBarBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMenuBarCompanionWindow(void)
 {
-    if (verbose) puts("STUB: SLSSetMenuBarCompanionWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMenuBarDrawingStyle(void)
 {
-    if (verbose) puts("STUB: SLSSetMenuBarDrawingStyle called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMenuBarInsetAndAlpha(void)
 {
-    if (verbose) puts("STUB: SLSSetMenuBarInsetAndAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMenuBarSystemOverrideAlpha(void)
 {
-    if (verbose) puts("STUB: SLSSetMenuBarSystemOverrideAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMenuBarVisibilityOverrideOnDisplay(void)
 {
-    if (verbose) puts("STUB: SLSSetMenuBarVisibilityOverrideOnDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMenuBars(void)
 {
-    if (verbose) puts("STUB: SLSSetMenuBars called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMouseEventEnableFlags(void)
 {
-    if (verbose) puts("STUB: SLSSetMouseEventEnableFlags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetMouseFocusWindow(void)
 {
-    if (verbose) puts("STUB: SLSSetMouseFocusWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetOtherUniversalConnection(void)
 {
-    if (verbose) puts("STUB: SLSSetOtherUniversalConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetPerUserConfigurationData(void)
 {
-    if (verbose) puts("STUB: SLSSetPerUserConfigurationData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetPostProcessColorMatrix(void)
 {
-    if (verbose) puts("STUB: SLSSetPostProcessColorMatrix called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetPressureConfigurationOverride(void)
 {
-    if (verbose) puts("STUB: SLSSetPressureConfigurationOverride called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetPreventsActivation(void)
 {
-    if (verbose) puts("STUB: SLSSetPreventsActivation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetReenableUpdatesCoalesceOnSemaphore(void)
 {
-    if (verbose) puts("STUB: SLSSetReenableUpdatesCoalesceOnSemaphore called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetRegisteredCursor(void)
 {
-    if (verbose) puts("STUB: SLSSetRegisteredCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSecureEventInput(void)
 {
-    if (verbose) puts("STUB: SLSSetSecureEventInput called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSessionPropertiesTemporaryBridge(void)
 {
-    if (verbose) puts("STUB: SLSSetSessionPropertiesTemporaryBridge called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSessionSwitchCubeAnimation(void)
 {
-    if (verbose) puts("STUB: SLSSetSessionSwitchCubeAnimation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSpaceManagementMode(void)
 {
-    if (verbose) puts("STUB: SLSSetSpaceManagementMode called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSurfaceBackgroundBlur(void)
 {
-    if (verbose) puts("STUB: SLSSetSurfaceBackgroundBlur called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSurfaceBounds(void)
 {
-    if (verbose) puts("STUB: SLSSetSurfaceBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSurfaceColorSpace(void)
 {
-    if (verbose) puts("STUB: SLSSetSurfaceColorSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSurfaceLayerBackingOptions(void)
 {
-    if (verbose) puts("STUB: SLSSetSurfaceLayerBackingOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSurfaceListAlpha(void)
 {
-    if (verbose) puts("STUB: SLSSetSurfaceListAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSurfaceOpacity(void)
 {
-    if (verbose) puts("STUB: SLSSetSurfaceOpacity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSurfaceProperty(void)
 {
-    if (verbose) puts("STUB: SLSSetSurfaceProperty called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSurfaceProxiesForNextFlush(void)
 {
-    if (verbose) puts("STUB: SLSSetSurfaceProxiesForNextFlush called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSurfaceResolution(void)
 {
-    if (verbose) puts("STUB: SLSSetSurfaceResolution called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSurfaceShape(void)
 {
-    if (verbose) puts("STUB: SLSSetSurfaceShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSurfaceVersionedProxiesForNextFlush(void)
 {
-    if (verbose) puts("STUB: SLSSetSurfaceVersionedProxiesForNextFlush called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSwipeScrollDirection(void)
 {
-    if (verbose) puts("STUB: SLSSetSwipeScrollDirection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSymbolicHotKey(void)
 {
-    if (verbose) puts("STUB: SLSSetSymbolicHotKey called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSymbolicHotKeyButtonValue(void)
 {
-    if (verbose) puts("STUB: SLSSetSymbolicHotKeyButtonValue called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSymbolicHotKeyEnabled(void)
 {
-    if (verbose) puts("STUB: SLSSetSymbolicHotKeyEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSymbolicHotKeyEnabledForConnection(void)
 {
-    if (verbose) puts("STUB: SLSSetSymbolicHotKeyEnabledForConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSymbolicHotKeyRepresentation(void)
 {
-    if (verbose) puts("STUB: SLSSetSymbolicHotKeyRepresentation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSymbolicHotKeyValue(void)
 {
-    if (verbose) puts("STUB: SLSSetSymbolicHotKeyValue called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSymbolicHotKeyWithExclusion(void)
 {
-    if (verbose) puts("STUB: SLSSetSymbolicHotKeyWithExclusion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSymbolicHotKeyWithOptions(void)
 {
-    if (verbose) puts("STUB: SLSSetSymbolicHotKeyWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSymbolicHotModifierValue(void)
 {
-    if (verbose) puts("STUB: SLSSetSymbolicHotModifierValue called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSystemDefinedCursor(void)
 {
-    if (verbose) puts("STUB: SLSSetSystemDefinedCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSystemDefinedCursorWithSeed(void)
 {
-    if (verbose) puts("STUB: SLSSetSystemDefinedCursorWithSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetSystemStatusBarWindowSubitemOffsets(void)
 {
-    if (verbose) puts("STUB: SLSSetSystemStatusBarWindowSubitemOffsets called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetTrackingAreaClip(void)
 {
-    if (verbose) puts("STUB: SLSSetTrackingAreaClip called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetTrackingAreaEnabled(void)
 {
-    if (verbose) puts("STUB: SLSSetTrackingAreaEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetTrackingAreaOption(void)
 {
-    if (verbose) puts("STUB: SLSSetTrackingAreaOption called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetTrackingAreaRect(void)
 {
-    if (verbose) puts("STUB: SLSSetTrackingAreaRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetTrackingAreaShape(void)
 {
-    if (verbose) puts("STUB: SLSSetTrackingAreaShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetTrackingAreasEnabled(void)
 {
-    if (verbose) puts("STUB: SLSSetTrackingAreasEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetUniversalOwner(void)
 {
-    if (verbose) puts("STUB: SLSSetUniversalOwner called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowAccelerationState(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowAccelerationState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowActive(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowActive called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowAlpha(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowAlphaShape(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowAlphaShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowAnimationProgress(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowAnimationProgress called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowAutofill(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowAutofill called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowAutofillColor(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowAutofillColor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowBackgroundBlurRadius(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowBackgroundBlurRadius called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowBackgroundBlurRadiusStyle(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowBackgroundBlurRadiusStyle called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowBackgroundBlurRadiusWithOpacityHint(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowBackgroundBlurRadiusWithOpacityHint called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowCaptureExcludeShape(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowCaptureExcludeShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowClipShape(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowClipShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowColorSpace(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowColorSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowCornerMask(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowCornerMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowCursorRestrictionShape(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowCursorRestrictionShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowDepth(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowDepth called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowDidOrderInOnNonCurrentManagedSpacesOnlyNotificationBlock(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowDidOrderInOnNonCurrentManagedSpacesOnlyNotificationBlock called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowDidOrderOutOnNonCurrentManagedSpacesNotificationBlock(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowDidOrderOutOnNonCurrentManagedSpacesNotificationBlock called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowEventMask(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowEventMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowEventShape(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowEventShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowFiltering(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowFiltering called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowHasKeyAppearance(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowHasKeyAppearance called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowHasMainAppearance(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowHasMainAppearance called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowLevel(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowLevelForGroup(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowLevelForGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowLevelsForActivation(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowLevelsForActivation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowListAlpha(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowListAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowListBrightness(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowListBrightness called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowListFadeProperties(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowListFadeProperties called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowListGlobalClipShape(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowListGlobalClipShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowListSystemAlpha(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowListSystemAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowListSystemLevel(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowListSystemLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowListTags(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowListTags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowListWorkspace(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowListWorkspace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowMovementGroup(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowMovementGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowOpacity(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowOpacity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowOpaqueShape(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowOpaqueShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowOriginRelativeToWindow(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowOriginRelativeToWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowParent(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowParent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowProperty(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowProperty called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowRegionsLegacy(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowRegionsLegacy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowResizeState(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowResizeState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowResolution(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowResolution called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowShadowAndRimParameters(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowShadowAndRimParameters called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowShadowAndRimParametersWithStretch(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowShadowAndRimParametersWithStretch called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowShadowGroup(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowShadowGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowShadowParameters(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowShadowParameters called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowShape(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowShapeInWindowCoordinates(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowShapeInWindowCoordinates called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowShapeInWindowCoordinatesWithWeighting(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowShapeInWindowCoordinatesWithWeighting called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowShapeWithWeighting(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowShapeWithWeighting called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowSharingState(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowSharingState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowSubLevel(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowSubLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowTags(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowTags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowTitle(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowTitle called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowToReleaseBackingOnOrderOut(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowToReleaseBackingOnOrderOut called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowTransform(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowTransform called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowTransformAtPlacement(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowTransformAtPlacement called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowTransforms(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowTransforms called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowTransformsAtPlacement(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowTransformsAtPlacement called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowType(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetWindowWarp(void)
 {
-    if (verbose) puts("STUB: SLSSetWindowWarp called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetZoomDisplay(void)
 {
-    if (verbose) puts("STUB: SLSSetZoomDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSetZoomParameters(void)
 {
-    if (verbose) puts("STUB: SLSSetZoomParameters called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSShapeSurface(void)
 {
-    if (verbose) puts("STUB: SLSShapeSurface called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSShapeWindow(void)
 {
-    if (verbose) puts("STUB: SLSShapeWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSShapeWindowInWindowCoordinates(void)
 {
-    if (verbose) puts("STUB: SLSShapeWindowInWindowCoordinates called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSShieldCursor(void)
 {
-    if (verbose) puts("STUB: SLSShieldCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSShowCursor(void)
 {
-    if (verbose) puts("STUB: SLSShowCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSShowSpaces(void)
 {
-    if (verbose) puts("STUB: SLSShowSpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSShutdownServerConnections(void)
 {
-    if (verbose) puts("STUB: SLSShutdownServerConnections called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoAddMovement(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoAddMovement called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoCreate(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoEnumerateSnappingRects(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoEnumerateSnappingRects called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoGetCurrentSnappedEdgesForRect(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoGetCurrentSnappedEdgesForRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoGetCurrentVelocity(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoGetCurrentVelocity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoGetLastSnappedRect(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoGetLastSnappedRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoGetSizeSnapRectForFrame(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoGetSizeSnapRectForFrame called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoGetSnappedEdges(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoGetSnappedEdges called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoRelease(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoRelease called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoResetMovement(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoResetMovement called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoSetIsForResizing(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoSetIsForResizing called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoSetPrefs(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoSetPrefs called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoSetSnappedEdges(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoSetSnappedEdges called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoSnapFrameForResizing(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoSnapFrameForResizing called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSnappingInfoSnapOriginWithFrame(void)
 {
-    if (verbose) puts("STUB: SLSSnappingInfoSnapOriginWithFrame called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceAddOwner(void)
 {
-    if (verbose) puts("STUB: SLSSpaceAddOwner called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceAddWindowsAndRemoveFromSpaces(void)
 {
-    if (verbose) puts("STUB: SLSSpaceAddWindowsAndRemoveFromSpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceCanCreateTile(void)
 {
-    if (verbose) puts("STUB: SLSSpaceCanCreateTile called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceClientDrivenMoveSpacersToPoint(void)
 {
-    if (verbose) puts("STUB: SLSSpaceClientDrivenMoveSpacersToPoint called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceCopyManagedShape(void)
 {
-    if (verbose) puts("STUB: SLSSpaceCopyManagedShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceCopyName(void)
 {
-    if (verbose) puts("STUB: SLSSpaceCopyName called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceCopyOwners(void)
 {
-    if (verbose) puts("STUB: SLSSpaceCopyOwners called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceCopyShape(void)
 {
-    if (verbose) puts("STUB: SLSSpaceCopyShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceCopyTileSpaces(void)
 {
-    if (verbose) puts("STUB: SLSSpaceCopyTileSpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceCopyValues(void)
 {
-    if (verbose) puts("STUB: SLSSpaceCopyValues called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceCreate(void)
 {
-    if (verbose) puts("STUB: SLSSpaceCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceCreateTile(void)
 {
-    if (verbose) puts("STUB: SLSSpaceCreateTile called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceDestroy(void)
 {
-    if (verbose) puts("STUB: SLSSpaceDestroy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceFinishedResizeForRect(void)
 {
-    if (verbose) puts("STUB: SLSSpaceFinishedResizeForRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceGetAbsoluteLevel(void)
 {
-    if (verbose) puts("STUB: SLSSpaceGetAbsoluteLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceGetAlpha(void)
 {
-    if (verbose) puts("STUB: SLSSpaceGetAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceGetCompatID(void)
 {
-    if (verbose) puts("STUB: SLSSpaceGetCompatID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceGetInterTileSpacing(void)
 {
-    if (verbose) puts("STUB: SLSSpaceGetInterTileSpacing called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceGetRect(void)
 {
-    if (verbose) puts("STUB: SLSSpaceGetRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceGetSizeForProposedTile(void)
 {
-    if (verbose) puts("STUB: SLSSpaceGetSizeForProposedTile called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceGetSpacersAtPoint(void)
 {
-    if (verbose) puts("STUB: SLSSpaceGetSpacersAtPoint called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceGetTransform(void)
 {
-    if (verbose) puts("STUB: SLSSpaceGetTransform called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceGetType(void)
 {
-    if (verbose) puts("STUB: SLSSpaceGetType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceIteratorAdvance(void)
 {
-    if (verbose) puts("STUB: SLSSpaceIteratorAdvance called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceIteratorGetAbsoluteLevel(void)
 {
-    if (verbose) puts("STUB: SLSSpaceIteratorGetAbsoluteLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceIteratorGetAttributes(void)
 {
-    if (verbose) puts("STUB: SLSSpaceIteratorGetAttributes called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceIteratorGetCount(void)
 {
-    if (verbose) puts("STUB: SLSSpaceIteratorGetCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceIteratorGetParentSpaceID(void)
 {
-    if (verbose) puts("STUB: SLSSpaceIteratorGetParentSpaceID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceIteratorGetSpaceID(void)
 {
-    if (verbose) puts("STUB: SLSSpaceIteratorGetSpaceID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceIteratorGetType(void)
 {
-    if (verbose) puts("STUB: SLSSpaceIteratorGetType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceIteratorGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLSSpaceIteratorGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceMoveSpacersToPoint(void)
 {
-    if (verbose) puts("STUB: SLSSpaceMoveSpacersToPoint called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpacePreferCurrentDisplay(void)
 {
-    if (verbose) puts("STUB: SLSSpacePreferCurrentDisplay called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceRemoveOwner(void)
 {
-    if (verbose) puts("STUB: SLSSpaceRemoveOwner called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceRemoveValuesForKeys(void)
 {
-    if (verbose) puts("STUB: SLSSpaceRemoveValuesForKeys called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceResetMenuBar(void)
 {
-    if (verbose) puts("STUB: SLSSpaceResetMenuBar called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetAbsoluteLevel(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetAbsoluteLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetAlpha(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetCompatID(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetCompatID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetEdgeReservation(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetEdgeReservation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetFrontPSN(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetFrontPSN called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetInterTileSpacing(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetInterTileSpacing called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetName(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetName called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetOrderingWeight(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetOrderingWeight called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetOwners(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetOwners called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetRelativeLevel(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetRelativeLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetShape(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetTransform(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetTransform called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetType(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetType called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceSetValues(void)
 {
-    if (verbose) puts("STUB: SLSSpaceSetValues called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceTileMoveToSpaceAtIndex(void)
 {
-    if (verbose) puts("STUB: SLSSpaceTileMoveToSpaceAtIndex called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpaceWithName(void)
 {
-    if (verbose) puts("STUB: SLSSpaceWithName called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpinControlDecodeMessage(void)
 {
-    if (verbose) puts("STUB: SLSSpinControlDecodeMessage called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSpinControlSetNotificationPort(void)
 {
-    if (verbose) puts("STUB: SLSSpinControlSetNotificationPort called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSStallServer(void)
 {
-    if (verbose) puts("STUB: SLSStallServer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSStatusItemNavigationRecordGetCurrentNavigationOptions(void)
 {
-    if (verbose) puts("STUB: SLSStatusItemNavigationRecordGetCurrentNavigationOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSStatusItemNavigationRecordGetCurrentNavigationWindow(void)
 {
-    if (verbose) puts("STUB: SLSStatusItemNavigationRecordGetCurrentNavigationWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSStructuralRegionMove(void)
 {
-    if (verbose) puts("STUB: SLSStructuralRegionMove called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSStructuralRegionSetChildRegionTransform(void)
 {
-    if (verbose) puts("STUB: SLSStructuralRegionSetChildRegionTransform called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSStructuralRegionSetClippedByWindow(void)
 {
-    if (verbose) puts("STUB: SLSStructuralRegionSetClippedByWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSStructuralRegionSetEventMask(void)
 {
-    if (verbose) puts("STUB: SLSStructuralRegionSetEventMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSStructuralRegionSetLevel(void)
 {
-    if (verbose) puts("STUB: SLSStructuralRegionSetLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSStructuralRegionSetShape(void)
 {
-    if (verbose) puts("STUB: SLSStructuralRegionSetShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSuperShieldingWindowID(void)
 {
-    if (verbose) puts("STUB: SLSSuperShieldingWindowID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSwitchConsoleToSession(void)
 {
-    if (verbose) puts("STUB: SLSSwitchConsoleToSession called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSystemStatusBarGetCurrentNavigationWindow(void)
 {
-    if (verbose) puts("STUB: SLSSystemStatusBarGetCurrentNavigationWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSystemStatusBarGetWindowPreferredPosition(void)
 {
-    if (verbose) puts("STUB: SLSSystemStatusBarGetWindowPreferredPosition called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSystemStatusBarNavigateFromWindow(void)
 {
-    if (verbose) puts("STUB: SLSSystemStatusBarNavigateFromWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSystemStatusBarRegisterReplicantWindow(void)
 {
-    if (verbose) puts("STUB: SLSSystemStatusBarRegisterReplicantWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSystemStatusBarRegisterSortedWindow(void)
 {
-    if (verbose) puts("STUB: SLSSystemStatusBarRegisterSortedWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSystemStatusBarRegisterWindow(void)
 {
-    if (verbose) puts("STUB: SLSSystemStatusBarRegisterWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSSystemStatusBarWindowIsDraggedOutOfBar(void)
 {
-    if (verbose) puts("STUB: SLSSystemStatusBarWindowIsDraggedOutOfBar called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTileEvictionRecordGetManagedSpaceID(void)
 {
-    if (verbose) puts("STUB: SLSTileEvictionRecordGetManagedSpaceID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTileEvictionRecordGetTileID(void)
 {
-    if (verbose) puts("STUB: SLSTileEvictionRecordGetTileID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTileOwnerChangeRecordGetManagedSpaceID(void)
 {
-    if (verbose) puts("STUB: SLSTileOwnerChangeRecordGetManagedSpaceID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTileOwnerChangeRecordGetNewOwner(void)
 {
-    if (verbose) puts("STUB: SLSTileOwnerChangeRecordGetNewOwner called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTileOwnerChangeRecordGetOldOwner(void)
 {
-    if (verbose) puts("STUB: SLSTileOwnerChangeRecordGetOldOwner called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTileOwnerChangeRecordGetTileID(void)
 {
-    if (verbose) puts("STUB: SLSTileOwnerChangeRecordGetTileID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTileSpaceMoveSpacersForSize(void)
 {
-    if (verbose) puts("STUB: SLSTileSpaceMoveSpacersForSize called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTileSpaceReplaceWithSnapshotWindow(void)
 {
-    if (verbose) puts("STUB: SLSTileSpaceReplaceWithSnapshotWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTileSpaceResizeRecordGetParentSpaceID(void)
 {
-    if (verbose) puts("STUB: SLSTileSpaceResizeRecordGetParentSpaceID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTileSpaceResizeRecordGetSpaceID(void)
 {
-    if (verbose) puts("STUB: SLSTileSpaceResizeRecordGetSpaceID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTileSpaceResizeRecordIsLiveResizing(void)
 {
-    if (verbose) puts("STUB: SLSTileSpaceResizeRecordIsLiveResizing called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTileSpaceSetDividerWindow(void)
 {
-    if (verbose) puts("STUB: SLSTileSpaceSetDividerWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSToggleDisplayZoom(void)
 {
-    if (verbose) puts("STUB: SLSToggleDisplayZoom called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTouchBarServerRegister(void)
 {
-    if (verbose) puts("STUB: SLSTouchBarServerRegister called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTrackingRegionSetForceConfig(void)
 {
-    if (verbose) puts("STUB: SLSTrackingRegionSetForceConfig called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTrackingRegionSetIsEnabled(void)
 {
-    if (verbose) puts("STUB: SLSTrackingRegionSetIsEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTrackingRegionSetRespectsSystemAlphaThreshold(void)
 {
-    if (verbose) puts("STUB: SLSTrackingRegionSetRespectsSystemAlphaThreshold called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionAddWindowToSpace(void)
 {
-    if (verbose) puts("STUB: SLSTransactionAddWindowToSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionAddWindowToSpaceAndRemoveFromSpaces(void)
 {
-    if (verbose) puts("STUB: SLSTransactionAddWindowToSpaceAndRemoveFromSpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionBindSurface(void)
 {
-    if (verbose) puts("STUB: SLSTransactionBindSurface called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionClearMenuBarSystemOverrideAlphas(void)
 {
-    if (verbose) puts("STUB: SLSTransactionClearMenuBarSystemOverrideAlphas called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionClearWindowLockedBounds(void)
 {
-    if (verbose) puts("STUB: SLSTransactionClearWindowLockedBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionClearWindowSystemLevel(void)
 {
-    if (verbose) puts("STUB: SLSTransactionClearWindowSystemLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionCommit(void)
 {
-    if (verbose) puts("STUB: SLSTransactionCommit called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionCommitCoalescing(void)
 {
-    if (verbose) puts("STUB: SLSTransactionCommitCoalescing called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionCreate(void)
 {
-    if (verbose) puts("STUB: SLSTransactionCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionDeferWindowMoveEvents(void)
 {
-    if (verbose) puts("STUB: SLSTransactionDeferWindowMoveEvents called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionDestroySpace(void)
 {
-    if (verbose) puts("STUB: SLSTransactionDestroySpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLSTransactionGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionHideSpace(void)
 {
-    if (verbose) puts("STUB: SLSTransactionHideSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionMoveWindowWithGroup(void)
 {
-    if (verbose) puts("STUB: SLSTransactionMoveWindowWithGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionMoveWindowsToManagedSpace(void)
 {
-    if (verbose) puts("STUB: SLSTransactionMoveWindowsToManagedSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionOrderSurface(void)
 {
-    if (verbose) puts("STUB: SLSTransactionOrderSurface called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionOrderWindow(void)
 {
-    if (verbose) puts("STUB: SLSTransactionOrderWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionOrderWindowGroup(void)
 {
-    if (verbose) puts("STUB: SLSTransactionOrderWindowGroup called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionOverrideAppSleepNotifications(void)
 {
-    if (verbose) puts("STUB: SLSTransactionOverrideAppSleepNotifications called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionPostBroadcastNotification(void)
 {
-    if (verbose) puts("STUB: SLSTransactionPostBroadcastNotification called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionPostNotificationToConnection(void)
 {
-    if (verbose) puts("STUB: SLSTransactionPostNotificationToConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionRemoveWindowFromSpace(void)
 {
-    if (verbose) puts("STUB: SLSTransactionRemoveWindowFromSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionRemoveWindowFromSpaces(void)
 {
-    if (verbose) puts("STUB: SLSTransactionRemoveWindowFromSpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionResetSpaceMenuBar(void)
 {
-    if (verbose) puts("STUB: SLSTransactionResetSpaceMenuBar called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionResetWindow(void)
 {
-    if (verbose) puts("STUB: SLSTransactionResetWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionResetWindowSubLevel(void)
 {
-    if (verbose) puts("STUB: SLSTransactionResetWindowSubLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetBackdropChameleonContribution(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetBackdropChameleonContribution called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetChameleonUpdatesEnabled(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetChameleonUpdatesEnabled called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetClientAdvisory(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetClientAdvisory called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetEventCapture(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetEventCapture called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetManagedDisplayCurrentSpace(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetManagedDisplayCurrentSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetManagedDisplayIsAnimating(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetManagedDisplayIsAnimating called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetMenuBarBounds(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetMenuBarBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetMenuBarSystemOverrideAlpha(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetMenuBarSystemOverrideAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetSpaceAbsoluteLevel(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetSpaceAbsoluteLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetSpaceAlpha(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetSpaceAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetSpaceOrderingWeight(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetSpaceOrderingWeight called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetSpaceShape(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetSpaceShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetSpaceTransform(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetSpaceTransform called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetSurfaceBounds(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetSurfaceBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetSurfaceOpacity(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetSurfaceOpacity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetSurfaceResolution(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetSurfaceResolution called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowAlpha(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowBrightness(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowBrightness called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowGlobalClipShape(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowGlobalClipShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowLevel(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowLockedBounds(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowLockedBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowOpaqueShape(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowOpaqueShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowProperty(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowProperty called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowReleasesBackingOnOrderOut(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowReleasesBackingOnOrderOut called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowResolution(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowResolution called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowShape(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowSubLevel(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowSubLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowSystemAlpha(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowSystemAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowSystemLevel(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowSystemLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowTransform(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowTransform called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSetWindowWarp(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSetWindowWarp called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionShowSpace(void)
 {
-    if (verbose) puts("STUB: SLSTransactionShowSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionSpaceTileMoveToSpaceAtIndex(void)
 {
-    if (verbose) puts("STUB: SLSTransactionSpaceTileMoveToSpaceAtIndex called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionUpdateRegion(void)
 {
-    if (verbose) puts("STUB: SLSTransactionUpdateRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTransactionWillSwitchSpaces(void)
 {
-    if (verbose) puts("STUB: SLSTransactionWillSwitchSpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSTranslatePointForWindow(void)
 {
-    if (verbose) puts("STUB: SLSTranslatePointForWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUniqueSurfaceID(void)
 {
-    if (verbose) puts("STUB: SLSUniqueSurfaceID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUnlockWindowBackingStore(void)
 {
-    if (verbose) puts("STUB: SLSUnlockWindowBackingStore called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUnlockWindowBits(void)
 {
-    if (verbose) puts("STUB: SLSUnlockWindowBits called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUnlockWindowRectBits(void)
 {
-    if (verbose) puts("STUB: SLSUnlockWindowRectBits called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUnlockWindowVisibleRegion(void)
 {
-    if (verbose) puts("STUB: SLSUnlockWindowVisibleRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUnpackDeferredUpdateNotification(void)
 {
-    if (verbose) puts("STUB: SLSUnpackDeferredUpdateNotification called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUnregisterUpdateInformationHandler(void)
 {
-    if (verbose) puts("STUB: SLSUnregisterUpdateInformationHandler called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUnregisterWindowWithSystemStatusBar(void)
 {
-    if (verbose) puts("STUB: SLSUnregisterWindowWithSystemStatusBar called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUnshieldCursor(void)
 {
-    if (verbose) puts("STUB: SLSUnshieldCursor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUpdateCurrentSessionWorkspaceData(void)
 {
-    if (verbose) puts("STUB: SLSUpdateCurrentSessionWorkspaceData called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUpdateLastEventTime(void)
 {
-    if (verbose) puts("STUB: SLSUpdateLastEventTime called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUpdateSystemActivity(void)
 {
-    if (verbose) puts("STUB: SLSUpdateSystemActivity called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUpdateWindowAnimationEdges(void)
 {
-    if (verbose) puts("STUB: SLSUpdateWindowAnimationEdges called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSUpdateWindowAnimationOrigin(void)
 {
-    if (verbose) puts("STUB: SLSUpdateWindowAnimationOrigin called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSValidateUnobscuredLayerSecurityToken(void)
 {
-    if (verbose) puts("STUB: SLSValidateUnobscuredLayerSecurityToken called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWaitOnCoalescedUpdates(void)
 {
-    if (verbose) puts("STUB: SLSWaitOnCoalescedUpdates called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWarpCursorPosition(void)
 {
-    if (verbose) puts("STUB: SLSWarpCursorPosition called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWasBootApplePreserved(void)
 {
-    if (verbose) puts("STUB: SLSWasBootApplePreserved called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWillSwitchSpaces(void)
 {
-    if (verbose) puts("STUB: SLSWillSwitchSpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowAnimationChangeLevel(void)
 {
-    if (verbose) puts("STUB: SLSWindowAnimationChangeLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowAnimationChangeShiftPoint(void)
 {
-    if (verbose) puts("STUB: SLSWindowAnimationChangeShiftPoint called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowAnimationChangeSubLevel(void)
 {
-    if (verbose) puts("STUB: SLSWindowAnimationChangeSubLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowAnimationHideSlot(void)
 {
-    if (verbose) puts("STUB: SLSWindowAnimationHideSlot called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowAnimationSetParent(void)
 {
-    if (verbose) puts("STUB: SLSWindowAnimationSetParent called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropActivate(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropActivate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropActivateAll(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropActivateAll called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropBlendModeStringToEnum(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropBlendModeStringToEnum called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropCreateWithLevel(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropCreateWithLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropCreateWithLevelAndMask(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropCreateWithLevelAndMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropCreateWithLevelAndTintColor(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropCreateWithLevelAndTintColor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropDeactivate(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropDeactivate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropDeactivateAll(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropDeactivateAll called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropMaterialStringToEnum(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropMaterialStringToEnum called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropRelease(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropRelease called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropSetSaturation(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropSetSaturation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowBackdropSetSelectionTintColor(void)
 {
-    if (verbose) puts("STUB: SLSWindowBackdropSetSelectionTintColor called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowDirtyRegionSeed(void)
 {
-    if (verbose) puts("STUB: SLSWindowDirtyRegionSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowFreezeBackdrops(void)
 {
-    if (verbose) puts("STUB: SLSWindowFreezeBackdrops called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowFreezeWithOptions(void)
 {
-    if (verbose) puts("STUB: SLSWindowFreezeWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowGetTileRect(void)
 {
-    if (verbose) puts("STUB: SLSWindowGetTileRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIsOnCurrentSpace(void)
 {
-    if (verbose) puts("STUB: SLSWindowIsOnCurrentSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIsOrderedIn(void)
 {
-    if (verbose) puts("STUB: SLSWindowIsOrderedIn called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIsVisible(void)
 {
-    if (verbose) puts("STUB: SLSWindowIsVisible called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorAdvance(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorAdvance called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorCopyAttachedWindows(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorCopyAttachedWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorCopySpaces(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorCopySpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorCopyTitle(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorCopyTitle called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetAlpha(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetAlpha called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetAttachedWindowCount(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetAttachedWindowCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetAttributes(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetAttributes called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetBounds(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetConstraints(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetConstraints called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetCount(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetFrameBounds(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetFrameBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetLevel(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetMatchingSpaceID(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetMatchingSpaceID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetOwner(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetOwner called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetPID(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetPID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetPSN(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetPSN called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetParentID(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetParentID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetScreenRect(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetScreenRect called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetSpaceAttributes(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetSpaceAttributes called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetSpaceCount(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetSpaceCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetSpaceTypeMask(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetSpaceTypeMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetTags(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetTags called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorGetWindowID(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorGetWindowID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowIteratorIsInSpace(void)
 {
-    if (verbose) puts("STUB: SLSWindowIteratorIsInSpace called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowListSetLockedBounds(void)
 {
-    if (verbose) puts("STUB: SLSWindowListSetLockedBounds called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQueryCopyValue(void)
 {
-    if (verbose) puts("STUB: SLSWindowQueryCopyValue called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQueryCreate(void)
 {
-    if (verbose) puts("STUB: SLSWindowQueryCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQueryGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLSWindowQueryGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQueryResultCopyManagedDisplays(void)
 {
-    if (verbose) puts("STUB: SLSWindowQueryResultCopyManagedDisplays called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQueryResultCopySpaces(void)
 {
-    if (verbose) puts("STUB: SLSWindowQueryResultCopySpaces called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQueryResultCopyWindows(void)
 {
-    if (verbose) puts("STUB: SLSWindowQueryResultCopyWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQueryResultGetManagedDisplayCount(void)
 {
-    if (verbose) puts("STUB: SLSWindowQueryResultGetManagedDisplayCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQueryResultGetSpaceCount(void)
 {
-    if (verbose) puts("STUB: SLSWindowQueryResultGetSpaceCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQueryResultGetTypeID(void)
 {
-    if (verbose) puts("STUB: SLSWindowQueryResultGetTypeID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQueryResultGetWindowCount(void)
 {
-    if (verbose) puts("STUB: SLSWindowQueryResultGetWindowCount called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQueryRun(void)
 {
-    if (verbose) puts("STUB: SLSWindowQueryRun called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQuerySetValue(void)
 {
-    if (verbose) puts("STUB: SLSWindowQuerySetValue called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowQueryWindows(void)
 {
-    if (verbose) puts("STUB: SLSWindowQueryWindows called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowRightForKey(void)
 {
-    if (verbose) puts("STUB: SLSWindowRightForKey called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowRightKeyForMask(void)
 {
-    if (verbose) puts("STUB: SLSWindowRightKeyForMask called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowRightsSetGrantCompletedBlockForToken(void)
 {
-    if (verbose) puts("STUB: SLSWindowRightsSetGrantCompletedBlockForToken called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowRightsSetGrantOfferedBlockForToken(void)
 {
-    if (verbose) puts("STUB: SLSWindowRightsSetGrantOfferedBlockForToken called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowScrollRegion(void)
 {
-    if (verbose) puts("STUB: SLSWindowScrollRegion called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowSetActiveShadowLegacy(void)
 {
-    if (verbose) puts("STUB: SLSWindowSetActiveShadowLegacy called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowSetBackdropBackgroundBleed(void)
 {
-    if (verbose) puts("STUB: SLSWindowSetBackdropBackgroundBleed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowSetKeepsExcessBackingAllocation(void)
 {
-    if (verbose) puts("STUB: SLSWindowSetKeepsExcessBackingAllocation called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowSetResizeRegionShape(void)
 {
-    if (verbose) puts("STUB: SLSWindowSetResizeRegionShape called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowSetShadowProperties(void)
 {
-    if (verbose) puts("STUB: SLSWindowSetShadowProperties called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowSetTrustedForObscuring(void)
 {
-    if (verbose) puts("STUB: SLSWindowSetTrustedForObscuring called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowThaw(void)
 {
-    if (verbose) puts("STUB: SLSWindowThaw called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowThawBackdrops(void)
 {
-    if (verbose) puts("STUB: SLSWindowThawBackdrops called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSWindowVisibleRegionSeed(void)
 {
-    if (verbose) puts("STUB: SLSWindowVisibleRegionSeed called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSZoomPoint(void)
 {
-    if (verbose) puts("STUB: SLSZoomPoint called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLScreenRegisterMoveCallback(void)
 {
-    if (verbose) puts("STUB: SLScreenRegisterMoveCallback called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLScreenUnregisterMoveCallback(void)
 {
-    if (verbose) puts("STUB: SLScreenUnregisterMoveCallback called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSecureCursorAssertionCreate(void)
 {
-    if (verbose) puts("STUB: SLSecureCursorAssertionCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSecureCursorAssertionInvalidate(void)
 {
-    if (verbose) puts("STUB: SLSecureCursorAssertionInvalidate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSecureCursorAssertionIsValid(void)
 {
-    if (verbose) puts("STUB: SLSecureCursorAssertionIsValid called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSessionCopyCurrentDictionary(void)
 {
-    if (verbose) puts("STUB: SLSessionCopyCurrentDictionary called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSessionOwnerCopyXPCSerializationAndInvalidate(void)
 {
-    if (verbose) puts("STUB: SLSessionOwnerCopyXPCSerializationAndInvalidate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSessionOwnerCreateBySettingLoginwindowConnection(void)
 {
-    if (verbose) puts("STUB: SLSessionOwnerCreateBySettingLoginwindowConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSessionOwnerCreateNewSessionWithAuditSessionID(void)
 {
-    if (verbose) puts("STUB: SLSessionOwnerCreateNewSessionWithAuditSessionID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSessionOwnerCreateWithPort(void)
 {
-    if (verbose) puts("STUB: SLSessionOwnerCreateWithPort called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSessionOwnerCreateWithXPCSerialization(void)
 {
-    if (verbose) puts("STUB: SLSessionOwnerCreateWithXPCSerialization called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSessionOwnerGetAuditSessionID(void)
 {
-    if (verbose) puts("STUB: SLSessionOwnerGetAuditSessionID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSessionOwnerGetSessionID(void)
 {
-    if (verbose) puts("STUB: SLSessionOwnerGetSessionID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSessionOwnerIsValid(void)
 {
-    if (verbose) puts("STUB: SLSessionOwnerIsValid called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSetDisplayTransferByByteTable(void)
 {
-    if (verbose) puts("STUB: SLSetDisplayTransferByByteTable called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSetDisplayTransferByFormula(void)
 {
-    if (verbose) puts("STUB: SLSetDisplayTransferByFormula called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSetDisplayTransferByTable(void)
 {
-    if (verbose) puts("STUB: SLSetDisplayTransferByTable called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSetLocalEventsFilterDuringSuppressionState(void)
 {
-    if (verbose) puts("STUB: SLSetLocalEventsFilterDuringSuppressionState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSetLocalEventsFilterDuringSupressionState(void)
 {
-    if (verbose) puts("STUB: SLSetLocalEventsFilterDuringSupressionState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLSetLocalEventsSuppressionInterval(void)
 {
-    if (verbose) puts("STUB: SLSetLocalEventsSuppressionInterval called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLShieldingWindowID(void)
 {
-    if (verbose) puts("STUB: SLShieldingWindowID called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLShieldingWindowLevel(void)
 {
-    if (verbose) puts("STUB: SLShieldingWindowLevel called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLUnregisterScreenRefreshCallback(void)
 {
-    if (verbose) puts("STUB: SLUnregisterScreenRefreshCallback called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWaitForScreenRefreshRects(void)
 {
-    if (verbose) puts("STUB: SLWaitForScreenRefreshRects called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWaitForScreenUpdateRects(void)
 {
-    if (verbose) puts("STUB: SLWaitForScreenUpdateRects called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWarpMouseCursorPosition(void)
 {
-    if (verbose) puts("STUB: SLWarpMouseCursorPosition called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowContextCreate(void)
 {
-    if (verbose) puts("STUB: SLWindowContextCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowContextCreateImage(void)
 {
-    if (verbose) puts("STUB: SLWindowContextCreateImage called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowContextGetConnection(void)
 {
-    if (verbose) puts("STUB: SLWindowContextGetConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowContextGetWindow(void)
 {
-    if (verbose) puts("STUB: SLWindowContextGetWindow called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowLevelForKey(void)
 {
-    if (verbose) puts("STUB: SLWindowLevelForKey called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowListCopyWindowInfo(void)
 {
-    if (verbose) puts("STUB: SLWindowListCopyWindowInfo called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowListCreate(void)
 {
-    if (verbose) puts("STUB: SLWindowListCreate called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowListCreateArray(void)
 {
-    if (verbose) puts("STUB: SLWindowListCreateArray called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowListCreateDescriptionFromArray(void)
 {
-    if (verbose) puts("STUB: SLWindowListCreateDescriptionFromArray called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowListCreateImage(void)
 {
-    if (verbose) puts("STUB: SLWindowListCreateImage called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowListCreateImageFromArray(void)
 {
-    if (verbose) puts("STUB: SLWindowListCreateImageFromArray called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowServerCFMachPort(void)
 {
-    if (verbose) puts("STUB: SLWindowServerCFMachPort called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLWindowServerCreateServerPort(void)
 {
-    if (verbose) puts("STUB: SLWindowServerCreateServerPort called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* SLXServer(void)
 {
-    if (verbose) puts("STUB: SLXServer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* _SLDisplayCapturedByPsn(void)
 {
-    if (verbose) puts("STUB: _SLDisplayCapturedByPsn called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* _SLPSCreateStubApplicationWithConnection(void)
 {
-    if (verbose) puts("STUB: _SLPSCreateStubApplicationWithConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* _SLPSEqualProcess(void)
 {
-    if (verbose) puts("STUB: _SLPSEqualProcess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* _SLPSGetCurrentProcess(void)
 {
-    if (verbose) puts("STUB: _SLPSGetCurrentProcess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* _SLPSGetFrontProcess(void)
 {
-    if (verbose) puts("STUB: _SLPSGetFrontProcess called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* _SLPSRegisterWithServer(void)
 {
-    if (verbose) puts("STUB: _SLPSRegisterWithServer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* _SLPSSetFrontProcessWithOptions(void)
 {
-    if (verbose) puts("STUB: _SLPSSetFrontProcessWithOptions called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* _SLSDefaultConnection(void)
 {
-    if (verbose) puts("STUB: _SLSDefaultConnection called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsAttachDrawable(void)
 {
-    if (verbose) puts("STUB: slglsAttachDrawable called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsAttachPBuffer(void)
 {
-    if (verbose) puts("STUB: slglsAttachPBuffer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsAttachState(void)
 {
-    if (verbose) puts("STUB: slglsAttachState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsCreateContext(void)
 {
-    if (verbose) puts("STUB: slglsCreateContext called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsCreatePBuffer(void)
 {
-    if (verbose) puts("STUB: slglsCreatePBuffer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsDestroyContext(void)
 {
-    if (verbose) puts("STUB: slglsDestroyContext called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsDestroyPBuffer(void)
 {
-    if (verbose) puts("STUB: slglsDestroyPBuffer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsDestroyRendererInfo(void)
 {
-    if (verbose) puts("STUB: slglsDestroyRendererInfo called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsGetInteger(void)
 {
-    if (verbose) puts("STUB: slglsGetInteger called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsGetPixelFormat(void)
 {
-    if (verbose) puts("STUB: slglsGetPixelFormat called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsGetState(void)
 {
-    if (verbose) puts("STUB: slglsGetState called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsGetSurface(void)
 {
-    if (verbose) puts("STUB: slglsGetSurface called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsGetVirtualScreen(void)
 {
-    if (verbose) puts("STUB: slglsGetVirtualScreen called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsQueryRendererInfo(void)
 {
-    if (verbose) puts("STUB: slglsQueryRendererInfo called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsSetInteger(void)
 {
-    if (verbose) puts("STUB: slglsSetInteger called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsTexImageIOSurface2D(void)
 {
-    if (verbose) puts("STUB: slglsTexImageIOSurface2D called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }
 
 void* slglsTexImagePBuffer(void)
 {
-    if (verbose) puts("STUB: slglsTexImagePBuffer called");
+    OSXIE_STUB_CALLED;
     return NULL;
 }

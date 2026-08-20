@@ -21,14 +21,13 @@
 
 @implementation UNNotificationContent
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
-{
-    return [NSMethodSignature signatureWithObjCTypes: "v@:"];
-}
+@synthesize title = _title;
+@synthesize subtitle = _subtitle;
+@synthesize body = _body;
+@synthesize userInfo = _userInfo;
 
-- (void)forwardInvocation:(NSInvocation *)anInvocation
-{
-    NSLog(@"Stub called: %@ in %@", NSStringFromSelector([anInvocation selector]), [self class]);
-}
+@end
+
+@implementation UNMutableNotificationContent
 
 @end

@@ -43,6 +43,36 @@ class GARS:
                     "pattern": "brew.*freeze|stuck|hang",
                     "cause": "Network syscalls blocking in Osxie container",
                     "solution": "fix_network_syscalls"
+                },
+                "QLPreviewPanel": {
+                    "pattern": "QLPreviewPanel.*unrecognized selector|sharedPreviewPanelExists",
+                    "cause": "QLPreviewPanel missing class methods (already fixed in stub)",
+                    "solution": "already_fixed"
+                },
+                "NSForwardSignatureError": {
+                    "pattern": "NSForwardSignatureError.*setAccessibility",
+                    "cause": "Accessibility forwarding uses wrong ObjC signature for setters",
+                    "solution": "fix_accessibility_signature"
+                },
+                "MissingSymbol": {
+                    "pattern": "dyld: Symbol not found",
+                    "cause": "Dynamic linker cannot find a required symbol in any loaded framework",
+                    "solution": "add_missing_symbol_stub"
+                },
+                "ServerCrash": {
+                    "pattern": "semaphore_signal failed.*-111|ECONNREFUSED",
+                    "cause": "osxieserver crashed or was killed, guest RPC connections lost",
+                    "solution": "restart_osxieserver"
+                },
+                "MetalDisabled": {
+                    "pattern": "MTKView.*Metal disabled|MTLCreateSystemDefaultDevice.*nil",
+                    "cause": "Metal/Vulkan backend not compiled (ENABLE_METAL=OFF)",
+                    "solution": "already_handled"
+                },
+                "MemoryCorruption": {
+                    "pattern": "malloc.*pointer being freed|SIGSEGV.*establishConnections|SIGABRT.*NSNib",
+                    "cause": "Use-after-free or corruption in NIB decoding/bindings pipeline",
+                    "solution": "needs_asan_investigation"
                 }
             }
             

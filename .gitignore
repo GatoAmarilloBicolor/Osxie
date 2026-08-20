@@ -35,6 +35,19 @@ tests
 # The suggested build folder
 build
 build_new/
+build_all/
+
+# Install artifacts
+install/
+installlibexec/
+
+# Certs / test artifacts
+certs/
+default.profraw
+*.profraw
+analysis-issue-23.c
+cinctest.c
+framework-include/SecurityTokend
 
 rpm/SOURCES
 rpm/RPMS

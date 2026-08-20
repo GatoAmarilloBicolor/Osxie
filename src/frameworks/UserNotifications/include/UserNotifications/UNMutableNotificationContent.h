@@ -17,8 +17,8 @@
  along with Osxie.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <Foundation/Foundation.h>
+#include <UserNotifications/UNNotificationContent.h>
 
-@interface UNMutableNotificationContent : NSObject
+@interface UNMutableNotificationContent : UNNotificationContent
 
 @end

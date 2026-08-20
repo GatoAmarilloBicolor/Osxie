@@ -78,17 +78,17 @@ osxie shell --prefix=/path/to/prefix
 
 ## Changelog
 
-### Rename: Osxie -> Osxie
+### Rename: Darling -> Osxie
 
-The entire codebase was systematically renamed from Osxie to Osxie:
+The entire codebase was systematically renamed from Darling to Osxie:
 
 - **Root CMakeLists.txt**: Project renamed to `osxie`, all install paths changed to `libexec/osxie`
-- **Binary renamed**: `osxie` -> `osxie`
-- **Source files**: `osxie.c` -> `osxie.c`, `osxie.h` -> `osxie.h` in `src/startup/`
+- **Binary renamed**: `darling` -> `osxie`
+- **Source files**: `darling.c` -> `osxie.c`, `darling.h` -> `osxie.h` in `src/startup/`
 - **Config header**: `osixie-config.h` -> `osxie-config.h` (with backward-compat symlink)
-- **Type renames**: `osxie_thread_create_callbacks_t` -> `osxie_thread_create_callbacks_t`
-- **Struct renames**: `struct elf_calls` members renamed (e.g., `osxie_thread_create` -> `osxie_thread_create`)
-- **Install prefix**: `/usr/local/libexec/osxie` (independent from any Osxie installation)
+- **Type renames**: `darling_thread_create_callbacks_t` -> `osxie_thread_create_callbacks_t`
+- **Struct renames**: `struct elf_calls` members renamed (e.g., `darling_thread_create` -> `osxie_thread_create`)
+- **Install prefix**: `/usr/local/libexec/osxie` (independent from any Darling installation)
 - **Symlinks**: `/etc/osxie`, `/Volumes/OsxieEmulatedDrive`
 
 ### Bug Fixes
@@ -100,12 +100,11 @@ The entire codebase was systematically renamed from Osxie to Osxie:
 - **Release builds**: Added `-O2 -DNDEBUG -fno-strict-aliasing` flags
 - **osixie-config.h**: Created backward-compat symlink in build dir for external submodules
 
-## In Progress 🚧
+## In Progress
 
-- iTerm2 
-- VSCode
-- Discord
-- Slack
+- iTerm2 (stable, dark theme, system tray working)
+- Homebrew Casks (hdiutil attach/detach working, convert pending)
+- Native notifications via D-Bus (in progress)
 
 ## New Components
 
@@ -115,7 +114,11 @@ The entire codebase was systematically renamed from Osxie to Osxie:
 
 ## Component Exclusions
 
-- **JavaScriptCore / WebKit**: Disabled from default build due to pre-existing LLInt opcode label generation issues (undeclared labels for `op_iterator_open`, `op_call_varargs`, etc.). These will be re-enabled once the upstream build system is fixed.
+- **JavaScriptCore / WebKit**: WebKit builds with `COMPONENTS=all`. LLInt and `getNonReifiedStaticPropertyNames` fixes applied (Issues 19-20).
+- **Metal**: Disabled by default (`ENABLE_METAL=OFF`). MTKView and SkyLight Metal stubs return nil gracefully. To enable, set Vulkan+LLVM on host and `-DENABLE_METAL=ON`.
+- **Bluetooth**: IOBluetooth/IOBluetoothUI are 100% stubs — no BlueZ/D-Bus integration.
+- **Spotlight**: Spotlight/SpotlightDaemon/SpotlightIndex are skeleton stubs — no real indexing.
+- **Printing**: CUPS present at system level, but macOS PMPrintSettings/PMPrinter APIs are stubs.
 
 ## Architecture
 
@@ -165,10 +168,10 @@ Osxie/
 
 Areas where help is needed:
 
-- Fixing JavaScriptCore LLInt build (re-enable WebKit)
-- Adding Metal support via Vulkan
-- Improving GUI framework coverage
-- Testing with more applications (iTerm2, Homebrew, etc.)
+- Bluetooth stack (BlueZ/D-Bus integration for IOBluetooth)
+- Spotlight indexing (CSSearchableIndex/NSMetadataQuery)
+- Printing dialog (PMPrinter/PMPrintSettings connected to CUPS)
+- Metal/Vulkan backend stabilization (Indium memory issues)
 - ARM64 cross-compilation support
 
 ## License

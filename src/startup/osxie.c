@@ -88,6 +88,40 @@ int main(int argc, char ** argv)
 
 	if (geteuid() != 0)
 	{
+		char self_path[4096];
+		int len = readlink("/proc/self/exe", self_path, sizeof(self_path) - 1);
+		if (len < 0)
+			len = snprintf(self_path, sizeof(self_path), "%s", argv[0]);
+		else
+			self_path[len] = '\0';
+
+		char *elevated_argv[argc + 2];
+		for (int i = 1; i < argc; i++)
+			elevated_argv[i + 1] = argv[i];
+		elevated_argv[argc + 1] = NULL;
+
+		fprintf(stderr, "Not running as root, attempting privilege escalation...\n");
+
+		if (access("/usr/bin/pkexec", X_OK) == 0) {
+			elevated_argv[0] = "/usr/bin/pkexec";
+			elevated_argv[1] = self_path;
+			execv("/usr/bin/pkexec", elevated_argv);
+		}
+
+		char *sudo_path = NULL;
+		const char *sudo_candidates[] = { "/usr/bin/sudo", "/bin/sudo", NULL };
+		for (int i = 0; sudo_candidates[i]; i++) {
+			if (access(sudo_candidates[i], X_OK) == 0) {
+				sudo_path = (char *)sudo_candidates[i];
+				break;
+			}
+		}
+		if (sudo_path) {
+			elevated_argv[0] = sudo_path;
+			elevated_argv[1] = self_path;
+			execv(sudo_path, elevated_argv);
+		}
+
 		missingSetuidRoot();
 		return 1;
 	}
@@ -236,11 +270,31 @@ int main(int argc, char ** argv)
 		}
 
 		char *fullPath;
-		char *path = realpath(argv[argvIndex], NULL);
+		char *name = argv[argvIndex];
+		char *path = realpath(name, NULL);
+
+		if (path == NULL && strchr(name, '/') == NULL)
+		{
+			static const char *searchDirs[] = {
+				LIBEXEC_PATH "/usr/bin",
+				LIBEXEC_PATH "/usr/local/bin",
+				INSTALL_PREFIX "/bin",
+				NULL
+			};
+
+			for (int i = 0; searchDirs[i] != NULL; i++)
+			{
+				char candidate[4096];
+				snprintf(candidate, sizeof(candidate), "%s/%s", searchDirs[i], name);
+				path = realpath(candidate, NULL);
+				if (path != NULL)
+					break;
+			}
+		}
 
 		if (path == NULL)
 		{
-			printf("'%s' is not a supported command or a file.\n", argv[argvIndex]);
+			printf("'%s' is not a supported command or a file.\n", name);
 			return 1;
 		}
 

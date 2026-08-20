@@ -19,6 +19,35 @@
 
 #include <Foundation/Foundation.h>
 
+typedef NS_OPTIONS(NSUInteger, UNAuthorizationOptions) {
+    UNAuthorizationOptionBadge   = (1 << 0),
+    UNAuthorizationOptionSound   = (1 << 1),
+    UNAuthorizationOptionAlert   = (1 << 2),
+    UNAuthorizationOptionCarPlay = (1 << 3),
+};
+
+typedef NS_ENUM(NSUInteger, UNAuthorizationStatus) {
+    UNAuthorizationStatusNotDetermined = 0,
+    UNAuthorizationStatusDenied        = 1,
+    UNAuthorizationStatusAuthorized     = 2,
+    UNAuthorizationStatusProvisional    = 3,
+};
+
+@class UNNotificationSettings;
+@class UNNotificationRequest;
+
 @interface UNUserNotificationCenter : NSObject
+
+@property(weak) id delegate;
+
++ (UNUserNotificationCenter *)currentNotificationCenter;
+
+- (void)requestAuthorizationWithOptions:(UNAuthorizationOptions)options
+                      completionHandler:(void (^)(BOOL granted, NSError *error))handler;
+
+- (void)addNotificationRequest:(UNNotificationRequest *)request
+       withCompletionHandler:(void (^)(NSError *error))handler;
+
+- (void)getNotificationSettingsWithCompletionHandler:(void (^)(UNNotificationSettings *settings))handler;
 
 @end

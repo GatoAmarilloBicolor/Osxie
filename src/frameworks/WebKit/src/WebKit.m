@@ -7547,6 +7547,7 @@ void* _ZN6WebKit44setCrashReportApplicationSpecificInformationEPK10__CFString(vo
 
 // Stub: WebActionNavigationTypeKey (used by Audacity)
 NSString * const WebActionNavigationTypeKey = @"WebActionNavigationTypeKey";
+NSString * const WebActionOriginalURLKey = @"WebActionOriginalURLKey";
 
 // Stub: WebView progress notification constants (used by The Unarchiver/DevMateKit)
 NSString * const WebViewProgressEstimateChangedNotification = @"WebViewProgressEstimateChangedNotification";

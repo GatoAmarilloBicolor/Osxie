@@ -18,17 +18,61 @@
 */
 
 #import <UserNotifications/UNUserNotificationCenter.h>
+#import <UserNotifications/UNNotificationRequest.h>
+#import <UserNotifications/UNNotificationContent.h>
+#import <UserNotifications/UNNotificationSettings.h>
+#import <Foundation/NSBundle.h>
+#import <Foundation/NSProcessInfo.h>
+
+extern int osxie_dbus_portal_notify(void *portal, const char *app_name,
+                                    const char *summary, const char *body,
+                                    const char *icon_name);
 
 @implementation UNUserNotificationCenter
 
-- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector
-{
-    return [NSMethodSignature signatureWithObjCTypes: "v@:"];
+static UNUserNotificationCenter *_instance = nil;
+
++ (UNUserNotificationCenter *)currentNotificationCenter {
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _instance = [[UNUserNotificationCenter alloc] init];
+    });
+    return _instance;
 }
 
-- (void)forwardInvocation:(NSInvocation *)anInvocation
-{
-    NSLog(@"Stub called: %@ in %@", NSStringFromSelector([anInvocation selector]), [self class]);
+- (void)requestAuthorizationWithOptions:(UNAuthorizationOptions)options
+                      completionHandler:(void (^)(BOOL granted, NSError *error))handler {
+    if (handler) {
+        handler(YES, nil);
+    }
+}
+
+- (void)addNotificationRequest:(UNNotificationRequest *)request
+       withCompletionHandler:(void (^)(NSError *error))handler {
+    if (request && request.content) {
+        const char *appName = [[[NSBundle mainBundle] infoDictionary][@"CFBundleName"] UTF8String];
+        if (!appName) appName = [[[NSProcessInfo processInfo] processName] UTF8String];
+        const char *title = [request.content.title UTF8String];
+        const char *body = [request.content.body UTF8String];
+
+        if (osxie_dbus_portal_notify) {
+            osxie_dbus_portal_notify(NULL, appName,
+                title ? title : "",
+                body ? body : "",
+                "");
+        }
+    }
+    if (handler) {
+        handler(nil);
+    }
+}
+
+- (void)getNotificationSettingsWithCompletionHandler:(void (^)(UNNotificationSettings *settings))handler {
+    UNNotificationSettings *settings = [[UNNotificationSettings alloc] init];
+    settings->_authorizationStatus = 2; /* UNAuthorizationStatusAuthorized */
+    if (handler) {
+        handler(settings);
+    }
 }
 
 @end

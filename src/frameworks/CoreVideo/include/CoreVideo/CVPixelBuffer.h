@@ -77,6 +77,7 @@ enum
 };
 
 extern const CFStringRef kCVPixelBufferMetalCompatibilityKey;
+extern const CFStringRef kCVPixelBufferIOSurfaceOpenGLTextureCompatibilityKey;
 
 typedef CVImageBufferRef CVPixelBufferRef;
 typedef void (*CVPixelBufferReleaseBytesCallback)(void *releaseRefCon, const void *baseAddress);

@@ -452,3 +452,18 @@ into the runtime prefix `~/.osxie`, with **no setuid/sudo/pkexec every**:
   `libswift_Builtin_float` (each exports only the `__swift_FORCE_LOAD_$_swiftX`
   symbol the apps import). These unblock dyld for CotEditor, cpuinfo, IINA,
   Sequel Ace. Generated from `gl_probe/stubs/` (gitignored).
+
+### 40. Full submodule upstream audit (2026-08-20) — ALL UP-TO-DATE
+- Scanned all **152** first-level submodules against their upstream
+  (`origin/master` or `origin/main`). **146 are up-to-date (0 commits
+  pending)**; the 4 `libressl-*` show `up=1` but that is a false positive — the
+  darling `origin/master` (`52dbcfd "Initial commit"`) does not share history
+  with the `osxie-libressl` fork, and each directory's osxify HEAD is already
+  pushed to the fork branch `libressl-<ver>` (verified via `ls-remote`).
+- `openjdk`/`osxie-dmg` have no upstream branch (not applicable).
+- Nested submodules of `IOKitUser` (`darling/submodules/IOGraphics`,
+  `IOHIDFamily`) have no upstream branch either; left as-is (avoid risking the
+  build). `MITKerberosShim`/`SecurityTokend` verified `upstream+0`.
+- Repo root `master` in sync with `origin/master` (0 ahead/0 behind). Note a
+  concurrent session also pushed `1627ce6e5` (OpenGL NULL-surface guard +
+  CGLChoosePixelFormat off-by-one) which is already present locally and remote.

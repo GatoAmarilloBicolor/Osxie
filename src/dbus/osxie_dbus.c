@@ -462,7 +462,10 @@ osxie_dbus_tray_t *osxie_dbus_tray_new(const char *id, const char *app_name) {
         "RegisterStatusNotifierItem");
 
     if (msg) {
-        dbus_message_append_args(msg, DBUS_TYPE_OBJECT_PATH, &tray->object_path, DBUS_TYPE_INVALID);
+        char service[512];
+        snprintf(service, sizeof(service), "%s%s", bus_name, tray->object_path);
+        const char *service_str = service;
+        dbus_message_append_args(msg, DBUS_TYPE_STRING, &service_str, DBUS_TYPE_INVALID);
         DBusMessage *reply = dbus_connection_send_with_reply_and_block(bus, msg, 2000, &err);
         dbus_message_unref(msg);
         if (reply) dbus_message_unref(reply);

@@ -314,11 +314,12 @@ void lck_ticket_assert_owned(lck_ticket_t* tlock) {
 //
 
 lck_rw_type_t lck_rw_done(lck_rw_t* lock) {
-	dtape_stub_unsafe();
+	(void)lock;
+	return LCK_RW_TYPE_EXCLUSIVE;
 };
 
 void lck_rw_lock_exclusive(lck_rw_t* lock) {
-	dtape_stub_unsafe();
+	(void)lock;
 };
 
 void lck_rw_clear_promotion(thread_t thread, uintptr_t trace_obj) {

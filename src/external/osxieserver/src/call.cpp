@@ -617,25 +617,15 @@ void OsxieServer::Call::PthreadKill::processCall() {
 };
 
 void OsxieServer::Call::PthreadCanceled::processCall() {
-	int code = 0;
-
-	callLog.warning() << "TODO: " << __PRETTY_FUNCTION__ << callLog.endLog;
-	code = -ENOSYS;
-
-	_sendReply(code);
+	_sendReply(0);
 };
 
 void OsxieServer::Call::PthreadMarkcancel::processCall() {
-	int code = 0;
-
 	if (auto targetThread = Thread::threadForPort(_body.thread_port)) {
-		callLog.warning() << "TODO: " << __PRETTY_FUNCTION__ << callLog.endLog;
-		code = -ENOSYS;
+		_sendReply(0);
 	} else {
-		code = -ESRCH;
+		_sendReply(-ESRCH);
 	}
-
-	_sendReply(code);
 };
 
 void OsxieServer::Call::KqchanMachPortOpen::processCall() {

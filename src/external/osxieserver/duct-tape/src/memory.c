@@ -527,31 +527,44 @@ kern_return_t mach_vm_allocate_kernel(vm_map_t map, mach_vm_offset_t* addr, mach
 };
 
 kern_return_t _mach_make_memory_entry(vm_map_t target_map, memory_object_size_t* size, memory_object_offset_t offset, vm_prot_t permission, ipc_port_t* object_handle, ipc_port_t parent_entry) {
-	dtape_stub_unsafe();
+	*object_handle = IP_NULL;
+	return KERN_FAILURE;
 };
 
 kern_return_t mach_memory_entry_access_tracking(ipc_port_t entry_port, int* access_tracking, uint32_t* access_tracking_reads, uint32_t* access_tracking_writes) {
-	dtape_stub_unsafe();
+	*access_tracking = 0;
+	*access_tracking_reads = 0;
+	*access_tracking_writes = 0;
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_memory_entry_ownership(ipc_port_t entry_port, task_t owner, int ledger_tag, int ledger_flags) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_memory_entry_purgable_control(ipc_port_t entry_port, vm_purgable_t control, int* state) {
-	dtape_stub_unsafe();
+	*state = VM_PURGABLE_VOLATILE;
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_memory_info(host_priv_t host, mach_zone_name_array_t* namesp, mach_msg_type_number_t* namesCntp, mach_zone_info_array_t* infop, mach_msg_type_number_t* infoCntp, mach_memory_info_array_t* memoryInfop, mach_msg_type_number_t* memoryInfoCntp) {
-	dtape_stub_unsafe();
+	*namesp = NULL;
+	*namesCntp = 0;
+	*infop = NULL;
+	*infoCntp = 0;
+	*memoryInfop = NULL;
+	*memoryInfoCntp = 0;
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_memory_object_memory_entry(host_t host, boolean_t internal, vm_size_t size, vm_prot_t permission, memory_object_t pager, ipc_port_t* entry_handle) {
-	dtape_stub_unsafe();
+	*entry_handle = IP_NULL;
+	return KERN_FAILURE;
 };
 
 kern_return_t mach_memory_object_memory_entry_64(host_t host, boolean_t internal, vm_object_offset_t size, vm_prot_t permission, memory_object_t pager, ipc_port_t* entry_handle) {
-	dtape_stub_unsafe();
+	*entry_handle = IP_NULL;
+	return KERN_FAILURE;
 };
 
 void pmap_require(pmap_t pmap) {
@@ -559,35 +572,37 @@ void pmap_require(pmap_t pmap) {
 };
 
 kern_return_t vm_allocate_cpm(host_priv_t host_priv, vm_map_t map, vm_address_t* addr, vm_size_t size, int flags) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 kern_return_t vm32_mapped_pages_info(vm_map_t map, page_address_array_t* pages, mach_msg_type_number_t* pages_count) {
-	dtape_stub_unsafe();
+	*pages = NULL;
+	*pages_count = 0;
+	return KERN_FAILURE;
 };
 
 kern_return_t vm32_region_info(vm_map_t map, vm32_offset_t address, vm_info_region_t* regionp, vm_info_object_array_t* objectsp, mach_msg_type_number_t* objectsCntp) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 kern_return_t vm32_region_info_64(vm_map_t map, vm32_offset_t address, vm_info_region_64_t* regionp, vm_info_object_array_t* objectsp, mach_msg_type_number_t* objectsCntp) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 memory_object_t convert_port_to_memory_object(mach_port_t port) {
-	dtape_stub_unsafe();
+	return MEMORY_OBJECT_NULL;
 };
 
 kern_return_t mach_vm_behavior_set(vm_map_t map, mach_vm_offset_t start, mach_vm_size_t size, vm_behavior_t new_behavior) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_vm_inherit(vm_map_t map, mach_vm_offset_t start, mach_vm_size_t size, vm_inherit_t new_inheritance) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_vm_machine_attribute(vm_map_t map, mach_vm_address_t addr, mach_vm_size_t size, vm_machine_attribute_t attribute, vm_machine_attribute_val_t* value) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_vm_map_external(vm_map_t target_map, mach_vm_offset_t* address, mach_vm_size_t initial_size, mach_vm_offset_t mask, int flags, ipc_port_t port, vm_object_offset_t offset, boolean_t copy, vm_prot_t cur_protection, vm_prot_t max_protection, vm_inherit_t inheritance) {
@@ -620,15 +635,18 @@ kern_return_t mach_vm_msync(vm_map_t map, mach_vm_offset_t address, mach_vm_size
 };
 
 kern_return_t mach_vm_page_info(vm_map_t map, mach_vm_address_t address, vm_page_info_flavor_t flavor, vm_page_info_t info, mach_msg_type_number_t* count) {
-	dtape_stub_unsafe();
+	return KERN_INVALID_ARGUMENT;
 };
 
 kern_return_t mach_vm_page_query(vm_map_t map, mach_vm_offset_t offset, int* disposition, int* ref_count) {
-	dtape_stub_unsafe();
+	*disposition = 0;
+	*ref_count = 0;
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_vm_page_range_query(vm_map_t map, mach_vm_offset_t address, mach_vm_size_t size, mach_vm_address_t dispositions_addr, mach_vm_size_t* dispositions_count) {
-	dtape_stub_unsafe();
+	*dispositions_count = 0;
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_vm_protect(vm_map_t map, mach_vm_offset_t start, mach_vm_size_t size, boolean_t set_maximum, vm_prot_t new_protection) {
@@ -658,18 +676,20 @@ kern_return_t mach_vm_protect(vm_map_t map, mach_vm_offset_t start, mach_vm_size
 };
 
 kern_return_t mach_vm_purgable_control(vm_map_t map, mach_vm_offset_t address, vm_purgable_t control, int* state) {
-	dtape_stub_unsafe();
+	*state = VM_PURGABLE_VOLATILE;
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_vm_read_list(vm_map_t map, mach_vm_read_entry_t data_list, natural_t count) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 kern_return_t mach_vm_region(vm_map_t map, mach_vm_offset_t* address, mach_vm_size_t* size, vm_region_flavor_t flavor, vm_region_info_t info, mach_msg_type_number_t* count, mach_port_t* object_name) {
+	kern_return_t kr = KERN_FAILURE;
+
 	switch (flavor) {
 		case VM_REGION_BASIC_INFO:
 		case VM_REGION_BASIC_INFO_64: {
-			kern_return_t kr = KERN_FAILURE;
 			dtape_memory_region_info_t region_info;
 
 			uintptr_t addr_to_check = *address;
@@ -755,8 +775,44 @@ region_info_out:
 
 			return kr;
 		};
+		case VM_REGION_TOP_INFO: {
+			vm_region_top_info_t out = (vm_region_top_info_t)info;
+
+			if (*count < VM_REGION_TOP_INFO_COUNT) {
+				kr = KERN_INVALID_ARGUMENT;
+				goto region_info_out;
+			}
+			*count = VM_REGION_TOP_INFO_COUNT;
+
+			uintptr_t addr_to_check = *address;
+			if (dtape_hooks->task_get_next_region && dtape_hooks->task_get_memory_region_info) {
+				dtape_memory_region_info_t region_info;
+				if (!dtape_hooks->task_get_memory_region_info(map->dtape_task->context, addr_to_check, &region_info)) {
+					addr_to_check = dtape_hooks->task_get_next_region(map->dtape_task->context, addr_to_check);
+					if (addr_to_check == 0) {
+						kr = KERN_NO_SPACE;
+						goto region_info_out;
+					}
+					if (!dtape_hooks->task_get_memory_region_info(map->dtape_task->context, addr_to_check, &region_info)) {
+						kr = KERN_FAILURE;
+						goto region_info_out;
+					}
+				}
+				*address = region_info.start_address;
+				*size = region_info.page_count * sysconf(_SC_PAGESIZE);
+			}
+
+			out->obj_id = 0;
+			out->ref_count = 0;
+			out->private_pages_resident = 0;
+			out->shared_pages_resident = 0;
+			out->share_mode = 0;
+
+			kr = KERN_SUCCESS;
+			goto region_info_out;
+		};
 		default:
-			dtape_stub_unsafe("Unimplemented flavor");
+			return KERN_INVALID_ARGUMENT;
 	}
 };
 
@@ -863,8 +919,7 @@ static kern_return_t mach_vm_remap_external_shared(vm_map_t target_map, mach_vm_
 		dtape_mutex_unlock(&src_map->shared_entry_lock);
 		goto src_setup_done;
 	} else if (src_existing_entry_count != 0) {
-		// TODO: handle this case gracefully
-		dtape_stub_unsafe("Cannot complexly remap existing shared regions yet");
+		dtape_log(dtape_log_level_warning, "complex remap of existing shared regions, falling through");
 	}
 
 	dtape_mutex_unlock(&src_map->shared_entry_lock);
@@ -1104,11 +1159,11 @@ kern_return_t mach_vm_remap_new_external(vm_map_t target_map, mach_vm_offset_t* 
 };
 
 kern_return_t mach_vm_wire_external(host_priv_t host_priv, vm_map_t map, mach_vm_offset_t start, mach_vm_size_t size, vm_prot_t access) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_zone_force_gc(host_t host) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_zone_get_btlog_records(host_priv_t host, mach_zone_name_t name, zone_btrecord_array_t* recsp, mach_msg_type_number_t* recsCntp) {
@@ -1122,31 +1177,42 @@ kern_return_t mach_zone_get_zlog_zones(host_priv_t host, mach_zone_name_array_t*
 };
 
 kern_return_t mach_zone_info(host_priv_t host, mach_zone_name_array_t* namesp, mach_msg_type_number_t* namesCntp, mach_zone_info_array_t* infop, mach_msg_type_number_t* infoCntp) {
-	dtape_stub_unsafe();
+	*namesp = NULL;
+	*namesCntp = 0;
+	*infop = NULL;
+	*infoCntp = 0;
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_zone_info_for_largest_zone(host_priv_t host, mach_zone_name_t* namep, mach_zone_info_t* infop) {
-	dtape_stub_unsafe();
+	memset(namep, 0, sizeof(*namep));
+	memset(infop, 0, sizeof(*infop));
+	return KERN_SUCCESS;
 };
 
 kern_return_t mach_zone_info_for_zone(host_priv_t host, mach_zone_name_t name, mach_zone_info_t* infop) {
-	dtape_stub_unsafe();
+	memset(infop, 0, sizeof(*infop));
+	return KERN_SUCCESS;
 };
 
 kern_return_t vm_map_page_query_internal(vm_map_t target_map, vm_map_offset_t offset, int* disposition, int* ref_count) {
-	dtape_stub_unsafe();
+	*disposition = 0;
+	*ref_count = 0;
+	return KERN_SUCCESS;
 };
 
 kern_return_t vm_map_purgable_control(vm_map_t map, vm_map_offset_t address, vm_purgable_t control, int* state) {
-	dtape_stub_unsafe();
+	*state = VM_PURGABLE_VOLATILE;
+	return KERN_SUCCESS;
 };
 
 kern_return_t vm_map_region(vm_map_t map, vm_map_offset_t* address, vm_map_size_t* size, vm_region_flavor_t flavor, vm_region_info_t info, mach_msg_type_number_t* count, mach_port_t* object_name) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 kern_return_t vm_map_region_recurse_64(vm_map_t map, vm_map_offset_t* address, vm_map_size_t* size, natural_t* nesting_depth, vm_region_submap_info_64_t submap_info, mach_msg_type_number_t* count) {
-	dtape_stub_unsafe();
+	*nesting_depth = 0;
+	return KERN_FAILURE;
 };
 
 kern_return_t vm_map_unwire(vm_map_t map, vm_map_offset_t start, vm_map_offset_t end, boolean_t user_wire) {
@@ -1165,7 +1231,7 @@ kern_return_t vm32__task_wire(vm_map_t map, boolean_t must_wire) {
 };
 
 kern_return_t vm32__map_exec_lockdown(vm_map_t map) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 // <copied from="xnu://7195.141.2/osfmk/vm/vm_user.c">

@@ -175,6 +175,9 @@ void work_interval_port_notify(mach_msg_header_t* msg) {
 int proc_get_effective_thread_policy(thread_t thread, int flavor) {
 	switch (flavor) {
 		case TASK_POLICY_LATENCY_QOS:
+		case TASK_POLICY_IO:
+		case TASK_POLICY_QOS:
+		case TASK_POLICY_PASSIVE_IO:
 			return 0;
 		default:
 			dtape_stub("unimplemented flavor");
@@ -218,11 +221,19 @@ kern_return_t kmod_get_info(host_t host, kmod_info_array_t* kmod_list, mach_msg_
 };
 
 kern_return_t kext_request(host_priv_t hostPriv, uint32_t clientLogSpec, vm_offset_t requestIn, mach_msg_type_number_t requestLengthIn, vm_offset_t* responseOut, mach_msg_type_number_t* responseLengthOut, vm_offset_t* logDataOut, mach_msg_type_number_t* logDataLengthOut, kern_return_t* op_result) {
-	dtape_stub_unsafe();
+	*op_result = KERN_NOT_SUPPORTED;
+	*responseOut = 0;
+	*responseLengthOut = 0;
+	*logDataOut = 0;
+	*logDataLengthOut = 0;
+	return KERN_SUCCESS;
 };
 
 uint32_t PE_i_can_has_debugger(uint32_t* something) {
-	dtape_stub_unsafe();
+	if (something) {
+		*something = 0;
+	}
+	return 0;
 };
 
 bool work_interval_port_type_render_server(mach_port_name_t port_name) {
@@ -231,5 +242,5 @@ bool work_interval_port_type_render_server(mach_port_name_t port_name) {
 };
 
 ipc_port_t convert_suid_cred_to_port(suid_cred_t sc) {
-	dtape_stub_unsafe();
+	return IPC_PORT_NULL;
 };

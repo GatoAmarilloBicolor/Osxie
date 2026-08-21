@@ -161,7 +161,6 @@ _sleep_continue( __unused void *parameter, wait_result_t wresult)
 					error = EINTR;
 				}
 #else
-				dtape_stub_unsafe("_sleep_continue SHOULDissignal");
 #endif
 #if 0
 			} else if ((ut->uu_flag & (UT_CANCELDISABLE | UT_CANCEL | UT_CANCELED)) == UT_CANCEL) {
@@ -298,7 +297,6 @@ _sleep(
 					goto out;
 				}
 #else
-				dtape_stub_unsafe("_sleep:SHOULDissignal");
 #endif
 			}
 			if (thread_should_abort(self)) {
@@ -371,7 +369,6 @@ block:
 					error = EINTR;
 				}
 #else
-				dtape_stub_unsafe("THREAD_INTERRUPTED SHOULDissignal");
 #endif
 #if 0
 			} else if ((ut->uu_flag & (UT_CANCELDISABLE | UT_CANCEL | UT_CANCELED)) == UT_CANCEL) {

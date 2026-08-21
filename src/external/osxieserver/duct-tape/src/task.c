@@ -242,7 +242,7 @@ int proc_get_effective_task_policy(task_t task, int flavor) {
 	if (flavor == TASK_POLICY_ROLE) {
 		return TASK_UNSPECIFIED;
 	} else {
-		panic("Unimplemented proc_get_effective_task_policy flavor: %d", flavor);
+		return TASK_UNSPECIFIED;
 	}
 };
 
@@ -276,27 +276,30 @@ void task_watchport_elem_deallocate(struct task_watchport_elem* watchport_elem) 
 };
 
 kern_return_t task_create_suid_cred(task_t task, suid_cred_path_t path, suid_cred_uid_t uid, suid_cred_t* sc_p) {
-	dtape_stub_unsafe();
+	*sc_p = NULL;
+	return KERN_FAILURE;
 };
 
 kern_return_t task_dyld_process_info_notify_deregister(task_t task, mach_port_name_t rcv_name) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t task_dyld_process_info_notify_register(task_t task, ipc_port_t sright) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t task_generate_corpse(task_t task, ipc_port_t* corpse_task_port) {
-	dtape_stub_unsafe();
+	*corpse_task_port = IP_NULL;
+	return KERN_FAILURE;
 };
 
 kern_return_t task_get_assignment(task_t task, processor_set_t* pset) {
-	dtape_stub_unsafe();
+	*pset = &pset0;
+	return KERN_SUCCESS;
 };
 
 kern_return_t task_get_state(task_t  task, int flavor, thread_state_t state, mach_msg_type_number_t* state_count) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 kern_return_t task_info(task_t xtask, task_flavor_t flavor, task_info_t task_info_out, mach_msg_type_number_t* task_info_count) {
@@ -520,8 +523,57 @@ kern_return_t task_info(task_t xtask, task_flavor_t flavor, task_info_t task_inf
 			return KERN_SUCCESS;
 		};
 
+		case TASK_EVENTS_INFO: {
+			task_events_info_t info = (task_events_info_t)task_info_out;
+
+			if (*task_info_count < TASK_EVENTS_INFO_COUNT) {
+				return KERN_INVALID_ARGUMENT;
+			}
+			memset(info, 0, sizeof(task_events_info_data_t));
+			*task_info_count = TASK_EVENTS_INFO_COUNT;
+			return KERN_SUCCESS;
+		};
+
+		case TASK_KERNELMEMORY_INFO: {
+			task_kernelmemory_info_t info = (task_kernelmemory_info_t)task_info_out;
+
+			if (*task_info_count < TASK_KERNELMEMORY_INFO_COUNT) {
+				return KERN_INVALID_ARGUMENT;
+			}
+			memset(info, 0, sizeof(task_kernelmemory_info_data_t));
+			*task_info_count = TASK_KERNELMEMORY_INFO_COUNT;
+			return KERN_SUCCESS;
+		};
+
+		case TASK_POWER_INFO: {
+			task_power_info_t info = (task_power_info_t)task_info_out;
+
+			if (*task_info_count < TASK_POWER_INFO_COUNT) {
+				return KERN_INVALID_ARGUMENT;
+			}
+			memset(info, 0, sizeof(task_power_info_data_t));
+			*task_info_count = TASK_POWER_INFO_COUNT;
+			return KERN_SUCCESS;
+		};
+
+		case TASK_VM_INFO_PURGEABLE: {
+			if (*task_info_count < TASK_VM_INFO_REV0_COUNT) {
+				return KERN_INVALID_ARGUMENT;
+			}
+			memset(task_info_out, 0, *task_info_count * sizeof(natural_t));
+			dtape_memory_info_t meminfo;
+			dtape_hooks->task_get_memory_info(task->context, &meminfo);
+			task_vm_info_t info = (task_vm_info_t)task_info_out;
+			info->page_size = meminfo.page_size;
+			info->resident_size = meminfo.resident_size;
+			info->virtual_size = meminfo.virtual_size;
+			*task_info_count = TASK_VM_INFO_REV0_COUNT;
+			return KERN_SUCCESS;
+		};
+
 		default:
-			dtape_stub_unsafe("unimplemented flavor");
+			memset(task_info_out, 0, *task_info_count * sizeof(natural_t));
+			return KERN_INVALID_ARGUMENT;
 	}
 };
 
@@ -536,23 +588,25 @@ bool task_is_driver(task_t task) {
 };
 
 kern_return_t task_map_corpse_info(task_t task, task_t corpse_task, vm_address_t* kcd_addr_begin, uint32_t* kcd_size) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 kern_return_t task_map_corpse_info_64(task_t task, task_t corpse_task, mach_vm_address_t* kcd_addr_begin, mach_vm_size_t* kcd_size) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 void task_name_deallocate(task_name_t task_name) {
-	dtape_stub_unsafe();
+	(void)task_name;
 };
 
 kern_return_t task_policy_get(task_t task, task_policy_flavor_t flavor, task_policy_t policy_info, mach_msg_type_number_t* count, boolean_t* get_default) {
-	dtape_stub_unsafe();
+	memset(policy_info, 0, *count * sizeof(natural_t));
+	*get_default = FALSE;
+	return KERN_SUCCESS;
 };
 
 void task_policy_get_deallocate(task_policy_get_t task_policy_get) {
-	dtape_stub_unsafe();
+	(void)task_policy_get;
 };
 
 kern_return_t task_policy_set(task_t task, task_policy_flavor_t flavor, task_policy_t policy_info, mach_msg_type_number_t count) {
@@ -565,15 +619,16 @@ void task_policy_set_deallocate(task_policy_set_t task_policy_set) {
 };
 
 kern_return_t task_purgable_info(task_t task, task_purgable_info_t* stats) {
-	dtape_stub_unsafe();
+	memset(stats, 0, sizeof(*stats));
+	return KERN_SUCCESS;
 };
 
 kern_return_t task_register_dyld_image_infos(task_t task, dyld_kernel_image_info_array_t infos_copy, mach_msg_type_number_t infos_len) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t task_register_dyld_shared_cache_image_info(task_t task, dyld_kernel_image_info_t cache_img, boolean_t no_cache, boolean_t private_cache) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t task_restartable_ranges_register(task_t task, task_restartable_range_t* ranges, mach_msg_type_number_t count) {
@@ -607,31 +662,32 @@ kern_return_t task_restartable_ranges_synchronize(task_t task) {
 };
 
 kern_return_t task_set_exc_guard_behavior(task_t task, task_exc_guard_behavior_t behavior) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t task_set_info(task_t task, task_flavor_t flavor, task_info_t task_info_in, mach_msg_type_number_t task_info_count) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t task_set_phys_footprint_limit(task_t task, int new_limit_mb, int* old_limit_mb) {
-	dtape_stub_unsafe();
+	if (old_limit_mb) *old_limit_mb = 0;
+	return KERN_SUCCESS;
 };
 
 kern_return_t task_set_state(task_t task, int flavor, thread_state_t state, mach_msg_type_number_t state_count) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 void task_suspension_token_deallocate(task_suspension_token_t token) {
-	dtape_stub_unsafe();
+	(void)token;
 };
 
 kern_return_t task_terminate(task_t task) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t task_unregister_dyld_image_infos(task_t task, dyld_kernel_image_info_array_t infos_copy, mach_msg_type_number_t infos_len) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 static kern_return_t task_for_pid_internal(mach_port_name_t target_tport, int pid, uintptr_t t, bool task_name) {

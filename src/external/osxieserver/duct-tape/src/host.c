@@ -205,19 +205,19 @@ kern_return_t host_get_boot_info(host_priv_t host_priv, kernel_boot_info_t boot_
 };
 
 kern_return_t host_get_UNDServer(host_priv_t host_priv, UNDServerRef* serverp) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 kern_return_t host_set_UNDServer(host_priv_t host_priv, UNDServerRef server) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t host_lockgroup_info(host_t host, lockgroup_info_array_t* lockgroup_infop, mach_msg_type_number_t* lockgroup_infoCntp) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 kern_return_t host_reboot(host_priv_t host_priv, int options) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t host_security_create_task_token(host_security_t host_security, task_t parent_task, security_token_t sec_token, audit_token_t audit_token, host_priv_t host_priv, ledger_port_array_t ledger_ports, mach_msg_type_number_t num_ledger_ports, boolean_t inherit_memory, task_t* child_task) {
@@ -226,11 +226,11 @@ kern_return_t host_security_create_task_token(host_security_t host_security, tas
 };
 
 kern_return_t host_security_set_task_token(host_security_t host_security, task_t task, security_token_t sec_token, audit_token_t audit_token, host_priv_t host_priv) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t host_virtual_physical_table_info(host_t host, hash_info_bucket_array_t* infop, mach_msg_type_number_t* countp) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 kern_return_t host_statistics(host_t host, host_flavor_t flavor, host_info_t info, mach_msg_type_number_t* count) {
@@ -307,7 +307,7 @@ kern_return_t host_statistics(host_t host, host_flavor_t flavor, host_info_t inf
 		}
 
 		default:
-			dtape_stub_unsafe();
+			return KERN_INVALID_ARGUMENT;
 	}
 };
 

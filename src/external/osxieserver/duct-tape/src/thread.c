@@ -43,6 +43,8 @@ kern_return_t thread_set_state(register thread_t thread, int flavor, thread_stat
 
 kern_return_t thread_get_state(thread_t thread, int flavor, thread_state_t state, mach_msg_type_number_t* state_count);
 
+kern_return_t thread_get_state_to_user(thread_t thread, int flavor, thread_state_t state, mach_msg_type_number_t* state_count);
+
 dtape_thread_t* dtape_thread_create(dtape_task_t* task, uint64_t nsid, void* context) {
 	dtape_thread_t* thread = malloc(sizeof(dtape_thread_t));
 	if (!thread) {
@@ -363,7 +365,7 @@ kern_return_t handle_ux_exception(thread_t xthread, int exception, mach_exceptio
 	if (thread->processing_signal) {
 		dtape_hooks->thread_set_pending_signal(thread->context, ux_signal);
 	} else {
-		dtape_stub_unsafe("handle_ux_exception(): TODO: introduce signal into thread");
+		dtape_hooks->thread_send_signal(thread->context, ux_signal);
 	}
 
 	return KERN_SUCCESS;
@@ -1178,15 +1180,15 @@ void thread_poll_yield(thread_t self) {
 };
 
 kern_return_t act_get_state_to_user(thread_t thread, int flavor, thread_state_t state, mach_msg_type_number_t* count) {
-	dtape_stub_unsafe();
+	return thread_get_state_to_user(thread, flavor, state, count);
 };
 
 kern_return_t act_set_state_from_user(thread_t thread, int flavor, thread_state_t state, mach_msg_type_number_t count) {
-	dtape_stub_unsafe();
+	return thread_set_state_from_user(thread, flavor, state, count);
 };
 
 kern_return_t thread_abort(thread_t thread) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t thread_abort_safely(thread_t thread) {
@@ -1200,15 +1202,18 @@ kern_return_t thread_abort_safely(thread_t thread) {
 };
 
 kern_return_t thread_convert_thread_state(thread_t thread, int direction, thread_state_flavor_t flavor, thread_state_t in_state, mach_msg_type_number_t in_state_count, thread_state_t out_state, mach_msg_type_number_t* out_state_count) {
-	dtape_stub_unsafe();
+	if (out_state_count) {
+		*out_state_count = 0;
+	}
+	return KERN_FAILURE;
 };
 
 kern_return_t thread_create_from_user(task_t task, thread_t* new_thread) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 kern_return_t thread_create_running_from_user(task_t task, int flavor, thread_state_t new_state, mach_msg_type_number_t new_state_count, thread_t* new_thread) {
-	dtape_stub_unsafe();
+	return KERN_FAILURE;
 };
 
 kern_return_t thread_depress_abort_from_user(thread_t thread) {
@@ -1359,8 +1364,7 @@ kern_return_t thread_info(thread_t xthread, thread_flavor_t flavor, thread_info_
 		};
 
 		default:
-			dtape_log(dtape_log_level_warning, "thread_info: unimplemented flavor %d", flavor);
-			return KERN_FAILURE;
+			return KERN_INVALID_ARGUMENT;
 	}
 };
 
@@ -1370,7 +1374,9 @@ kern_return_t thread_policy(thread_t thread, policy_t policy, policy_base_t base
 };
 
 kern_return_t thread_policy_get(thread_t thread, thread_policy_flavor_t flavor, thread_policy_t policy_info, mach_msg_type_number_t* count, boolean_t* get_default) {
-	dtape_stub_unsafe();
+	memset(policy_info, 0, *count * sizeof(natural_t));
+	*get_default = FALSE;
+	return KERN_SUCCESS;
 };
 
 kern_return_t thread_policy_set(thread_t thread, thread_policy_flavor_t flavor, thread_policy_t policy_info, mach_msg_type_number_t count) {
@@ -1379,23 +1385,23 @@ kern_return_t thread_policy_set(thread_t thread, thread_policy_flavor_t flavor, 
 };
 
 kern_return_t thread_set_mach_voucher(thread_t thread, ipc_voucher_t voucher) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t thread_set_policy(thread_t thread, processor_set_t pset, policy_t policy, policy_base_t base, mach_msg_type_number_t base_count, policy_limit_t limit, mach_msg_type_number_t limit_count) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t thread_wire(host_priv_t host_priv, thread_t thread, boolean_t wired) {
-	dtape_stub_unsafe();
+	return KERN_SUCCESS;
 };
 
 kern_return_t thread_getstatus_to_user(thread_t thread, int flavor, thread_state_t tstate, mach_msg_type_number_t* count) {
-	dtape_stub_unsafe();
+	return thread_get_state(thread, flavor, tstate, count);
 };
 
 kern_return_t thread_setstatus_from_user(thread_t thread, int flavor, thread_state_t tstate, mach_msg_type_number_t count) {
-	dtape_stub_unsafe();
+	return thread_set_state(thread, flavor, tstate, count);
 };
 
 boolean_t thread_should_abort(thread_t thread) {
